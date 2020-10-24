@@ -15,13 +15,10 @@ const interationShopCartChildrens = (shoppingCartChildrens) => {
 const calcPriceItemsCart = async () => {
   const shoppingCart = document.querySelector('.cart__items');
   const shoppingCartChildrens = shoppingCart.childNodes;
-  if (shoppingCartChildrens.length > 0) {
-    const sumPriceCart = interationShopCartChildrens(shoppingCartChildrens);
-    const h1Price = document.querySelector('.total-price');
-    h1Price.innerHTML = `Valor Total: R$ ${(sumPriceCart.toFixed(2))}`;
-    h1Price.style.display = 'block';
-    localStorage.setItem('Price', h1Price.innerHTML);
-  }
+  const h1Price = document.querySelector('.total-price');
+  h1Price.innerHTML = interationShopCartChildrens(shoppingCartChildrens);
+  h1Price.style.display = 'block';
+  localStorage.setItem('Price', h1Price.innerHTML);
 };
 
 function createProductImageElement(imageSource) {
