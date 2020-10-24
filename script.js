@@ -79,8 +79,6 @@ const fetchPromise = async (url) => {
   try {
     const response = await fetch(url);
     const data = await response.json();
-    const loading = document.querySelector('.loading');
-    loading.style.display = 'none';
     return data;
   } catch (error) {
     return console.log('Erro na Requisição');
@@ -120,12 +118,13 @@ window.onload = async function onload() {
   const loading = createCustomElement('h1', 'loading', 'loading...');
   container.appendChild(loading);
 
-  await fetchPromise(endPointMain, loading).then((products) => {
+  await fetchPromise(endPointMain).then((products) => {
     const itemsSection = document.querySelector('.items');
     return products.results.map(currentProduct => itemsSection
       .appendChild(createProductItemElement(currentProduct)));
   });
 
+  container.removeChild(loading);
   const addButtons = document.querySelectorAll('.item__add');
   addProductCart(addButtons);
 
