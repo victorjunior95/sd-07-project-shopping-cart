@@ -1,5 +1,14 @@
 window.onload = function onload() { };
 
+
+const fetchProducts = async () => {
+  const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=$computador`;
+  const response = await fetch(endpoint);
+  const object = await response.json();
+  console.log(object);
+}
+fetchProducts()
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
