@@ -14,38 +14,36 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-const grabItems = async (api) => {
+const grabItems = async api => {
   const items = await fetch(api)
-  .then((r)=>r.json())
-  .then((r)=>r.results)
-  itemsToSection(items)
-}
-const addToCart = async (event) => {
-  const id = event.target.parentNode.childNodes[0].innerText
-  const item = await fetch(`https://api.mercadolibre.com/items/${id}`)
-  .then((r)=>r.json())
-  console.log(item)
+    .then(r => r.json())
+    .then(r => r.results);
+  itemsToSection(items);
+};
+const addToCart = async event => {
+  const id = event.target.parentNode.childNodes[0].innerText;
+  const item = await fetch(`https://api.mercadolibre.com/items/${id}`).then(r => r.json());
+  console.log(item);
   product = { sku: item.id, name: item.title, salePrice: item.price };
-  const cartElement = createCartItemElement(product)
-  cartElement.addEventListener('click',(event)=>event.target.remove())
-  appendSectionOnto(cartElement,'ol.cart__items')
-}
+  const cartElement = createCartItemElement(product);
+  cartElement.addEventListener('click', event => event.target.remove());
+  appendSectionOnto(cartElement, 'ol.cart__items');
+};
 
-const appendSectionOnto = (section,onto) => document.querySelector(onto).appendChild(section)
-const handleAddToCart = () => document.querySelectorAll('.item__add').forEach(element => {
-  element.addEventListener('click',addToCart)
-});
-
-const itemsToSection = (items) => {
-  items.forEach(({id,title,thumbnail}) => {
-    const product = { sku: id, name: title, image: thumbnail };
-    const section = createProductItemElement(product)
-    appendSectionOnto(section,'section.items')
+const appendSectionOnto = (section, onto) => document.querySelector(onto).appendChild(section);
+const handleAddToCart = () =>
+  document.querySelectorAll('.item__add').forEach(element => {
+    element.addEventListener('click', addToCart);
   });
-  handleAddToCart()
-}
 
-
+const itemsToSection = items => {
+  items.forEach(({ id, title, thumbnail }) => {
+    const product = { sku: id, name: title, image: thumbnail };
+    const section = createProductItemElement(product);
+    appendSectionOnto(section, 'section.items');
+  });
+  handleAddToCart();
+};
 
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
@@ -75,4 +73,4 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-grabItems("https://api.mercadolibre.com/sites/MLB/search?q=computador")
+grabItems('https://api.mercadolibre.com/sites/MLB/search?q=computador');
