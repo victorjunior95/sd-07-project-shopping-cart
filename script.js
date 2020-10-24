@@ -38,29 +38,8 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-const addCartProductItens = (object) => {
-  const productInfo = getProductItemInfos(object);
-  const cartElement = document.querySelector('.cart__items');
-  const productElement = createCartItemElement(productInfo);
-  cartElement.appendChild(productElement);
-};
-
-const fetchProductItemId = async (itemId) => {
-  const endpoint = `https://api.mercadolibre.com/items/${itemId}`;
-  try {
-    const response = await fetch(endpoint);
-    const object = await response.json();
-    addCartProductItens(object);
-  } catch (error) {
-    alert(error);
-  }
-};
-
 function cartItemClickListener(event) {
-  if (event.target.className === 'item__add') {
-    const itemId = getSkuFromProductItem(event.target.parentElement);
-    fetchProductItemId(itemId);
-  }
+  alert('clicou');
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -70,6 +49,13 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
+
+const addCartProductItens = (object) => {
+  const productInfo = getProductItemInfos(object);
+  const cartElement = document.querySelector('.cart__items');
+  const productElement = createCartItemElement(productInfo);
+  cartElement.appendChild(productElement);
+};
 
 const renderProductItensList = (element) => {
   const itensSection = document.querySelector('.items');
@@ -96,8 +82,26 @@ const fetchProductItens = async (term) => {
   }
 };
 
+const fetchProductItemId = async (itemId) => {
+  const endpoint = `https://api.mercadolibre.com/items/${itemId}`;
+  try {
+    const response = await fetch(endpoint);
+    const object = await response.json();
+    addCartProductItens(object);
+  } catch (error) {
+    alert(error);
+  }
+};
+
+const listItemClickListener = (event) {
+  if (event.target.className === 'item__add') {
+    const itemId = getSkuFromProductItem(event.target.parentElement);
+    fetchProductItemId(itemId);
+  }
+};
+
 window.onload = function onload() {
   fetchProductItens('computador');
   const itensSection = document.querySelector('.items');
-  itensSection.addEventListener('click', cartItemClickListener);
+  itensSection.addEventListener('click', listItemClickListener);
 };
