@@ -46,6 +46,7 @@ const saveCartToLocalStorage = () => {
   }
   const cartItensValuesString = JSON.stringify(cartItensValues);
   localStorage.setItem('cart', cartItensValuesString);
+  alert('Salvo');
 };
 
 function cartItemClickListener(event) {
