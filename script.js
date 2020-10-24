@@ -49,7 +49,8 @@ const createProductItensList = (object) => {
       name: product.title,
       image: product.thumbnail,
     };
-    createProductItemElement(productObject);
+    const itemElement = createProductItemElement(productObject);
+    renderProductItensList(itemElement);
   });
 };
 
@@ -64,5 +65,10 @@ const fetchProductItens = async (term) => {
     alert(error);
   }
 };
+
+const renderProductItensList = (element) => {
+  const itensSection = document.querySelector('.items');
+  itensSection.appendChild(element);
+}
 
 fetchProductItens('computador');
