@@ -38,7 +38,7 @@ const fetchProducts = async () => {
   const object = await response.json();
   const result = object.results;
   result.forEach(data => createProductItemElement(data));
-}
+};
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
