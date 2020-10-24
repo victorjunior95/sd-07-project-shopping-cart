@@ -28,6 +28,18 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+async function sumCart() {
+  const productsInCart = document.querySelectorAll('.cart__item');
+  const totalPrice = document.querySelector('.total-price');
+  let sum = 0;
+  for (let item = 0; item < productsInCart.length; item += 1) {
+    const priceCart = productsInCart[item]
+    .innerText.split(' | ')[2].split(': ')[1].replace('$', '');
+    sum += Number(priceCart);
+  }
+  totalPrice.innerText = `Preço total $:${sum}`;
+}
+
 function registeCartLocalStorage() {
   const productsInCart = document.querySelectorAll('.cart__item');
   localStorage.clear();
@@ -40,6 +52,7 @@ function registeCartLocalStorage() {
 function cartItemClickListener(event) {
   event.target.remove();
   registeCartLocalStorage();
+  sumCart();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -61,6 +74,7 @@ async function registerToCart(itemID) {
   const productCart = createCartItemElement(productComponents);
   cartItems.appendChild(productCart);
   registeCartLocalStorage();
+  await sumCart();
 }
 
 function addToCart(productAdd) {
