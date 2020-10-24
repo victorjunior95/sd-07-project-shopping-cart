@@ -45,14 +45,18 @@ const appendItems = (item, parentSelector) => {
   parentElement.appendChild(item);
 };
 
+const createLoadingElement = (parentSelector) => {
+  const loadingElement = createCustomElement('h1', 'loading', 'loading...');
+  appendItems(loadingElement, `${parentSelector}`);
+};
+
 const removeLoadingElement = () => {
   const loadingElement = document.querySelector('.loading');
   loadingElement.remove();
 };
 
 const queryComputersInMlApi = async () => {
-  const loadingElement = createCustomElement('h1', 'loading', 'loading...');
-  appendItems(loadingElement, '.container .items');
+  createLoadingElement('.container .items');
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   try {
     const response = await fetch(endpoint);
