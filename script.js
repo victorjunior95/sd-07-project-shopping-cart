@@ -53,18 +53,6 @@ async function cartItemClickListener(event) {
   updateStorage();
 }
 
-// function localStoragePrice(string) {
-//   const price = document.querySelector('.total-price');
-//   const jsonParse = string.replace('<', '').split('$');
-//   const values = [];
-//   jsonParse.forEach(item => values.push(+item.slice(0, 6).replace('</', '')));
-//   values[0] = 0;
-//   console.log(values);
-//   const total = values.reduce((acc, atual) => acc + atual);
-//   console.log(total)
-//   price.innerText = total.toFixed(2);
-// }
-
 async function fetchCart() {
   await fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
   .then(result => result.json())
@@ -81,7 +69,6 @@ async function fetchCart() {
   newOlContent.innerHTML = jsonParse;
   const itensCart = document.querySelectorAll('.cart__item');
   itensCart.forEach(item => item.addEventListener('click', cartItemClickListener));
-  // localStoragePrice(olContent);
 }
 
 function getSkuFromProductItem(item) {
