@@ -48,7 +48,7 @@ const handleAPIRequest = async (API_REQ) => {
   try {
     const req = await fetch(API_REQ);
     const jso = await req.json();
-    handleAmountOfElementsOnHTML(8, jso);
+    handleAmountOfElementsOnHTML(50, jso);
   } catch (error) {
     showAlert(error);
   }
