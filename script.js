@@ -8,6 +8,15 @@ const getProductItemInfos = (productItem) => {
   return productObject;
 };
 
+const getProductItemInfosFromSaved = (product) => {
+  const productObject = {
+    sku: product.substring(product.indexOf('MLB'), product.indexOf(' | ')),
+    name: product.substring(product.indexOf('NAME:') + 5, product.indexOf(' | PRICE')),
+    salePrice: product.substring(product.indexOf('$') + 1, product.indexOf('</')),
+  };
+  return productObject;
+};
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -42,7 +51,7 @@ const saveCartToLocalStorage = () => {
   const cartItens = (document.querySelector('.cart__items').innerHTML).split('><');
   const itensSku = cartItens
     .map(product => product.substring(product.indexOf('MLB'), product.indexOf(' | ')));
-  localStorage.setItem('cart', itensSku);
+  localStorage.setItem('cart', cartItens);
 };
 
 function cartItemClickListener(event) {
@@ -58,8 +67,10 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-const addCartProductItens = (object) => {
-  const productInfo = getProductItemInfos(object);
+const addCartProductItens = (object, from) => {
+  let productInfo = null;
+  (from === 'load') ? productInfo = getProductItemInfosFromSaved(object)
+    : productInfo = getProductItemInfos(object);
   const cartElement = document.querySelector('.cart__items');
   const productElement = createCartItemElement(productInfo);
   cartElement.appendChild(productElement);
@@ -96,7 +107,7 @@ const fetchProductItemId = async (itemId) => {
   try {
     const response = await fetch(endpoint);
     const object = await response.json();
-    addCartProductItens(object);
+    addCartProductItens(object, 'api');
   } catch (error) {
     alert(error);
   }
@@ -106,7 +117,9 @@ const loadCartFromLocalStorage = () => {
   const cartSkuItensSaved = localStorage.getItem('cart');
   if (cartSkuItensSaved !== null && cartSkuItensSaved !== '') {
     const cartSkuItensSavedList = cartSkuItensSaved.split(',');
-    cartSkuItensSavedList.forEach(sku => fetchProductItemId(sku));
+    cartSkuItensSavedList.forEach(product => {
+      addCartProductItens(product, 'load');
+    });
   }
 };
 
