@@ -1,3 +1,5 @@
+const cart = document.querySelector('.cart__items');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -5,13 +7,17 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+function cartItemClickListener(event) {
+  cart.removeChild(event.target);
+}
+
 function createCartItemElement(computer) {
-  const cart = document.querySelector('.cart__items');
   const { id: sku, title: name, price: salePrice } = computer;
   const li = document.createElement('li');
   li.className = 'cart__items';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  /* li.addEventListener('click', cartItemClickListener); */
+  li.addEventListener('click', cartItemClickListener); 
+
   cart.appendChild(li);
   return li;
 }
