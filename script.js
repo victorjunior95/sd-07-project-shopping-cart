@@ -13,8 +13,16 @@ const addToHTML = (parent, child) => {
   document.querySelector(parent).appendChild(child);
 };
 
+const setLocalSave = () => {
+  localStorage.setItem(
+    'Cart_Items',
+    document.querySelector('.cart__items').innerHTML,
+  );
+};
+
 function cartItemClickListener(event) {
   event.target.remove();
+  setLocalSave();
 }
 
 const getLocalSave = () => {
@@ -22,19 +30,12 @@ const getLocalSave = () => {
 
   const list = document.querySelector('.cart__items');
   list.innerHTML = currentSave;
-  // const numberOfElements = list.childElementCount;
-  // for(let element = 0; element<numberOfElements;element+=1){
-
-  // }
+  document.querySelectorAll('.cart__item').forEach((item) => {
+    item.addEventListener('click', cartItemClickListener);
+  });
   return currentSave;
 };
-const setLocalSave = () => {
-  console.log(document.querySelector('.cart__items'));
-  localStorage.setItem(
-    'Cart_Items',
-    document.querySelector('.cart__items').innerHTML,
-  );
-};
+
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
