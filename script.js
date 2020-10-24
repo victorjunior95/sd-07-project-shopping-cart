@@ -13,9 +13,23 @@ const addToHTML = (parent, child) => {
   document.querySelector(parent).appendChild(child);
 };
 
+function cartItemClickListener(event) {
+  console.log(event.target);
+  return event;
+}
+function createCartItemElement({ sku, name, salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
+}
+
 const handleAPIRequestToPrice = (API_REQ) => {
   fetch(API_REQ)
-    .then((response) => response.json())
+    .then(function (response) {
+      return response.json();
+    })
     .then((obj) => {
       if (obj.error) {
         throw new Error(obj.error);
@@ -42,18 +56,6 @@ const productItemClickListener = (event) => {
   const id = getSkuFromProductItem(itemSection);
   handleAPIRequestToPrice(`https://api.mercadolibre.com/items/${id}`);
 };
-
-function cartItemClickListener(event) {
-  console.log(event.target);
-  return event;
-}
-function createCartItemElement({ sku, name, salePrice }) {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
-  return li;
-}
 
 // const setupEventHandlers = () => {
 //   const cartAddButton = document.querySelectorAll('.item__add');
