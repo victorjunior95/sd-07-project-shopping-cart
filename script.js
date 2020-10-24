@@ -129,5 +129,4 @@ window.onload = function onload() {
   fetchProductItens('computador');
   const itensSection = document.querySelector('.items');
   itensSection.addEventListener('click', listItemClickListener);
-  loadCartFromLocalStorage();
 };
