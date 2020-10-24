@@ -57,8 +57,7 @@ function cartItemClickListener(event) {
   const shoppingCartChildrens = productsCart.childNodes;
   const h1Price = document.querySelector('.total-price');
   if (shoppingCartChildrens.length > 0) {
-    const sumPriceCart = interationShopCartChildrens(shoppingCartChildrens);
-    h1Price.innerHTML = `Valor Total: R$ ${(sumPriceCart.toFixed(2))}`;
+    h1Price.innerHTML = interationShopCartChildrens(shoppingCartChildrens);
     localStorage.setItem('Price', h1Price.innerHTML);
   } else {
     h1Price.style.display = 'none';
