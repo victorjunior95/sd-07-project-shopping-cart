@@ -1,30 +1,3 @@
-window.onload = function onload() {
-  fetchShoppingCart()
-};
-
-const fetchShoppingCart = async (query = 'computador') => {
-  try {
-    const api = await fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${query}`);
-    const { results } = await api.json();
-
-    handlerCartsInHtml(results);
-  } catch (error) {
-    errorLog(error)
-  }
-}
-
-const handlerCartsInHtml = (carts) => {
-  carts.forEach(cart => {
-    const sessionItems = document.getElementsByClassName('items')[0];
-    let cart1 = {}
-    cart1['sku'] = cart.id;
-    cart1['name'] = cart.title;
-    cart1['image'] = cart.thumbnail;
-    const session = createProductItemElement(cart1);
-    sessionItems.appendChild(session);
-  });
-}
-
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -68,5 +41,32 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 const errorLog = (message) => {
-  console.log(message)
+  console.log(message);
 }
+
+const handlerCartsInHtml = (carts) => {
+  carts.forEach(cart => {
+    const sessionItems = document.getElementsByClassName('items')[0];
+    let cart1 = {};
+    cart1['sku'] = cart.id;
+    cart1['name'] = cart.title;
+    cart1['image'] = cart.thumbnail;
+    const session = createProductItemElement(cart1);
+    sessionItems.appendChild(session);
+  });
+}
+
+const fetchShoppingCart = async (query = 'computador') => {
+  try {
+    const api = await fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${query}`);
+    const { results } = await api.json();
+
+    handlerCartsInHtml(results);
+  } catch (error) {
+    errorLog(error);
+  }
+}
+
+window.onload = function onload() {
+  fetchShoppingCart();
+};
