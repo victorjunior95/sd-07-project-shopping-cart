@@ -93,7 +93,7 @@ const fetchProductItemId = async (itemId) => {
   }
 };
 
-const listItemClickListener = (event) {
+const listItemClickListener = (event) => {
   if (event.target.className === 'item__add') {
     const itemId = getSkuFromProductItem(event.target.parentElement);
     fetchProductItemId(itemId);
