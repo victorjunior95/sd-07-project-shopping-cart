@@ -2,7 +2,6 @@ const cart = document.querySelector('.cart__items');
 const emptyCartButton = document.querySelector('.empty-cart');
 const totalPrice = document.querySelector('.total-price');
 let sumItem = 0;
-const loading = document.querySelector('.loading');
 
 emptyCartButton.addEventListener('click', () => {
   cart.innerHTML = '';
@@ -13,6 +12,21 @@ function createProductImageElement(imageSource) {
   img.className = 'item__image';
   img.src = imageSource;
   return img;
+}
+
+function deleteLoading() {
+  const asideContainer = document.querySelector('.cart-container');
+  const loadingParagraph = document.querySelector('.loading');
+
+  asideContainer.removeChild(loadingParagraph);
+}
+
+function loading() {
+  const asideContainer = document.querySelector('.cart-container');
+  const loadingParagraph = document.createElement('p');
+  loadingParagraph.innerText = 'loading...';
+  loadingParagraph.className = 'loading';
+  asideContainer.appendChild(loadingParagraph);
 }
 
 function storeCart() {
@@ -43,13 +57,19 @@ function fetchComputerItem(id) {
   const endpoint = `https://api.mercadolibre.com/items/${id}`;
   fetch(endpoint)
     .then(computer => computer.json())
-    .then(computer => createCartItemElement(computer));
+    .then((computer) => {
+      if (computer) {
+        deleteLoading();
+        createCartItemElement(computer);
+      }
+    });
 }
 function isButton(tag, element) {
   if (tag === 'button') {
     element.addEventListener(('click'), () => {
       const parent = element.parentNode;
       const id = parent.firstChild.innerText;
+      loading();
       fetchComputerItem(id);
     });
   }
@@ -95,7 +115,7 @@ const fetchDataComputer = (endpoint) => {
     .then(data => data.json())
     .then((data) => {
       if (data) {
-        loading.innerText = '';
+        deleteLoading();
         handleComputerItem(data.results);
       }
     });
@@ -109,6 +129,7 @@ function initialize() {
 
 window.onload = function onload() {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
+  loading();
   fetchDataComputer(endpoint);
   initialize();
 };
