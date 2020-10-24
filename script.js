@@ -48,7 +48,7 @@ function createCartElement(produtos) {
   const items = document.querySelector('.items');
   createCartItemElement(produtos.results[getRandomNumber()]);
   const elementCreated = createProductItemElement(produtos.results[getRandomNumber()]);
-  items.append(elementCreated);
+  items.appendChild(elementCreated);
 }
 
 function creategrid(produtos) {
