@@ -26,7 +26,7 @@ async function sumPrice(priceItem, price = 0) {
 }
 
 async function returnPrice(priceItem) {
-  const itemPrice = document.querySelector('.item_price_total');
+  const itemPrice = document.querySelector('.total-price');
   const calculationPrice = await sumPrice(priceItem, itemPrice.innerText);
   itemPrice.innerText = calculationPrice;
 }
