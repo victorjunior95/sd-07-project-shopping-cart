@@ -46,7 +46,6 @@ const saveCartToLocalStorage = () => {
   }
   const cartItensValuesString = JSON.stringify(cartItensValues);
   localStorage.setItem('cart', cartItensValuesString);
-  alert('Salvo');
 };
 
 function cartItemClickListener(event) {
@@ -73,13 +72,15 @@ const addCartProductItens = (object) => {
 const loadCartFromLocalStorage = () => {
   const cartItensList = JSON.parse(localStorage.getItem('cart'));
   const cartElement = document.querySelector('.cart__items');
-  cartItensList.forEach((product) => {
-    const li = document.createElement('li');
-    li.className = 'cart__item';
-    li.innerText = product;
-    li.addEventListener('click', cartItemClickListener);
-    cartElement.appendChild(li);
-  });
+  if (cartItensList.length !== 0) {
+    cartItensList.forEach((product) => {
+      const li = document.createElement('li');
+      li.className = 'cart__item';
+      li.innerText = product;
+      li.addEventListener('click', cartItemClickListener);
+      cartElement.appendChild(li);
+    });
+  }
 };
 
 const renderProductItensList = (element) => {
@@ -129,4 +130,5 @@ window.onload = function onload() {
   fetchProductItens('computador');
   const itensSection = document.querySelector('.items');
   itensSection.addEventListener('click', listItemClickListener);
+  loadCartFromLocalStorage();
 };
