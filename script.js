@@ -1,6 +1,20 @@
+const createLoading = () => {
+  const section = document.createElement('section');
+  section.classList.add('loading');
+  const h1 = document.createElement('h1');
+  h1.innerText = 'Loading...';
+  h1.classList.add('loading__title');
+  section.appendChild(h1);
+  return section;
+};
+
 const fetchData = async (endpoint) => {
+  const loading = createLoading();
+  document.body.appendChild(loading);
   const response = await fetch(endpoint);
   const data = await response.json();
+  loading.classList.add('loading--over');
+  document.body.removeChild(loading);
   return data;
 };
 
@@ -78,7 +92,7 @@ const itemClickListener = async (event) => {
       return oldList;
     });
   } catch (error) {
-    console.log(error);
+    alert(error);
   }
 };
 
@@ -115,7 +129,7 @@ window.onload = async () => {
       itemsList.appendChild(createProductItemElement(item));
     });
   } catch (error) {
-    console.log(error);
+    alert(error);
   }
 
   document.querySelector('.empty-cart').addEventListener('click', cleanCart);
