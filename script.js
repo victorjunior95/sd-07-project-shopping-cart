@@ -34,7 +34,7 @@ async function sumCart() {
   let sum = 0;
   for (let item = 0; item < productsInCart.length; item += 1) {
     const priceCart = productsInCart[item]
-    .innerText.split(' | ')[2].split(': ')[1].replace('$', '');
+      .innerText.split(' | ')[2].split(': ')[1].replace('$', '');
     sum += Number(priceCart);
   }
   totalPrice.innerText = `${sum}`;
@@ -66,24 +66,24 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 async function registerToCart(itemID) {
   const endpoint = `https://api.mercadolibre.com/items/${itemID}`;
-  const response = await fetch(endpoint);
-  const data = await response.json();
-  const { id: sku, title: name, price: salePrice } = data;
-  const productComponents = { sku, name, salePrice };
-  const cartItems = document.querySelector('.cart__items');
-  const productCart = createCartItemElement(productComponents);
-  cartItems.appendChild(productCart);
-  await sumCart();
+  try {
+    const response = await fetch(endpoint);
+    const data = await response.json();
+    const { id: sku, title: name, price: salePrice } = data;
+    const productComponents = { sku, name, salePrice };
+    const cartItems = document.querySelector('.cart__items');
+    const productCart = createCartItemElement(productComponents);
+    cartItems.appendChild(productCart);
+    await sumCart();
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 function addToCart(productAdd) {
   const itemID = getSkuFromProductItem(productAdd.target.parentElement);
-  try {
-    registerToCart(itemID);
-    registeCartLocalStorage('add');
-  } catch (error) {
-    console.error(error);
-  }
+  registerToCart(itemID);
+  registeCartLocalStorage('add');
 }
 
 async function fetchItems() {
@@ -103,6 +103,8 @@ async function fetchItems() {
         product.querySelector('button.item__add').addEventListener('click', addToCart);
         items.appendChild(product);
       }
+      const loading = document.querySelector('.loading');
+      loading.remove();
     }
   } catch (error) {
     console.error(error);
