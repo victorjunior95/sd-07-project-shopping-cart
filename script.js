@@ -1,4 +1,4 @@
-window.onload = function onload() { };
+window.onload = function onload() { fetchMercadoLivre(); };
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -47,8 +47,6 @@ const fetchMercadoLivre = () => {
       responseEntries.forEach(item => getInformation(item));
     });
 };
-
-fetchMercadoLivre();
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
