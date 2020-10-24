@@ -55,6 +55,9 @@ function handlerEventClick(event) {
       .then(item => document.querySelector('.cart__items').appendChild(
           createCartItemElement(itemObjectCreate(['id', 'title', 'price'], item))));
   }
+  if (event.target.className === 'empty-cart') {
+    document.querySelector('.cart__items').innerHTML = '';
+  }
 }
 
 function fectchItemSearch(itemQuery) {
