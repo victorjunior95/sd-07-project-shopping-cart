@@ -27,6 +27,24 @@ const getCartItemsObjectList = () => {
   return cartItemsObjectList;
 };
 
+const sumCartItemsList = async () => {
+  const p = document.createElement('p');
+  const totalPrice = document.querySelector('.total-price');
+  totalPrice.innerHTML = '';
+  let sum = 0;
+  const cartItemsObjectList = getCartItemsObjectList();
+  if (cartItemsObjectList.length > 0) {
+    sum = cartItemsObjectList
+      .reduce((acc, cartItem) => (acc + parseFloat(cartItem.salePrice)), 0);
+  }
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  });
+  p.innerHTML = `Total: ${formatter.format(sum)}`;
+  totalPrice.appendChild(p);
+};
+
 const updateCartItemsListLocalStorage = () => {
   localStorage.setItem('cartItemsList', JSON.stringify(getCartItemsObjectList()));
 };
@@ -138,27 +156,21 @@ const loadCartItemsListFromLocalStorage = () => {
   }
 };
 
-const sumCartItemsList = async () => {
-  const p = document.createElement('p');
-  const totalPrice = document.querySelector('.total-price');
-  totalPrice.innerHTML = '';
-  let sum = 0;
-  const cartItemsObjectList = getCartItemsObjectList();
-  if (cartItemsObjectList.length > 0) {
-    console.log(cartItemsObjectList);
-    sum = cartItemsObjectList.reduce((acc, cartItem) => acc += parseFloat(cartItem.salePrice), 0);
-  } 
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  });
-  p.innerHTML = `Total: ${formatter.format(sum)}`;
-  totalPrice.appendChild(p);
+const emptyCartItemsList = () => {
+  const cartItems = document.querySelector('.cart__items');
+  cartItems.innerHTML = '';
+  updateCartItemsListLocalStorage();
+  sumCartItemsList();
+};
+
+const setupEventHandlers = () => {
+  const deleteButton = document.querySelector('.empty-cart');
+  deleteButton.addEventListener('click', emptyCartItemsList);
 };
 
 window.onload = function onload() {
   const SEARCH_TERM = 'computador';
-  
+  setupEventHandlers();
   fillProductListByTerm(SEARCH_TERM);
   loadCartItemsListFromLocalStorage();
   sumCartItemsList();
