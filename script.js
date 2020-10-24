@@ -68,7 +68,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 const addCartProductItens = (object, from) => {
   let productInfo = null;
   if (from === 'load') {
-    productInfo = getProductItemInfosFromSaved(object)
+    productInfo = getProductItemInfosFromSaved(object);
   } else {
     productInfo = getProductItemInfos(object);
   }
