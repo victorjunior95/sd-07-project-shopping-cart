@@ -1,4 +1,4 @@
-window.onload = function onload() { };
+window.onload = function onload() { responseDate("computador");};
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -14,31 +14,63 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function createProductItemElement({ sku, name, image }) {
+function createProductItemElement({ id, title, thumbnail }) {
   const section = document.createElement('section');
   section.className = 'item';
-
-  section.appendChild(createCustomElement('span', 'item__sku', sku));
-  section.appendChild(createCustomElement('span', 'item__title', name));
-  section.appendChild(createProductImageElement(image));
+  section.appendChild(createCustomElement('span', 'item__id', id));
+  section.appendChild(createCustomElement('span', 'item__title', title));
+  section.appendChild(createProductImageElement(thumbnail));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
 
   return section;
 }
 
 function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
+  return item.querySelector('span.item__id').innerText;
+}
+
+function getRandomNumber() {
+  const aleatorio = Math.floor(Math.random() * (49 - 1 + 1)) + 1;
+  return aleatorio;
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
-  //iniciando o projeto
+  console.log(event);
 }
 
-function createCartItemElement({ sku, name, salePrice }) {
+function createCartItemElement({ id, title, price }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.innerText = `ID: ${id} | NAME: ${title} | PRICE: $${price}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
+
+function createCartElement(produtos) {
+  const items = document.querySelector('.items');
+  createCartItemElement(produtos.results[getRandomNumber()]);
+  const elementCreated = createProductItemElement(produtos.results[getRandomNumber()]);
+  items.append(elementCreated);
+}
+
+function creategrid(produtos) {
+  createCartElement(produtos);
+  createCartElement(produtos);
+  createCartElement(produtos);
+  createCartElement(produtos);
+  createCartElement(produtos);
+  createCartElement(produtos);
+  createCartElement(produtos);
+  createCartElement(produtos);
+}
+
+function responseDate(query) {
+  const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${query}`;
+  fetch(endpoint)
+    .then(response => response.json())
+    .then((produtos) => {
+      creategrid(produtos);
+    })
+    .catch(error => alert(error));
+};
+
