@@ -17,19 +17,19 @@ const convertRequestToJSON = (url) => {
   return conversion;
 };
 
-const addItemToHTMLClass = (array, callback, HTMLClass) => {
-  const [id, title, imgOrPrice] = array;
+const addRequestToHTMLClass = (request, callback, HTMLClass) => {
+  const { id, title, price, thumbnail } = request;
+  let imgOrPrice = price;
+  if (HTMLClass.length < 10) imgOrPrice = thumbnail;
   const item = callback(id, title, imgOrPrice);
   document.querySelector(`${HTMLClass}`).appendChild(item);
-}
+};
 
 const addItemToCart = (element) => {
   const idNumber = element.previousSibling.previousSibling.previousSibling.innerText;
   convertRequestToJSON(`https://api.mercadolibre.com/items/${idNumber}`)
     .then((response) => {
-      const { id, title, price } = response;
-      const product = [id, title, price];
-      addItemToHTMLClass(product, createCartItemElement, '.cart__items');
+      addRequestToHTMLClass(response, createCartItemElement, '.cart__items');
     });
 };
 
@@ -66,9 +66,7 @@ function createProductItemElement(sku, name, image) {
 const createItens = () => {
   convertRequestToJSON('https://api.mercadolibre.com/sites/MLB/search?q=cumputador')
     .then(response => response.results.forEach((computer) => {
-      const { id, title, thumbnail } = computer;
-      const product = [id, title, thumbnail];
-      addItemToHTMLClass(product, createProductItemElement, '.items');
+      addRequestToHTMLClass(computer, createProductItemElement, '.items');
     }),
     );
 };
