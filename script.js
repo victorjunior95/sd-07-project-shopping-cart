@@ -1,4 +1,4 @@
-window.onload = function onload() { };
+//window.onload = function onload() {};
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -13,6 +13,14 @@ function createCustomElement(element, className, innerText) {
   e.innerText = innerText;
   return e;
 }
+
+const grabItems = async (api) => {
+  const items = await fetch(api)
+  .then((r)=>r.json())
+  .then((r)=>r.results)
+  return items
+}
+console.log(grabItems("https://api.mercadolibre.com/sites/MLB/search?q=$computador").then((r)=>console.log(r)))
 
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
