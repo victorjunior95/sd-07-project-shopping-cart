@@ -49,8 +49,6 @@ function getSkuFromProductItem(item) {
 
 const saveCartToLocalStorage = () => {
   const cartItens = (document.querySelector('.cart__items').innerHTML).split('><');
-  const itensSku = cartItens
-    .map(product => product.substring(product.indexOf('MLB'), product.indexOf(' | ')));
   localStorage.setItem('cart', cartItens);
 };
 
@@ -69,8 +67,11 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 const addCartProductItens = (object, from) => {
   let productInfo = null;
-  (from === 'load') ? productInfo = getProductItemInfosFromSaved(object)
-    : productInfo = getProductItemInfos(object);
+  if (from === 'load') {
+    productInfo = getProductItemInfosFromSaved(object)
+  } else {
+    productInfo = getProductItemInfos(object);
+  }
   const cartElement = document.querySelector('.cart__items');
   const productElement = createCartItemElement(productInfo);
   cartElement.appendChild(productElement);
@@ -117,7 +118,7 @@ const loadCartFromLocalStorage = () => {
   const cartSkuItensSaved = localStorage.getItem('cart');
   if (cartSkuItensSaved !== null && cartSkuItensSaved !== '') {
     const cartSkuItensSavedList = cartSkuItensSaved.split(',');
-    cartSkuItensSavedList.forEach(product => {
+    cartSkuItensSavedList.forEach((product) => {
       addCartProductItens(product, 'load');
     });
   }
