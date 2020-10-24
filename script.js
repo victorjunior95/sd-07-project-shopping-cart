@@ -33,7 +33,8 @@ const getInformation = (information) => {
     image: information[1].thumbnail,
   };
   const items = document.querySelector('.items');
-  items.appendChild(createProductItemElement(informationSummary));
+  const product = createProductItemElement(informationSummary);
+  items.appendChild(product);
 };
 
 const fetchMercadoLivre = () => {
