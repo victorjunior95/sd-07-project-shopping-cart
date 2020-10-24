@@ -32,10 +32,22 @@ const createProductItemElement = ({ id: sku, title: name, thumbnail: image }) =>
 
 const getSkuFromProductItem = item => item.querySelector('span.item__sku').innerText;
 
+const updateTotalPrince = async () => {
+  const cartList = JSON.parse(localStorage.getItem('cart'));
+  const totalPrice = await cartList.reduce((acc, curr) => acc + curr.price, 0);
+  document.querySelector('.total-price').innerText = parseFloat(totalPrice.toFixed(2));
+};
+
 const updateCart = (callback) => {
   const oldList = JSON.parse(localStorage.getItem('cart'));
   const newList = callback(oldList);
   localStorage.setItem('cart', JSON.stringify(newList));
+  updateTotalPrince();
+};
+
+const cleanCart = () => {
+  document.querySelector('.cart__items').innerHTML = '';
+  updateCart(() => []);
 };
 
 const cartItemClickListener = async (event) => {
@@ -82,6 +94,7 @@ const reloadCart = () => {
   cartListBackup.forEach((cartItem) => {
     cartList.appendChild(createCartItemElement(cartItem));
   });
+  updateTotalPrince();
 };
 
 const initializeCart = () => {
@@ -105,6 +118,7 @@ window.onload = async () => {
     console.log(error);
   }
 
+  document.querySelector('.empty-cart').addEventListener('click', cleanCart);
   createItemClickListener();
   initializeCart();
 };
