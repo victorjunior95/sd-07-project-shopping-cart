@@ -36,14 +36,14 @@ const updateCart = (callback) => {
   const oldList = JSON.parse(localStorage.getItem('cart'));
   const newList = callback(oldList);
   localStorage.setItem('cart', JSON.stringify(newList));
-}
+};
 
 const cartItemClickListener = async (event) => {
   const cartList = document.querySelector('.cart__items');
   cartList.removeChild(event.target);
   const sku = event.target.innerText.split(' ')[1];
   const item = await fetchData(`https://api.mercadolibre.com/items/${sku}`);
-  updateCart((oldList) => oldList.filter((listItem) => listItem.id !== item.id));
+  updateCart(oldList => oldList.filter(listItem => listItem.id !== item.id));
 };
 
 const createCartItemElement = ({ id: sku, title: name, price: salePrice }) => {
@@ -64,7 +64,7 @@ const itemClickListener = async (event) => {
     updateCart((oldList) => {
       oldList.push(data);
       return oldList;
-    })
+    });
   } catch (error) {
     console.log(error);
   }
