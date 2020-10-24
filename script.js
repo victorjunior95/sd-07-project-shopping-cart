@@ -41,7 +41,9 @@ function getSkuFromProductItem(item) {
 const saveCartToLocalStorage = () => {
   const cartItens = document.querySelectorAll('.cart__item');
   const cartItensValues = Object.values(cartItens);
-  cartItensValues.forEach((element, index) => cartItensValues[index] = element.innerText);
+  for (let index = 0; index < cartItensValues.length; index += 1) {
+    cartItensValues[index] = cartItensValues[index].innerText;
+  }
   const cartItensValuesString = JSON.stringify(cartItensValues);
   localStorage.setItem('cart', cartItensValuesString);
 };
