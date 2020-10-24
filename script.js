@@ -12,9 +12,15 @@ function createCartItemElement(sku, name, salePrice) {
   return li;
 }
 
-const convertRequestToJSON = (request) => {
-  const conversion = fetch(request).then(response => response.json())
+const convertRequestToJSON = (url) => {
+  const conversion = fetch(url).then(response => response.json());
   return conversion;
+};
+
+const addItemToHTMLClass = (array, callback, HTMLClass) => {
+  const [id, title, imgOrPrice] = array;
+  const item = callback(id, title, imgOrPrice);
+  document.querySelector(`${HTMLClass}`).appendChild(item);
 }
 
 const addItemToCart = (element) => {
@@ -22,8 +28,8 @@ const addItemToCart = (element) => {
   convertRequestToJSON(`https://api.mercadolibre.com/items/${idNumber}`)
     .then((response) => {
       const { id, title, price } = response;
-      const cartItem = createCartItemElement(id, title, price);
-      document.querySelector('.cart__items').appendChild(cartItem);
+      const product = [id, title, price];
+      addItemToHTMLClass(product, createCartItemElement, '.cart__items');
     });
 };
 
@@ -61,8 +67,8 @@ const createItens = () => {
   convertRequestToJSON('https://api.mercadolibre.com/sites/MLB/search?q=cumputador')
     .then(response => response.results.forEach((computer) => {
       const { id, title, thumbnail } = computer;
-      const item = createProductItemElement(id, title, thumbnail);
-      document.querySelector('.items').appendChild(item);
+      const product = [id, title, thumbnail];
+      addItemToHTMLClass(product, createProductItemElement, '.items');
     }),
     );
 };
