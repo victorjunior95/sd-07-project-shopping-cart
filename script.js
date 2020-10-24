@@ -16,7 +16,7 @@ function createCartItemElement(computer) {
   const li = document.createElement('li');
   li.className = 'cart__items';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener); 
+  li.addEventListener('click', cartItemClickListener);
 
   cart.appendChild(li);
   return li;
