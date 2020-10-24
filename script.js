@@ -40,7 +40,7 @@ async function sumCart() {
   totalPrice.innerText = `${sum}`;
 }
 
-function registeCartLocalStorage(trigered) {
+async function registeCartLocalStorage(trigered) {
   const productsInCart = document.querySelectorAll('.cart__item');
   if (trigered === 'remove') localStorage.clear();
   for (let item = 0; item < productsInCart.length; item += 1) {
@@ -73,7 +73,6 @@ async function registerToCart(itemID) {
   const cartItems = document.querySelector('.cart__items');
   const productCart = createCartItemElement(productComponents);
   cartItems.appendChild(productCart);
-  registeCartLocalStorage('add');
   await sumCart();
 }
 
@@ -81,6 +80,7 @@ function addToCart(productAdd) {
   const itemID = getSkuFromProductItem(productAdd.target.parentElement);
   try {
     registerToCart(itemID);
+    registeCartLocalStorage('add');
   } catch (error) {
     console.error(error);
   }
@@ -129,5 +129,5 @@ window.onload = function onload() {
   loadCart();
 
   const emptyCart = document.querySelector('.empty-cart');
-  emptyCart.addEventListener('click', clearCart)
+  emptyCart.addEventListener('click', clearCart);
 };
