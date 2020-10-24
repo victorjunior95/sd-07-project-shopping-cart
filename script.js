@@ -1,13 +1,13 @@
-let carts = [];
+let cartsStorage = [];
 
 const storage = {
   get() {
     return JSON.parse(localStorage.getItem('store'));
   },
   save() {
-    localStorage.setItem('store', JSON.stringify(carts));
-  }
-}
+    localStorage.setItem('store', JSON.stringify(cartsStorage));
+  },
+};
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -26,7 +26,7 @@ function createCustomElement(element, className, innerText) {
 function cartItemClickListener(event) {
   const ol = document.querySelector('.cart__items');
   const idLi = event.target.children[0].innerText;
-  carts = carts.filter(id => id !== idLi);
+  cartsStorage = cartsStorage.filter(id => id !== idLi);
   storage.save();
   ol.removeChild(event.target);
 }
@@ -45,8 +45,8 @@ const handlerCartInHtml = (cart) => {
   cart1.sku = cart.id;
   cart1.name = cart.title;
   cart1.salePrice = cart.price;
-  carts.push(cart.id);
-  storage.save(carts);
+  cartsStorage.push(cart.id);
+  storage.save(cartsStorage);
   const li = createCartItemElement(cart1);
   olItem.appendChild(li);
 };
@@ -119,9 +119,9 @@ window.onload = function onload() {
   fetchShoppingCarts();
 
   if (storage.get()) {
-    carts = [];
-    const cartsStorage = storage.get();
+    cartsStorage = [];
+    const getCartsStorage = storage.get();
 
-    cartsStorage.forEach(id => fetchShoppingCart(id));
+    getCartsStorage.forEach(id => fetchShoppingCart(id));
   }
 };
