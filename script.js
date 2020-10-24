@@ -35,7 +35,7 @@ function itemObjectCreate(keys, item) {
 }
 
 function cartItemClickListener(event) {
-  console.log(event);
+  event.srcElement.remove();
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
