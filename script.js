@@ -19,8 +19,13 @@ function cartItemClickListener(event) {
 
 const getLocalSave = () => {
   const currentSave = localStorage.getItem('Cart_Items');
-  console.log(currentSave);
-  document.querySelector('.cart__items').innerHTML = currentSave;
+
+  const list = document.querySelector('.cart__items');
+  list.innerHTML = currentSave;
+  // const numberOfElements = list.childElementCount;
+  // for(let element = 0; element<numberOfElements;element+=1){
+
+  // }
   return currentSave;
 };
 const setLocalSave = () => {
