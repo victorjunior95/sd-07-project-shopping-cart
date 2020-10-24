@@ -1,4 +1,9 @@
 const cart = document.querySelector('.cart__items');
+const emptyCartButton = document.querySelector('.empty-cart');
+
+emptyCartButton.addEventListener('click', () => {
+  cart.innerHTML = '';
+});
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
