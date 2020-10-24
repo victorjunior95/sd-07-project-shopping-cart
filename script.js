@@ -43,12 +43,12 @@ async function sumCart() {
 function registeCartLocalStorage(trigered) {
   const productsInCart = document.querySelectorAll('.cart__item');
   if (trigered === 'remove') localStorage.clear();
-  const auxArray = []
+  const auxArray = [];
   for (let item = 0; item < productsInCart.length; item += 1) {
     const skuCart = productsInCart[item].innerText;
-    auxArray.push(skuCart)
+    auxArray.push(skuCart);
   }
-  localStorage.setItem(`Items`, auxArray);
+  localStorage.setItem('Items', auxArray);
 }
 
 function cartItemClickListener(event) {
@@ -114,8 +114,7 @@ async function fetchItems() {
 }
 
 function loadCart() {
-  const valuesLocalStorage = localStorage['Items'].split(',SK');
-  console.log(valuesLocalStorage)
+  const valuesLocalStorage = localStorage.Items.split(',SK');
   // registerToCart(valuesLocalStorage[getItem]);
   for (let getItem = 0; getItem < valuesLocalStorage.length; getItem += 1) {
     const sku = valuesLocalStorage[getItem].split(' | ')[0].split(': ')[1];
