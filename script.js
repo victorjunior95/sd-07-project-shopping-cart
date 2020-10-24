@@ -23,7 +23,7 @@ function cartItemClickListener(event) {
 
 async function sumCartItems(salePrice) {
   sumItem += await salePrice;
-  totalPrice.innerText = sumItem.toFixed(2);
+  totalPrice.innerText = Math.round(sumItem * 100) / 100;
 }
 
 function createCartItemElement(computer) {
