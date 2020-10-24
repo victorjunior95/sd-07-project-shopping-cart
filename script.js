@@ -37,12 +37,12 @@ async function sumCart() {
     .innerText.split(' | ')[2].split(': ')[1].replace('$', '');
     sum += Number(priceCart);
   }
-  totalPrice.innerText = `Preço total $:${sum}`;
+  totalPrice.innerText = `${sum}`;
 }
 
-function registeCartLocalStorage() {
+function registeCartLocalStorage(trigered) {
   const productsInCart = document.querySelectorAll('.cart__item');
-  localStorage.clear();
+  if (trigered === 'remove') localStorage.clear();
   for (let item = 0; item < productsInCart.length; item += 1) {
     const skuCart = productsInCart[item].innerText.split(' | ')[0].split(': ')[1];
     localStorage.setItem(`Item-${item}`, skuCart);
@@ -51,7 +51,7 @@ function registeCartLocalStorage() {
 
 function cartItemClickListener(event) {
   event.target.remove();
-  registeCartLocalStorage();
+  registeCartLocalStorage('remove');
   sumCart();
 }
 
@@ -73,7 +73,7 @@ async function registerToCart(itemID) {
   const cartItems = document.querySelector('.cart__items');
   const productCart = createCartItemElement(productComponents);
   cartItems.appendChild(productCart);
-  registeCartLocalStorage();
+  registeCartLocalStorage('add');
   await sumCart();
 }
 
