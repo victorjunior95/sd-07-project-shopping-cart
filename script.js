@@ -32,9 +32,9 @@ function getRandomNumber() {
   return aleatorio;
 }
 
-// function cartItemClickListener(event) {
-//   console.log(event);
-// }
+function cartItemClickListener(event) {
+  console.log(event + "passei aqui");
+}
 
 function createCartItemElement({ id, title, price }) {
   const li = document.createElement('li');
