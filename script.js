@@ -5,14 +5,41 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+function createCartItemElement(computer) {
+  const cart = document.querySelector('.cart__items');
+  const { id: sku, title: name, price: salePrice } = computer;
+  const li = document.createElement('li');
+  li.className = 'cart__items';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  /* li.addEventListener('click', cartItemClickListener); */
+  cart.appendChild(li);
+  return li;
+}
+function fetchComputerItem(id) {
+  const endpoint = `https://api.mercadolibre.com/items/${id}`;
+  fetch(endpoint)
+    .then(computer => computer.json())
+    .then(computer => createCartItemElement(computer));
+}
+function isButton(tag, element) {
+  if (tag === 'button') {
+    element.addEventListener(('click'), () => {
+      const parent = element.parentNode;
+      const id = parent.firstChild.innerText;
+      fetchComputerItem(id);
+    });
+  }
+}
+
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
   e.className = className;
   e.innerText = innerText;
+  isButton(element, e);
   return e;
 }
 
-function createProductItemElement({ sku, name, image }) {
+function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   const container = document.querySelector('.container');
   const section = document.createElement('section');
   section.className = 'item';
@@ -32,28 +59,10 @@ function createProductItemElement({ sku, name, image }) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
 
-  /* function cartItemClickListener(event) {
-   event.addEventListener(('click', () => {
-     alert('here')
-   }))
- } */
-
-// function createCartItemElement({ sku, name, salePrice }) {
-//   const li = document.createElement('li');
-//   li.className = 'cart__item';
-//   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-//   li.addEventListener('click', cartItemClickListener);
-//   return li;
-// }
 
 const handleComputerItem = (object) => {
   object.forEach((computer) => {
-    const newObject = {
-      sku: computer.id,
-      name: computer.title,
-      image: computer.thumbnail,
-    };
-    return createProductItemElement(newObject);
+    createProductItemElement(computer);
   });
 };
 
