@@ -16,7 +16,7 @@ const addToHTML = (parent, child) => {
 function cartItemClickListener(event) {
   event.target.remove();
 }
-function createCartItemElement({ sku, name, salePrice }) {
+function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
@@ -36,12 +36,7 @@ const handleAPIRequestToPrice = (API_REQ) => {
       return obj;
     })
     .then((resp) => {
-      const cartItem = {
-        sku: resp.id,
-        name: resp.title,
-        salePrice: resp.price,
-      };
-      addToHTML('.cart__items', createCartItemElement(cartItem));
+      addToHTML('.cart__items', createCartItemElement(resp));
     })
     .catch(showAlert);
 };
@@ -70,7 +65,7 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function createProductItemElement({ sku, name, image }) {
+function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   const section = document.createElement('section');
   section.className = 'item';
 
@@ -83,15 +78,15 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-const handleAmountOfElementsOnHTML = (amount, jso) => {
-  for (let index = 0; index < amount; index += 1) {
-    const elementCreated = createProductItemElement({
-      sku: jso.results[index].id,
-      name: jso.results[index].title,
-      image: jso.results[index].thumbnail,
-    });
+const handleAmountOfElementsOnHTML = (res) => {
+  const product = Object.entries(res);
+  console.log(product);
+  console.log(res);
+
+  product.forEach((entry) => {
+    const elementCreated = createProductItemElement(entry[1]);
     addToHTML('.items', elementCreated);
-  }
+  });
 };
 
 const handleAPIRequest = async (API_REQ) => {
@@ -102,7 +97,7 @@ const handleAPIRequest = async (API_REQ) => {
       throw new Error(jso.error);
     }
     console.log(jso);
-    handleAmountOfElementsOnHTML(50, jso);
+    handleAmountOfElementsOnHTML(jso.results);
   } catch (error) {
     showAlert(error);
   }
