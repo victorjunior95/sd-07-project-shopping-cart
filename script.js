@@ -2,6 +2,7 @@ const cart = document.querySelector('.cart__items');
 const emptyCartButton = document.querySelector('.empty-cart');
 const totalPrice = document.querySelector('.total-price');
 let sumItem = 0;
+const loading = document.querySelector('.loading');
 
 emptyCartButton.addEventListener('click', () => {
   cart.innerHTML = '';
@@ -92,7 +93,12 @@ const handleComputerItem = (object) => {
 const fetchDataComputer = (endpoint) => {
   fetch(endpoint)
     .then(data => data.json())
-    .then(data => handleComputerItem(data.results));
+    .then((data) => {
+      if (data) {
+        loading.innerText = '';
+        handleComputerItem(data.results);
+      }
+    });
 };
 
 function initialize() {
