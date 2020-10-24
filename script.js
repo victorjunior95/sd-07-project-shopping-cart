@@ -42,19 +42,19 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 const errorLog = (message) => {
   console.log(message);
-}
+};
 
 const handlerCartsInHtml = (carts) => {
-  carts.forEach(cart => {
+  carts.forEach((cart) => {
     const sessionItems = document.getElementsByClassName('items')[0];
-    let cart1 = {};
-    cart1['sku'] = cart.id;
-    cart1['name'] = cart.title;
-    cart1['image'] = cart.thumbnail;
+    const cart1 = {};
+    cart1.sku = cart.id;
+    cart1.name = cart.title;
+    cart1.image = cart.thumbnail;
     const session = createProductItemElement(cart1);
     sessionItems.appendChild(session);
   });
-}
+};
 
 const fetchShoppingCart = async (query = 'computador') => {
   try {
@@ -65,7 +65,7 @@ const fetchShoppingCart = async (query = 'computador') => {
   } catch (error) {
     errorLog(error);
   }
-}
+};
 
 window.onload = function onload() {
   fetchShoppingCart();
