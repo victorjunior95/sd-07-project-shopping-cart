@@ -116,7 +116,18 @@ function loadCart() {
   }
 }
 
+function clearCart() {
+  const cartItems = document.querySelector('.cart__items');
+  cartItems.innerHTML = '';
+  sumCart();
+  localStorage.clear();
+}
+
+
 window.onload = function onload() {
   fetchItems();
   loadCart();
+
+  const emptyCart = document.querySelector('.empty-cart');
+  emptyCart.addEventListener('click', clearCart)
 };
