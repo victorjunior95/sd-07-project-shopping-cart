@@ -31,7 +31,7 @@ const handleComputerItem = (object) => {
       name: computer.title,
       image: computer.thumbnail,
     };
-    createProductItemElement(newObject);
+    return createProductItemElement(newObject);
   });
 };
 
