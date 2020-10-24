@@ -19,7 +19,7 @@ function getSkuFromProductItem(item) {
 const transformCartItemOnObject = (cartItem) => {
   const sku = /^SKU:\s(.*?)\s| /g.exec(cartItem.innerText)[1];
   const name = /NAME:\s(.*)(?=\s\|)/g.exec(cartItem.innerText)[1];
-  const salePrice = /PRICE:\s\$(\d+)/g.exec(cartItem.innerText)[1];
+  const salePrice = /PRICE:\s\$(\d+(\.\d{1,2})*)$/g.exec(cartItem.innerText)[1];
   return { sku, name, salePrice };
 };
 
@@ -44,11 +44,11 @@ const sumCartItemsList = async () => {
     sum = cartItemsObjectList
       .reduce((acc, cartItem) => (acc + parseFloat(cartItem.salePrice)), 0);
   }
-  const formatter = new Intl.NumberFormat('en-US', {
+  /* const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
-  });
-  p.innerHTML = `Total: ${formatter.format(sum)}`;
+  }); */
+  p.innerHTML = `${sum}`;
   totalPrice.appendChild(p);
 };
 
