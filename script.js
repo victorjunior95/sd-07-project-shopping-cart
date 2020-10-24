@@ -40,11 +40,11 @@ async function sumCart() {
   totalPrice.innerText = `${sum}`;
 }
 
-async function registeCartLocalStorage(trigered) {
+function registeCartLocalStorage(trigered) {
   const productsInCart = document.querySelectorAll('.cart__item');
   if (trigered === 'remove') localStorage.clear();
   for (let item = 0; item < productsInCart.length; item += 1) {
-    const skuCart = productsInCart[item].innerText.split(' | ')[0].split(': ')[1];
+    const skuCart = productsInCart[item].innerText;
     localStorage.setItem(`Item-${item}`, skuCart);
   }
 }
@@ -74,15 +74,15 @@ async function registerToCart(itemID) {
     const cartItems = document.querySelector('.cart__items');
     const productCart = createCartItemElement(productComponents);
     cartItems.appendChild(productCart);
-    await sumCart();
+    sumCart();
   } catch (error) {
     console.error(error);
   }
 }
 
-function addToCart(productAdd) {
+async function addToCart(productAdd) {
   const itemID = getSkuFromProductItem(productAdd.target.parentElement);
-  registerToCart(itemID);
+  await registerToCart(itemID);
   registeCartLocalStorage('add');
 }
 
@@ -112,9 +112,17 @@ async function fetchItems() {
 }
 
 function loadCart() {
+  const valuesLocalStorage = Object.values(localStorage);
+  // registerToCart(valuesLocalStorage[getItem]);
   for (let getItem = 0; getItem < localStorage.length; getItem += 1) {
-    const itemSaved = localStorage[`Item-${getItem}`];
-    registerToCart(itemSaved);
+    const sku = valuesLocalStorage[getItem].split(' | ')[0].split(': ')[1];
+    const name = valuesLocalStorage[getItem].split(' | ')[1].split(': ')[1];
+    const salePrice = valuesLocalStorage[getItem].split(' | ')[2].split(': ')[1].replace('$', '');
+    const productComponents = { sku, name, salePrice };
+    const cartItems = document.querySelector('.cart__items');
+    const productCart = createCartItemElement(productComponents);
+    cartItems.appendChild(productCart);
+    sumCart();
   }
 }
 
