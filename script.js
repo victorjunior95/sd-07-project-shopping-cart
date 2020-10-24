@@ -16,6 +16,20 @@ const addToHTML = (parent, child) => {
 function cartItemClickListener(event) {
   event.target.remove();
 }
+
+const getLocalSave = () => {
+  const currentSave = localStorage.getItem('Cart_Items');
+  console.log(currentSave);
+  document.querySelector('.cart__items').innerHTML = currentSave;
+  return currentSave;
+};
+const setLocalSave = () => {
+  console.log(document.querySelector('.cart__items'));
+  localStorage.setItem(
+    'Cart_Items',
+    document.querySelector('.cart__items').innerHTML,
+  );
+};
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -37,6 +51,7 @@ const handleAPIRequestToPrice = (API_REQ) => {
     })
     .then((resp) => {
       addToHTML('.cart__items', createCartItemElement(resp));
+      setLocalSave();
     })
     .catch(showAlert);
 };
@@ -80,8 +95,6 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 
 const handleAmountOfElementsOnHTML = (res) => {
   const product = Object.entries(res);
-  console.log(product);
-  console.log(res);
 
   product.forEach((entry) => {
     const elementCreated = createProductItemElement(entry[1]);
@@ -96,7 +109,6 @@ const handleAPIRequest = async (API_REQ) => {
     if (jso.error) {
       throw new Error(jso.error);
     }
-    console.log(jso);
     handleAmountOfElementsOnHTML(jso.results);
   } catch (error) {
     showAlert(error);
@@ -107,4 +119,5 @@ window.onload = function onload() {
   handleAPIRequest(
     'https://api.mercadolibre.com/sites/MLB/search?q=computador',
   );
+  getLocalSave();
 };
