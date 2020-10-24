@@ -42,6 +42,11 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
+const renderProductItensList = (element) => {
+  const itensSection = document.querySelector('.items');
+  itensSection.appendChild(element);
+};
+
 const createProductItensList = (object) => {
   object.forEach((product) => {
     const productObject = {
@@ -65,10 +70,5 @@ const fetchProductItens = async (term) => {
     alert(error);
   }
 };
-
-const renderProductItensList = (element) => {
-  const itensSection = document.querySelector('.items');
-  itensSection.appendChild(element);
-}
 
 fetchProductItens('computador');
