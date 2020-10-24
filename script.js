@@ -59,9 +59,9 @@ const handlerCartsInHtml = (carts) => {
 const fetchShoppingCart = async (query = 'computador') => {
   try {
     const api = await fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${query}`);
-    const { results } = await api.json();
+    const response = await api.json();
 
-    handlerCartsInHtml(results);
+    handlerCartsInHtml(response.results);
   } catch (error) {
     errorLog(error);
   }
