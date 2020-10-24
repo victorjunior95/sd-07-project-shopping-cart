@@ -21,6 +21,16 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
+async function sumPrice(priceItem, price = 0) {
+  return priceItem + parseInt(price, 10);
+}
+
+async function returnPrice(priceItem) {
+  const itemPrice = document.querySelector('.item_price_total');
+  const calculationPrice = await sumPrice(priceItem, itemPrice.innerText);
+  itemPrice.innerText = calculationPrice;
+}
+
 const itemRequisition = (ids) => {
   const endPointProduct = `https://api.mercadolibre.com/items/${ids}`;
   fetch(endPointProduct)
@@ -30,6 +40,7 @@ const itemRequisition = (ids) => {
       const item = createCartItemElement({ sku, name, salePrice });
       const ol = document.querySelector('.cart__items');
       ol.appendChild(item);
+      returnPrice(salePrice);
     });
 };
 
