@@ -1,7 +1,3 @@
-window.onload = function onload() { 
-  responseDate('computador'); 
-};
-
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -23,7 +19,6 @@ function createProductItemElement({ id, title, thumbnail }) {
   section.appendChild(createCustomElement('span', 'item__title', title));
   section.appendChild(createProductImageElement(thumbnail));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-
   return section;
 }
 
@@ -32,7 +27,7 @@ function createProductItemElement({ id, title, thumbnail }) {
 // }
 
 function getRandomNumber() {
-  const ramdom = Math.random() * (49 - 1 + 1);
+  const ramdom = Math.random() * (49);
   const aleatorio = Math.floor(ramdom) + 1;
   return aleatorio;
 }
@@ -74,5 +69,7 @@ function responseDate(query) {
     .then((produtos) => {
       creategrid(produtos);
     })
-    .catch(error => alert(error))
-};
+    .catch(error => alert(error));
+}
+
+window.onload = () => responseDate('computador');
