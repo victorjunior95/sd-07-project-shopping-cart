@@ -1,5 +1,7 @@
 const cart = document.querySelector('.cart__items');
 const emptyCartButton = document.querySelector('.empty-cart');
+const totalPrice = document.querySelector('.total-price');
+let sumItem = 0;
 
 emptyCartButton.addEventListener('click', () => {
   cart.innerHTML = '';
@@ -19,6 +21,11 @@ function cartItemClickListener(event) {
   cart.removeChild(event.target);
 }
 
+async function sumCartItems(salePrice) {
+  sumItem += await salePrice;
+  totalPrice.innerText = Math.floor(sumItem);
+}
+
 function createCartItemElement(computer) {
   const { id: sku, title: name, price: salePrice } = computer;
   const li = document.createElement('li');
@@ -28,6 +35,7 @@ function createCartItemElement(computer) {
 
   cart.appendChild(li);
   storeCart();
+  sumCartItems(salePrice);
   return li;
 }
 function fetchComputerItem(id) {
