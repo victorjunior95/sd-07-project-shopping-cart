@@ -5,6 +5,13 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+function createLoadingElement() {
+  const loading = document.createElement('p');
+  loading.className = 'loading';
+  loading.innerText = 'loading...';
+  return loading;
+}
+
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
@@ -106,7 +113,11 @@ const addProductItemToCartItemsList = ({ sku, name, salePrice }, isLoad = false)
 const productItemClickListener = async (event) => {
   const productId = getSkuFromProductItem(event.target.parentNode);
   try {
+    const cartItems = document.querySelector('.cart__items');
+    const loading = createLoadingElement();
+    cartItems.appendChild(loading);
     const productItem = await fetchMLProductItem(productId);
+    cartItems.removeChild(loading);
     const { id: sku, title: name, price: salePrice } = productItem;
     addProductItemToCartItemsList({ sku, name, salePrice });
   } catch (error) {
@@ -135,13 +146,14 @@ function createProductItemElement({ sku, name, image }) {
 
 const fillProductListByTerm = async (term) => {
   try {
+    const sectionItems = document.querySelector('.items');
+    const loading = createLoadingElement();
+    sectionItems.appendChild(loading);
     const productList = await fetchMLProductListByTerm(term);
+    sectionItems.removeChild(loading);
     productList
       .map(({ id, title, thumbnail }) => ({ sku: id, name: title, image: thumbnail }))
-      .forEach((product) => {
-        const sectionItems = document.querySelector('.items');
-        sectionItems.appendChild(createProductItemElement(product));
-      });
+      .forEach(product => sectionItems.appendChild(createProductItemElement(product)));
   } catch (error) {
     showAlert(error);
   }
