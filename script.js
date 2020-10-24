@@ -66,14 +66,6 @@ const addCartProductItens = (object) => {
   saveCartToLocalStorage();
 };
 
-const loadCartFromLocalStorage = () => {
-  const cartSkuItensSaved = localStorage.getItem('cart');
-  if (cartSkuItensSaved !== null && cartSkuItensSaved !== '') {
-    const cartSkuItensSavedList = cartSkuItensSaved.split(',');
-    cartSkuItensSavedList .forEach(sku => fetchProductItemId(sku));
-  }
-};
-
 const renderProductItensList = (element) => {
   const itensSection = document.querySelector('.items');
   itensSection.appendChild(element);
@@ -107,6 +99,14 @@ const fetchProductItemId = async (itemId) => {
     addCartProductItens(object);
   } catch (error) {
     alert(error);
+  }
+};
+
+const loadCartFromLocalStorage = () => {
+  const cartSkuItensSaved = localStorage.getItem('cart');
+  if (cartSkuItensSaved !== null && cartSkuItensSaved !== '') {
+    const cartSkuItensSavedList = cartSkuItensSaved.split(',');
+    cartSkuItensSavedList.forEach(sku => fetchProductItemId(sku));
   }
 };
 
