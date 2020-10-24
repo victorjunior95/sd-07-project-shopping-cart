@@ -22,7 +22,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 async function sumPrice(priceItem, price = 0) {
-  return priceItem + parseInt(price, 10);
+  return priceItem + parseFloat(price, 10);
 }
 
 async function returnPrice(priceItem) {
