@@ -46,12 +46,14 @@ function createCartItemElement({ sku, name, salePrice }) {
 function fetchApi() {
   fetch(url)
     .then(response => response.json())
-    .then(data => data.results.map((product) => {
+    .then(data => {
+      data.results.map((product) => {
       const result = createProductItemElement(product);
       document.querySelector('.items').appendChild(result);
-    }));
+      })
+    });
 }
 
 window.onload = function onload() {
   fetchApi();
-}
+};
