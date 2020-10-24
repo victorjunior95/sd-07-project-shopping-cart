@@ -1,3 +1,13 @@
+const getProductItemInfos = (productItem) => {
+  const productObject = {
+    sku: productItem.id,
+    name: productItem.title,
+    image: productItem.thumbnail,
+    salePrice: productItem.price,
+  };
+  return productObject;
+};
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -29,8 +39,18 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  if (event.target.className === 'item__add') {
+    const itemId = getSkuFromProductItem(event.target.parentElement)
+    fetchProductItemId(itemId);
+  }
 }
+
+const addCartProductItens = (object) => {
+  const productInfo = getProductItemInfos(object);
+  const cartElement = document.querySelector('.cart__items');
+  const productElement = createCartItemElement(productInfo);
+  cartElement.appendChild(productElement);
+};
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
@@ -47,12 +67,8 @@ const renderProductItensList = (element) => {
 
 const createProductItensList = (object) => {
   object.forEach((product) => {
-    const productObject = {
-      sku: product.id,
-      name: product.title,
-      image: product.thumbnail,
-    };
-    const itemElement = createProductItemElement(productObject);
+    const productInfos = getProductItemInfos(product);
+    const itemElement = createProductItemElement(productInfos);
     renderProductItensList(itemElement);
   });
 };
@@ -69,6 +85,21 @@ const fetchProductItens = async (term) => {
   }
 };
 
+
+
+const fetchProductItemId = async (itemId) => {
+  const endpoint = `https://api.mercadolibre.com/items/${itemId}`
+  try {
+    const response = await fetch(endpoint);
+    const object = await response.json();
+    addCartProductItens(object);
+  } catch (error) {
+    alert(error)
+  }
+}
+
 window.onload = function onload() {
   fetchProductItens('computador');
+  const itensSection = document.querySelector('.items');
+  itensSection.addEventListener('click', cartItemClickListener)
 };
