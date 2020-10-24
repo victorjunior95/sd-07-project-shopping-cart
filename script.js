@@ -1,3 +1,14 @@
+let carts = [];
+
+const storage = {
+  get() {
+    return JSON.parse(localStorage.getItem('store'));
+  },
+  save() {
+    localStorage.setItem('store', JSON.stringify(carts));
+  }
+}
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -14,14 +25,16 @@ function createCustomElement(element, className, innerText) {
 
 function cartItemClickListener(event) {
   const ol = document.querySelector('.cart__items');
-
+  const idLi = event.target.children[0].innerText;
+  carts = carts.filter(id => id !== idLi);
+  storage.save();
   ol.removeChild(event.target);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.innerHTML = `SKU: <span>${sku}</span> | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
@@ -32,6 +45,8 @@ const handlerCartInHtml = (cart) => {
   cart1.sku = cart.id;
   cart1.name = cart.title;
   cart1.salePrice = cart.price;
+  carts.push(cart.id);
+  storage.save(carts);
   const li = createCartItemElement(cart1);
   olItem.appendChild(li);
 };
@@ -102,4 +117,11 @@ const fetchShoppingCarts = async (query = 'computador') => {
 
 window.onload = function onload() {
   fetchShoppingCarts();
+
+  if (storage.get()) {
+    carts = [];
+    const cartsStorage = storage.get();
+
+    cartsStorage.forEach(id => fetchShoppingCart(id));
+  }
 };
