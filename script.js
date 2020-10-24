@@ -28,8 +28,18 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+function registeCartLocalStorage() {
+  const productsInCart = document.querySelectorAll('.cart__item');
+  localStorage.clear();
+  for (let item = 0; item < productsInCart.length; item += 1) {
+    const skuCart = productsInCart[item].innerText.split(' | ')[0].split(': ')[1];
+    localStorage.setItem(`Item-${item}`, skuCart);
+  }
+}
+
 function cartItemClickListener(event) {
   event.target.remove();
+  registeCartLocalStorage();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -40,17 +50,23 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-async function addToCart(productAdd) {
-  const itemID = getSkuFromProductItem(productAdd.target.parentElement);
+
+async function registerToCart(itemID) {
   const endpoint = `https://api.mercadolibre.com/items/${itemID}`;
+  const response = await fetch(endpoint);
+  const data = await response.json();
+  const { id: sku, title: name, price: salePrice } = data;
+  const productComponents = { sku, name, salePrice };
+  const cartItems = document.querySelector('.cart__items');
+  const productCart = createCartItemElement(productComponents);
+  cartItems.appendChild(productCart);
+  registeCartLocalStorage();
+}
+
+function addToCart(productAdd) {
+  const itemID = getSkuFromProductItem(productAdd.target.parentElement);
   try {
-    const response = await fetch(endpoint);
-    const data = await response.json();
-    const { id: sku, title: name, price: salePrice } = data;
-    const productComponents = { sku, name, salePrice };
-    const cartItems = document.querySelector('.cart__items');
-    cartItems.appendChild(createCartItemElement(productComponents));
-    console.log(productComponents);
+    registerToCart(itemID);
   } catch (error) {
     console.error(error);
   }
@@ -79,4 +95,14 @@ async function fetchItems() {
   }
 }
 
-window.onload = function onload() { fetchItems(); };
+function loadCart() {
+  for (let getItem = 0; getItem < localStorage.length; getItem += 1) {
+    const itemSaved = localStorage[`Item-${getItem}`];
+    registerToCart(itemSaved);
+  }
+}
+
+window.onload = function onload() {
+  fetchItems();
+  loadCart();
+};
