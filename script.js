@@ -43,10 +43,12 @@ async function sumCart() {
 function registeCartLocalStorage(trigered) {
   const productsInCart = document.querySelectorAll('.cart__item');
   if (trigered === 'remove') localStorage.clear();
+  const auxArray = []
   for (let item = 0; item < productsInCart.length; item += 1) {
     const skuCart = productsInCart[item].innerText;
-    localStorage.setItem(`Item-${item}`, skuCart);
+    auxArray.push(skuCart)
   }
+  localStorage.setItem(`Items`, auxArray);
 }
 
 function cartItemClickListener(event) {
@@ -112,9 +114,10 @@ async function fetchItems() {
 }
 
 function loadCart() {
-  const valuesLocalStorage = Object.values(localStorage);
+  const valuesLocalStorage = localStorage['Items'].split(',SK');
+  console.log(valuesLocalStorage)
   // registerToCart(valuesLocalStorage[getItem]);
-  for (let getItem = 0; getItem < localStorage.length; getItem += 1) {
+  for (let getItem = 0; getItem < valuesLocalStorage.length; getItem += 1) {
     const sku = valuesLocalStorage[getItem].split(' | ')[0].split(': ')[1];
     const name = valuesLocalStorage[getItem].split(' | ')[1].split(': ')[1];
     const salePrice = valuesLocalStorage[getItem].split(' | ')[2].split(': ')[1].replace('$', '');
