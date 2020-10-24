@@ -36,25 +36,14 @@ const getLocalSave = () => {
   return currentSave;
 };
 
-const PRICES_ARRAY = [];
-
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
 
-  PRICES_ARRAY.push(salePrice);
-
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
-
-// const sum = () => {
-//   return PRICES_ARRAY.reduce(
-//     (acumulator, currentValue) => currentValue + acumulator,
-//     0,
-//   );
-// };
 
 const handleAPIRequestToPrice = (API_REQ) => {
   fetch(API_REQ)
@@ -69,7 +58,6 @@ const handleAPIRequestToPrice = (API_REQ) => {
     })
     .then((resp) => {
       addToHTML('.cart__items', createCartItemElement(resp));
-      sum();
       setLocalSave();
     })
     .catch(showAlert);
