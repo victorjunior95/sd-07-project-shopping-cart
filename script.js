@@ -24,6 +24,13 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
+function calculatePrice(price, type) {
+  const priceInput = document.querySelector('.total-price');
+  const total = Number(priceInput.innerText);
+  if (type === 'add') priceInput.innerText = (total + Number(parseFloat(price.toFixed(2))));
+  if (type === 'remove') priceInput.innerText = (total - Number(parseFloat(price.toFixed(2))));
+}
+
 function clearList() {
   const olList = document.querySelector('.cart__items');
   const itensList = document.querySelectorAll('.cart__item');
@@ -38,11 +45,25 @@ function updateStorage() {
   localStorage.setItem('content', JSON.stringify(olContent));
 }
 
-function cartItemClickListener(event) {
+async function cartItemClickListener(event) {
   //  coloque seu código aqui
+  const price = +event.target.innerText.slice(-6).replace('$', '');
   event.target.remove();
+  await calculatePrice(price, 'remove');
   updateStorage();
 }
+
+// function localStoragePrice(string) {
+//   const price = document.querySelector('.total-price');
+//   const jsonParse = string.replace('<', '').split('$');
+//   const values = [];
+//   jsonParse.forEach(item => values.push(+item.slice(0, 6).replace('</', '')));
+//   values[0] = 0;
+//   console.log(values);
+//   const total = values.reduce((acc, atual) => acc + atual);
+//   console.log(total)
+//   price.innerText = total.toFixed(2);
+// }
 
 async function fetchCart() {
   await fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
@@ -56,10 +77,11 @@ async function fetchCart() {
   }));
   const newOlContent = document.querySelector('.cart__items');
   const olContent = localStorage.getItem('content');
-  newOlContent.innerHTML = JSON.parse(olContent);
+  const jsonParse = JSON.parse(olContent);
+  newOlContent.innerHTML = jsonParse;
   const itensCart = document.querySelectorAll('.cart__item');
   itensCart.forEach(item => item.addEventListener('click', cartItemClickListener));
-  console.log(olContent);
+  // localStoragePrice(olContent);
 }
 
 function getSkuFromProductItem(item) {
@@ -83,6 +105,7 @@ async function addToCart(event) {
   const itemProps = { sku: id, name: title, salePrice: price };
   const addedItem = createCartItemElement(itemProps);
   cart.appendChild(addedItem);
+  await calculatePrice(price, 'add');
   updateStorage();
 }
 
