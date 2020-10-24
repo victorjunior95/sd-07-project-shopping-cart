@@ -11,7 +11,7 @@ const getProductItemInfos = (productItem) => {
 const getProductItemInfosFromSaved = (product) => {
   const productObject = {
     sku: product.substring(product.indexOf('MLB'), product.indexOf(' | ')),
-    name: product.substring(product.indexOf('NAME:') + 5, product.indexOf(' | PRICE')),
+    name: product.substring(product.indexOf('NAME:') + 6, product.indexOf(' | PRICE')),
     salePrice: product.substring(product.indexOf('$') + 1, product.indexOf('</')),
   };
   return productObject;
