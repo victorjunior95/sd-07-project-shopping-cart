@@ -32,7 +32,8 @@ function createProductItemElement({ id, title, thumbnail }) {
 // }
 
 function getRandomNumber() {
-  const aleatorio = Math.floor(Math.random() * (49 - 1 + 1)) + 1;
+  const ramdom = Math.random() * (49 - 1 + 1);
+  const aleatorio = Math.floor(ramdom) + 1;
   return aleatorio;
 }
 
