@@ -26,7 +26,9 @@ const addToCart = async (event) => {
   .then((r)=>r.json())
   console.log(item)
   product = { sku: item.id, name: item.title, salePrice: item.price };
-  appendSectionOnto(createCartItemElement(product),'ol.cart__items')
+  const cartElement = createCartItemElement(product)
+  cartElement.addEventListener('click',(event)=>event.target.remove())
+  appendSectionOnto(cartElement,'ol.cart__items')
 }
 
 const appendSectionOnto = (section,onto) => document.querySelector(onto).appendChild(section)
