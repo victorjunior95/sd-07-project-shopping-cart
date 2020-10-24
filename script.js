@@ -14,8 +14,7 @@ const addToHTML = (parent, child) => {
 };
 
 function cartItemClickListener(event) {
-  console.log(event.target);
-  return event;
+  event.target.remove();
 }
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
