@@ -10,28 +10,32 @@ function getSkuFromProductItem(item) {
 }
 
 const transformCartItemOnObject = (cartItem) => {
-  const cartItemProperties = cartItem.innerText.split('|');
-  return cartItemProperties.reduce((acc, cartItemProperty) => {
-    const cartItemPropertySplit = cartItemProperty.split(':');
-    const cartItemPropertyKey = cartItemPropertySplit[0].toLowerCase().trim();
-    const cartItemPropertyValue = cartItemPropertySplit[1].trim();
-    return { ...acc, [cartItemPropertyKey]: cartItemPropertyValue };
-  }, {});
+  const sku = /^SKU:\s(.*?)\s| /g.exec(cartItem.innerText)[1];
+  const name = /NAME:\s(.*)(?=\s\|)/g.exec(cartItem.innerText)[1];
+  const salePrice = /PRICE:\s\$(\d+)/g.exec(cartItem.innerText)[1];
+  return { sku, name, salePrice };
+};
+
+const getCartItemsObjectList = () => {
+  const cartItemsList = document.querySelectorAll('.cart__item');
+  const cartItemsObjectList = [];
+  if (cartItemsList.length > 0) {
+    cartItemsList.forEach((cartItem) => {
+      cartItemsObjectList.push(transformCartItemOnObject(cartItem));
+    });
+  }
+  return cartItemsObjectList;
 };
 
 const updateCartItemsListLocalStorage = () => {
-  const cartItemsList = document.querySelectorAll('.cart__item');
-  const cartItemsListObject = [];
-  cartItemsList.forEach((cartItem) => {
-    cartItemsListObject.push(transformCartItemOnObject(cartItem));
-  });
-  localStorage.setItem('cartItemsList', JSON.stringify(cartItemsListObject));
+  localStorage.setItem('cartItemsList', JSON.stringify(getCartItemsObjectList()));
 };
 
 function cartItemClickListener(event) {
   const cartItems = document.querySelector('.cart__items');
   cartItems.removeChild(event.target);
   updateCartItemsListLocalStorage();
+  sumCartItemsList();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -73,11 +77,12 @@ const fetchMLProductItem = async (productId) => {
   return productItem;
 };
 
-const addProductItemToCartItemsList = ({ sku, name, salePrice }) => {
+const addProductItemToCartItemsList = ({ sku, name, salePrice }, isLoad = false) => {
   const productLi = createCartItemElement({ sku, name, salePrice });
   const cartItems = document.querySelector('.cart__items');
   cartItems.appendChild(productLi);
-  updateCartItemsListLocalStorage();
+  if (!isLoad) updateCartItemsListLocalStorage();
+  sumCartItemsList();
 };
 
 const productItemClickListener = async (event) => {
@@ -102,7 +107,6 @@ function createCustomElement(element, className, innerText) {
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
-
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
@@ -129,13 +133,33 @@ const loadCartItemsListFromLocalStorage = () => {
   const cartItemsList = JSON.parse(localStorage.getItem('cartItemsList'));
   if (cartItemsList) {
     cartItemsList
-      .forEach(({ sku, name, price: salePrice }) =>
-        addProductItemToCartItemsList({ sku, name, salePrice }));
+      .forEach(({ sku, name, salePrice }) =>
+        addProductItemToCartItemsList({ sku, name, salePrice }, true));
   }
+};
+
+const sumCartItemsList = async () => {
+  const p = document.createElement('p');
+  const totalPrice = document.querySelector('.total-price');
+  totalPrice.innerHTML = '';
+  let sum = 0;
+  const cartItemsObjectList = getCartItemsObjectList();
+  if (cartItemsObjectList.length > 0) {
+    console.log(cartItemsObjectList);
+    sum = cartItemsObjectList.reduce((acc, cartItem) => acc += parseFloat(cartItem.salePrice), 0);
+  } 
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  });
+  p.innerHTML = `Total: ${formatter.format(sum)}`;
+  totalPrice.appendChild(p);
 };
 
 window.onload = function onload() {
   const SEARCH_TERM = 'computador';
+  
   fillProductListByTerm(SEARCH_TERM);
   loadCartItemsListFromLocalStorage();
+  sumCartItemsList();
 };
