@@ -39,13 +39,10 @@ function getSkuFromProductItem(item) {
 }
 
 const saveCartToLocalStorage = () => {
-  const cartItens = document.querySelectorAll('.cart__item');
-  const cartItensValues = Object.values(cartItens);
-  for (let index = 0; index < cartItensValues.length; index += 1) {
-    cartItensValues[index] = cartItensValues[index].innerText;
-  }
-  const cartItensValuesString = JSON.stringify(cartItensValues);
-  localStorage.setItem('cart', cartItensValuesString);
+  const cartItens = (document.querySelector('.cart__items').innerHTML).split('><');
+  const itensSku = cartItens
+    .map(product => product.substring(product.indexOf('MLB'), product.indexOf(' | ')));
+  localStorage.setItem('cart', itensSku);
 };
 
 function cartItemClickListener(event) {
@@ -70,16 +67,10 @@ const addCartProductItens = (object) => {
 };
 
 const loadCartFromLocalStorage = () => {
-  const cartItensList = JSON.parse(localStorage.getItem('cart'));
-  const cartElement = document.querySelector('.cart__items');
-  if (cartItensList !== null) {
-    cartItensList.forEach((product) => {
-      const li = document.createElement('li');
-      li.className = 'cart__item';
-      li.innerText = product;
-      li.addEventListener('click', cartItemClickListener);
-      cartElement.appendChild(li);
-    });
+  const cartSkuItensSaved = localStorage.getItem('cart');
+  if (cartSkuItensSaved !== null && cartSkuItensSaved !== '') {
+    const cartSkuItensSavedList = cartSkuItensSaved.split(',');
+    cartSkuItensSavedList .forEach(sku => fetchProductItemId(sku));
   }
 };
 
