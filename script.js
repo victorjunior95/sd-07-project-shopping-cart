@@ -74,6 +74,5 @@ function responseDate(query) {
     .then((produtos) => {
       creategrid(produtos);
     })
-    .catch(error => alert(error));
+    .catch(error => alert(error))
 };
-
