@@ -33,18 +33,18 @@ function cartItemClickListener(event) {
   cartItem.parentElement.removeChild(cartItem);
 }
 
-function appendItemToCart(object) {
-  const cartItem = createCartItemElement(object);
-  const cart = document.querySelector('.cart__items');
-  cart.appendChild(cartItem);
-}
-
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
+}
+
+function appendItemToCart(object) {
+  const cartItem = createCartItemElement(object);
+  const cart = document.querySelector('.cart__items');
+  cart.appendChild(cartItem);
 }
 
 function handleProducts(products) {
