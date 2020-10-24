@@ -12,10 +12,14 @@ function createCartItemElement(sku, name, salePrice) {
   return li;
 }
 
+const convertRequestToJSON = (request) => {
+  const conversion = fetch(request).then(response => response.json())
+  return conversion;
+}
+
 const addItemToCart = (element) => {
   const idNumber = element.previousSibling.previousSibling.previousSibling.innerText;
-  fetch(`https://api.mercadolibre.com/items/${idNumber}`)
-    .then(response => response.json())
+  convertRequestToJSON(`https://api.mercadolibre.com/items/${idNumber}`)
     .then((response) => {
       const { id, title, price } = response;
       const cartItem = createCartItemElement(id, title, price);
@@ -54,8 +58,7 @@ function createProductItemElement(sku, name, image) {
 }
 
 const createItens = () => {
-  fetch('https://api.mercadolibre.com/sites/MLB/search?q=cumputador')
-    .then(response => response.json())
+  convertRequestToJSON('https://api.mercadolibre.com/sites/MLB/search?q=cumputador')
     .then(response => response.results.forEach((computer) => {
       const { id, title, thumbnail } = computer;
       const item = createProductItemElement(id, title, thumbnail);
