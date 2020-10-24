@@ -54,7 +54,7 @@ async function fetchItems() {
         const productComponents = { sku, name, image };
         const items = document.querySelector('.items');
         const product = createProductItemElement(productComponents);
-        
+
         items.appendChild(product);
       }
     }
