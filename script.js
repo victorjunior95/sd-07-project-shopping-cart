@@ -9,9 +9,29 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+const transformCartItemOnObject = (cartItem) => {
+  const cartItemProperties = cartItem.innerText.split('|');
+  return cartItemProperties.reduce((acc, cartItemProperty) => {
+    const cartItemPropertySplit = cartItemProperty.split(':');
+    const cartItemPropertyKey = cartItemPropertySplit[0].toLowerCase().trim();
+    const cartItemPropertyValue = cartItemPropertySplit[1].trim();
+    return { ...acc, [cartItemPropertyKey]: cartItemPropertyValue };
+  }, {});
+};
+
+const updateCartItemsListLocalStorage = () => {
+  const cartItemsList = document.querySelectorAll('.cart__item');
+  const cartItemsListObject = [];
+  cartItemsList.forEach((cartItem) => {
+    cartItemsListObject.push(transformCartItemOnObject(cartItem));
+  });
+  localStorage.setItem('cartItemsList', JSON.stringify(cartItemsListObject));
+};
+
 function cartItemClickListener(event) {
   const cartItems = document.querySelector('.cart__items');
   cartItems.removeChild(event.target);
+  updateCartItemsListLocalStorage();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -53,15 +73,19 @@ const fetchMLProductItem = async (productId) => {
   return productItem;
 };
 
+const addProductItemToCartItemsList = ({ sku, name, salePrice }) => {
+  const productLi = createCartItemElement({ sku, name, salePrice });
+  const cartItems = document.querySelector('.cart__items');
+  cartItems.appendChild(productLi);
+  updateCartItemsListLocalStorage();
+};
 
 const productItemClickListener = async (event) => {
   const productId = getSkuFromProductItem(event.target.parentNode);
   try {
     const productItem = await fetchMLProductItem(productId);
     const { id: sku, title: name, price: salePrice } = productItem;
-    const productLi = createCartItemElement({ sku, name, salePrice });
-    const cartItems = document.querySelector('.cart__items');
-    cartItems.appendChild(productLi);
+    addProductItemToCartItemsList({ sku, name, salePrice });
   } catch (error) {
     showAlert(error);
   }
@@ -101,7 +125,17 @@ const fillProductListByTerm = async (term) => {
   }
 };
 
+const loadCartItemsListFromLocalStorage = () => {
+  const cartItemsList = JSON.parse(localStorage.getItem('cartItemsList'));
+  if (cartItemsList) {
+    cartItemsList
+      .forEach(({ sku, name, price: salePrice }) =>
+        addProductItemToCartItemsList({ sku, name, salePrice }));
+  }
+};
+
 window.onload = function onload() {
   const SEARCH_TERM = 'computador';
   fillProductListByTerm(SEARCH_TERM);
+  loadCartItemsListFromLocalStorage();
 };
