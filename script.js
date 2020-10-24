@@ -14,13 +14,13 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function createProductItemElement({ sku, name, image }) {
+function createProductItemElement({ id, title, thumbnail }) {
   const section = document.createElement('section');
   section.className = 'item';
 
-  section.appendChild(createCustomElement('span', 'item__sku', sku));
-  section.appendChild(createCustomElement('span', 'item__title', name));
-  section.appendChild(createProductImageElement(image));
+  section.appendChild(createCustomElement('span', 'item__sku', id));
+  section.appendChild(createCustomElement('span', 'item__title', title));
+  section.appendChild(createProductImageElement(thumbnail));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
 
   return section;
@@ -40,4 +40,23 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
+}
+
+const fetchProductsList = async (category) => {
+  const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${category}`
+  // fetch(endpoint)
+  //   .then((response) => response.json())
+  //   .then((objectJSON) => console.log(objectJSON.results))
+  try {
+    const response = await fetch(endpoint);
+    const object = await response.json();
+    const itemsArray = await object.results;
+    await itemsArray.forEach((element) => {
+      const newElement = createProductItemElement(element);
+      const newFather = document.querySelector('.items');
+      newFather.appendChild(newElement);
+    })
+  } catch (error) {
+    window.alert(error);
+  }
 }
