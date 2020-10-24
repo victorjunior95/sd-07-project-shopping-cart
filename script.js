@@ -1,4 +1,6 @@
-window.onload = function onload() { responseDate("computador");};
+window.onload = function onload() { 
+  responseDate('computador'); 
+};
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -25,9 +27,9 @@ function createProductItemElement({ id, title, thumbnail }) {
   return section;
 }
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__id').innerText;
-}
+// function getSkuFromProductItem(item) {
+//   return item.querySelector('span.item__id').innerText;
+// }
 
 function getRandomNumber() {
   const aleatorio = Math.floor(Math.random() * (49 - 1 + 1)) + 1;
