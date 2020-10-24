@@ -72,7 +72,7 @@ const addCartProductItens = (object) => {
 const loadCartFromLocalStorage = () => {
   const cartItensList = JSON.parse(localStorage.getItem('cart'));
   const cartElement = document.querySelector('.cart__items');
-  if (cartItensList.length !== 0) {
+  if (cartItensList !== null) {
     cartItensList.forEach((product) => {
       const li = document.createElement('li');
       li.className = 'cart__item';
