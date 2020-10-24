@@ -1,7 +1,3 @@
-/*Você **deve** utilizar a função `createProductItemElement(product)` para criar os componentes _HTML_ referentes a um produto.
-*/
-/*Adicione o elemento retornado da função `createProductItemElement(product)` como filho do elemento `<section class="items">`.
-*/
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -17,7 +13,7 @@ function createCustomElement(element, className, innerText) {
 }
 
 function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
-  const elements = document.querySelector(".items")
+  const elements = document.querySelector('.items');
   const section = document.createElement('section');
   section.className = 'item';
   section.appendChild(createCustomElement('span', 'item__sku', sku));
@@ -41,9 +37,8 @@ const fetchProducts = async () => {
   const response = await fetch(endpoint);
   const object = await response.json();
   const result = object.results;
-  result.forEach((data) => createProductItemElement(data))
+  result.forEach(data => createProductItemElement(data));
 }
-
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
@@ -61,6 +56,6 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-window.onload = function onload() { 
-  fetchProducts()  
+window.onload = function onload() {
+  fetchProducts();
 };
