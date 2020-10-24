@@ -22,8 +22,14 @@ const grabItems = async (api) => {
 }
 const addToCart = async (event) => {
   const id = event.target.parentNode.childNodes[0].innerText
+  const item = await fetch(`https://api.mercadolibre.com/items/${id}`)
+  .then((r)=>r.json())
+  console.log(item)
+  product = { sku: item.id, name: item.title, salePrice: item.price };
+  appendSectionOnto(createCartItemElement(product),'ol.cart__items')
 }
-const appendSection = (section) => document.querySelector('section.items').appendChild(section)
+
+const appendSectionOnto = (section,onto) => document.querySelector(onto).appendChild(section)
 const handleAddToCart = () => document.querySelectorAll('.item__add').forEach(element => {
   element.addEventListener('click',addToCart)
 });
@@ -32,7 +38,7 @@ const itemsToSection = (items) => {
   items.forEach(({id,title,thumbnail}) => {
     const product = { sku: id, name: title, image: thumbnail };
     const section = createProductItemElement(product)
-    appendSection(section)
+    appendSectionOnto(section,'section.items')
   });
   handleAddToCart()
 }
@@ -67,4 +73,4 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-grabItems("https://api.mercadolibre.com/sites/MLB/search?q=$computador")
+grabItems("https://api.mercadolibre.com/sites/MLB/search?q=computador")
