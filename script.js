@@ -73,6 +73,7 @@ function createCartItemElement(computer) {
 
   cart.appendChild(li);
   updatePrice();
+  storeCart();
   return li;
 }
 function fetchComputerItem(id) {
