@@ -58,7 +58,8 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 const addToCart = async (id) => {
-  const item = await fetch(`https://api.mercadolibre.com/items/${id}`).then(r => r.json());
+  createLoad();
+  const item = await fetch(`https://api.mercadolibre.com/items/${id}`).then(r => r.json()).then(removeLoad());
   const product = { sku: item.id, name: item.title, salePrice: item.price };
   const cartElement = createCartItemElement(product);
   cartElement.addEventListener('click', cartItemClickListener);
@@ -84,7 +85,7 @@ const grabItems = async (api) => {
   const items = await fetch(api)
     .then(r => r.json())
     .then(r => r.results)
-    .then(document.querySelector('.loading').remove());
+    .then(removeLoad());
   itemsToSection(items);
 };
 
@@ -107,8 +108,18 @@ const clearCart = () => {
   updatePrice();
   localStorage.setItem('cart', JSON.stringify(cartItems));
 };
+const createLoad = () => {
+  const span = document.createElement('span');
+  span.className = 'loading';
+  span.innerText = 'Carregando';
+  appendSectionOnto(span,'.container')
+}
+const removeLoad = () => {
+  document.querySelector('.loading').remove()
+}
 window.onload = function onload() {
   document.querySelector('.empty-cart').addEventListener('click', clearCart);
   populateWithStorage(JSON.parse(localStorage.getItem('cart')));
+  createLoad();
   grabItems('https://api.mercadolibre.com/sites/MLB/search?q=computador');
 };
