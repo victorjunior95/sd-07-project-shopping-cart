@@ -26,12 +26,6 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__id').innerText;
 }
 
-function getRandomNumber() {
-  const ramdom = Math.random() * 49;
-  const aleatorio = Math.floor(ramdom) + 1;
-  return aleatorio;
-}
-
 function responseForID(id) {
   const endpointID = `https://api.mercadolibre.com/items/${id}`;
   fetch(endpointID)
@@ -42,14 +36,11 @@ function responseForID(id) {
     .catch(error => alert(error));
 }
 
-function cartItemClickListener(event, product) {
+function cartItemClickListener(event) {
   const btnAddItem = document.querySelectorAll('.item__add');
   // const addLis = document.querySelector('.cart__items');
   for (let item = 0; item < btnAddItem.length; item += 1) {
     btnAddItem[item].addEventListener(event, () => {
-      product.find(itemSelect => responseForID(itemSelect.id));
-      // const createLi = createCartItemElement(product);
-      // addLis.appendChild(createLi);
       console.log('passei aqui');
     });
   }
@@ -64,32 +55,9 @@ function createCartItemElement({ id, title, price }) {
 }
 
 function createCartElement(product) {
-  const itemSelect = product.results[getRandomNumber()];
   const items = document.querySelector('.items');
-  const elementCreated = createProductItemElement(itemSelect);
+  const elementCreated = createProductItemElement(product);
   items.appendChild(elementCreated);
-  return itemSelect;
-}
-
-function creategrid(product) {
-  const itemSelect1 = createCartElement(product);
-  const itemSelect2 = createCartElement(product);
-  const itemSelect3 = createCartElement(product);
-  const itemSelect4 = createCartElement(product);
-  const itemSelect5 = createCartElement(product);
-  const itemSelect6 = createCartElement(product);
-  const itemSelect7 = createCartElement(product);
-  const itemSelect8 = createCartElement(product);
-  return [
-    itemSelect1,
-    itemSelect2,
-    itemSelect3,
-    itemSelect4,
-    itemSelect5,
-    itemSelect6,
-    itemSelect7,
-    itemSelect8,
-  ];
 }
 
 function responseDate(query) {
@@ -97,8 +65,7 @@ function responseDate(query) {
   fetch(endpoint)
     .then(response => response.json())
     .then((product) => {
-      const itensSelected = creategrid(product);
-      cartItemClickListener('click', itensSelected);
+      product.results.forEach(element => createCartElement(element));
     })
     .catch(error => alert(error));
 }
