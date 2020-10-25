@@ -1,5 +1,7 @@
 let cartsStorage = [];
 
+let totalPrice = 0;
+
 const storage = {
   get() {
     return JSON.parse(localStorage.getItem('store'));
@@ -41,13 +43,15 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 const handlerCartInHtml = (cart) => {
   const olItem = document.querySelector('.cart__items');
-  const cart1 = {};
-  cart1.sku = cart.id;
-  cart1.name = cart.title;
-  cart1.salePrice = cart.price;
+  const cartItem = {};
+  cartItem.sku = cart.id;
+  cartItem.name = cart.title;
+  cartItem.salePrice = cart.price;
+
   cartsStorage.push(cart.id);
   storage.save(cartsStorage);
-  const li = createCartItemElement(cart1);
+
+  const li = createCartItemElement(cartItem);
   olItem.appendChild(li);
 };
 
@@ -55,12 +59,20 @@ const errorLog = (message) => {
   console.log(message);
 };
 
+const pricesTotal = (price) => {
+  const totalPriceDiv = document.getElementsByClassName('total-price')[0];
+  totalPrice += price;
+  
+  totalPriceDiv.innerText = totalPrice;
+}
+
 const fetchShoppingCart = async (id) => {
   try {
     const api = await fetch(`https://api.mercadolibre.com/items/${id}`);
     const response = await api.json();
 
     handlerCartInHtml(response);
+    await pricesTotal(response.price);
   } catch (error) {
     errorLog(error);
   }
@@ -104,7 +116,6 @@ const handlerCartsInHtml = (carts) => {
 
 const fetchShoppingCarts = async (query = 'computador') => {
   try {
-    // https://api.mercadolibre.com/items/$ItemID
     const api = await fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${query}`);
     const response = await api.json();
 
