@@ -26,14 +26,6 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__id').innerText;
 }
 
-function responseForID(id) {
-  const endpointID = `https://api.mercadolibre.com/items/${id}`;
-  fetch(endpointID)
-    .then(response => response.json())
-    .then(productelected => addCartLi(createCartItemElement(productelected)))
-    .catch(error => alert(error));
-}
-
 function cartItemClickListener(event) {
   const btnAddItem = document.querySelectorAll('.item__add');
   for (let item = 0; item < btnAddItem.length; item += 1) {
@@ -71,6 +63,14 @@ function responseDate(query) {
       product.results.forEach(element => createCartElement(element));
       cartItemClickListener('click');
     })
+    .catch(error => alert(error));
+}
+
+function responseForID(id) {
+  const endpointID = `https://api.mercadolibre.com/items/${id}`;
+  fetch(endpointID)
+    .then(response => response.json())
+    .then(productelected => addCartLi(createCartItemElement(productelected)))
     .catch(error => alert(error));
 }
 
