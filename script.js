@@ -7,6 +7,8 @@ emptyCartButton.addEventListener('click', () => {
   cart.innerHTML = '';
   totalPrice.innerText = 0;
   sumItem = 0;
+  localStorage.totalPrice = 0;
+  localStorage.cart = cart.innerHTML;
 });
 
 function createProductImageElement(imageSource) {
@@ -35,7 +37,22 @@ function storeCart() {
   localStorage.setItem('cart', cart.innerHTML);
   localStorage.setItem('totalPrice', sumItem);
 }
-function cartItemClickListener(event) {
+
+
+function subtractPrice(price) {
+  sumItem -= price;
+  totalPrice.innerText = Math.round(sumItem * 100) / 100;
+  localStorage.totalPrice = Math.round(sumItem * 100) / 100;
+}
+
+function extractPrice(event) {
+  const splitDolar = event.innerText.split('$');
+  const price = parseFloat(splitDolar[1]);
+  subtractPrice(price);
+}
+
+async function cartItemClickListener(event) {
+  extractPrice(event.target);
   cart.removeChild(event.target);
 }
 
