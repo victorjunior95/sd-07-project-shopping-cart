@@ -33,9 +33,22 @@ function loading() {
   asideContainer.appendChild(loadingParagraph);
 }
 
+
 function storeCart() {
   localStorage.setItem('cart', cart.innerHTML);
   localStorage.setItem('totalPrice', sumItem);
+  const cartItems = cart.childNodes;
+  const cartList = [...cartItems];
+
+  if (cartList.length > 0) {
+    const sumPrice = cartList.map(element => element.innerText.split('$'))
+    .map(element => parseFloat(element[1]))
+    .reduce((acc, nextElement) => acc += (Math.round(nextElement * 100) / 100), 0);
+
+    sumItem = sumPrice;
+    localStorage.totalPrice = sumPrice;
+    totalPrice.innerText = sumPrice;
+  }
 }
 
 
@@ -70,8 +83,8 @@ function createCartItemElement(computer) {
   li.addEventListener('click', cartItemClickListener);
 
   cart.appendChild(li);
-  storeCart();
   sumCartItems(salePrice);
+  storeCart();
   return li;
 }
 function fetchComputerItem(id) {
@@ -143,11 +156,9 @@ const fetchDataComputer = (endpoint) => {
 };
 
 function initialize() {
-  cart.innerHTML = localStorage.cart;
-  sumItem = parseFloat(localStorage.totalPrice);
-  totalPrice.innerText = Math.round(sumItem * 100) / 100;
   const cartItems = cart.childNodes;
   cartItems.forEach(item => item.addEventListener('click', cartItemClickListener));
+  storeCart();
 }
 
 window.onload = function onload() {
