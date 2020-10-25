@@ -28,7 +28,8 @@ function createCustomElement(element, className, innerText) {
 function cartItemClickListener(event) {
   const ol = document.querySelector('.cart__items');
   ol.removeChild(event.target);
-  cartStore = ol.innerHTML;
+  const sku = event.target.children[0].innerText;
+  cartStore = cartStore.filter(cartStore => cartStore.sku !== sku);
   storage.save();
 }
 
@@ -47,10 +48,11 @@ const handlerCartInHtml = (cart) => {
   cartItem.name = cart.title;
   cartItem.salePrice = cart.price;
 
+  console.log(cart, cartItem)
   const li = createCartItemElement(cartItem);
   ol.appendChild(li);
 
-  cartStore = ol.innerHTML;
+  cartStore.push(cartItem);
   storage.save();
 };
 
@@ -71,7 +73,7 @@ const fetchShoppingCart = async (id) => {
     const response = await api.json();
 
     handlerCartInHtml(response);
-    await setInterval(pricesTotal(response.price), 1000);
+    await pricesTotal(response.price);
   } catch (error) {
     errorLog(error);
   }
@@ -150,11 +152,15 @@ window.onload = function onload() {
   fetchShoppingCarts();
 
   if (storage.get()) {
-    cartStore = [];
-    const ol = document.querySelector('.cart__items');
     const getCartStore = storage.get();
 
-    ol.innerHTML = getCartStore;
+    getCartStore.forEach((cartStore) => {
+      handlerCartInHtml({
+        id: cartStore.sku,
+        title: cartStore.name,
+        price: cartStore.salePrice,
+      });
+    });
   }
 
   addEventEmptyCarts();
