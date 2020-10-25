@@ -105,11 +105,13 @@ const createProductItensList = (object) => {
 };
 
 const fetchProductItens = async (term) => {
+  loadingTextOnScreen(true);
   const query = term;
   const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${query}`;
   try {
     const response = await fetch(endpoint);
     const object = await response.json();
+    loadingTextOnScreen(false);
     createProductItensList(object.results);
   } catch (error) {
     alert(error);
@@ -148,12 +150,25 @@ const removeAllProductsCartListener = (event) => {
   const cartElement = document.querySelector('.cart__items');
   cartElement.innerText = '';
   sumTotalCart();
+  saveCartToLocalStorage();
 };
 
+const loadingTextOnScreen = (isLoading) => {
+  const itensSection = document.querySelector('.items');
+  if (isLoading) {
+    const loadingElement = document.createElement('p');
+    loadingElement.className = 'empty-cart';
+    loadingElement.innerText = 'loading...';
+    itensSection.appendChild(loadingElement);
+  } else {
+    itensSection.innerHTML = '';
+  }
+}
+
 window.onload = function onload() {
-  fetchProductItens('computador');
   const itensSection = document.querySelector('.items');
   const buttonEmptyCart = document.querySelector('.empty-cart');
+  fetchProductItens('computador');
   itensSection.addEventListener('click', listItemClickListener);
   buttonEmptyCart.addEventListener('click', removeAllProductsCartListener);
   loadCartFromLocalStorage();
