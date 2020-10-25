@@ -1,6 +1,4 @@
-const fetch = require("node-fetch");
-
-/* window.onload = function onload() { };
+window.onload = function onload() { };
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -16,10 +14,11 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function createProductItemElement({ sku, name, image }) {
+// Usar para criar os componentes HTML referentes a um produto
+function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   const section = document.createElement('section');
   section.className = 'item';
-
+  
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
@@ -32,29 +31,42 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+// Utilizar para remover um item do carrinho
 function cartItemClickListener(event) {
   // coloque seu código aqui
 }
 
-function createCartItemElement({ sku, name, salePrice }) {
+// Utilizar para criar os componentes HTMAL referentes a um item do carrinho
+function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
-} */
+}
 
-fetchCurrencyAwaitAsync = async (query) => {
-  const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
+const listCompadorSearch = async (query) => {
+  const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador&limit=8';
 
+  try {
     const response = await fetch(endpoint);
     const object = await response.json();
-    console.log(object.results)
 
+    if (object.error){
+      throw new Error(object.error);
+    } else {
+      console.log(object.results)
+      handleResultes(object.results);
+    }
+  } catch (error) {
+    console.log(error)
+  }
 }
 
-const handleResultes = (resultes) => {
-  //const resultesEntries = Object.entries(resultes);
+const handleResultes = (results) => {
+  const resultesEntries = Object.entries(results);
+
+  resultesEntries.forEach( computer => createProductItemElement( computer ));
 }
 
-fetchCurrencyAwaitAsync('computador');
+listCompadorSearch();
