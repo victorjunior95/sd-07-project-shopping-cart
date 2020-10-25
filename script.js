@@ -18,7 +18,9 @@ function createProductItemElement({ id, title, thumbnail }) {
   section.appendChild(createCustomElement('span', 'item__id', id));
   section.appendChild(createCustomElement('span', 'item__title', title));
   section.appendChild(createProductImageElement(thumbnail));
-  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
+  section.appendChild(
+    createCustomElement('button', 'item__add', 'Adicionar ao carrinho!')
+  );
   return section;
 }
 
@@ -27,9 +29,19 @@ function createProductItemElement({ id, title, thumbnail }) {
 // }
 
 function getRandomNumber() {
-  const ramdom = Math.random() * (49);
+  const ramdom = Math.random() * 49;
   const aleatorio = Math.floor(ramdom) + 1;
   return aleatorio;
+}
+
+function responseForID(id) {
+  const endpointID = `https://api.mercadolibre.com/items/${id}`;
+  fetch(endpointID)
+    .then(response => response.json())
+    .then((produtoselected) => {
+      console.log(produtoselected);
+    })
+    .catch(error => alert(error));
 }
 
 function cartItemClickListener(event, produto) {
@@ -37,13 +49,13 @@ function cartItemClickListener(event, produto) {
   const addLis = document.querySelector('.cart__items');
   for (let item = 0; item < btnAddItem.length; item += 1) {
     btnAddItem[item].addEventListener(event, () => {
-     const itemSelected = produto.find(itemSelect => {
-      console.log(itemSelect.id)
-      responseForID(itemSelect.id)
+      const itemSelected = produto.find((itemSelect) => {
+        console.log(itemSelect.id);
+        responseForID(itemSelect.id);
       });
       console.log('itemSelected: ' + itemSelected);
-      const createLi = createCartItemElement(produto);
-      addLis.appendChild(createLi);
+      // const createLi = createCartItemElement(produto);
+      // addLis.appendChild(createLi);
       console.log('passei aqui');
     });
   }
@@ -74,8 +86,16 @@ function creategrid(produtos) {
   const itemSelect6 = createCartElement(produtos);
   const itemSelect7 = createCartElement(produtos);
   const itemSelect8 = createCartElement(produtos);
-  return [itemSelect1, itemSelect2, itemSelect3,
-    itemSelect4, itemSelect5, itemSelect6, itemSelect7, itemSelect8];
+  return [
+    itemSelect1,
+    itemSelect2,
+    itemSelect3,
+    itemSelect4,
+    itemSelect5,
+    itemSelect6,
+    itemSelect7,
+    itemSelect8,
+  ];
 }
 
 function responseDate(query) {
@@ -85,16 +105,6 @@ function responseDate(query) {
     .then((produtos) => {
       const itensSelected = creategrid(produtos);
       cartItemClickListener('click', itensSelected);
-    })
-    .catch(error => alert(error));
-}
-
-function responseForID(id) {
-  const endpointID = `https://api.mercadolibre.com/items/${id}`;
-  fetch(endpointID)
-    .then(response => response.json())
-    .then((produtoselected) => {
-      console.log('produtoselected: ' + produtoselected);
     })
     .catch(error => alert(error));
 }
