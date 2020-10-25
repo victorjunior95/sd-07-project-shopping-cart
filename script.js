@@ -7,6 +7,7 @@ function createCartItemElement(sku, name, salePrice) {
   li.addEventListener('click', (event) => {
     li.remove(event);
   });
+  localStorage.setItem(0, document.getElementsByClassName('cart__items')[0].innerHTML);
   return li;
 }
 
@@ -14,6 +15,7 @@ function cartItemClickListener(event) {
   const name = array.find(element => element[0] === event.path[0].id)[1];
   const price = array.find(element => element[0] === event.path[0].id)[3];
   document.getElementsByClassName('cart__items')[0].appendChild(createCartItemElement(event.path[0].id, name, price));
+  localStorage[0] = document.getElementsByClassName('cart__items')[0].innerHTML;
 }
 
 function createCustomElement(element, className, innerText, id) {
@@ -72,8 +74,12 @@ const fetchItens = async () => {
 window.onload = function onload() {
   function clearCart() {
     document.getElementsByClassName('cart__items')[0].innerHTML = '';
+    localStorage.setItem(0, document.getElementsByClassName('cart__items')[0].innerHTML);
   }
   fetchItens();
+  if (localStorage[0] !== undefined) {
+    document.getElementsByClassName('cart__items')[0].innerHTML = localStorage[0];
+  }
   const clear = document.getElementById('clear');
   clear.addEventListener('click', clearCart);
 };
