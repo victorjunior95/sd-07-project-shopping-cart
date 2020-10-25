@@ -37,9 +37,14 @@ async function returnPrice(priceItem) {
 
 const itemRequisition = (ids) => {
   const endPointProduct = `https://api.mercadolibre.com/items/${ids}`;
+  const loading = document.querySelector('.loading');
   fetch(endPointProduct)
-    .then(object => object.json())
+    .then((object) => {
+      loading.innerHTML = 'Loading...';
+      return object.json();
+    })
     .then((product) => {
+      loading.innerHTML = '';
       const { id: sku, title: name, price: salePrice } = product;
       const item = createCartItemElement({ sku, name, salePrice });
       const ol = document.querySelector('.cart__items');
@@ -86,7 +91,6 @@ const getInformation = async (information) => {
 
 const fetchMercadoLivre = async () => {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
-
   fetch(endpoint)
     .then(response => response.json())
     .then((object) => {
