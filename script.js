@@ -72,7 +72,7 @@ const fetchShoppingCart = async (id) => {
     const response = await api.json();
 
     handlerCartInHtml(response);
-    await pricesTotal(response.price);
+    await setInterval(pricesTotal(response.price), 1000) ;
   } catch (error) {
     errorLog(error);
   }
@@ -125,6 +125,14 @@ const fetchShoppingCarts = async (query = 'computador') => {
   }
 };
 
+const addEventEmptyCarts = () => {
+  const buttonEmptyCart = document.getElementsByClassName('empty-cart')[0];
+
+  buttonEmptyCart.addEventListener('click', () => {
+    const ol = document.querySelector('.cart__items');
+    ol.innerHTML = '';
+  });
+};
 
 window.onload = function onload() {
   fetchShoppingCarts();
@@ -135,4 +143,6 @@ window.onload = function onload() {
 
     getCartsStorage.forEach(id => fetchShoppingCart(id));
   }
+
+  addEventEmptyCarts();
 };
