@@ -53,15 +53,15 @@ const saveCartToLocalStorage = () => {
 };
 
 const sumTotalCart = async () => {
-  const totalElement = document.querySelector('.total-value')
+  const totalElement = document.querySelector('.total-value');
   let result = 0;
-  const productItensCart = await (document.querySelector('.cart__items').innerText).split('SKU: ')
+  const productItensCart = await (document.querySelector('.cart__items').innerText).split('SKU: ');
   await productItensCart.forEach((product) => {
     const productPrice = (product.substring(product.indexOf('$') + 1, product.length));
-    (productPrice !== '') ? result += parseFloat(productPrice) : 0;
+    (productPrice !== '') ? result += parseFloat(productPrice) : result += 0;
   });
   totalElement.innerText = result.toFixed(2);
-}
+};
 
 function cartItemClickListener(event) {
   event.target.remove();
