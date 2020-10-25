@@ -58,7 +58,7 @@ const sumTotalCart = async () => {
   const productItensCart = await (document.querySelector('.cart__items').innerText).split('SKU: ');
   await productItensCart.forEach((product) => {
     const productPrice = (product.substring(product.indexOf('$') + 1, product.length));
-    (productPrice !== '') ? result += parseFloat(productPrice) : result += 0;
+    result = (productPrice !== '') ? result + parseFloat(productPrice) : result + 0;
   });
   totalElement.innerText = result.toFixed(2);
 };
