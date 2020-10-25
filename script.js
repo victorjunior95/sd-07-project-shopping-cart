@@ -23,7 +23,7 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   return elements.appendChild(section);
 }
 
-// com Promise
+// 1 - com Promise
 // const fetchProducts = () => {
 //   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
 //   fetch(endpoint)
@@ -31,24 +31,49 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 //   .then(data => data.results.forEach(value => createProductItemElement(value)))
 // }
 
-// com Async/Await
+// requisito 1 - com Async/Await
 const fetchProducts = async () => {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   const response = await fetch(endpoint);
   const object = await response.json();
   const result = object.results;
-  result.forEach(data => createProductItemElement(data));
+  result.forEach(data => appendToChart(createProductItemElement(data)));
 };
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+// requisito 2 passo 1 capiturar ol
+const cathOl = (element) => {
+  const chart = document.querySelector('.cart__items');
+  chart.appendChild(element);
+}
+// requisito 2 passo 2
+const fetchToChart = (sku) => {
+  const endpoint = `https://api.mercadolibre.com/items/${sku}`
+  fetch(endpoint)
+  .then(response => response.json())
+  .then((data) => {
+    cathOl(createCartItemElement(data)); // requisito 2 passo 4
+  })
+}
+
+//requisito 2 passo 3
+const appendToChart = (item) => {
+  const createDisplay = document.querySelector(".items");
+  createDisplay.appendChild(item);
+  item.addEventListener('click', (event) => {
+    const getSku = event.currentTarget.firstChild.innerText;
+    fetchToChart(getSku);
+  })
+}
+
 function cartItemClickListener(event) {
   // coloque seu código aqui
 }
 
-function createCartItemElement({ sku, name, salePrice }) {
+function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
