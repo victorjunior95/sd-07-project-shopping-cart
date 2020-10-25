@@ -53,7 +53,7 @@ const saveCartToLocalStorage = () => {
 };
 
 const sumTotalCart = async () => {
-  const totalElement = document.querySelector('.total-value');
+  const totalElement = document.querySelector('.total-price');
   let result = 0;
   const productItensCart = await (document.querySelector('.cart__items').innerText).split('SKU: ');
   await productItensCart.forEach((product) => {
