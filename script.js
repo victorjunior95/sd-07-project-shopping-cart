@@ -21,16 +21,16 @@ async function sumPriceItem() {
   await sumPrice.forEach(async (sumText) => {
     const capNumber = await sumText.innerText;
     const capNumbers = capNumber.substr(-10).replace(/([^\d])+/gim, '.').substr(1);
-    numbers += await parseFloat(capNumbers);
+    numbers += parseFloat(capNumbers);
   });
   totalPrice.innerText = await `Preço total: $${numbers.toFixed(2)}`;
 }
 
 function pageApiLoading() {
-  document.querySelector('.loading').innerText = 'Loading...';
+  document.querySelector('.loading').innerText = 'loading...';
   setTimeout(() => {
     document.querySelector('.loading').innerText = '';
-  }, 1500);
+  }, 1200);
 }
 
 function cartItemClickListener(event) {
