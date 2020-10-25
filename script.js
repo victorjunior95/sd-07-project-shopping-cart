@@ -72,7 +72,7 @@ const fetchShoppingCart = async (id) => {
     const response = await api.json();
 
     handlerCartInHtml(response);
-    await setInterval(pricesTotal(response.price), 1000) ;
+    await setInterval(pricesTotal(response.price), 1000);
   } catch (error) {
     errorLog(error);
   }
