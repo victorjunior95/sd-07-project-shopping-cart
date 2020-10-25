@@ -108,7 +108,7 @@ const clearCart = () => {
   localStorage.setItem('cart', JSON.stringify(cartItems));
 };
 window.onload = function onload() {
-  document.querySelector('.empty-cart').addEventListener('click' ,clearCart);
+  document.querySelector('.empty-cart').addEventListener('click', clearCart);
   populateWithStorage(JSON.parse(localStorage.getItem('cart')));
   grabItems('https://api.mercadolibre.com/sites/MLB/search?q=computador').then(document.querySelector('.loading').style.display = 'none');
 };
