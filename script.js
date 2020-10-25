@@ -115,3 +115,4 @@ window.onload = function onload() {
   const buttonEmptyCart = document.querySelector('.empty-cart');
   buttonEmptyCart.addEventListener('click', clearList);
 };
+
