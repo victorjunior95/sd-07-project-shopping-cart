@@ -67,7 +67,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 const addToCart = async (id) => {
   createLoad();
-  const item = await fetch(`https://api.mercadolibre.com/items/${id}`).then(r => r.json())
+  const item = await fetch(`https://api.mercadolibre.com/items/${id}`).then(r => r.json());
   removeLoad();
   const product = { sku: item.id, name: item.title, salePrice: item.price };
   const cartElement = createCartItemElement(product);
