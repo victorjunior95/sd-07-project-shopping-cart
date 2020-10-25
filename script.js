@@ -36,11 +36,17 @@ function cartItemClickListener(event) {
   ol.removeChild(itemToRemove);
 }
 
+const removeFromLocalStorage = (event) => {
+  localStorage.removeItem(event.target.id);
+};
+
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
+  li.id = sku;
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  li.addEventListener('click', removeFromLocalStorage);
   return li;
 }
 
@@ -49,12 +55,14 @@ const fetchItemById = (event) => {
   const itemPath = `https://api.mercadolibre.com/items/${itemId}`;
   fetch(itemPath)
   .then(response => response.json())
-  .then(object => createCartItemElement(object))
+  .then((object) => {
+    localStorage.setItem(itemId, [object.title, object.price]);
+    return createCartItemElement(object);
+  })
   .then((item) => {
     document.getElementsByClassName('cart__items')[0].appendChild(item);
   });
 };
-
 
 const fecthProductList = (product) => {
   const productQuery = `https://api.mercadolibre.com/sites/MLB/search?q=${product}`;
@@ -70,3 +78,15 @@ const fecthProductList = (product) => {
 };
 
 fecthProductList('computer');
+
+const localStorageValues = Object.entries(localStorage);
+if (localStorage.length > 0) {
+  localStorageValues.forEach((item) => {
+    const itemObject = { id: item[0],
+      title: item[1].split(',')[0],
+      price: Number(item[1].split(',')[1]),
+    };
+    const localStorageLi = createCartItemElement(itemObject);
+    document.getElementById('cart__items').appendChild(localStorageLi);
+  });
+}
