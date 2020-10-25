@@ -46,14 +46,14 @@ function responseForID(id) {
 
 function cartItemClickListener(event, produto) {
   const btnAddItem = document.querySelectorAll('.item__add');
-  const addLis = document.querySelector('.cart__items');
+  // const addLis = document.querySelector('.cart__items');
   for (let item = 0; item < btnAddItem.length; item += 1) {
     btnAddItem[item].addEventListener(event, () => {
       const itemSelected = produto.find((itemSelect) => {
-        console.log(itemSelect.id);
         responseForID(itemSelect.id);
+        return console.log(itemSelect.id);
       });
-      console.log('itemSelected: ' + itemSelected);
+      console.log(itemSelected);
       // const createLi = createCartItemElement(produto);
       // addLis.appendChild(createLi);
       console.log('passei aqui');
@@ -61,13 +61,13 @@ function cartItemClickListener(event, produto) {
   }
 }
 
-function createCartItemElement({ id, title, price }) {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `ID: ${id} | NAME: ${title} | PRICE: $${price}`;
-  li.addEventListener('click', cartItemClickListener);
-  return li;
-}
+// function createCartItemElement({ id, title, price }) {
+//   const li = document.createElement('li');
+//   li.className = 'cart__item';
+//   li.innerText = `ID: ${id} | NAME: ${title} | PRICE: $${price}`;
+//   li.addEventListener('click', cartItemClickListener);
+//   return li;
+// }
 
 function createCartElement(produtos) {
   const itemSelect = produtos.results[getRandomNumber()];
