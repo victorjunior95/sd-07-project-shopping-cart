@@ -87,5 +87,5 @@ function populateWithStorage(items = []) {
 window.onload = function onload() {
   populateWithStorage(JSON.parse(localStorage.getItem('cart')));
   grabItems('https://api.mercadolibre.com/sites/MLB/search?q=computador');
-  console.log('load')
+  console.log('load');
 };
