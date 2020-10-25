@@ -1,19 +1,15 @@
-window.onload = function onload() {
-  fetchCurrency('computador');
-};
-
-function createProductImageElement(imageSource) {
+function createProductImageElement(newDivProduct, imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
   img.src = imageSource;
-  return img;
+  newDivProduct.appendChild(img);
 }
 
-function createCustomElement(element, className, innerText) {
+function createCustomElement(newDivProduct, element, className, innerText) {
   const e = document.createElement(element);
   e.className = className;
   e.innerText = innerText;
-  return e;
+  newDivProduct.appendChild(e);
 }
 
 function createProductItemElement({ sku, name, image }) {
@@ -36,24 +32,6 @@ function cartItemClickListener(event) {
   // coloque seu código aqui
 }
 
-const handleProducts = (data) => {
-  const productsEntries = data.results;
-  const listProducts = document.getElementsByClassName('items')[0];
-  const newDiv = document.createElement('div');
-  productsEntries.forEach((product) => {
-    listProducts.appendChild(newDiv);
-    newDiv.innerHTML = product.title;
-  })
-}
-
-const fetchCurrency = (currency) => {
-  const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${currency}`;
-
-  fetch (endpoint)
-    .then((response) => response.json())
-    .then((data) => console.log(data.results))
-}
-
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -61,3 +39,25 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
+
+const fetchCurrency = (currency) => {
+  const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${currency}`;
+  fetch(endpoint)
+    .then(response => response.json())
+    .then(data => data.results.forEach((item) => {
+      // Criação de Div produto
+      const classItems = document.querySelector('.items');
+      const newDivProduct = document.createElement('div');
+      newDivProduct.className = 'item';
+      classItems.appendChild(newDivProduct);
+      // Criação Title Produto
+      createCustomElement(newDivProduct, 'p', 'item-title', item.title);
+      // Criação img Produto
+      createProductImageElement(newDivProduct, item.thumbnail);
+    }))
+    .catch(error => console.log(error));
+};
+
+window.onload = function onload() {
+  fetchCurrency('computador');
+};
