@@ -163,7 +163,7 @@ window.onload = function onload() {
       });
     });
   }
-  
+
   pricesTotal();
   addEventEmptyCarts();
 };
