@@ -92,7 +92,7 @@ function createProductItemElement({ sku, name, image }) {
   const div = createCustomElement('div', 'title-image', '');
   div.appendChild(createCustomElement('span', 'item__sku', sku));
   div.appendChild(createCustomElement('span', 'item__title', name));
-  div.appendChild(createProductImageElement(image))
+  div.appendChild(createProductImageElement(image));
   section.appendChild(div);
   const button = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
   button.addEventListener('click', addItemInStore);
