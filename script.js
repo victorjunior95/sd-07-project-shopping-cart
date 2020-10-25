@@ -144,10 +144,18 @@ const listItemClickListener = (event) => {
   }
 };
 
+const removeAllProductsCartListener = (event) => {
+  const cartElement = document.querySelector('.cart__items');
+  cartElement.innerText = '';
+  sumTotalCart();
+}
+
 window.onload = function onload() {
   fetchProductItens('computador');
   const itensSection = document.querySelector('.items');
+  const buttonEmptyCart = document.querySelector('.empty-cart');
   itensSection.addEventListener('click', listItemClickListener);
+  buttonEmptyCart.addEventListener('click', removeAllProductsCartListener)
   loadCartFromLocalStorage();
   sumTotalCart();
 };
