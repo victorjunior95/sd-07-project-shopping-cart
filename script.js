@@ -104,6 +104,18 @@ const createProductItensList = (object) => {
   });
 };
 
+const loadingTextOnScreen = (isLoading) => {
+  const itensSection = document.querySelector('.items');
+  if (isLoading) {
+    const loadingElement = document.createElement('p');
+    loadingElement.className = 'empty-cart';
+    loadingElement.innerText = 'loading...';
+    itensSection.appendChild(loadingElement);
+  } else {
+    itensSection.innerHTML = '';
+  }
+};
+
 const fetchProductItens = async (term) => {
   loadingTextOnScreen(true);
   const query = term;
@@ -152,18 +164,6 @@ const removeAllProductsCartListener = (event) => {
   sumTotalCart();
   saveCartToLocalStorage();
 };
-
-const loadingTextOnScreen = (isLoading) => {
-  const itensSection = document.querySelector('.items');
-  if (isLoading) {
-    const loadingElement = document.createElement('p');
-    loadingElement.className = 'empty-cart';
-    loadingElement.innerText = 'loading...';
-    itensSection.appendChild(loadingElement);
-  } else {
-    itensSection.innerHTML = '';
-  }
-}
 
 window.onload = function onload() {
   const itensSection = document.querySelector('.items');
