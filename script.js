@@ -48,14 +48,24 @@ function storeCart() {
     sumItem = sumPrice;
     localStorage.totalPrice = sumPrice;
     totalPrice.innerText = sumPrice;
-  } else {
-    sumItem = 0;
-    localStorage.totalPrice = 0;
-    totalPrice.innerText = 0;
   }
 }
 
-function cartItemClickListener(event) {
+
+function subtractPrice(price) {
+  sumItem -= price;
+  totalPrice.innerText = Math.round(sumItem * 100) / 100;
+  localStorage.totalPrice = Math.round(sumItem * 100) / 100;
+}
+
+function extractPrice(event) {
+  const splitDolar = event.innerText.split('$');
+  const price = parseFloat(splitDolar[1]);
+  subtractPrice(price);
+}
+
+async function cartItemClickListener(event) {
+  extractPrice(event.target);
   cart.removeChild(event.target);
   storeCart();
 }
@@ -114,11 +124,13 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   section.className = 'item';
   container.appendChild(section);
 
+
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
 
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
+
   return section;
 }
 
@@ -140,6 +152,9 @@ const fetchDataComputer = (endpoint) => {
 };
 
 function initialize() {
+  cart.innerHTML = localStorage.cart;
+  sumItem = parseFloat(localStorage.totalPrice);
+  totalPrice.innerText = Math.round(sumItem * 100) / 100;
   const cartItems = cart.childNodes;
   cartItems.forEach(item => item.addEventListener('click', cartItemClickListener));
   storeCart();
