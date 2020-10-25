@@ -4,12 +4,9 @@ function createCartItemElement(sku, name, salePrice) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  // li.addEventListener('click', (event) => {
-  //   document.getElementsByClassName('cart__items')[0]
-  //   .appendChild(createCartItemElement(event.path[0].id,
-  //     array.find(element => element[0] === event.path[0].id)[1],
-  //     array.find(element => element[0] === event.path[0].id)[3]));
-  // });
+  li.addEventListener('click', (event) => {
+    li.remove(event);
+  });
   return li;
 }
 
