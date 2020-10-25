@@ -5,6 +5,8 @@ let sumItem = 0;
 
 emptyCartButton.addEventListener('click', () => {
   cart.innerHTML = '';
+  totalPrice.innerText = 0;
+  sumItem = 0;
 });
 
 function createProductImageElement(imageSource) {
@@ -31,6 +33,7 @@ function loading() {
 
 function storeCart() {
   localStorage.setItem('cart', cart.innerHTML);
+  localStorage.setItem('totalPrice', sumItem);
 }
 function cartItemClickListener(event) {
   cart.removeChild(event.target);
@@ -39,6 +42,7 @@ function cartItemClickListener(event) {
 async function sumCartItems(salePrice) {
   sumItem += await salePrice;
   totalPrice.innerText = Math.round(sumItem * 100) / 100;
+  localStorage.totalPrice = Math.round(sumItem * 100) / 100;
 }
 
 function createCartItemElement(computer) {
@@ -123,6 +127,8 @@ const fetchDataComputer = (endpoint) => {
 
 function initialize() {
   cart.innerHTML = localStorage.cart;
+  sumItem = parseFloat(localStorage.totalPrice);
+  totalPrice.innerText = Math.round(sumItem * 100) / 100;
   const cartItems = cart.childNodes;
   cartItems.forEach(item => item.addEventListener('click', cartItemClickListener));
 }
