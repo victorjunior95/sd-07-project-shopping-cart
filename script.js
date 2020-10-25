@@ -39,12 +39,12 @@ const itemRequisition = (ids) => {
   const endPointProduct = `https://api.mercadolibre.com/items/${ids}`;
   const loading = document.querySelector('.loading');
   fetch(endPointProduct)
+  .then(loading.innerHTML = 'Loading...')
     .then((object) => {
-      loading.innerHTML = 'Loading...';
+      loading.innerHTML = '';
       return object.json();
     })
     .then((product) => {
-      loading.innerHTML = '';
       const { id: sku, title: name, price: salePrice } = product;
       const item = createCartItemElement({ sku, name, salePrice });
       const ol = document.querySelector('.cart__items');
