@@ -47,7 +47,7 @@ function cartItemClickListener(event, product) {
   // const addLis = document.querySelector('.cart__items');
   for (let item = 0; item < btnAddItem.length; item += 1) {
     btnAddItem[item].addEventListener(event, () => {
-     product.find(itemSelect => responseForID(itemSelect.id));
+      product.find(itemSelect => responseForID(itemSelect.id));
       // const createLi = createCartItemElement(product);
       // addLis.appendChild(createLi);
       console.log('passei aqui');
