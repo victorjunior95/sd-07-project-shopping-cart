@@ -117,7 +117,7 @@ const handlerCartsInHtml = (carts) => {
 const loading = {
   add() {
     const body = document.getElementsByTagName('body')[0];
-    body.appendChild(createCustomElement('div', 'loading', 'Carregando'));
+    body.appendChild(createCustomElement('div', 'loading', 'loading...'));
   },
   remove() {
     const body = document.getElementsByTagName('body')[0];
