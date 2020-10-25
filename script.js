@@ -22,9 +22,9 @@ function createProductItemElement({ id, title, thumbnail }) {
   return section;
 }
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__id').innerText;
-}
+// function getSkuFromProductItem(item) {
+//   return item.querySelector('span.item__id').innerText;
+// }
 
 function getRandomNumber() {
   const ramdom = Math.random() * (49);
@@ -35,19 +35,19 @@ function getRandomNumber() {
 function cartItemClickListener(event, produto) {
   const btnAddItem = document.querySelectorAll('.item__add');
   const addLis = document.querySelector('.cart__items');
-  for (let item of btnAddItem) {
-    item.addEventListener(event, () => {
-      let index = 0;
-     const itemSelected = produto.find(itemSelect => {
-      })
-      //console.log(itemSelected)
+  for (let item = 0; item < btnAddItem.length; item += 1) {
+    btnAddItem[item].addEventListener(event, () => {
+    //  const itemSelected = produto.find(itemSelect => {
+    //    console.log(itemSelect)
+    //    responseForID(itemSelect.id)
+    //   });
+    //   console.log(itemSelected);
       const createLi = createCartItemElement(produto);
       addLis.appendChild(createLi);
-      console.log("passei aqui")
+      console.log('passei aqui')
     });
   }
 }
-
 
 function createCartItemElement({ id, title, price }) {
   const li = document.createElement('li');
@@ -75,7 +75,7 @@ function creategrid(produtos) {
   const itemSelect7 = createCartElement(produtos);
   const itemSelect8 = createCartElement(produtos);
   return [itemSelect1, itemSelect2, itemSelect3,
-    itemSelect4, itemSelect5, itemSelect6, itemSelect7, itemSelect8]
+    itemSelect4, itemSelect5, itemSelect6, itemSelect7, itemSelect8];
 }
 
 function responseDate(query) {
@@ -89,13 +89,12 @@ function responseDate(query) {
     .catch(error => alert(error));
 }
 
-function responseForID(query) {
-  const endpoint = `https://api.mercadolibre.com/items/${query}`;
-  fetch(endpoint)
+function responseForID(id) {
+  const endpointID = `https://api.mercadolibre.com/items/${id}`;
+  fetch(endpointID)
     .then(response => response.json())
-    .then((produtos) => {
-      const itensSelected = creategrid(produtos);
-      cartItemClickListener('click', itensSelected);
+    .then((produtoselected) => {
+      console.log(produtoselected)
     })
     .catch(error => alert(error));
 }
