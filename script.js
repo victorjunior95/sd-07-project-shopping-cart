@@ -34,6 +34,7 @@ function loading() {
 }
 
 async function updatePrice() {
+  await initialize()
   const cartItems = cart.childNodes;
   const cartList = [...cartItems];
 
@@ -154,5 +155,4 @@ window.onload = function onload() {
   loading();
   fetchDataComputer(endpoint);
   initialize();
-  updatePrice();
 };
