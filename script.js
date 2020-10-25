@@ -47,7 +47,7 @@ const fetchItens = async () => {
     if (object.error) {
       throw new Error(object.error);
     } else {
-      for (let i = 0; i < 8; i += 1) {
+      for (let i = 0; i < 50; i += 1) {
         document.getElementsByClassName('items')[0].appendChild(createProductItemElement(object.results[i].id, object.results[i].title, object.results[i].thumbnail));
       }
     }
