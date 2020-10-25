@@ -20,17 +20,19 @@ async function sumPriceItem() {
   let numbers = 0;
   await sumPrice.forEach(async (sumText) => {
     const capNumber = await sumText.innerText;
-    const capNumbers = capNumber.substr(-10).replace(/([^\d])+/gim, '.').substr(1);
-    numbers += parseFloat(capNumbers);
+    const capNumbers = parseFloat(capNumber.substr(-10).replace(/([^\d])+/gim, '.').substr(1));
+    numbers += capNumbers;
   });
-  totalPrice.innerText = await `Preço total: $${numbers.toFixed(2)}`;
+  totalPrice.innerText = await `Preço total: $${numbers.toFixed(0)}`;
 }
 
 function pageApiLoading() {
-  document.querySelector('.loading').innerText = 'loading...';
+  document.querySelector('.container').appendChild(
+    createCustomElement('h3', 'loading', 'loading...'));
   setTimeout(() => {
-    document.querySelector('.loading').innerText = '';
-  }, 1200);
+    document.querySelector('.container').removeChild(
+      document.querySelector('.loading'));
+  }, 1000);
 }
 
 function cartItemClickListener(event) {
