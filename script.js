@@ -81,7 +81,7 @@ const grabItems = async (api) => {
 };
 
 function populateWithStorage(items = []) {
-  if(items)items.forEach(addToCart);
+  if (items)items.forEach(addToCart);
 }
 
 window.onload = function onload() {
