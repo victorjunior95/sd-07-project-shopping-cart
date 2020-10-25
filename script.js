@@ -60,7 +60,7 @@ const sumTotalCart = async () => {
     const productPrice = (product.substring(product.indexOf('$') + 1, product.length));
     result = (productPrice !== '') ? result + parseFloat(productPrice) : result + 0;
   });
-  totalElement.innerText = result.toFixed(2);
+  totalElement.innerText = result.toFixed(0);
 };
 
 function cartItemClickListener(event) {
