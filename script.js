@@ -22,9 +22,8 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 async function sumPrice(priceItem, price = 0) {
-  // priceItem = Math.round(priceItem * 100) / 100;
   // console.log(priceItem);
-  sum = parseFloat(priceItem + parseFloat(price)).toFixed(2);
+  sum = (priceItem + parseFloat(price)).toFixed(2);
   // console.log(parseFloat(price));
   // console.log(sum);
   return sum;
@@ -100,6 +99,15 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+const removeCart = () => {
+  const ol = document.querySelector('.cart__items');
+  const totalPrice = document.querySelector('.total-price');
+  ol.innerHTML = '';
+  totalPrice.innerHTML = 0;
+};
+
 window.onload = function onload() {
   fetchMercadoLivre();
+  const buttonEmptyCart = document.querySelector('.empty-cart');
+  buttonEmptyCart.addEventListener('click', removeCart);
 };
