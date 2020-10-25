@@ -51,29 +51,9 @@ function storeCart() {
   }
 }
 
-
-function subtractPrice(price) {
-  sumItem -= price;
-  totalPrice.innerText = Math.round(sumItem * 100) / 100;
-  localStorage.totalPrice = Math.round(sumItem * 100) / 100;
-}
-
-function extractPrice(event) {
-  const splitDolar = event.innerText.split('$');
-  const price = parseFloat(splitDolar[1]);
-  subtractPrice(price);
-}
-
 async function cartItemClickListener(event) {
-  extractPrice(event.target);
   cart.removeChild(event.target);
   storeCart();
-}
-
-async function sumCartItems(salePrice) {
-  sumItem += await salePrice;
-  totalPrice.innerText = Math.round(sumItem * 100) / 100;
-  localStorage.totalPrice = Math.round(sumItem * 100) / 100;
 }
 
 function createCartItemElement(computer) {
@@ -84,7 +64,6 @@ function createCartItemElement(computer) {
   li.addEventListener('click', cartItemClickListener);
 
   cart.appendChild(li);
-  sumCartItems(salePrice);
   storeCart();
   return li;
 }
@@ -153,8 +132,6 @@ const fetchDataComputer = (endpoint) => {
 
 function initialize() {
   cart.innerHTML = localStorage.cart;
-  sumItem = parseFloat(localStorage.totalPrice);
-  totalPrice.innerText = Math.round(sumItem * 100) / 100;
   const cartItems = cart.childNodes;
   cartItems.forEach(item => item.addEventListener('click', cartItemClickListener));
   storeCart();
