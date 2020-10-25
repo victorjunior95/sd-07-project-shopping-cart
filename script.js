@@ -7,7 +7,7 @@ const pricesTotal = async () => {
 
   totalPrice = await cartStore.reduce((acc, current) => acc + current.salePrice, 0);
 
-  totalPriceDiv.innerText = parseFloat(totalPrice.toFixed(2));
+  totalPriceDiv.innerText = `R$ ${parseFloat(totalPrice.toFixed(2))}`;
 };
 
 const storage = {
@@ -81,7 +81,7 @@ const fetchShoppingCart = async (id) => {
 };
 
 function addItemInStore(event) {
-  const idCart = event.target.parentNode.children[0].innerText;
+  const idCart = event.target.parentNode.children[0].children[0].innerText;
 
   fetchShoppingCart(idCart);
 }
@@ -89,10 +89,11 @@ function addItemInStore(event) {
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
-
-  section.appendChild(createCustomElement('span', 'item__sku', sku));
-  section.appendChild(createCustomElement('span', 'item__title', name));
-  section.appendChild(createProductImageElement(image));
+  const div = createCustomElement('div', 'title-image', '');
+  div.appendChild(createCustomElement('span', 'item__sku', sku));
+  div.appendChild(createCustomElement('span', 'item__title', name));
+  div.appendChild(createProductImageElement(image))
+  section.appendChild(div);
   const button = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
   button.addEventListener('click', addItemInStore);
   section.appendChild(button);
