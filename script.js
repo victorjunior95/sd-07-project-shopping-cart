@@ -33,27 +33,35 @@ function loading() {
   asideContainer.appendChild(loadingParagraph);
 }
 
-
-function storeCart() {
-  localStorage.setItem('cart', cart.innerHTML);
-  localStorage.setItem('totalPrice', sumItem);
+async function updatePrice() {
   const cartItems = cart.childNodes;
   const cartList = [...cartItems];
 
   if (cartList.length > 0) {
     const sumPrice = cartList.map(element => element.innerText.split('$'))
     .map(element => parseFloat(element[1]))
-    .reduce((acc, nextElement) => (Math.round(nextElement * 100) / 100), 0);
+    .reduce((acc, nextElement) => acc + (Math.round(nextElement * 100) / 100, 0));
 
     sumItem = sumPrice;
     localStorage.totalPrice = sumPrice;
     totalPrice.innerText = sumPrice;
+  } else {
+    sumItem = 0;
+    localStorage.totalPrice = 0;
+    totalPrice.innerText = 0;
   }
+}
+
+function storeCart() {
+  localStorage.setItem('cart', cart.innerHTML);
+  localStorage.setItem('totalPrice', sumItem);
+  return sumItem;
 }
 
 async function cartItemClickListener(event) {
   cart.removeChild(event.target);
   storeCart();
+  updatePrice();
 }
 
 function createCartItemElement(computer) {
@@ -64,7 +72,7 @@ function createCartItemElement(computer) {
   li.addEventListener('click', cartItemClickListener);
 
   cart.appendChild(li);
-  storeCart();
+  updatePrice();
   return li;
 }
 function fetchComputerItem(id) {
@@ -75,6 +83,8 @@ function fetchComputerItem(id) {
       if (computer) {
         deleteLoading();
         createCartItemElement(computer);
+      } else {
+        reject(new Error('endpoint não existe'));
       }
     });
 }
@@ -126,6 +136,8 @@ const fetchDataComputer = (endpoint) => {
       if (data) {
         deleteLoading();
         handleComputerItem(data.results);
+      } else {
+        reject(new Error('endpoint não existe'));
       }
     });
 };
@@ -142,4 +154,5 @@ window.onload = function onload() {
   loading();
   fetchDataComputer(endpoint);
   initialize();
+  updatePrice();
 };
