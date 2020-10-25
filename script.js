@@ -153,11 +153,11 @@ window.onload = function onload() {
   if (storage.get()) {
     const getCartStore = storage.get();
 
-    getCartStore.forEach((cartStore) => {
+    getCartStore.forEach((cart) => {
       handlerCartInHtml({
-        id: cartStore.sku,
-        title: cartStore.name,
-        price: cartStore.salePrice,
+        id: cart.sku,
+        title: cart.name,
+        price: cart.salePrice,
       });
     });
   }
