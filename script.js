@@ -62,9 +62,9 @@ const errorLog = (message) => {
 const pricesTotal = (price) => {
   const totalPriceDiv = document.getElementsByClassName('total-price')[0];
   totalPrice += price;
-  
+
   totalPriceDiv.innerText = totalPrice;
-}
+};
 
 const fetchShoppingCart = async (id) => {
   try {
