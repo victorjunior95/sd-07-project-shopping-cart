@@ -22,7 +22,12 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 async function sumPrice(priceItem, price = 0) {
-  return parseFloat(priceItem) + parseFloat(price, 10);
+  priceItem = (Math.round(priceItem * 100)) / 100;
+  // console.log(priceItem);
+  sum = parseFloat(priceItem + parseFloat(price)).toFixed(2);
+  // console.log(parseFloat(price));
+  // console.log(sum);
+  return sum;
 }
 
 async function returnPrice(priceItem) {
@@ -37,7 +42,7 @@ const itemRequisition = (ids) => {
     .then(object => object.json())
     .then((product) => {
       const { id: sku, title: name, price: salePrice } = product;
-      const item = createCartItemElement({ sku, name, salePrice });
+      const item = createCartItemElement({ sku, name,  salePrice });
       const ol = document.querySelector('.cart__items');
       ol.appendChild(item);
       returnPrice(salePrice);
