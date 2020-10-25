@@ -37,14 +37,14 @@ function cartItemClickListener(event, produto) {
   const addLis = document.querySelector('.cart__items');
   for (let item = 0; item < btnAddItem.length; item += 1) {
     btnAddItem[item].addEventListener(event, () => {
-    //  const itemSelected = produto.find(itemSelect => {
-    //    console.log(itemSelect)
-    //    responseForID(itemSelect.id)
-    //   });
-    //   console.log(itemSelected);
+     const itemSelected = produto.find(itemSelect => {
+      console.log(itemSelect)
+      responseForID(itemSelect.id)
+      });
+      console.log(itemSelected);
       const createLi = createCartItemElement(produto);
       addLis.appendChild(createLi);
-      console.log('passei aqui')
+      console.log('passei aqui');
     });
   }
 }
@@ -94,7 +94,7 @@ function responseForID(id) {
   fetch(endpointID)
     .then(response => response.json())
     .then((produtoselected) => {
-      console.log(produtoselected)
+      console.log(produtoselected);
     })
     .catch(error => alert(error));
 }
