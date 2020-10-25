@@ -80,12 +80,11 @@ const itemsToSection = (items) => {
   });
   handleAddToCart();
 };
-
 const grabItems = async (api) => {
   const items = await fetch(api)
     .then(r => r.json())
     .then(r => r.results)
-    .then(document.querySelector('.loading').remove())
+    .then(document.querySelector('.loading').remove());
   itemsToSection(items);
 };
 
