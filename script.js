@@ -34,7 +34,6 @@ function loading() {
 }
 
 async function updatePrice() {
-  await initialize()
   const cartItems = cart.childNodes;
   const cartList = [...cartItems];
 
@@ -76,6 +75,7 @@ function createCartItemElement(computer) {
   storeCart();
   return li;
 }
+
 function fetchComputerItem(id) {
   const endpoint = `https://api.mercadolibre.com/items/${id}`;
   fetch(endpoint)
@@ -147,7 +147,6 @@ function initialize() {
   cart.innerHTML = localStorage.cart;
   const cartItems = cart.childNodes;
   cartItems.forEach(item => item.addEventListener('click', cartItemClickListener));
-  storeCart();
 }
 
 window.onload = function onload() {
@@ -155,4 +154,5 @@ window.onload = function onload() {
   loading();
   fetchDataComputer(endpoint);
   initialize();
+  updatePrice();
 };
