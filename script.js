@@ -108,7 +108,7 @@ const loadingTextOnScreen = (isLoading) => {
   const itensSection = document.querySelector('.items');
   if (isLoading) {
     const loadingElement = document.createElement('p');
-    loadingElement.className = 'empty-cart';
+    loadingElement.className = '.loading';
     loadingElement.innerText = 'loading...';
     itensSection.appendChild(loadingElement);
   } else {
