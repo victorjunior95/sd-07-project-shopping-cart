@@ -47,7 +47,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 const addToCart = async (id) => {
   const item = await fetch(`https://api.mercadolibre.com/items/${id}`).then(r => r.json());
-  product = { sku: item.id, name: item.title, salePrice: item.price };
+  const product = { sku: item.id, name: item.title, salePrice: item.price };
   const cartElement = createCartItemElement(product);
   cartElement.addEventListener('click', cartItemClickListener);
   cartItems.push(cartElement.innerHTML);
@@ -77,9 +77,8 @@ const grabItems = async (api) => {
 };
 
 function populateWithStorage(items = []) {
-  console.log(items);
-  cartItems = items;
   if (items) {
+    cartItems = items;
     items.forEach((item) => {
       const li = document.createElement('li');
       li.innerHTML = item;
