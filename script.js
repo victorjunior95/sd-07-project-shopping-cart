@@ -65,11 +65,15 @@ const fetchItens = async () => {
       }
     }
   } catch (error) {
-    showAlert(error);
+    // showAlert(error);
   }
 };
 
 window.onload = function onload() {
+  function clearCart() {
+    document.getElementsByClassName('cart__items')[0].innerHTML = '';
+  }
   fetchItens();
-  console.log(array);
+  const clear = document.getElementById('clear');
+  clear.addEventListener('click', clearCart);
 };
