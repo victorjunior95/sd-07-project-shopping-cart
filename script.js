@@ -154,5 +154,5 @@ window.onload = function onload() {
   loading();
   fetchDataComputer(endpoint);
   initialize();
-  updatePrice()
+  updatePrice();
 };
