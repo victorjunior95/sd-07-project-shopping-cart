@@ -22,9 +22,9 @@ function createProductItemElement({ id, title, thumbnail }) {
   return section;
 }
 
-// function getSkuFromProductItem(item) {
-//   return item.querySelector('span.item__id').innerText;
-// }
+function getSkuFromProductItem(item) {
+  return item.querySelector('span.item__id').innerText;
+}
 
 function getRandomNumber() {
   const ramdom = Math.random() * 49;
@@ -37,21 +37,17 @@ function responseForID(id) {
   fetch(endpointID)
     .then(response => response.json())
     .then((productelected) => {
-      console.log(productelected);
+      console.log(productelected.id);
     })
     .catch(error => alert(error));
 }
-/*jshint latedef: nofunc */
+
 function cartItemClickListener(event, product) {
   const btnAddItem = document.querySelectorAll('.item__add');
   const addLis = document.querySelector('.cart__items');
   for (let item = 0; item < btnAddItem.length; item += 1) {
     btnAddItem[item].addEventListener(event, () => {
-      const itemSelected = product.find((itemSelect) => {
-        responseForID(itemSelect.id);
-        return console.log(itemSelect.id);
-      });
-      console.log(itemSelected);
+     product.find((itemSelect) => responseForID(itemSelect.id));
       const createLi = createCartItemElement(product);
       addLis.appendChild(createLi);
       console.log('passei aqui');
