@@ -13,6 +13,10 @@ const addToHTML = (parent, child) => {
   document.querySelector(parent).appendChild(child);
 };
 
+const displayOnHTML = (element, content) => {
+  document.querySelector(element).innerText = content;
+};
+
 const setLocalSave = () => {
   localStorage.setItem(
     'Cart_Items',
@@ -20,7 +24,14 @@ const setLocalSave = () => {
   );
 };
 
-function cartItemClickListener(event) {
+let toBePayed = 0;
+const totalSum = (value = 0) => {
+  toBePayed += value;
+  displayOnHTML('.total-price', toBePayed);
+  return toBePayed;
+};
+
+function cartItemClickListenerRemove(event) {
   event.target.remove();
   setLocalSave();
 }
@@ -31,7 +42,7 @@ const getLocalSave = () => {
   const list = document.querySelector('.cart__items');
   list.innerHTML = currentSave;
   document.querySelectorAll('.cart__item').forEach((item) => {
-    item.addEventListener('click', cartItemClickListener);
+    item.addEventListener('click', cartItemClickListenerRemove);
   });
   return currentSave;
 };
@@ -41,7 +52,8 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
 
-  li.addEventListener('click', cartItemClickListener);
+  li.addEventListener('click', cartItemClickListenerRemove);
+  totalSum(salePrice);
   return li;
 }
 
