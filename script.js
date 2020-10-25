@@ -54,6 +54,9 @@ async function cartItemClickListener(event) {
 }
 
 async function fetchCart() {
+  const container = document.querySelector('.container');
+  const loading = document.querySelector('.loading');
+  loading.innerText = 'Carregando';
   await fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
   .then(result => result.json())
   .then(json => json.results)
@@ -63,6 +66,7 @@ async function fetchCart() {
     const printElement = createProductItemElement(information);
     section.appendChild(printElement);
   }));
+  container.removeChild(loading);
   const newOlContent = document.querySelector('.cart__items');
   const olContent = localStorage.getItem('content');
   const jsonParse = JSON.parse(olContent);
