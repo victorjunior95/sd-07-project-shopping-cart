@@ -34,9 +34,9 @@ function loading() {
 }
 
 async function updatePrice() {
+  const message = await window.onload;
   const cartItems = cart.childNodes;
   const cartList = [...cartItems];
-
 
   if (cartList.length > 0) {
     const sumPrice = cartList.map(element => element.innerText.split('$'))
@@ -50,6 +50,7 @@ async function updatePrice() {
     localStorage.totalPrice = 0;
     totalPrice.innerText = 0;
   }
+  return message;
 }
 
 function storeCart() {
