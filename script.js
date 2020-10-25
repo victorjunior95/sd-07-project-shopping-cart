@@ -49,7 +49,15 @@ function cartItemClickListener(event) {
   event.target.remove();
   updateCart();
 }
-
+const createLoad = () => {
+  const span = document.createElement('span');
+  span.className = 'loading';
+  span.innerText = 'Carregando';
+  appendSectionOnto(span, '.container');
+};
+const removeLoad = () => {
+  document.querySelector('.loading').remove();
+};
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -108,15 +116,6 @@ const clearCart = () => {
   updatePrice();
   localStorage.setItem('cart', JSON.stringify(cartItems));
 };
-const createLoad = () => {
-  const span = document.createElement('span');
-  span.className = 'loading';
-  span.innerText = 'Carregando';
-  appendSectionOnto(span,'.container')
-}
-const removeLoad = () => {
-  document.querySelector('.loading').remove()
-}
 window.onload = function onload() {
   document.querySelector('.empty-cart').addEventListener('click', clearCart);
   populateWithStorage(JSON.parse(localStorage.getItem('cart')));
