@@ -62,7 +62,7 @@ const pricesTotal = (price) => {
   const totalPriceDiv = document.getElementsByClassName('total-price')[0];
   totalPrice += price;
 
-  totalPriceDiv.innerText = totalPrice;
+  totalPriceDiv.innerText = parseFloat(totalPrice.toFixed(2));
 };
 
 const fetchShoppingCart = async (id) => {
