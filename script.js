@@ -32,7 +32,7 @@ const productOnScreen = (vector) => {
   vector.forEach(item => items.appendChild(createProductItemElement(item)));
 };
 const fecthComputerAsyncAwait = async () => {
-  const endpoints = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
+  const endpoints = 'https://api.mercadolibre.com/sites/MLB/search?q=computador&limit=8';
   try {
     const response = await fetch(endpoints);
     const objekt = await response.json();
