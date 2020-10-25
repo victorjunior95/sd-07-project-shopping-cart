@@ -43,30 +43,21 @@ function storeCart() {
   if (cartList.length > 0) {
     const sumPrice = cartList.map(element => element.innerText.split('$'))
     .map(element => parseFloat(element[1]))
-    .reduce((acc, nextElement) => acc += (Math.round(nextElement * 100) / 100), 0);
+    .reduce((acc, nextElement) => (Math.round(nextElement * 100) / 100), 0);
 
     sumItem = sumPrice;
     localStorage.totalPrice = sumPrice;
     totalPrice.innerText = sumPrice;
+  } else {
+    sumItem = 0;
+    localStorage.totalPrice = 0;
+    totalPrice.innerText = 0;
   }
 }
 
-
-function subtractPrice(price) {
-  sumItem -= price;
-  totalPrice.innerText = Math.round(sumItem * 100) / 100;
-  localStorage.totalPrice = Math.round(sumItem * 100) / 100;
-}
-
-function extractPrice(event) {
-  const splitDolar = event.innerText.split('$');
-  const price = parseFloat(splitDolar[1]);
-  subtractPrice(price);
-}
-
-async function cartItemClickListener(event) {
-  extractPrice(event.target);
+function cartItemClickListener(event) {
   cart.removeChild(event.target);
+  storeCart();
 }
 
 async function sumCartItems(salePrice) {
@@ -123,20 +114,13 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   section.className = 'item';
   container.appendChild(section);
 
-
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
 
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-
   return section;
 }
-
-// function getSkuFromProductItem(item) {
-//   return item.querySelector('span.item__sku').innerText;
-// }
-
 
 const handleComputerItem = (object) => {
   object.forEach((computer) => {
