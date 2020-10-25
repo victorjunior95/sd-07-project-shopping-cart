@@ -1,4 +1,4 @@
-let cartsStorage = [];
+let cartStore = [];
 
 let totalPrice = 0;
 
@@ -7,7 +7,7 @@ const storage = {
     return JSON.parse(localStorage.getItem('store'));
   },
   save() {
-    localStorage.setItem('store', JSON.stringify(cartsStorage));
+    localStorage.setItem('store', JSON.stringify(cartStore));
   },
 };
 
@@ -27,10 +27,9 @@ function createCustomElement(element, className, innerText) {
 
 function cartItemClickListener(event) {
   const ol = document.querySelector('.cart__items');
-  const idLi = event.target.children[0].innerText;
-  cartsStorage = cartsStorage.filter(id => id !== idLi);
-  storage.save();
   ol.removeChild(event.target);
+  cartStore = ol.innerHTML;
+  storage.save();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -42,17 +41,17 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 const handlerCartInHtml = (cart) => {
-  const olItem = document.querySelector('.cart__items');
+  const ol = document.querySelector('.cart__items');
   const cartItem = {};
   cartItem.sku = cart.id;
   cartItem.name = cart.title;
   cartItem.salePrice = cart.price;
 
-  cartsStorage.push(cart.id);
-  storage.save(cartsStorage);
-
   const li = createCartItemElement(cartItem);
-  olItem.appendChild(li);
+  ol.appendChild(li);
+
+  cartStore = ol.innerHTML;
+  storage.save();
 };
 
 const errorLog = (message) => {
@@ -151,10 +150,11 @@ window.onload = function onload() {
   fetchShoppingCarts();
 
   if (storage.get()) {
-    cartsStorage = [];
-    const getCartsStorage = storage.get();
+    cartStore = [];
+    const ol = document.querySelector('.cart__items');
+    const getCartStore = storage.get();
 
-    getCartsStorage.forEach(id => fetchShoppingCart(id));
+    ol.innerHTML = getCartStore;
   }
 
   addEventEmptyCarts();
