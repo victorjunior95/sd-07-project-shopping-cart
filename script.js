@@ -119,6 +119,5 @@ const clearCart = () => {
 window.onload = function onload() {
   document.querySelector('.empty-cart').addEventListener('click', clearCart);
   populateWithStorage(JSON.parse(localStorage.getItem('cart')));
-  createLoad();
   grabItems('https://api.mercadolibre.com/sites/MLB/search?q=computador');
 };
