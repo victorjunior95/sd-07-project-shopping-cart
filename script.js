@@ -50,7 +50,7 @@ const getLocalSave = () => {
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
 
-  const formatPrice = parseInt(salePrice.toFixed(2), 10);
+  const formatPrice = Number.parseFloat(salePrice.toFixed(2), 10);
 
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
@@ -58,6 +58,8 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.addEventListener('click', cartItemClickListenerRemove);
   li.addEventListener('click', () => {
     totalSum(-formatPrice);
+    console.log(formatPrice);
+    console.log(salePrice);
   });
   totalSum(formatPrice);
   return li;
