@@ -29,7 +29,7 @@ function cartItemClickListener(event) {
   const ol = document.querySelector('.cart__items');
   ol.removeChild(event.target);
   const sku = event.target.children[0].innerText;
-  cartStore = cartStore.filter(cartStore => cartStore.sku !== sku);
+  cartStore = cartStore.filter(cart => cart.sku !== sku);
   storage.save();
 }
 
@@ -48,7 +48,6 @@ const handlerCartInHtml = (cart) => {
   cartItem.name = cart.title;
   cartItem.salePrice = cart.price;
 
-  console.log(cart, cartItem)
   const li = createCartItemElement(cartItem);
   ol.appendChild(li);
 
