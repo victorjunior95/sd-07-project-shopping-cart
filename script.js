@@ -53,9 +53,9 @@ function emptyCart() {
   });
 }
 
-function sumItems(price) {
-  let priceItems = document.querySelector('.cart__item');
-}
+// function sumItems(price) {
+//   const priceItems = document.querySelector('.cart__item');
+// }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
