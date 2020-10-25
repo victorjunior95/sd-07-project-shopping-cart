@@ -114,11 +114,24 @@ const handlerCartsInHtml = (carts) => {
   });
 };
 
+const loading = {
+  add() {
+    const body = document.getElementsByTagName('body')[0];
+    body.appendChild(createCustomElement('div', 'loading', 'Carregando'));
+  },
+  remove() {
+    const body = document.getElementsByTagName('body')[0];
+    const load = document.getElementsByClassName('loading')[0];
+    body.removeChild(load);
+  },
+};
+
 const fetchShoppingCarts = async (query = 'computador') => {
   try {
+    loading.add();
     const api = await fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${query}`);
     const response = await api.json();
-
+    loading.remove();
     handlerCartsInHtml(response.results);
   } catch (error) {
     errorLog(error);
