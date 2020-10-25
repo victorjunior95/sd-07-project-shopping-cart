@@ -1,18 +1,18 @@
-function createProductImageElement(newDivProduct, imageSource) {
+function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
   img.src = imageSource;
-  newDivProduct.appendChild(img);
+  return img;
 }
 
-function createCustomElement(newDivProduct, element, className, innerText) {
+function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
   e.className = className;
   e.innerText = innerText;
-  newDivProduct.appendChild(e);
+  return e;
 }
 
-function createProductItemElement({ sku, name, image }) {
+const createProductItemElement = ({ id: sku, title: name, thumbnail: image }) => {
   const section = document.createElement('section');
   section.className = 'item';
 
@@ -47,13 +47,11 @@ const fetchCurrency = (currency) => {
     .then(data => data.results.forEach((item) => {
       // Criação de Div produto
       const classItems = document.querySelector('.items');
-      const newDivProduct = document.createElement('div');
-      newDivProduct.className = 'item';
-      classItems.appendChild(newDivProduct);
+      classItems.appendChild(createProductItemElement(item))
       // Criação Title Produto
-      createCustomElement(newDivProduct, 'p', 'item-title', item.title);
+      createCustomElement('p', 'item-title', item.title);
       // Criação img Produto
-      createProductImageElement(newDivProduct, item.thumbnail);
+      createProductImageElement(item.thumbnail);
     }))
     .catch(error => console.log(error));
 };
