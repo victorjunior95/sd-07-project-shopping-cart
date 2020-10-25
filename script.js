@@ -86,7 +86,8 @@ function populateWithStorage(items = []) {
       li.className = 'cart__item';
       li.addEventListener('click', cartItemClickListener);
       appendSectionOnto(li, 'ol.cart__items');
-    })}
+    });
+  }
 }
 
 window.onload = function onload() {
