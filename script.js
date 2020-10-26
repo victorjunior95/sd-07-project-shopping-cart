@@ -1,7 +1,3 @@
-window.onload = function onload() { 
-  addItensInHTML();
-};
-
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -60,4 +56,8 @@ const addItensInHTML = async () => {
 
     sectionItems.appendChild(createProductItemElement(objectToFunctionCreateProductItemElement));
   });
+};
+
+window.onload = function onload() {
+  addItensInHTML();
 };
