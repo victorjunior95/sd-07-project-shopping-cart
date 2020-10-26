@@ -17,7 +17,7 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
+function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
 
@@ -33,9 +33,9 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-function itemObjectCreate(keys, item) {
+function itemObjectCreate(keysFunc, keys, item) {
   const itemObj = {};
-  keys.forEach((key) => { itemObj[key] = item[key]; });
+  keys.forEach((key, index) => { itemObj[keysFunc[index]] = item[key]; });
   return itemObj;
 }
 
@@ -65,7 +65,7 @@ function cartItemClickListener(event) {
   cartLocalStorage();
 }
 
-function createCartItemElement({ id: sku, title: name, price: salePrice }) {
+function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
@@ -74,17 +74,19 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 }
 
 const fectchItem = endpoint => (
-  new Promise((resolve) => {
+
     fetch(endpoint)
-      .then(response => response.json()
-        .then((item) => {
-          document.querySelector('.cart__items')
-          .appendChild(
-            createCartItemElement(
-              itemObjectCreate(['id', 'title', 'price'], item)));
-          resolve(cartLocalStorage());
-        }));
-  })
+      .then(response => response.json())
+      .then((item) => {
+        document.querySelector('.cart__items')
+        .appendChild(
+          createCartItemElement(
+            itemObjectCreate(
+              ['sku', 'name', 'salePrice'],
+              ['id', 'title', 'price'],
+              item)));
+        cartLocalStorage();
+      })
 );
 
 function handlerEventClick(event) {
@@ -105,8 +107,13 @@ function fectchItemSearch(query) {
     .then(response => response.json())
     .then((data) => {
       data.results.forEach(item =>
-        document.querySelector('.items').appendChild(
-          createProductItemElement(itemObjectCreate(['id', 'title', 'thumbnail'], item))));
+        document.querySelector('.items')
+        .appendChild(
+          createProductItemElement(
+            itemObjectCreate(
+              ['sku', 'name', 'image'],
+              ['id', 'title', 'thumbnail'],
+              item))));
     });
 }
 
