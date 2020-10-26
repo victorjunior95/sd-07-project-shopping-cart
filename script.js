@@ -56,6 +56,8 @@ const fetchCurrencyid = (idItem) => {
 
 const fetchCurrency = () => {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
+  const sectionItems = document.getElementsByClassName('items')[0];
+  sectionItems.appendChild(createCustomElement('div', 'loading', 'loading...'));
   fetch(endpoint)
     .then(response => response.json())
     .then((object) => {
@@ -75,6 +77,8 @@ const fetchCurrency = () => {
           fetchCurrencyid(parentText);
         });
       }
+      const loading = document.getElementsByClassName('loading')[0];
+      sectionItems.removeChild(loading);
     });
 };
 /* referencia para remover todos os filhos https://qastack.com.br/programming/3955229/remove-all-child-elements-of-a-dom-node-in-javascript */
