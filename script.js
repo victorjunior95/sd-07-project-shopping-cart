@@ -83,7 +83,7 @@ const localStorageValues = Object.defineProperties(localStorage);
 if (localStorage.length > 0) {
   localStorageValues.forEach((item) => {
     const itemObject = { id: item[0],
-      title: item[1].split(',')[0]
+      title: item[1].split(',')[0],
       price: Number(item[1].split(',')[1]),
     };
     const localStorageLi = createCustomElement(itemObject);
