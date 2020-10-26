@@ -49,7 +49,7 @@ function emptyCart() {
   }
 }
 
-function createTotalPrice(value){
+function createTotalPrice(value) {
   const addLoading = document.querySelector('.total');
   divLoad = document.createElement('div');
   divLoad.className = 'total-price';
@@ -57,7 +57,7 @@ function createTotalPrice(value){
   addLoading.appendChild(divLoad);
 }
 
-function somaTotalPrice(value){
+function somaTotalPrice(value) {
   const addLoading = document.querySelector('.total-price');
   const total = addLoading.innerText;
   addLoading.innerHTML = `Preço total do carrinho: $${(parseFloat(total.split('$')[1]) + value).toFixed(2)}`;
@@ -78,7 +78,7 @@ function getSkuFromProductItem(item) {
 //   const addLoading = document.querySelector('.cart');
 //   divLoad = document.createElement('div');
 //   divLoad.className = 'loading';
-//   divLoad.innerText = `loading`; 
+//   divLoad.innerText = `loading`;
 //   addLoading.appendChild(divLoad);
 // }
 
