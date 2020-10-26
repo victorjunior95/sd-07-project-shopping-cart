@@ -73,6 +73,7 @@ function createCartItemElement(computer) {
   li.addEventListener('click', cartItemClickListener);
 
   cart.appendChild(li);
+  updatePrice();
   storeCart();
   return li;
 }
