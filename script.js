@@ -1,7 +1,3 @@
-window.onload = function onload() {
-  getObjectOfFetch();
-};
-
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -46,7 +42,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 const getFetchEndPoint = () => fetch('https://api.mercadolibre.com/sites/MLB/search?q=$computador');
 
-const createExpectedObject = ({ id, title, thumbnail , price }) => {
+const createExpectedObject = ({ id, title, thumbnail, price }) => {
   const expectedObject = {
     sku: id,
     name: title,
@@ -59,15 +55,23 @@ const createExpectedObject = ({ id, title, thumbnail , price }) => {
   containerSection.appendChild(newSection);
 };
 
+const listeningAddToCartButton = () => {
+  const buttons = document.querySelectorAll('.item__add');
+  console.log(buttons);
+};
+
 const getObjectOfFetch = async () => {
   try {
     const promiseResult = await getFetchEndPoint();
     const data = await promiseResult.json();
-    console.log(data)
     const arrOfObjects = data.results;
     arrOfObjects.forEach(createExpectedObject);
-  } catch(error) {
+  } catch (error) {
     alert(error);
   }
   listeningAddToCartButton();
+};
+
+window.onload = function onload() {
+  getObjectOfFetch();
 };
