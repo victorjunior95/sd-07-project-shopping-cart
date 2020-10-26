@@ -1,4 +1,6 @@
-window.onload = function onload() { };
+window.onload = function onload() {
+
+ };
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -64,9 +66,10 @@ const listCompadorSearch = async (query) => {
 }
 
 const handleResultes = (results) => {
-  const resultesEntries = Object.entries(results);
+  const resultesEntries = Object.values(results);
+  const sectionFather = document.querySelector('.items');
 
-  resultesEntries.forEach( computer => createProductItemElement( computer ));
+  resultesEntries.forEach( computer => sectionFather.appendChild(createProductItemElement( computer )));
 }
 
 listCompadorSearch();
