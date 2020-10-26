@@ -27,16 +27,17 @@ function createCartElement(product) {
   const elementCreated = createProductItemElement(product);
   items.appendChild(elementCreated);
 }
-function updateTotal(value){
+function updateTotal(value, operador){
   const addLoading = document.querySelector('.total-price');
   const total = addLoading.innerText;
-  addLoading.innerText = `${parseFloat(total) - parseFloat(value)}`;
+  addLoading.innerText = `${parseFloat(total) + operador + parseFloat(value)}`;
 }
 
 function cartItemClickListener(event) {
   const removeItem = document.querySelector('.cart__items');
   removeItem.removeChild(event.target);
-  updateTotal(event.toElement.innerText.split("$")[1])
+  const valueItem = event.toElement.innerText.split('$');
+  updateTotal(valueItem[1], '-');
 }
 
 function createCartItemElement({ id, title, price }) {
@@ -61,12 +62,6 @@ function createTotalPrice(value) {
   divLoad.className = 'total-price';
   divLoad.innerText = `${parseFloat(value)}`;
   addLoading.appendChild(divLoad);
-}
-
-function somaTotalPrice(value) {
-  const addLoading = document.querySelector('.total-price');
-  const total = addLoading.innerText;
-  addLoading.innerText = `${parseFloat(total) + parseFloat(value)}`;
 }
 
 function addCartLi(li) {
@@ -102,7 +97,7 @@ function responseForID(id) {
       if (addLoading === null) {
         createTotalPrice(productelected.price);
       } else {
-        somaTotalPrice(productelected.price);
+        updateTotal(productelected.price,'+');
       }
       addCartLi(createCartItemElement(productelected));
     })
