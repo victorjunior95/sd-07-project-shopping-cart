@@ -23,7 +23,8 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 async function sumPrice(priceItem, price = 0) {
   console.log(priceItem);
-  sum = parseFloat((priceItem + price).toFixed(2));
+  sum = priceItem + price;
+  sum = parseFloat((sum).toFixed(2));
   console.log(price);
   console.log(sum);
   return sum;
