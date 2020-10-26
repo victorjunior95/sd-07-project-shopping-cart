@@ -1,8 +1,8 @@
-let cartItensStorage = localStorage.getItem("cardItemsArr") !== null ?
-  JSON.parse(localStorage.getItem("cardItemsArr")) : [];
+const cartItensStorage = localStorage.getItem('cardItemsArr') !== null ?
+  JSON.parse(localStorage.getItem('cardItemsArr')) : [];
 
 const upDateLocalStorage = () => {
-  localStorage.setItem("cardItemsArr", JSON.stringify(cartItensStorage))
+  localStorage.setItem('cardItemsArr', JSON.stringify(cartItensStorage));
 };
 
 const setCartItemsArr = (obj) => {
@@ -12,7 +12,7 @@ const setCartItemsArr = (obj) => {
 
 const rmCartItemArr = (event) => {
   const index = cartItensStorage.findIndex(element => element.sku === event.target.id);
-  cartItensStorage.splice(index, 1); 
+  cartItensStorage.splice(index, 1);
   upDateLocalStorage();
 };
 
@@ -34,7 +34,7 @@ const getProductsObj = url => fetch(url)
   .then(result => result.json())
   .then(result => result);
 
-const getSkuFromProductItem = (item) => item.target.parentNode.querySelector('span').innerText;
+const getSkuFromProductItem = item => item.target.parentNode.querySelector('span').innerText;
 
 const addCardItens = async (item) => {
   const skuItem = getSkuFromProductItem(item);
@@ -48,8 +48,9 @@ const addCardItens = async (item) => {
 
 const createCustomElement = (element, className, innerText) => {
   const e = document.createElement(element);
-  if (element === 'button')
+  if (element === 'button') {
     e.addEventListener('click', addCardItens);
+  }
   e.className = className;
   e.innerText = innerText;
   return e;
@@ -84,16 +85,17 @@ const outputProducts = async () => {
 };
 
 const createCartItensOfStorage = (cartItensStorageArr) => {
-  if (localStorage.getItem("cardItemsArr") !== null)
-  cartItensStorageArr.map(e => {
+  if (localStorage.getItem('cardItemsArr') !== null) {
+    cartItensStorageArr.forEach((e) => {
       const { sku, name, salePrice } = e;
       const element = createCartItemElement({ sku, name, salePrice });
       const cartItems = document.querySelector('.cart__items');
       cartItems.appendChild(element);
-    })
-}
+    });
+  }
+};
 
 window.onload = function onload() {
-  outputProducts(); 
+  outputProducts();
   createCartItensOfStorage(cartItensStorage);
 };
