@@ -54,5 +54,4 @@ function listingProducts() {
 
 window.onload = function onload() {
   listingProducts();
-  
 };
