@@ -4,7 +4,7 @@ function createLoading() {
   const loading = document.createElement('div');
   loading.className = 'loading';
   loading.innerHTML = 'loading';
-  const body = document.querySelector('body')
+  const body = document.querySelector('body');
   body.appendChild(loading);
 }
 
