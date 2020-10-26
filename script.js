@@ -141,14 +141,15 @@ const fetchDataComputer = (endpoint) => {
       }
     });
 };
-
 function initialize() {
-  cart.innerHTML = localStorage.cart;
+  if (localStorage.cart && localStorage.totalPrice) {
+    cart.innerHTML = localStorage.cart;
+  }
   const cartItems = cart.childNodes;
   cartItems.forEach(item => item.addEventListener('click', cartItemClickListener));
 }
 
-window.onload = async function onload() {
+window.onload = function onload() {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   loading();
   fetchDataComputer(endpoint);
