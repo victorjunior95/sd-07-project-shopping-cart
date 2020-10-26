@@ -9,8 +9,6 @@ const createLoadText = () => {
   itemsSection.appendChild(span);
 };
 
-createLoadText();
-
 const sumPricesAssync = async () => {
   const cartItemsId = await document.getElementsByClassName('cart__item');
   let totalCartPrice = 0;
@@ -85,6 +83,7 @@ const fetchItemById = (event) => {
 };
 
 const fecthProductList = (product) => {
+  createLoadText();
   const productQuery = `https://api.mercadolibre.com/sites/MLB/search?q=${product}`;
   fetch(productQuery)
   .then(response => response.json())
