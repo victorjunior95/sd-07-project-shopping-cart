@@ -42,6 +42,20 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   return li;
 }
 
+function loading() {
+  const div = document.createElement('div');
+  div.className = 'loading';
+  div.innerHTML = 'loading...';
+  document.body.appendChild(div);
+  return div;
+}
+
+function removeMsg() {
+  const divWithmsg = document.getElementsByClassName('loading');
+  divWithmsg.innerHTML = '';
+  return divWithmsg;
+}
+
 // requisito 2 passo 2
 const fetchToChart = (sku) => {
   const endpoint = `https://api.mercadolibre.com/items/${sku}`;
@@ -64,11 +78,12 @@ const appendToChart = (item) => {
 
 // requisito 1 - com Async/Await
 const fetchProducts = async () => {
+  removeMsg();
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   const response = await fetch(endpoint);
   const object = await response.json();
   const result = object.results;
-  result.forEach(data => appendToChart(createProductItemElement(data)));
+  result.forEach(data => appendToChart(createProductItemElement(data)));  
 };
 
 function getSkuFromProductItem(item) {
@@ -84,6 +99,7 @@ function cleanToChart() {
 }
 
 window.onload = function onload() {
-  fetchProducts();
+  loading();
+  setTimeout(fetchProducts, 4000);
   cleanToChart();
 };
