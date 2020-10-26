@@ -5,8 +5,10 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+const saveStorage = () => localStorage.setItem('cart', document.querySelector('.cart__items').innerHTML);
 const cartItemClickListener = (event) => {
   event.target.remove();
+  saveStorage();
 };
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -26,6 +28,7 @@ const addItemCart = async ({ sku }) => {
     salePrice: obj.price }),
   );
   await document.querySelector('.cart__items').appendChild(item);
+  await saveStorage();
 };
 
 function createCustomElement(element, className, innerText) {
@@ -70,4 +73,8 @@ const fetchMercadoLivre = () => {
 
 window.onload = function onload() {
   fetchMercadoLivre();
+  const cart = document.querySelector('.cart__items');
+  cart.innerHTML = localStorage.getItem('cart');
+  document.querySelectorAll('li')
+  .forEach(product => product.addEventListener('click', cartItemClickListener));
 };
