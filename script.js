@@ -83,7 +83,7 @@ const fetchProducts = async () => {
   const response = await fetch(endpoint);
   const object = await response.json();
   const result = object.results;
-  result.forEach(data => appendToChart(createProductItemElement(data)));  
+  result.forEach(data => appendToChart(createProductItemElement(data)));
 };
 
 function getSkuFromProductItem(item) {
