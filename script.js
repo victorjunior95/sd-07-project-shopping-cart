@@ -38,7 +38,7 @@ function sumAllCartItens(cartItems) {
   if (cartList.length > 0) {
     const sumPrice = cartList.map(element => element.innerText.split('$'))
     .map(element => parseFloat(element[1]))
-    .reduce((acc, nextElement) => acc + ((Math.round(nextElement * 100)) / 100), 0);
+    .reduce((acc, nextElement) => acc + nextElement, 0);
     sumItem = sumPrice;
     localStorage.totalPrice = sumPrice;
     totalPrice.innerText = sumPrice;
