@@ -1,3 +1,6 @@
+const changeLoadingState = () => {
+  document.querySelector('.loading').remove();
+};
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -114,6 +117,7 @@ const handleAPIRequest = async (API_REQ) => {
   try {
     const req = await fetch(API_REQ);
     const jso = await req.json();
+    changeLoadingState();
     if (jso.error) {
       throw new Error(jso.error);
     }
