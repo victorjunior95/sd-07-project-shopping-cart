@@ -1,6 +1,7 @@
 const changeLoadingState = () => {
   document.querySelector('.loading').remove();
 };
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -65,11 +66,12 @@ const handleAPIRequestToPrice = (API_REQ) => {
     .then(function (response) {
       return response.json();
     })
-    .then((obj) => {
-      if (obj.error) {
-        throw new Error(obj.error);
+    .then((res) => {
+      if (res.error) {
+        throw new Error(res.error);
       }
-      addToHTML('.cart__items', createCartItemElement(obj));
+      console.log(res);
+      addToHTML('.cart__items', createCartItemElement(res));
       setLocalSave();
     })
     .catch(showAlert);
@@ -121,6 +123,7 @@ const handleAPIRequest = async (API_REQ) => {
     if (jso.error) {
       throw new Error(jso.error);
     }
+    console.log(jso);
     handleAmountOfElementsOnHTML(jso.results);
   } catch (error) {
     showAlert(error);
