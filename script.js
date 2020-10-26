@@ -60,7 +60,7 @@ async function updatePrice() {
   }
 }
 
-function storeCart() {
+async function storeCart() {
   localStorage.setItem('cart', cart.innerHTML);
   localStorage.setItem('totalPrice', sumItem);
   updatePrice();
