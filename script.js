@@ -1,4 +1,4 @@
-window.onload = function onload() { 
+window.onload = function onload() {
   getObjectOfFetch();
 };
 
@@ -63,9 +63,11 @@ const getObjectOfFetch = async () => {
   try {
     const promiseResult = await getFetchEndPoint();
     const data = await promiseResult.json();
+    console.log(data)
     const arrOfObjects = data.results;
     arrOfObjects.forEach(createExpectedObject);
-  } catch {
-
+  } catch(error) {
+    alert(error);
   }
+  listeningAddToCartButton();
 };
