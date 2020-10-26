@@ -95,7 +95,6 @@ const fetchItens = async () => {
       }
     }
   } catch (error) {
-    // showAlert(error);
   }
 };
 window.onload = function onload() {
