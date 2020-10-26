@@ -66,13 +66,14 @@ function createProductItemElement(sku, name, image) {
 
 const fetchItens = async () => {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
+  document.getElementById('loading').innerText = 'loading';
   try {
     const response = await fetch(endpoint);
     const object = await response.json();
     if (object.error) {
       throw new Error(object.error);
     } else {
-      document.getElementsByClassName('items')[0].innerText = '';
+      document.getElementById('loading').innerText = '';
       for (let i = 0; i < 50; i += 1) {
         document.getElementsByClassName('items')[0].appendChild(createProductItemElement(object.results[i].id, object.results[i].title, object.results[i].thumbnail));
         array.push([object.results[i].id,
