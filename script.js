@@ -36,7 +36,7 @@ function cartItemClickListener(event) {
   const itemPrice = event.target.innerHTML.split('$')[1];
   totalPrice -= itemPrice;
   document.querySelector('.total-price').innerHTML = `Preço total: ${Math.abs(
-    totalPrice.toFixed(2),
+    totalPrice,
   )}`;
   const cartList = document.querySelector('.cart__items');
   cartList.removeChild(event.target);
@@ -50,7 +50,7 @@ function createCartItemElement({ id, title, price }) {
   totalPrice += price;
   document.querySelector(
     '.total-price',
-  ).innerHTML = `Preço total: ${totalPrice.toFixed(2)}`;
+  ).innerHTML = `Preço total: ${totalPrice}`;
   return li;
 }
 
