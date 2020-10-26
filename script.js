@@ -103,3 +103,10 @@ if (localStorage.length > 0) {
     document.getElementById('cart__items').appendChild(localStorageLi);
   });
 }
+
+const emptyCart = () => {
+  ol = document.getElementById('cart__items');
+  ol.innerHTML = '';
+  localStorage.clear();
+};
+document.getElementById('empty-cart').addEventListener('click', emptyCart);
