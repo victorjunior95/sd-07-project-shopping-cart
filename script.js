@@ -38,7 +38,9 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  // console.log(event.target)
+  let parent = event.target.parentNode;
+  parent.removeChild(event.target);
 }
 
 const newObjectItems = (object) => {
@@ -52,7 +54,6 @@ const newObjectItems = (object) => {
 const addSectionItems = (section) => {
   const sectionItems = document.querySelector(".items");
   sectionItems.appendChild(section);
-  // console.log(getSkuFromProductItem(section));
 };
 
 const createNewSectionItems = (object) => {
