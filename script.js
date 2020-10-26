@@ -28,10 +28,16 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+function saveLocalStorage() {
+  const ol = document.getElementsByClassName('cart__items')[0].innerHTML;
+  localStorage.setItem('html', `${ol}`);
+}
+
 function cartItemClickListener(event) {
   const target = event.target;
   const parent = target.parentElement;
   parent.removeChild(target);
+  saveLocalStorage();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -54,6 +60,12 @@ const fetchCurrencyid = (idItem) => {
   });
 };
 
+function loadingLocalStorage() {
+  const ol = document.getElementsByClassName('cart__items')[0];
+  const html = localStorage.getItem('html');
+  ol.innerHTML = html;
+}
+
 const fetchCurrency = () => {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   const sectionItems = document.getElementsByClassName('items')[0];
@@ -72,13 +84,13 @@ const fetchCurrency = () => {
       const buttonAdd = document.getElementsByClassName('item__add');
       for (let i = 0; i < buttonAdd.length; i += 1) {
         buttonAdd[i].addEventListener('click', function () {
-          const parentButton = buttonAdd[i].parentElement;
-          const parentText = getSkuFromProductItem(parentButton);
+          const parentText = getSkuFromProductItem(buttonAdd[i].parentElement);
           fetchCurrencyid(parentText);
+          saveLocalStorage();
         });
       }
-      const loading = document.getElementsByClassName('loading')[0];
-      sectionItems.removeChild(loading);
+      loadingLocalStorage();
+      sectionItems.removeChild(document.getElementsByClassName('loading')[0]);
     });
 };
 /* referencia para remover todos os filhos https://qastack.com.br/programming/3955229/remove-all-child-elements-of-a-dom-node-in-javascript */
@@ -89,6 +101,7 @@ function removeListCar() {
     while (listItemsCar.firstChild) {
       listItemsCar.removeChild(listItemsCar.lastChild);
     }
+    localStorage.clear();
   });
 }
 
