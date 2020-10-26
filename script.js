@@ -61,7 +61,7 @@ const loadingMessage = () => {
   loadingMessageText.className = 'loading';
   loadingMessageText.innerText = 'loading...';
 
-  emptyProductsList.appendChild(loadingMessage);
+  emptyProductsList.appendChild(loadingMessageText);
 };
 
 const fetchProductList = (product = 'computador') => {
