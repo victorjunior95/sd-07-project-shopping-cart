@@ -15,11 +15,31 @@ const setOrRemoveItemLocalStorage = (state, item, id) => {
   }
 };
 
+async function updatePrice(operation, priceItem, price = 0) {
+  // console.log(priceItem);
+  let totalPrice = 0;
+  if (operation === 'sum') {
+    totalPrice = parseFloat((price + priceItem).toFixed(2));
+  } else if (operation === 'subtract') {
+    totalPrice = parseFloat((price - priceItem).toFixed(2));
+  }
+  // console.log(price);
+  // console.log(sum);
+  return totalPrice;
+}
+
+async function returnPrice(operation, priceItem) {
+  const itemPrice = document.querySelector('.total-price');
+  const calculationPrice = await updatePrice(operation, priceItem, Number(itemPrice.textContent));
+  itemPrice.innerHTML = calculationPrice;
+}
+
 function cartItemClickListener(event, item, id) {
   const removeItem = (event.path)[0];
   const ol = document.querySelector('.cart__items');
   ol.removeChild(removeItem);
   setOrRemoveItemLocalStorage('remove', item, id);
+  returnPrice('subtract', item.salePrice);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -30,20 +50,6 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', () => cartItemClickListener(event, item, sku));
 
   return li;
-}
-
-async function sumPrice(priceItem, price = 0) {
-  // console.log(priceItem);
-  sum = parseFloat((priceItem + price).toFixed(2));
-  // console.log(price);
-  // console.log(sum);
-  return sum;
-}
-
-async function returnPrice(priceItem) {
-  const itemPrice = document.querySelector('.total-price');
-  const calculationPrice = await sumPrice(priceItem, Number(itemPrice.textContent));
-  itemPrice.innerHTML = calculationPrice;
 }
 
 const getItemLocalStorage = () => {
@@ -71,7 +77,7 @@ const itemRequisition = (ids) => {
       const createItem = createCartItemElement(item);
       const ol = document.querySelector('.cart__items');
       ol.appendChild(createItem);
-      returnPrice(salePrice);
+      returnPrice('sum', salePrice);
       setOrRemoveItemLocalStorage('add', item, sku);
     });
 };
