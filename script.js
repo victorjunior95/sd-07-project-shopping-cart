@@ -19,6 +19,7 @@ function createProductItemElement({
   thumbnail: image,
 }) {
   const section = document.createElement('section');
+  const tagFather = document.querySelector('.items');
   section.className = 'item';
 
   section.appendChild(createCustomElement('span', 'item__sku', sku));
@@ -26,7 +27,7 @@ function createProductItemElement({
   section.appendChild(createProductImageElement(image));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
 
-  return section;
+  tagFather.appendChild(section);
 }
 
 function getSkuFromProductItem(item) {
@@ -53,9 +54,7 @@ function createCartItemElement({
 
 const handleResultes = (results) => {
   const resEnt = Object.values(results);
-  const tagFather = document.querySelector('.items');
-
-  resEnt.forEach(comp => tagFather.appendChild(createProductItemElement(comp)));
+  resEnt.forEach(comp => createProductItemElement(comp));
 }
 
 const listCompadorsSearch = async (query) => {
