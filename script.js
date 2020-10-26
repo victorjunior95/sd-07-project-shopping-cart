@@ -108,7 +108,7 @@ const fetchItems = () => {
 };
 
 window.onload = function onload() {
-  setTimeout(fetchItems,5000);
+  setTimeout(fetchItems, 5000);
   loadLocalStorage();
   document.querySelector('.empty-cart').addEventListener('click', clearCart);
 };
