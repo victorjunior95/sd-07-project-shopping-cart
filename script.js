@@ -64,7 +64,7 @@ function responseForID(id) {
   const endpointID = `https://api.mercadolibre.com/items/${id}`;
   fetch(endpointID)
     .then((response) => {
-      console.log("loading");
+      console.log('loading');
       return response.json();
     })
     .then(productelected => addCartLi(createCartItemElement(productelected)))
