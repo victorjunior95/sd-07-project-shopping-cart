@@ -58,12 +58,13 @@ async function totalCartPrice() {
     priceSingIndex = item.innerHTML.indexOf('$') + 1;
     priceSum += parseFloat(item.innerHTML.slice(priceSingIndex));
   });
-  currencyPrice = new Intl.NumberFormat(
-    'pt-BR', {
-      style: 'currency',
-      currency: 'BRL' })
-    .format(priceSum);
-  document.querySelector('.total-price').innerText = `Preço total ${currencyPrice}`;
+  // currencyPrice = new Intl.NumberFormat(
+  //   'pt-BR', {
+  //     style: 'currency',
+  //     currency: 'BRL' })
+  //   .format(priceSum);
+  // document.querySelector('.total-price').innerText = `Preço total ${currencyPrice}`;
+  document.querySelector('.total-price').innerText = `${priceSum}`;
 }
 
 /*
