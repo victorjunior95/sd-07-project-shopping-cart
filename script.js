@@ -149,10 +149,14 @@ function initialize() {
   cartItems.forEach(item => item.addEventListener('click', cartItemClickListener));
 }
 
-window.onload = function onload() {
+window.onload = async function onload() {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   loading();
-  fetchDataComputer(endpoint);
+  try {
+    await fetchDataComputer(endpoint);
+  } catch (error) {
+    alert('Time out');
+  }
   initialize();
   updatePrice();
 };
