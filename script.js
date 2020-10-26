@@ -52,7 +52,7 @@ function addItemToCart(event) {
           salesPrice: price,
         };
         document.querySelector('.cart__items').appendChild(createCartItemElement(object));
-      })
+      }),
     );
 }
 
@@ -70,7 +70,7 @@ const fetchItems = () => {
           document.querySelectorAll('.item__add').forEach(element => element
             .addEventListener('click', addItemToCart));
         });
-    })
+    }),
   );
 };
 
