@@ -49,8 +49,9 @@ function addItemToCart(event) {
         const object = {
           sku: id,
           name: title,
-          salesPrice: price,
+          salePrice: price,
         };
+        console.log(object);
         document.querySelector('.cart__items').appendChild(createCartItemElement(object));
       }),
     );
