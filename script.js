@@ -30,9 +30,31 @@ function createProductItemElement({ sku, name, image }) {
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
+*/
+
+function appendProducts(products) {
+  const items = document.querySelector('.items');
+  products.forEach((product) => {
+    items.appendChild(
+      createProductItemElement({
+        sku: product.id,
+        name: product.title,
+        image: product.thumbnail,
+      }),
+    );
+  });
+}
+
+function addClickProducts(selector, action) {
+  const buttons = document.querySelectorAll(selector);
+  buttons.forEach((element) => {
+    element.addEventListener('click', action);
+  });
+}
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui que remove o item do carrinho (tira o filho de ol class=cart_items)
+  const cartItems = document.querySelector('.cart__items');
+  cartItems.removeChild(event.target);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -42,7 +64,16 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
-*/
+
+async function addToCart(event) {
+  const id = event.target.parentNode.firstChild.innerText;
+  const cartItems = document.querySelector('.cart__items');
+  const productId = await fetch(
+    `https://api.mercadolibre.com/items/${id}`,
+  ).then(r => r.json());
+  const objAdd = { sku: id, name: productId.title, salePrice: productId.price };
+  cartItems.appendChild(createCartItemElement(objAdd));
+}
 
 async function getProductsMl() {
   const response = await fetch(
@@ -53,19 +84,12 @@ async function getProductsMl() {
   return response;
 }
 
+async function addShowCase() {
+  const data = await getProductsMl();
+  appendProducts(data);
+  addClickProducts('.item__add', addToCart);
+}
+
 window.onload = function onload() {
-  async function appendItem() {
-    const items = document.querySelector('.items');
-    const products = await getProductsMl();
-    products.forEach((product) => {
-      items.appendChild(
-        createProductItemElement({
-          sku: product.id,
-          name: product.title,
-          image: product.thumbnail,
-        }),
-      );
-    });
-  }
-  appendItem();
+  addShowCase();
 };
