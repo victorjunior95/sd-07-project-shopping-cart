@@ -50,7 +50,6 @@ function createCartItemElement({
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  console.log(li.innerText)
   li.addEventListener('click', cartItemClickListener);
   tagFather.appendChild(li);
 }
@@ -79,7 +78,6 @@ const listComputersSearch = async (query) => {
 
 const computerSearch = async (id) => {
   const endpoint = `https://api.mercadolibre.com/items/${id}`;
-  console.log(id)
   try {
     const response = await fetch(endpoint);
     const object = await response.json();
@@ -92,19 +90,13 @@ const computerSearch = async (id) => {
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 window.onload = function onload() {
-  document.addEventListener('click', (event)=> {
-    if(event.target.className === 'item__add'){
+  document.addEventListener('click', (event) => {
+    if (event.target.className === 'item__add') {
       computerSearch(event.target.parentElement.firstChild.innerText);
-    }    
+    }
   })
-
-
   listComputersSearch('computador');
-  
-const bootoes = document.querySelectorAll('.item__add');
-  
-
 };
