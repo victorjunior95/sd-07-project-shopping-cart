@@ -33,22 +33,24 @@ function loading() {
   asideContainer.appendChild(loadingParagraph);
 }
 
-async function updatePrice() {
-  const cartItems = await cart.childNodes;
-  const cartList = await [...cartItems];
-
+function sumAllCartItens(cartItems) {
+  const cartList = [...cartItems];
   if (cartList.length > 0) {
-    const sumPrice = await cartList.map(element => element.innerText.split('$'))
+    const sumPrice = cartList.map(element => element.innerText.split('$'))
     .map(element => parseFloat(element[1]))
     .reduce((acc, nextElement) => acc + ((Math.round(nextElement * 100)) / 100), 0);
-    sumItem = await sumPrice;
-    localStorage.totalPrice = await sumPrice;
-    totalPrice.innerText = await sumPrice;
+    sumItem = sumPrice;
+    localStorage.totalPrice = sumPrice;
+    totalPrice.innerText = sumPrice;
   } else {
     sumItem = 0;
     localStorage.totalPrice = 0;
     totalPrice.innerText = 0;
   }
+}
+async function updatePrice() {
+  const cartItems = await cart.childNodes;
+  sumAllCartItens(cartItems);
 }
 
 function storeCart() {
@@ -147,6 +149,7 @@ function initialize() {
   cart.innerHTML = localStorage.cart;
   const cartItems = cart.childNodes;
   cartItems.forEach(item => item.addEventListener('click', cartItemClickListener));
+  updatePrice();
 }
 
 window.onload = async function onload() {
@@ -154,9 +157,8 @@ window.onload = async function onload() {
   loading();
   try {
     await fetchDataComputer(endpoint);
+    initialize();
   } catch (error) {
     alert('Time out');
   }
-  initialize();
-  updatePrice();
 };
