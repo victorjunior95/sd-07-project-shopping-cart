@@ -61,4 +61,4 @@ function consultProduct(supply) {
   .catch(reject => console.log(reject));
 }
 
-window.onload = function onload() { consultProduct('computador') };
+window.onload = function onload() { consultProduct('computador'); };
