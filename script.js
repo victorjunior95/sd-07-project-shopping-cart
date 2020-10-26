@@ -71,8 +71,18 @@ const fetchMercadoLivre = () => {
   });
 };
 
-window.onload = function onload() {
+const emptyItens = () => {
+  const cart = document.querySelector('.cart__items');
+  cart.innerHTML = '';
+  saveStorage();
+};
+
+window.onload = async () => {
   fetchMercadoLivre();
+  const empty = document.querySelector('.empty-cart');
+  empty.addEventListener('click', function () {
+    emptyItens();
+  });
   const cart = document.querySelector('.cart__items');
   cart.innerHTML = localStorage.getItem('cart');
   document.querySelectorAll('li')
