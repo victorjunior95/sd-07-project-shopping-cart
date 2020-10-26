@@ -33,7 +33,18 @@ function loading() {
   asideContainer.appendChild(loadingParagraph);
 }
 
-function sumAllCartItens(cartItems) {
+function checkNodes(cartNodes) {
+  return new Promise((resolve, reject) => {
+    if (!cartNodes) {
+      return reject(console.log('Erro'));
+    }
+    return resolve(cartNodes);
+  });
+}
+
+async function updatePrice() {
+  const data = await checkNodes(cart.childNodes);
+  const cartItems = data;
   const cartList = [...cartItems];
   if (cartList.length > 0) {
     const sumPrice = cartList.map(element => element.innerText.split('$'))
@@ -46,14 +57,6 @@ function sumAllCartItens(cartItems) {
     sumItem = 0;
     localStorage.totalPrice = 0;
     totalPrice.innerText = 0;
-  }
-}
-async function updatePrice() {
-  try {
-    const cartItems = await cart.childNodes;
-    sumAllCartItens(cartItems);
-  } catch (error) {
-    alert('Time out');
   }
 }
 
@@ -149,7 +152,7 @@ const fetchDataComputer = (endpoint) => {
     });
 };
 
-function initialize() {
+async function initialize() {
   cart.innerHTML = localStorage.cart;
   const cartItems = cart.childNodes;
   cartItems.forEach(item => item.addEventListener('click', cartItemClickListener));
