@@ -16,15 +16,12 @@ const setOrRemoveItemLocalStorage = (state, item, id) => {
 };
 
 async function updatePrice(operation, priceItem, price = 0) {
-  // console.log(priceItem);
   let totalPrice = 0;
   if (operation === 'sum') {
     totalPrice = parseFloat((price + priceItem).toFixed(2));
   } else if (operation === 'subtract') {
     totalPrice = parseFloat((price - priceItem).toFixed(2));
   }
-  // console.log(price);
-  // console.log(sum);
   localStorage.setItem('totalPrice', totalPrice);
   return totalPrice;
 }
@@ -35,11 +32,11 @@ async function returnPrice(operation, priceItem) {
   itemPrice.textContent = calculationPrice;
 }
 
-function cartItemClickListener(event, item, id) {
+function cartItemClickListener(event, item) {
   const removeItem = (event.path)[0];
   const ol = document.querySelector('.cart__items');
   ol.removeChild(removeItem);
-  setOrRemoveItemLocalStorage('remove', item, id);
+  setOrRemoveItemLocalStorage('remove', item, item.sku);
   returnPrice('subtract', item.salePrice);
 }
 
@@ -48,7 +45,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', () => cartItemClickListener(event, item, sku));
+  li.addEventListener('click', () => cartItemClickListener(event, item));
 
   return li;
 }
@@ -56,7 +53,6 @@ function createCartItemElement({ sku, name, salePrice }) {
 const getItemLocalStorage = () => {
   const listItemsStorage = Object.values(localStorage);
   listItemsStorage.pop();
-  console.log(listItemsStorage);
   listItemsStorage.forEach((item) => {
     const { sku, name, salePrice } = JSON.parse(item);
     const createdcart = createCartItemElement({ sku, name, salePrice });
@@ -71,7 +67,7 @@ const getItemLocalStorage = () => {
 const loading = (state) => {
   const sectionItems = document.querySelector('.cart');
   if (state === 'initial') {
-    const msgLoading = document.createElement('span');
+    const msgLoading = document.createElement('section');
     msgLoading.className = 'loading';
     msgLoading.textContent = 'Loading...';
     sectionItems.appendChild(msgLoading);
@@ -95,6 +91,10 @@ const itemRequisition = (ids) => {
       returnPrice('sum', salePrice);
       setOrRemoveItemLocalStorage('add', item, sku);
       loading('final');
+    })
+    .catch((erro) => {
+      loading('final');
+      return window.alert(erro);
     });
 };
 
@@ -134,11 +134,17 @@ const getInformation = async (information) => {
 
 const fetchMercadoLivre = async () => {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
+  loading('initial');
   fetch(endpoint)
     .then(response => response.json())
     .then((object) => {
       const responseEntries = Object.entries(object.results);
       responseEntries.forEach(item => getInformation(item));
+      loading('final');
+    })
+    .catch((erro) => {
+      loading('final');
+      return window.alert(erro);
     });
 };
 
