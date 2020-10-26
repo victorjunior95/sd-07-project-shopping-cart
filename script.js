@@ -33,7 +33,7 @@ function loading() {
   asideContainer.appendChild(loadingParagraph);
 }
 
-function updatePrice() {
+async function updatePrice() {
   const cartItems = cart.childNodes;
   const cartList = [...cartItems];
 
