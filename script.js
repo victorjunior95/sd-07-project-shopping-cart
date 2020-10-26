@@ -105,7 +105,6 @@ const loadPage = async () => {
     listeningAddToCartButton();
   } catch (error) {
     alert(error);
-    return error;
   }
 };
 
