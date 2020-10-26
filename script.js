@@ -83,10 +83,12 @@ const fetchItemById = (event) => {
 };
 
 const fecthProductList = (product) => {
-  createLoadText();
   const productQuery = `https://api.mercadolibre.com/sites/MLB/search?q=${product}`;
   fetch(productQuery)
-  .then(response => response.json())
+  .then((response) => {
+    createLoadText();
+    return response.json();
+  })
   .then(object => object.results)
   .then(result => result.forEach((item) => {
     const section = createProductItemElement(item);
