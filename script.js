@@ -1,5 +1,15 @@
 window.onload = function onload() { };
 
+const sumPricesAssync = async () => {
+  const cartItemsId = await document.getElementsByClassName('cart__item');
+  let totalCartPrice = 0;
+  for (let i = 0; i < cartItemsId.length; i += 1) {
+    totalCartPrice += Number(cartItemsId[i].value);
+  }
+  document.getElementById('total-price').innerText = `Preço total: $${totalCartPrice}`;
+};
+
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -43,10 +53,12 @@ const removeFromLocalStorage = (event) => {
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.id = sku;
+  li.value = salePrice;
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   li.addEventListener('click', removeFromLocalStorage);
+  li.addEventListener('click', sumPricesAssync);
   return li;
 }
 
@@ -61,7 +73,8 @@ const fetchItemById = (event) => {
   })
   .then((item) => {
     document.getElementsByClassName('cart__items')[0].appendChild(item);
-  });
+  })
+  .then(sumPricesAssync);
 };
 
 const fecthProductList = (product) => {
@@ -72,7 +85,7 @@ const fecthProductList = (product) => {
   .then(object => object.results)
   .then(result => result.forEach((item) => {
     const section = createProductItemElement(item);
-    section.addEventListener('click', fetchItemById);
+    section.lastChild.addEventListener('click', fetchItemById);
     document.getElementsByClassName('items')[0].appendChild(section);
   }));
 };
