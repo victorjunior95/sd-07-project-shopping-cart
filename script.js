@@ -14,7 +14,14 @@ function createCustomElement(element, className, innerText) {
 
 function cartItemClickListener(e) {
   // coloque seu código aqui
-  console.log(e);
+  const cartItem = e.srcElement.innerText;
+  const cartList = e.srcElement.parentElement.children;
+
+  for (let i = 0; i < cartList.length; i += 1) {
+    if (cartList[i].innerText === cartItem) {
+      cartList[i].remove();
+    }
+  }
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
