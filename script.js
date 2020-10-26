@@ -7,21 +7,19 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
-const setOrRemoveItemLocalStorage = (state, item) => {
-  const ol = document.querySelector('.cart__items');
-  const index = ol.childNodes.length;
+const setOrRemoveItemLocalStorage = (state, item, id) => {
   if (state === 'add') {
-    localStorage.setItem(`itemProduct${index}`, JSON.stringify(item));
+    localStorage.setItem(id, JSON.stringify(item));
   } else if (state === 'remove') {
-    localStorage.removeItem(`itemProduct${index}`, JSON.stringify(item));
+    localStorage.removeItem(id, JSON.stringify(item));
   }
 };
 
-function cartItemClickListener(event, item) {
+function cartItemClickListener(event, item, id) {
   const removeItem = (event.path)[0];
   const ol = document.querySelector('.cart__items');
   ol.removeChild(removeItem);
-  setOrRemoveItemLocalStorage('remove', item);
+  setOrRemoveItemLocalStorage('remove', item, id);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -29,7 +27,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', () => cartItemClickListener(event, item));
+  li.addEventListener('click', () => cartItemClickListener(event, item, sku));
 
   return li;
 }
@@ -75,7 +73,7 @@ const itemRequisition = (ids) => {
       const ol = document.querySelector('.cart__items');
       ol.appendChild(createItem);
       returnPrice(salePrice);
-      setOrRemoveItemLocalStorage('add', item);
+      setOrRemoveItemLocalStorage('add', item, sku);
     });
 };
 
