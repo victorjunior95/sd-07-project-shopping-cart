@@ -13,7 +13,6 @@ function createCustomElement(element, className, innerText) {
 }
 
 function createProductItemElement({ sku, name, image }) {
-  console.log(`${sku} ${name} ${image}`);
   const section = document.createElement('section');
   section.className = 'item';
 
@@ -29,17 +28,41 @@ function createProductItemElement({ sku, name, image }) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
 
-// function cartItemClickListener(event) {
-//   // coloque seu código aqui
+function cartItemClickListener(event) {
+  console.log(event);
+}
+
+function createCartItemElement({ sku, name, salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
+}
+
+// const endpointQuery = (endpoint) => {
+//   fetch(endpoint)
+//   .then(result => result.json())
+//   .then((object) => {
+//     console.log(object)
+//     return object })
 // }
 
-// function createCartItemElement({ sku, name, salePrice }) {
-//   const li = document.createElement('li');
-//   li.className = 'cart__item';
-//   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-//   li.addEventListener('click', cartItemClickListener);
-//   return li;
-// }
+async function searchItemByID(id) {
+  const endpoint = `https://api.mercadolibre.com/items/${id}`;
+  // const object = endpointQuery(endpoint)
+  fetch(endpoint)
+  .then(result => result.json())
+  .then((object) => {
+    const objDetails = {
+      sku: object.id,
+      name: object.title,
+      salePrice: object.price,
+    };
+    const ol = document.querySelector('.cart__items');
+    ol.appendChild(createCartItemElement(objDetails));
+  });
+}
 
 window.onload = function onload() {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
@@ -55,6 +78,12 @@ window.onload = function onload() {
       };
       const section = document.querySelector('.items');
       section.appendChild(createProductItemElement(produto));
+    });
+    document.querySelectorAll('.item').forEach((item) => {
+      item.childNodes[3].addEventListener('click', () => {
+      // console.log(item.childNodes);
+        searchItemByID(item.childNodes[0].innerText);
+      });
     });
   });
 };
