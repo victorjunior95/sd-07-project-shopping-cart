@@ -21,7 +21,6 @@
   display: flex;
   justify-content: space-around;
   width: 100%;
-  background-color: yellow;
 }
 
 .items {
@@ -68,6 +67,7 @@
   display: flex;
   flex-basis: 30%;
   flex-flow: column wrap;
+  background-color: yellow;
 }
 
 .cart .cart__title {
