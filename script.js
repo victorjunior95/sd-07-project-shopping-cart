@@ -40,26 +40,26 @@ function getSkuFromProductItem(item) {
 function cartItemClickListener(event) {
   // coloque seu código aqui
 }
+const handleResult = (object) => {
+  const results = {};
+    object.forEach((entry) => {
+    results.sku = entry.id;
+    results.name = entry.title;
+    results.image = entry.thumbnail;
+    appendList(createProductItemElement(results));
+  });
+};
+
   const getListItems = async () => {
     try {
     const myRequest = 'computador';
     const endPoint = await fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${myRequest}`);
     const response = await endPoint.json();
-    handleResult(response.results)
+      handleResult(response.results);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
- }
-
-  const handleResult = (object) => {
-    const results = {};
-    object.forEach((entry) => {
-      results.sku = entry.id;
-      results.name = entry.title;
-      results.image = entry.thumbnail;
-      appendList(createProductItemElement(results));
-    });
-  }
+  };
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
