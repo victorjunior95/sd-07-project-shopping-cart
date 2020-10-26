@@ -7,7 +7,7 @@ const pricesTotal = async () => {
 
   totalPrice = await cartStore.reduce((acc, current) => acc + current.salePrice, 0);
 
-  totalPriceDiv.innerText = `R$ ${parseFloat(totalPrice.toFixed(2))}`;
+  totalPriceDiv.innerText = `Valor Total: R$ ${parseFloat(totalPrice.toFixed(2))}`;
 };
 
 const storage = {
