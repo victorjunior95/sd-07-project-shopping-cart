@@ -78,7 +78,7 @@ function removeloading() {
 
 const fetchItens = async () => {
   createloading();
-  const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=modem';
+  const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=pendrive';
   try {
     const response = await fetch(endpoint);
     const object = await response.json();
