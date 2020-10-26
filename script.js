@@ -5,6 +5,13 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+function createProductImageElement(imageSource) {
+  const img = document.createElement('img');
+  img.className = 'item__image';
+  img.src = imageSource;
+  return img;
+}
+
 function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   const section = document.createElement('section');
   section.className = 'item';
@@ -20,7 +27,7 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 const selectChild = (arrayValue) => { // referência Rodrigo Sudario
   const sectionHere = document.querySelector('.items'); // section que vai receber o novo item
   const value = Object.entries(arrayValue); // para formar arrays com chave e valor
-  value.forEach(newItem => sectionHere.appendChild(createProductItemElement(newItem[1])));
+  value.forEach(product => sectionHere.appendChild(createProductItemElement(product[1])));
   // para que a section receba cada um dos objetos como filhos
 };
 
@@ -34,13 +41,6 @@ const functionToFetch = () => {
 window.onload = function onload() {
   functionToFetch();
 };
-
-// function createProductImageElement(imageSource) {
-//   const img = document.createElement('img');
-//   img.className = 'item__image';
-//   img.src = imageSource;
-//   return img;
-// }
 
 // function getSkuFromProductItem(item) {
 //   return item.querySelector('span.item__sku').innerText;
