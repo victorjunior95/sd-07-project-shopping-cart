@@ -38,7 +38,7 @@ const cathOl = (element) => {
 };
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  event.target.parentNode.removeChild(event.target);
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -82,7 +82,17 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+function cleanToChart() {
+  const buttonCleanChart = document.querySelector('.empty-cart');
+  buttonCleanChart.addEventListener('click',() => {
+    const elementsToChart = document.querySelectorAll('.cart__item');
+    for (const element of elementsToChart) {
+      element.remove();
+    }
+  })
+}
 
 window.onload = function onload() {
   fetchProducts();
+  cleanToChart()
 };
