@@ -1,3 +1,4 @@
+// First commmit
 window.onload = function onload() { };
 
 function createProductImageElement(imageSource) {
