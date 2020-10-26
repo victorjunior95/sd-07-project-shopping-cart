@@ -32,6 +32,21 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
+  const query = 'computador';
+  const myRequest = `https://api.mercadolibre.com/sites/MLB/search?q=${query}`;
+  fetch(myRequest)
+    .then((response) => response.json())
+    .then((object) => {
+      if(object.error) {
+        throw new Error(object.error);
+      } else {
+       console.log(object);
+      }
+    })
+}
+
+const handleEntries = () => {
+
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
