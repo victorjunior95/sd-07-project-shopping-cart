@@ -102,5 +102,5 @@ const recoverCart = () => {
 
 window.onload = function onload() {
   fetchItemsMercadoLivre('computador');
-  recoverCart();
+  if (localStorage.length !== 0) recoverCart();
 };
