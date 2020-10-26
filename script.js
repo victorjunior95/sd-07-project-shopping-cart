@@ -8,15 +8,34 @@ function createLoading() {
   body.appendChild(loading);
 }
 
+function updateLocalStorage() {
+  const cartList = document.querySelector('.cart__items');
+  const allItems = cartList.innerHTML;
+  localStorage.setItem('cartList', allItems);
+}
+
+const restoringCartList = async () => {
+  const cartList = await document.querySelector('.cart__items');
+  const listBody = await localStorage.getItem('cartList');
+  cartList.innerHTML = await listBody;
+  const allItems = await document.querySelectorAll('.cart__items li');
+  let total = 0;
+  totalPrice = 0;
+  document.querySelector('.total-price p').innerHTML = `${totalPrice}`;
+  await allItems.forEach((item) => {
+    const itemPrice = parseFloat(item.innerHTML.split('$')[1]);
+    console.log(itemPrice);
+    total += itemPrice;
+  });
+  console.log(total);
+  totalPrice = total;
+  document.querySelector('.total-price p').innerHTML = `${totalPrice}`;
+};
+
 function loadingDestruction() {
   const loading = document.querySelector('.loading');
   const body = document.querySelector('body');
   body.removeChild(loading);
-}
-
-function changeLoadingDisplay(displayThatYouWant) {
-  const loading = document.querySelector('.loading');
-  loading.style.display = displayThatYouWant;
 }
 
 function createProductImageElement(imageSource) {
@@ -82,6 +101,7 @@ const fetchItemList = async (sku) => {
     const li = createCartItemElement(item);
     const cartList = document.querySelector('.cart__items');
     cartList.appendChild(li);
+    updateLocalStorage();
     loadingDestruction();
   } catch (error) {
     window.alert(error);
@@ -119,6 +139,7 @@ const fetchProductsList = async (category) => {
 };
 
 window.onload = function onload() {
+  totalPrice = 0;
   fetchProductsList('computador');
   document.querySelector('.empty-cart').addEventListener('click', () => {
     const cartList = document.querySelector('.cart__items');
@@ -127,5 +148,7 @@ window.onload = function onload() {
     document.querySelector(
       '.total-price p',
     ).innerHTML = `${totalPrice}`;
+    updateLocalStorage();
   });
+  restoringCartList();
 };
