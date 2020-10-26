@@ -1,4 +1,4 @@
-window.onload = function onload() { };
+
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -31,17 +31,19 @@ function createProductItemElement({ sku, name, image }) {
 // }
 
 // function cartItemClickListener(event) {
-
+// cartItems.splice(cartItems.indexOf(event.target), 1);
 // }
+
 
 // function createCartItemElement({ sku, name, salePrice }) {
-  // const li = document.createElement('li');
-  // li.className = 'cart__item';
-  // li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  // li.addEventListener('click', cartItemClickListener);
-  // return li;
+// const li = document.createElement('li');
+// li.className = 'cart__item';
+// li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+// li.addEventListener('click', cartItemClickListener);
+// return li;
 // }
-const addProductItemElement = section => document.querySelector('section.items').appendChild(section);
+const addProductItemElement = (section, local) => document.querySelector(local)
+  .appendChild(section);
 
 function products(arrayProducts) {
   arrayProducts.forEach(({ title, id, thumbnail }) => {
@@ -51,7 +53,7 @@ function products(arrayProducts) {
       image: thumbnail,
     };
     const section = createProductItemElement(objectProduct);
-    addProductItemElement(section);
+    addProductItemElement(section, 'section.items');
   });
 }
 const getListOfProducts = async () => {
@@ -62,4 +64,7 @@ const getListOfProducts = async () => {
 
   products(arrayProducts);
 };
-getListOfProducts();
+
+window.onload = function onload() {
+  getListOfProducts();
+};
