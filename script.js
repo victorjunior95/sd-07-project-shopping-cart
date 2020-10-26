@@ -12,8 +12,9 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function cartItemClickListener() {
+function cartItemClickListener(e) {
   // coloque seu código aqui
+  console.log(e);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -82,6 +83,15 @@ const getAllProducts = () => {
     });
 };
 
+function emptyCart() {
+  const cartItems = document.querySelector('.cart__items');
+  cartItems.innerText = '';
+}
+
 window.onload = function onload() {
   getAllProducts();
+
+  const emptyCartButton = document.querySelector('.empty-cart');
+
+  emptyCartButton.addEventListener('click', emptyCart);
 };
