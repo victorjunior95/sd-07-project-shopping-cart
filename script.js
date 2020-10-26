@@ -9,8 +9,6 @@ const createLoadText = () => {
   itemsSection.appendChild(span);
 };
 
-setTimeout(createLoadText(), 10);
-
 const sumPricesAssync = async () => {
   const cartItemsId = document.getElementsByClassName('cart__item');
   let totalCartPrice = 0;
@@ -86,6 +84,7 @@ const fetchItemById = (event) => {
 
 const fecthProductList = (product) => {
   const productQuery = `https://api.mercadolibre.com/sites/MLB/search?q=${product}`;
+  createLoadText();
   fetch(productQuery)
   .then(response => response.json())
   .then(object => object.results)
@@ -95,7 +94,9 @@ const fecthProductList = (product) => {
     document.getElementsByClassName('items')[0].appendChild(section);
   }))
   .then(() => {
-    document.getElementById('loading').style.display = 'none';
+    const itemsSection = document.getElementById('items');
+    const loadingElement = document.getElementById('loading');
+    itemsSection.removeChild(loadingElement);
   });
 };
 
