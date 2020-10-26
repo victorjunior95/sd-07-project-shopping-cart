@@ -6,8 +6,7 @@ const sumPricesAssync = async () => {
   for (let i = 0; i < cartItemsId.length; i += 1) {
     totalCartPrice += Number(cartItemsId[i].name);
   }
-  // localStorage.setItem('totalPrice', totalCartPrice);
-  document.getElementById('total-price').innerText = `Preço total: $${totalCartPrice}`;
+  document.getElementById('total-price').innerText = totalCartPrice;
 };
 
 
@@ -109,15 +108,9 @@ const emptyCart = () => {
   ol = document.getElementById('cart__items');
   ol.innerHTML = '';
   localStorage.clear();
-  document.getElementById('total-price').innerText = 'Preço total: $0';
+  document.getElementById('total-price').innerText = 0;
 };
 document.getElementById('empty-cart').addEventListener('click', emptyCart);
 
-// if (localStorage.length === 0) {
-//   document.getElementById('total-price').innerText = 'Preço total: $0';
-// } else {
-//   const localStoragePrice = localStorage.getItem('totalPrice');
-//   document.getElementById('total-price').innerText = `Preço total: $${localStoragePrice}`;
-// }
-
 sumPricesAssync();
+
