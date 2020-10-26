@@ -12,6 +12,15 @@ function createLoadingElement() {
   return loading;
 }
 
+function createPriceElement(value) {
+  const totalPrice = document.querySelector('.total-price');
+  const span = document.createElement('span');
+  totalPrice.innerHTML = '';
+  span.innerHTML = `${value}`;
+  totalPrice.appendChild(span);
+  return true;
+}
+
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
@@ -35,21 +44,13 @@ const getCartItemsObjectList = () => {
 };
 
 const sumCartItemsList = async () => {
-  const p = document.createElement('p');
-  const totalPrice = document.querySelector('.total-price');
-  totalPrice.innerHTML = '';
   let sum = 0;
   const cartItemsObjectList = getCartItemsObjectList();
   if (cartItemsObjectList.length > 0) {
     sum = cartItemsObjectList
       .reduce((acc, cartItem) => (acc + parseFloat(cartItem.salePrice)), 0);
   }
-  /* const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  }); */
-  p.innerHTML = `${sum}`;
-  totalPrice.appendChild(p);
+  createPriceElement(sum);
 };
 
 const updateCartItemsListLocalStorage = () => {
@@ -75,31 +76,15 @@ const showAlert = (message) => {
   window.alert(message);
 };
 
-const fetchMLProductListByTerm = async (term) => {
-  const API_URL_ML_SEARCH = `https://api.mercadolibre.com/sites/MLB/search?q=${term}`;
-  let productList;
+const fetchAsyncEndPoint = async (endPoint) => {
+  let objectResult;
   try {
-    const response = await fetch(API_URL_ML_SEARCH);
-    const jsonObject = await response.json();
-    const { results } = jsonObject;
-    productList = results;
+    const response = await fetch(endPoint);
+    objectResult = await response.json();
   } catch (error) {
     showAlert(error);
   }
-  return productList;
-};
-
-const fetchMLProductItem = async (productId) => {
-  const API_URL_ML_SEARCH_ITEM = `https://api.mercadolibre.com/items/${productId}`;
-  let productItem;
-  try {
-    const response = await fetch(API_URL_ML_SEARCH_ITEM);
-    const jsonObject = await response.json();
-    productItem = jsonObject;
-  } catch (error) {
-    showAlert(error);
-  }
-  return productItem;
+  return objectResult;
 };
 
 const addProductItemToCartItemsList = ({ sku, name, salePrice }, isLoad = false) => {
@@ -112,12 +97,16 @@ const addProductItemToCartItemsList = ({ sku, name, salePrice }, isLoad = false)
 
 const productItemClickListener = async (event) => {
   const productId = getSkuFromProductItem(event.target.parentNode);
+  const API_URL_ML_SEARCH_ITEM = `https://api.mercadolibre.com/items/${productId}`;
   try {
     const cartItems = document.querySelector('.cart__items');
     const loading = createLoadingElement();
     cartItems.appendChild(loading);
-    const productItem = await fetchMLProductItem(productId);
+
+    const productItem = await fetchAsyncEndPoint(API_URL_ML_SEARCH_ITEM);
+
     cartItems.removeChild(loading);
+
     const { id: sku, title: name, price: salePrice } = productItem;
     addProductItemToCartItemsList({ sku, name, salePrice });
   } catch (error) {
@@ -146,12 +135,13 @@ function createProductItemElement({ sku, name, image }) {
 
 const fillProductListByTerm = async (term) => {
   try {
+    const API_URL_ML_SEARCH = `https://api.mercadolibre.com/sites/MLB/search?q=${term}`;
     const sectionItems = document.querySelector('.items');
     const loading = createLoadingElement();
     sectionItems.appendChild(loading);
-    const productList = await fetchMLProductListByTerm(term);
+    const { results } = await fetchAsyncEndPoint(API_URL_ML_SEARCH);
     sectionItems.removeChild(loading);
-    productList
+    results
       .map(({ id, title, thumbnail }) => ({ sku: id, name: title, image: thumbnail }))
       .forEach(product => sectionItems.appendChild(createProductItemElement(product)));
   } catch (error) {
