@@ -5,8 +5,9 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
-function cartItemClickListener() {
-  // coloque seu código aqui
+function cartItemClickListener(event) {
+  const cartItemsContainer = document.querySelector('.cart__items');
+  cartItemsContainer.removeChild(event.currentTarget);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
