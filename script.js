@@ -120,11 +120,13 @@ const handlerCartsInHtml = (carts) => {
 const loading = {
   add() {
     const body = document.getElementsByTagName('body')[0];
-    body.appendChild(createCustomElement('div', 'loading', 'loading...'));
+    const divLoad = createCustomElement('div', 'loading-content', '');
+    divLoad.appendChild(createCustomElement('h1', 'loading', 'loading...'));
+    body.appendChild(divLoad);
   },
   remove() {
     const body = document.getElementsByTagName('body')[0];
-    const load = document.getElementsByClassName('loading')[0];
+    const load = document.getElementsByClassName('loading-content')[0];
     body.removeChild(load);
   },
 };
