@@ -60,17 +60,17 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__id').innerText;
 }
 
-async function openPopup() {
-  openWindow = window.open(
-    'loading.html',
-    'popup',
-    'width=350, height=255, top=100, left=110, scrollbars=no',
-  );
-}
+// function openPopup() {
+//   openWindow = window.open(
+//     'loading.html',
+//     'popup',
+//     'width=350, height=255, top=100, left=110, scrollbars=no',
+//   );
+// }
 
-async function closePopup() {
-  closeWindow = window.close();
-}
+// function closePopup() {
+//   closeWindow = window.close();
+// }
 
 function responseForID(id) {
   const endpointID = `https://api.mercadolibre.com/items/${id}`;
