@@ -46,7 +46,7 @@ function createCartItemElement({
   title: name,
   price: salePrice,
 }) {
-  const tagFather = document.querySelector('.cart')
+  const tagFather = document.querySelector('.cart');
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
@@ -97,6 +97,6 @@ window.onload = function onload() {
     if (event.target.className === 'item__add') {
       computerSearch(event.target.parentElement.firstChild.innerText);
     }
-  })
+  });
   listComputersSearch('computador');
 };
