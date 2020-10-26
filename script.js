@@ -1,5 +1,3 @@
-window.onload = function onload() { };
-
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -50,16 +48,20 @@ const fetchList = async () => {
   try {
     const response = await fetch(endpoint);
     const object = await response.json();
+    const items = document.querySelector('.items');
     if (object.error) {
       throw new Error('Um erro ocorreu!');
     } else {
       object.results.forEach((result) => {
         // createCartItemElement(result);
-        createProductItemElement(result);
+        items.appendChild(createProductItemElement(result));
       });
     }
   } catch (error) {
     showAlert(error);
   }
 };
-fetchList();
+
+window.onload = function onload() {
+  fetchList();
+};
