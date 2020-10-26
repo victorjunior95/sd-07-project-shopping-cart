@@ -1,4 +1,3 @@
-window.onload = function onload() { };
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -13,7 +12,6 @@ function createCustomElement(element, className, innerText) {
   e.innerText = innerText;
   return e;
 }
-
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
@@ -26,12 +24,13 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
+
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  event.target.parentNode.removeChild(event.target);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -42,4 +41,58 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-//começando
+const everyList = (items) => {
+  items.forEach((item) => {
+    const sectionList = document.querySelector('.items');
+    const { id, title, thumbnail } = item;
+    const obj = { sku: id, name: title, image: thumbnail };
+    sectionList.appendChild(createProductItemElement(obj));
+  });
+};
+const createList = async (search) => {
+  const endPoint = `https://api.mercadolibre.com/sites/MLB/search?q=${search}`;
+  try {
+    const response = await fetch(endPoint);
+    const object = await response.json();
+
+    if (object.results.length === 0) {
+      throw new Error('Produto não encontrado');
+    } else {
+      everyList(object.results);
+    }
+  } catch (err) {
+    window.alert(err);
+  }
+};
+
+const addCart = (product) => {
+  const { id, title, price } = product;
+  const obj = { sku: id, name: title, salePrice: price };
+  document.querySelector('.cart__items').appendChild(createCartItemElement(obj));
+};
+const addProduct = async (sku) => {
+  const endPoint = `https://api.mercadolibre.com/items/${sku}`;
+  try {
+    const response = await fetch(endPoint);
+    const object = await response.json();
+    if (!object) {
+      throw new Error('Erro');
+    } else {
+      addCart(object);
+    }
+  } catch (err) {
+    window.alert(err);
+  }
+};
+setTimeout(() => {
+  const buttonAdd = document.querySelectorAll('.item__add');
+  buttonAdd.forEach((item) => {
+    item.addEventListener('click', () => {
+      addProduct(getSkuFromProductItem(document));
+    });
+  });
+}, 100);
+
+window.onload = function onload() {
+  createList('computador');
+};
