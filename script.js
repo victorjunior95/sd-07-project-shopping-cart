@@ -40,38 +40,66 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-const getFetchEndPoint = () => fetch('https://api.mercadolibre.com/sites/MLB/search?q=$computador');
+const getFetchEndPoint = (endPoint) => fetch(endPoint);
 
-const createExpectedObject = ({ id, title, thumbnail, price }) => {
-  const expectedObject = {
-    sku: id,
-    name: title,
-    image: thumbnail,
-    salePrice: price,
-  };
+const createExpectedObject = (id, title, thumbnail, price) => ({sku: id, name: title, image: thumbnail, salePrice: price});
 
-  const newSection = createProductItemElement(expectedObject);
+const printProduct = ({ id, title, thumbnail, price }) => {
+  const newSection = createProductItemElement(createExpectedObject(id, title, thumbnail, price));
   const containerSection = document.querySelector('.items');
+
   containerSection.appendChild(newSection);
+};
+
+const callFetch = async (id) => {
+  try {
+    const promiseResult = await getFetchEndPoint(`https://api.mercadolibre.com/items/${id}`);
+    const data = await promiseResult.json();
+    return data;
+  } catch (error) {
+    alert(error);
+  }
+};
+
+const goToOL = async (event) => {
+  let gettingSku = event.target;
+  gettingSku = gettingSku.parentElement;
+  gettingSku = gettingSku.firstChild;
+  gettingSku = gettingSku.innerText;
+
+  const ol = document.querySelector('.cart__items');
+
+  const objectOfFetch = await callFetch(gettingSku);
+  const { id } = objectOfFetch;
+  const { title } = objectOfFetch;
+  const { thumbnail } = objectOfFetch;
+  const { price } = objectOfFetch;
+
+  const expectedObject = createExpectedObject(id, title, thumbnail, price);
+  const li = createCartItemElement(expectedObject);
+
+  ol.appendChild(li);
 };
 
 const listeningAddToCartButton = () => {
   const buttons = document.querySelectorAll('.item__add');
-  console.log(buttons);
+  buttons.forEach((button) => {
+    button.addEventListener('click', goToOL);
+  });
 };
 
-const getObjectOfFetch = async () => {
+const loadPage = async () => {
   try {
-    const promiseResult = await getFetchEndPoint();
+    const promiseResult = await getFetchEndPoint('https://api.mercadolibre.com/sites/MLB/search?q=$computador');
     const data = await promiseResult.json();
     const arrOfObjects = data.results;
-    arrOfObjects.forEach(createExpectedObject);
+    arrOfObjects.forEach(printProduct);
+    listeningAddToCartButton();
   } catch (error) {
     alert(error);
   }
-  listeningAddToCartButton();
 };
 
 window.onload = function onload() {
-  getObjectOfFetch();
+  loadPage();
 };
