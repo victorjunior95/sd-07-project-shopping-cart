@@ -1,5 +1,3 @@
-window.onload = function onload() {};
-
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -9,16 +7,17 @@ function createProductImageElement(imageSource) {
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
-  const id = `#${event}${event}`;
+  const id = `.${event}`;
   const filho = document.querySelector(id);
   const pai = document.querySelector('.cart__items');
   pai.removeChild(filho);
+  saveToStorage();
 }
 
 function createCartItemElement({ id, title, price }) {
   const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.id = id + id;
+  li.className = `cart__item ${id}`;
+  // li.id = id + id;
   li.innerText = `SKU: ${id} | NAME: ${title} | PRICE: $${price}`;
   li.addEventListener('click', function () {
     cartItemClickListener(id);
@@ -26,13 +25,26 @@ function createCartItemElement({ id, title, price }) {
   return li;
 }
 
+// function saveToStorage() {
+//   const list = document.querySelectorAll('.cart__item');
+//   console.log(JSON.stringify(list));
+//   window.localStorage.list = JSON.stringify(list);
+//   // localStorage.setItem('list', JSON.stringify(list));
+// }
+
+// function loadFromStorage() {
+
+// }
+
 async function addToCart(id) {
   const endpoint = `https://api.mercadolibre.com/items/${id}`;
-  console.log(endpoint);
   const shoppingCart = document.querySelector('.cart__items');
   await fetch(endpoint)
   .then(response => response.json())
-  .then(item => shoppingCart.appendChild(createCartItemElement(item)));
+  .then((item) => {
+    shoppingCart.appendChild(createCartItemElement(item));
+  });
+  saveToStorage();
 }
 
 function createCustomElement(element, className, innerText, id, test) {
@@ -75,5 +87,18 @@ async function itemsGenerator(event) {
     pai.appendChild(filho);
   });
 }
+function clearCartEvent() {
+  console.log('rodou clear');
+  const button = document.querySelector('.empty-cart');
+  button.addEventListener('click', function () {
+    console.log('pertou');
+    document.querySelector('.cart__items').innerHTML = '';
+    saveToStorage();
+  });
+}
 
-itemsGenerator('computador');
+window.onload = function onload() {
+  loadFromStorage();
+  clearCartEvent();
+  itemsGenerator('computador');
+};
