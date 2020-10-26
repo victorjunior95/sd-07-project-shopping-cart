@@ -35,7 +35,7 @@ function getSkuFromProductItem(item) {
 function cartItemClickListener(event) {
   const itemPrice = event.target.innerHTML.split('$')[1];
   totalPrice -= itemPrice;
-  document.querySelector('.total-price').innerHTML = `Preço total: ${Math.abs(
+  document.querySelector('.total-price p').innerHTML = `${Math.abs(
     totalPrice,
   )}`;
   const cartList = document.querySelector('.cart__items');
@@ -49,8 +49,8 @@ function createCartItemElement({ id, title, price }) {
   li.addEventListener('click', cartItemClickListener);
   totalPrice += price;
   document.querySelector(
-    '.total-price',
-  ).innerHTML = `Preço total: ${totalPrice}`;
+    '.total-price p',
+  ).innerHTML = `${totalPrice}`;
   return li;
 }
 
@@ -102,7 +102,7 @@ window.onload = function onload() {
     cartList.innerHTML = '';
     totalPrice = 0;
     document.querySelector(
-      '.total-price',
-    ).innerHTML = `Preço total: ${totalPrice}`;
+      '.total-price p',
+    ).innerHTML = `${totalPrice}`;
   });
 };
