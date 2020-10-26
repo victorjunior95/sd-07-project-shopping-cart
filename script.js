@@ -10,10 +10,16 @@ const setCartItemsArr = (obj) => {
   upDateLocalStorage();
 };
 
+const cardItemsCaucPrices = async () => {
+  const price = await cartItensStorage.reduce((acc, crr) => crr.salePrice + acc, 0);
+  document.querySelector('.total-price').innerText = `Preço total: R$${price}`;
+};
+
 const rmCartItemArr = (event) => {
   const index = cartItensStorage.findIndex(element => element.sku === event.target.id);
   cartItensStorage.splice(index, 1);
   upDateLocalStorage();
+  cardItemsCaucPrices();
 };
 
 const cardItemsRemoveLi = (event) => {
@@ -44,6 +50,7 @@ const addCardItens = async (item) => {
   const cartItems = document.querySelector('.cart__items');
   cartItems.appendChild(element);
   setCartItemsArr({ sku, name, salePrice });
+  cardItemsCaucPrices();
 };
 
 const createCustomElement = (element, className, innerText) => {
@@ -98,9 +105,11 @@ const createCartItensOfStorage = (cartItensStorageArr) => {
 window.onload = function onload() {
   outputProducts();
   createCartItensOfStorage(cartItensStorage);
+  cardItemsCaucPrices();
   document.querySelector('.empty-cart').addEventListener('click', () => {
     cartItensStorage = [];
     upDateLocalStorage();
+    cardItemsCaucPrices();
     document.querySelector('.cart__items').innerHTML = '';
   });
 };
