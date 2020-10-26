@@ -35,15 +35,15 @@ function loading() {
 
 async function updatePrice() {
   const cartItems = await cart.childNodes;
-  const cartList = [...cartItems];
+  const cartList = await [...cartItems];
 
   if (cartList.length > 0) {
-    const sumPrice = cartList.map(element => element.innerText.split('$'))
+    const sumPrice = await cartList.map(element => element.innerText.split('$'))
     .map(element => parseFloat(element[1]))
     .reduce((acc, nextElement) => acc + ((Math.round(nextElement * 100)) / 100), 0);
-    sumItem = sumPrice;
-    localStorage.totalPrice = sumPrice;
-    totalPrice.innerText = sumPrice;
+    sumItem = await sumPrice;
+    localStorage.totalPrice = await sumPrice;
+    totalPrice.innerText = await sumPrice;
   } else {
     sumItem = 0;
     localStorage.totalPrice = 0;
