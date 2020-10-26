@@ -49,8 +49,12 @@ function sumAllCartItens(cartItems) {
   }
 }
 async function updatePrice() {
-  const cartItems = await cart.childNodes;
-  sumAllCartItens(cartItems);
+  try {
+    const cartItems = await cart.childNodes;
+    sumAllCartItens(cartItems);
+  } catch (error) {
+    alert('Time out');
+  }
 }
 
 function storeCart() {
