@@ -30,7 +30,7 @@ const cathOl = (element) => {
 };
 
 function cartItemClickListener(event) {
-  event.target.parentNode.removeChild(event.target);  
+  event.target.parentNode.removeChild(event.target);
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
