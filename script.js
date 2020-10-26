@@ -36,6 +36,8 @@ const manageCart = (object) => {
     name: object.title,
     salePrice: object.price,
   };
+  const indexInTheCart = localStorage.length + 1;
+  localStorage.setItem(indexInTheCart.toString(), JSON.stringify(product));
   cart.appendChild(createCartItemElement(product));
 };
 
@@ -78,6 +80,16 @@ const fetchItemsMercadoLivre = (term) => {
     .then(object => manageItems(object.results));
 };
 
+const recoverCart = () => {
+  const cart = document.querySelector('.cart__items');
+  for (let index = 0; index < localStorage.length; index += 1) {
+    let key = localStorage.key(index);
+    const li = createCartItemElement(JSON.parse(localStorage.getItem(key)));
+    cart.appendChild(li);
+  }
+};
+
 window.onload = function onload() {
   fetchItemsMercadoLivre('computador');
+  recoverCart();
 };
