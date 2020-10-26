@@ -27,7 +27,7 @@ function createCartElement(product) {
   const elementCreated = createProductItemElement(product);
   items.appendChild(elementCreated);
 }
-function updateTotal(value, operador){
+function updateTotal(value, operador) {
   const addLoading = document.querySelector('.total-price');
   const total = addLoading.innerText;
   addLoading.innerText = `${parseFloat(total) + operador + parseFloat(value)}`;
