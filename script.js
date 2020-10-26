@@ -39,6 +39,7 @@ function createCartItemElement(sku, name, salePrice) {
   li.addEventListener('click', () => {
     li.remove();
   });
+  localStorage.setItem('list', document.querySelector('.cart__items').innerHTML);
 }
 
 function cartItemClickListener() {
@@ -68,4 +69,6 @@ function fetchProduct(products) {
 
 window.onload = function onload() {
   fetchProduct('computador');
+  const elements = localStorage.getItem('list');
+  document.querySelector('.cart__items').innerHTML = elements;
 };
