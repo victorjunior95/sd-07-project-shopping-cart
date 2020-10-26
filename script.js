@@ -32,7 +32,7 @@ function updateLocalStorage() {
 }
 
 async function updateTotalCart(price) {
-  let totalPrice = document.querySelector('.total-price');
+  const totalPrice = document.querySelector('.total-price');
   if (totalPrice.innerText !== '') {
     totalPrice.innerText = parseInt(totalPrice.innerText, 10) + price;
   } else {
