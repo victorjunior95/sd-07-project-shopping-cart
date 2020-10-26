@@ -1,4 +1,6 @@
-window.onload = function onload() { };
+window.onload = function onload() { 
+  addItensInHTML();
+};
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -59,5 +61,3 @@ const addItensInHTML = async () => {
     sectionItems.appendChild(createProductItemElement(objectToFunctionCreateProductItemElement));
   });
 };
-
-addItensInHTML();
