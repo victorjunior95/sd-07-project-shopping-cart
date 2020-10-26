@@ -10,13 +10,25 @@ function loadFromStorage() {
   document.querySelector('.cart__items').innerHTML = list;
 }
 
+async function totalSum() {
+  let sum = 0;
+  const list = await document.getElementsByClassName('cart__item');
+  for (let i = 0; i < list.length; i += 1) {
+    let one = list[i].innerText.split(' ');
+    one = parseFloat(one[one.length - 1].substring(1));
+    sum += one;
+  }
+  const item = document.getElementById('total');
+  item.innerText = sum;
+}
+
 function saveToStorage() {
   const list = document.querySelector('.cart__items').innerHTML;
   localStorage.setItem('list', list);
+  totalSum();
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
   const id = `.${event}`;
   const filho = document.querySelector(id);
   const pai = document.querySelector('.cart__items');
