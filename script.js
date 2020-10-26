@@ -50,16 +50,15 @@ function createCartItemElement({ sku, name, salePrice }) {
 function fetchData(endpoint, repeat) {
   fetch(endpoint)
     .then(reponse => reponse.json())
-    .then((object) => {
-      const products = object.results;
+    .then((obj) => {
+      const products = obj.results;
       if (repeat) {
         products.forEach((product) => {
           const { id, title, thumbnail } = product;
           createProductItemElement({ sku: id, name: title, image: thumbnail });
         });
       } else {
-        const { id: sku, title: name, price: salePrice } = object;
-        createCartItemElement({ sku, name, salePrice });
+        createCartItemElement({ sku: obj.id, name: obj.title, salePrice: obj.price });
       }
     });
 }
