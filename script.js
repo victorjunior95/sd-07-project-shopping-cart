@@ -48,8 +48,9 @@ const fecthComputerAsyncAwait = async () => {
   }
 };
 
-function cartItemClickListener() {
-  const cartItems = document.getElementsByClassName('cart__items');
+function cartItemClickListener(event) {
+  const cartItems = document.querySelector('.cart__items');
+  event.target.remove();
   return cartItems;
 }
 
