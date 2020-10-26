@@ -52,14 +52,14 @@ async function updatePrice() {
   }
 }
 
-async function storeCart() {
+function storeCart() {
   localStorage.setItem('cart', cart.innerHTML);
   localStorage.setItem('totalPrice', sumItem);
   updatePrice();
   return sumItem;
 }
 
-async function cartItemClickListener(event) {
+function cartItemClickListener(event) {
   cart.removeChild(event.target);
   storeCart();
   updatePrice();
@@ -71,9 +71,7 @@ function createCartItemElement(computer) {
   li.className = 'cart__items';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
-
   cart.appendChild(li);
-  updatePrice();
   storeCart();
   return li;
 }
@@ -85,6 +83,7 @@ function fetchComputerItem(id) {
     .then((computer) => {
       if (computer) {
         createCartItemElement(computer);
+        updatePrice();
       } else {
         reject(new Error('endpoint não existe'));
       }
@@ -143,20 +142,16 @@ const fetchDataComputer = (endpoint) => {
     });
 };
 
-async function initialize() {
+function initialize() {
   cart.innerHTML = localStorage.cart;
   const cartItems = cart.childNodes;
   cartItems.forEach(item => item.addEventListener('click', cartItemClickListener));
-  updatePrice();
 }
 
 window.onload = async function onload() {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   loading();
-  try {
-    await fetchDataComputer(endpoint);
-    initialize();
-  } catch (error) {
-    alert('Time out');
-  }
+  fetchDataComputer(endpoint);
+  initialize();
+  updatePrice();
 };
