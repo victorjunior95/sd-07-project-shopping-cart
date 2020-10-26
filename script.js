@@ -83,7 +83,6 @@ function fetchComputerItem(id) {
     .then(computer => computer.json())
     .then((computer) => {
       if (computer) {
-        deleteLoading();
         createCartItemElement(computer);
       } else {
         reject(new Error('endpoint não existe'));
@@ -95,7 +94,6 @@ function isButton(tag, element) {
     element.addEventListener(('click'), () => {
       const parent = element.parentNode;
       const id = parent.firstChild.innerText;
-      loading();
       fetchComputerItem(id);
     });
   }
