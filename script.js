@@ -65,7 +65,7 @@ const listCompadorsSearch = async (query) => {
     if (object.error) {
       throw new Error(object.error);
     } else {
-      console.log(object.results)
+
       handleResultes(object.results);
     }
   } catch (error) {
