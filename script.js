@@ -5,13 +5,23 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+function loadFromStorage() {
+  const list = localStorage.getItem('list');
+  document.querySelector('.cart__items').innerHTML = list;
+}
+
+function saveToStorage() {
+  const list = document.querySelector('.cart__items').innerHTML;
+  localStorage.setItem('list', list);
+}
+
 function cartItemClickListener(event) {
   // coloque seu código aqui
   const id = `.${event}`;
   const filho = document.querySelector(id);
   const pai = document.querySelector('.cart__items');
   pai.removeChild(filho);
-  // saveToStorage();
+  saveToStorage();
 }
 
 function createCartItemElement({ id, title, price }) {
@@ -25,17 +35,6 @@ function createCartItemElement({ id, title, price }) {
   return li;
 }
 
-// function saveToStorage() {
-//   const list = document.querySelectorAll('.cart__item');
-//   console.log(JSON.stringify(list));
-//   window.localStorage.list = JSON.stringify(list);
-//   // localStorage.setItem('list', JSON.stringify(list));
-// }
-
-// function loadFromStorage() {
-
-// }
-
 async function addToCart(id) {
   const endpoint = `https://api.mercadolibre.com/items/${id}`;
   const shoppingCart = document.querySelector('.cart__items');
@@ -44,7 +43,7 @@ async function addToCart(id) {
   .then((item) => {
     shoppingCart.appendChild(createCartItemElement(item));
   });
-  // saveToStorage();
+  saveToStorage();
 }
 
 function createCustomElement(element, className, innerText, id, test) {
@@ -77,12 +76,11 @@ function createProductItemElement({ id, title, thumbnail }) {
 // }
 
 function clearCartEvent() {
-  console.log('rodou clear');
   const button = document.querySelector('.empty-cart');
   button.addEventListener('click', function () {
     console.log('pertou');
     document.querySelector('.cart__items').innerHTML = '';
-    // saveToStorage();
+    saveToStorage();
   });
 }
 
@@ -98,7 +96,7 @@ window.onload = function onload() {
       pai.appendChild(filho);
     });
   }
-  // loadFromStorage();
+  loadFromStorage();
   clearCartEvent();
   itemsGenerator('computador');
 };
