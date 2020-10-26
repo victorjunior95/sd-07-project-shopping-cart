@@ -86,7 +86,7 @@ function cleanToChart() {
   const buttonCleanChart = document.querySelector('.empty-cart');
   buttonCleanChart.addEventListener('click', () => {
     const chart = document.querySelector('.cart__items');
-    chart.innerHTML = '';    
+    chart.innerHTML = '';
   });
 }
 
