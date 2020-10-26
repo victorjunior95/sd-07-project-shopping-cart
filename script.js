@@ -57,13 +57,12 @@ const transformProductsList = (productsArray) => {
 
 const loadingMessage = () => {
   const emptyProductsList = document.querySelector('.items');
-  const loadingMessage = document.createElement('p');
-  loadingMessage.className = 'loading';
-  loadingMessage.innerText = 'loading...';
+  const loadingMessageText = document.createElement('p');
+  loadingMessageText.className = 'loading';
+  loadingMessageText.innerText = 'loading...';
 
   emptyProductsList.appendChild(loadingMessage);
-
-}
+};
 
 const fetchProductList = (product = 'computador') => {
   const productEndpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${product}`;
