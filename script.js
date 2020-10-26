@@ -18,7 +18,7 @@ function cartItemClickListener(event) {
 const putItemInLocalStorage = (id, name, price) => {
   if (localStorage.getItem('counter') === null) localStorage.setItem('counter', 0);
   let counter = localStorage.getItem('counter');
-  counter = parseInt(`${counter}`) + 1;
+  counter = parseInt(counter, 10) + 1;
   localStorage.setItem('counter', counter);
   localStorage.setItem(`cartItem${counter}`, [id, name, price]);
 };
