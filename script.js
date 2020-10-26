@@ -36,11 +36,17 @@ function cartItemClickListener(event) {
   ol.removeChild(removingItem);
 }
 
+const localStorageRemoving = (event) => {
+  localStorage.removeItem(event.target.id);
+};
+
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
+  li.id = sku;
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  li.addEventListener('click', localStorageRemoving);
   return li;
 }
 
