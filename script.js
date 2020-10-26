@@ -14,12 +14,23 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-const getList = async (id) => {
-  const objectResponse = await (
-    await fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${id}`)
-  ).json();
-  return objectResponse;
-};
+const getList = async () => {
+  const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
+  try {
+    const response = await fetch(endpoint);
+    const object = await response.jason();
+    const items = document.querySelector('.items');
+    if (object.error) {
+      throw new Error(object.error);
+    } else {
+      object.results.forEach((result) => {
+        items.appendChild(createProductItemElement(result));
+      });
+    }
+  } catch (error) {
+    showAlert(error);
+  }
+}
 
 function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   const section = document.createElement('section');
