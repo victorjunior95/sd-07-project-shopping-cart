@@ -22,17 +22,18 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 async function sumPrice(priceItem, price = 0) {
-  // console.log(priceItem);
-  sum = (priceItem + parseFloat(price)).toFixed(2);
-  // console.log(parseFloat(price));
-  // console.log(sum);
+  console.log(priceItem);
+  // sum = parseFloat(priceItem + price).toFixed(2);
+  sum = priceItem + price;
+  console.log(price);
+  console.log(sum);
   return sum;
 }
 
 async function returnPrice(priceItem) {
   const itemPrice = document.querySelector('.total-price');
-  const calculationPrice = await sumPrice(priceItem, itemPrice.innerText);
-  itemPrice.innerText = calculationPrice;
+  const calculationPrice = await sumPrice(priceItem, Number(itemPrice.innerHTML));
+  itemPrice.innerHTML = calculationPrice;
 }
 
 const itemRequisition = (ids) => {
