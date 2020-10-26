@@ -1,5 +1,16 @@
 window.onload = function onload() { };
 
+const createLoadText = () => {
+  const itemsSection = document.getElementById('items');
+  const span = document.createElement('span');
+  span.className = 'loading';
+  span.id = 'loading';
+  span.innerText = 'Loading...';
+  itemsSection.appendChild(span);
+};
+
+createLoadText();
+
 const sumPricesAssync = async () => {
   const cartItemsId = await document.getElementsByClassName('cart__item');
   let totalCartPrice = 0;
@@ -35,10 +46,6 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 
   return section;
 }
-
-// function getSkuFromProductItem(item) {
-//   return item.querySelector('span.item__sku').innerText;
-// }
 
 function cartItemClickListener(event) {
   const itemToRemove = event.target;
