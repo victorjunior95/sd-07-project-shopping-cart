@@ -52,8 +52,6 @@ function loading() {
 
 function removeMsg() {
   const spanWithmsg = document.getElementsByClassName('loading');
-  spanWithmsg.innerHTML = '';
-  return spanWithmsg;
 }
 
 // requisito 2 passo 2
@@ -78,13 +76,11 @@ const appendToChart = (item) => {
 
 // requisito 1 - com Async/Await
 const fetchProducts = async () => {
-  setTimeout(loading(), 2000);
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   const response = await fetch(endpoint);
   const object = await response.json();
   const result = object.results;
   result.forEach(data => appendToChart(createProductItemElement(data)));
-  removeMsg();
 };
 
 function getSkuFromProductItem(item) {
@@ -100,6 +96,8 @@ function cleanToChart() {
 }
 
 window.onload = function onload() {
+  loading();
   fetchProducts();
+  removeMsg();
   cleanToChart();
 };
