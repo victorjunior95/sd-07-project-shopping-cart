@@ -10,7 +10,7 @@ function total() {
       sum += parseFloat(element.substr(1));
     }
   });
-  document.getElementsByClassName('total-price')[0].innerText = sum * 2;
+  document.getElementsByClassName('total-price')[0].innerText = sum;
 }
 
 function createCartItemElement(sku, name, salePrice) {
