@@ -57,6 +57,7 @@ const fetchCurrencyid = (idItem) => {
     const liItem = createCartItemElement(itemId);
     const listCarItem = document.getElementsByClassName('cart__items')[0];
     listCarItem.appendChild(liItem);
+    saveLocalStorage();
   });
 };
 
@@ -86,7 +87,6 @@ const fetchCurrency = () => {
         buttonAdd[i].addEventListener('click', function () {
           const parentText = getSkuFromProductItem(buttonAdd[i].parentElement);
           fetchCurrencyid(parentText);
-          saveLocalStorage();
         });
       }
       loadingLocalStorage();
