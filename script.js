@@ -5,7 +5,7 @@ function storeCart() {
 
 async function updatePrices() {
   const cartItens = document.querySelectorAll('.cart__item');
-  const total = document.querySelector('.total__price');
+  const total = document.querySelector('.total-price');
   let totalPrice = 0;
   cartItens.forEach((item) => {
     const preco = item.innerText.match(/\bPRICE.*/)[0].slice(8);
