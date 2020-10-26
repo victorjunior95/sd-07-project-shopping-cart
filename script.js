@@ -7,8 +7,8 @@ function createProductImageElement(imageSource) {
 
 function cartItemClickListener(event) {
   // sla
-  }
-  
+}
+
 function createCartItemElement({ id, title, price }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
