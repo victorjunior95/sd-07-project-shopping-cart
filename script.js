@@ -42,14 +42,13 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-const searchProductList = (product) => {
-  const productQuery = `https://api.mercadolibre.com/sites/MLB/search?q=${item}`
-  
+const searchProductList = (searchedProduct) => {
+  const productQuery = `https://api.mercadolibre.com/sites/MLB/search?q=${searchedProduct}`;
   fetch(productQuery)
   .then(response = response.json())
   .then(object => object.results)
-  .then(result => result.forEach((item) => {
-    const section = createCartItemElement(item);
+  .then(result => result.forEach((searchedProduct) => {
+    const section = createCartItemElement(searchedProduct);
     document.getElementsByClassName('items')[0].appendChild(section);
   }));
 };
