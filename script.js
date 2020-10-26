@@ -79,7 +79,6 @@ const fetchItemById = (event) => {
 
 const fecthProductList = (product) => {
   const productQuery = `https://api.mercadolibre.com/sites/MLB/search?q=${product}`;
-
   fetch(productQuery)
   .then(response => response.json())
   .then(object => object.results)
@@ -87,7 +86,10 @@ const fecthProductList = (product) => {
     const section = createProductItemElement(item);
     section.lastChild.addEventListener('click', fetchItemById);
     document.getElementsByClassName('items')[0].appendChild(section);
-  }));
+  }))
+  .then(() => {
+    document.getElementById('loading').style.display = 'none';
+  });
 };
 
 fecthProductList('computer');
