@@ -16,7 +16,7 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function createProductItemElement({id:sku,title:name,thumbnail:image }) {
+function createProductItemElement({ id:sku, title:name, thumbnail:image }) {
   const section = document.createElement('section');
   section.className = 'item';
 
@@ -36,7 +36,7 @@ function cartItemClickListener(event) {
   // coloque seu código aqui
 }
 
-function createCartItemElement({id:sku,title:name,price:salePrice }) {
+function createCartItemElement({ id:sku, title:name, price:salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
@@ -47,11 +47,11 @@ function createCartItemElement({id:sku,title:name,price:salePrice }) {
 const addItems = (itemFromArray) => {
   const item = Object.entries(itemFromArray);
   item.forEach(entry => document.querySelector('.items').appendChild(createProductItemElement(entry[1])));
-}
+};
 
 const fetchCurrency = () => {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   fetch(endpoint)
     .then(response => response.json())
-    .then(object => addItems(object.results))
-}
+    .then(object => addItems(object.results));
+};
