@@ -54,7 +54,8 @@ function fetchData(endpoint, repeat) {
       const products = object.results;
       if (repeat) {
         products.forEach((product) => {
-          createProductItemElement({ sku: product.id , name: product.title , image: product.thumbnail });
+          const { id, title, thumbnail } = product;
+          createProductItemElement({ sku: id, name: title, image: thumbnail });
         });
       } else {
         const { id: sku, title: name, price: salePrice } = object;
