@@ -23,7 +23,7 @@
   width: 100%;
 }
 
-.loading{
+.loading {
   animation: is-rotating is infinite;
   border: 6px solid honeydew;
   border-radius: 50%;
@@ -70,12 +70,6 @@
   cursor: pointer;
   margin: 0;
   padding: 5px;
-}
-
-@keyframes is-rotating {
-  to {
-    transform: rotate( 1turn );
-  }
 }
 
 .cart__item {
