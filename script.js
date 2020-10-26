@@ -68,6 +68,7 @@ const fetchItens = async () => {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   document.getElementById('loading').innerText = 'loading';
   try {
+    document.getElementById('loading').innerText = 'loading';
     const response = await fetch(endpoint);
     const object = await response.json();
     if (object.error) {
