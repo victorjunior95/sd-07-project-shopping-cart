@@ -33,7 +33,7 @@ const infinitoalem = (objeto) => {
 const addcarrinho = (event) => {
   let idProduto;
   const ET = event.target;
-  if (event.target.className !== "item__add") {
+  if (event.target.className !== 'item__add') {
     idProduto = ET.parentNode.parentNode.parentNode.querySelector('.item__sku').innerText;
   } else {
     idProduto = ET.parentNode.querySelector('.item__sku').innerText;
