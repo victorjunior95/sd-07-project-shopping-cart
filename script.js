@@ -38,7 +38,7 @@ async function updatePrice() {
   const cartList = [...cartItems];
 
   if (cartList.length > 0) {
-    const sumPrice = cartList.map(element => element.innerText.split('$'))
+    const sumPrice = await cartList.map(element => element.innerText.split('$'))
     .map(element => parseFloat(element[1]))
     .reduce((acc, nextElement) => acc + ((Math.round(nextElement * 100)) / 100), 0);
     sumItem = sumPrice;
