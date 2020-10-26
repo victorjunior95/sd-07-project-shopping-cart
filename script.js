@@ -53,11 +53,11 @@ const eventBtns = () => {
 
 const capturingID = id => `https://api.mercadolibre.com/items/${id}`;
 
-const fecthCart = addCart => {
+const fecthCart = (addCart) => {
   fetch(addCart)
     .then(response => response.json())
-    .then(teste => document.querySelector('.cart__items').appendChild(createCartItemElement(teste)))
-}
+    .then(teste => document.querySelector('.cart__items').appendChild(createCartItemElement(teste)));
+};
 
 const addToCart = () => {
   document.querySelectorAll('.item__add')
