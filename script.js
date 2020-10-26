@@ -55,7 +55,7 @@ function createCartItemElement({
 const handleResultes = (results) => {
   const resEnt = Object.values(results);
   resEnt.forEach(comp => createProductItemElement(comp));
-}
+};
 
 const listCompadorsSearch = async (query) => {
   const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${query}&limit=10`;
