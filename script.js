@@ -1,5 +1,7 @@
 window.onload = function onload() { };
 
+const fetch = require('node-fetch');
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
