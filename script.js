@@ -34,11 +34,11 @@ function loading() {
 }
 
 async function updatePrice() {
-  const cartItems = cart.childNodes;
+  const cartItems = await cart.childNodes;
   const cartList = [...cartItems];
 
   if (cartList.length > 0) {
-    const sumPrice = await cartList.map(element => element.innerText.split('$'))
+    const sumPrice = cartList.map(element => element.innerText.split('$'))
     .map(element => parseFloat(element[1]))
     .reduce((acc, nextElement) => acc + ((Math.round(nextElement * 100)) / 100), 0);
     sumItem = sumPrice;
@@ -58,7 +58,7 @@ function storeCart() {
   return sumItem;
 }
 
-function cartItemClickListener(event) {
+async function cartItemClickListener(event) {
   cart.removeChild(event.target);
   storeCart();
   updatePrice();
