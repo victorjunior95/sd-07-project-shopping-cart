@@ -4,8 +4,9 @@ const sumPricesAssync = async () => {
   const cartItemsId = await document.getElementsByClassName('cart__item');
   let totalCartPrice = 0;
   for (let i = 0; i < cartItemsId.length; i += 1) {
-    totalCartPrice += Number(cartItemsId[i].value);
+    totalCartPrice += Number(cartItemsId[i].name);
   }
+  localStorage.setItem('totalPrice', totalCartPrice);
   document.getElementById('total-price').innerText = `Preço total: $${totalCartPrice}`;
 };
 
@@ -53,7 +54,7 @@ const removeFromLocalStorage = (event) => {
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.id = sku;
-  li.value = salePrice;
+  li.name = salePrice;
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
@@ -108,5 +109,15 @@ const emptyCart = () => {
   ol = document.getElementById('cart__items');
   ol.innerHTML = '';
   localStorage.clear();
+  document.getElementById('total-price').innerText = "Preço total: $0";
 };
 document.getElementById('empty-cart').addEventListener('click', emptyCart);
+
+const loadPriceFromStorage = (() => {
+  if (localStorage.length === 0) {
+    document.getElementById('total-price').innerText = "Preço total: $0"
+  } else {
+    const localStoragePrice = localStorage.getItem('totalPrice');
+    document.getElementById('total-price').innerText = `Preço total: $${localStoragePrice}`;
+  }
+})();
