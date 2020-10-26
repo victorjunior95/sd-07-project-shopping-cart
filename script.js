@@ -47,27 +47,27 @@ const addItems = (itemFromArray) => {
 
 const eventBtns = () => {
   document.querySelectorAll('button.item__add').forEach((btn) => {
-    btn.addEventListener('click', getSkuFromProductItem(btn.parentNode))
-  })
-}
+    btn.addEventListener('click', getSkuFromProductItem(btn.parentNode));
+  });
+};
 
-const capturingID = id => `https://api.mercadolibre.com/items/${id}`
-
-const addToCart = () => {
-  document.querySelectorAll('.item__add')
-    .forEach((button) => 
-      button.addEventListener('click', () => {
-        const getID = getSkuFromProductItem(button.parentNode);
-        const url = capturingID(getID);
-        fecthCart(url)
-      })) 
-}
+const capturingID = id => `https://api.mercadolibre.com/items/${id}`;
 
 const fecthCart = addCart => {
   fetch(addCart)
     .then(response => response.json())
     .then(teste => document.querySelector('.cart__items').appendChild(createCartItemElement(teste)))
 }
+
+const addToCart = () => {
+  document.querySelectorAll('.item__add')
+    .forEach(button =>
+      button.addEventListener('click', () => {
+        const getID = getSkuFromProductItem(button.parentNode);
+        const url = capturingID(getID);
+        fecthCart(url);
+      }));
+};
 
 const fetchCurrency = () => {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
