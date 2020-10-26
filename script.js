@@ -12,13 +12,19 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-const grabItems = async (api) => {
-  const items = await fetch (api)
-  .then ((r) =>r.json())
-  .then((r)=>r.results)
-  itemsToSection(items)
-}
+/* const grabItems = async (api) => {
+  const items = await fetch(api);
+   then((r) => r.json())
+  .then((r) => r.results);
+  itemsToSection(items);
+}; */
 
+const grabItems = async (api) => {
+  const items = await fetch(api)
+  .then(r => r.json())
+  .then(r => r.results);
+  itemsToSection(items);
+};
 
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
