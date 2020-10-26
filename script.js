@@ -61,7 +61,7 @@ function createTotalPrice(value) {
 function somaTotalPrice(value) {
   const addLoading = document.querySelector('.total-price');
   const total = addLoading.innerText;
-  addLoading.innerHTML = `${(parseFloat(total) + value).toFixed(2)}`;
+  addLoading.innerHTML = `${parseFloat(total) + value}`;
 }
 // `Preço total do carrinho: $${(parseFloat(total.split('$')[1]) + value).toFixed(2)}`;
 
