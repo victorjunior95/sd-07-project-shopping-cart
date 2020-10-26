@@ -34,11 +34,28 @@ function cartItemClickListener(event) {
   event.target.remove();
 }
 
+const clearCart = () => {
+  const list = document.querySelector('.cart__items');
+  const buttonClear = document.querySelector('.empty-cart');
+  buttonClear.addEventListener('click', () => {
+    list.innerHTML = '';
+  });
+};
+
+// let sum = 0;
+// const sumPrices = async (price) => {
+//   const totalPrice = document.querySelector('.total-price');
+//   sum += price;
+//   totalPrice.innerHTML = `Preço total: ${sum}`;
+// };
+
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  // sumPrices(salePrice);
+
   return li;
 }
 
@@ -113,4 +130,5 @@ window.onload = async function onload() {
   fetchMercado();
   const listCart = document.querySelector('.cart__items');
   listCart.innerHTML = localStorage.getItem('lista');
+  clearCart();
 };
