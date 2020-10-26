@@ -33,7 +33,7 @@ function cartItemClickListener(event) {
   cartItems.forEach((item) => {
     if (item === event.target) {
       document.querySelector('.cart__items').removeChild(item);
-    }    
+    }
   });
 }
 
