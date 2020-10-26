@@ -11,7 +11,7 @@ async function updatePrices() {
     const preco = item.innerText.match(/\bPRICE.*/)[0].slice(8);
     totalPrice += Number(preco);
   });
-  total.innerText = `Total: ${totalPrice}`;
+  total.innerText = totalPrice;
 }
 
 function createProductImageElement(imageSource) {
