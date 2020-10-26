@@ -47,6 +47,13 @@ const saveElements = () => {
   document.querySelector('.cart__items').innerHTML = localStorage.getItem('savedItems');
 };
 
+const removeAllItems = () => {
+  const buttonRemove = document.querySelector('.empty-cart');
+  const cartItems = document.querySelector('.cart__items');
+  buttonRemove.addEventListener('click', () => (cartItems.innerHTML = ''));
+  localStorage.clear();
+};
+
 const fetchProduct = async (id) => {
   const endpoint = `https://api.mercadolibre.com/items/${id}`;
   await fetch(endpoint)
@@ -95,4 +102,5 @@ const fetchCurrency = async (currency) => {
 window.onload = function onload() {
   fetchCurrency('computador');
   saveElements();
+  removeAllItems();
 };
