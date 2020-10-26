@@ -102,14 +102,13 @@ const fetchItems = () => {
           document.querySelectorAll('.item__add').forEach(element => element
             .addEventListener('click', addItemToCart));
         });
-
-      loading();
-      loadLocalStorage();
-      document.querySelector('.empty-cart').addEventListener('click', clearCart);
     }),
   );
+  loading();
 };
 
 window.onload = function onload() {
-  fetchItems();
+  setTimeout(fetchItems,5000);
+  loadLocalStorage();
+  document.querySelector('.empty-cart').addEventListener('click', clearCart);
 };
