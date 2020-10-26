@@ -1,4 +1,4 @@
-const cartItensStorage = localStorage.getItem('cardItemsArr') !== null ?
+let cartItensStorage = localStorage.getItem('cardItemsArr') !== null ?
   JSON.parse(localStorage.getItem('cardItemsArr')) : [];
 
 const upDateLocalStorage = () => {
@@ -98,4 +98,9 @@ const createCartItensOfStorage = (cartItensStorageArr) => {
 window.onload = function onload() {
   outputProducts();
   createCartItensOfStorage(cartItensStorage);
+  document.querySelector('.empty-cart').addEventListener('click', () => {
+    cartItensStorage = [];
+    upDateLocalStorage();
+    document.querySelector('.cart__items').innerHTML = '';
+  });
 };
