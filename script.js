@@ -34,8 +34,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 async function sumPrice(priceItem, price = 0) {
   // console.log(priceItem);
-  sum = parseFloat(priceItem) + parseFloat(price);
-  sum = parseFloat((sum).toFixed(2));
+  sum = parseFloat((priceItem + price).toFixed(2));
   // console.log(price);
   // console.log(sum);
   return sum;
@@ -43,7 +42,7 @@ async function sumPrice(priceItem, price = 0) {
 
 async function returnPrice(priceItem) {
   const itemPrice = document.querySelector('.total-price');
-  const calculationPrice = await sumPrice(priceItem, Number(itemPrice.innerHTML));
+  const calculationPrice = await sumPrice(priceItem, Number(itemPrice.textContent));
   itemPrice.innerHTML = calculationPrice;
 }
 
