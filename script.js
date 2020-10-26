@@ -36,7 +36,7 @@ function fetchItemToCart(sku) {
   console.log('click');
   const endpoint = `https://api.mercadolibre.com/items/${sku}`;
   fetch(endpoint)
-    .then((response) => response.json())
+    .then(response => response.json())
     .then((object) => {
       const createCartItem = createCartItemElement(object);
       const addToCart = document.querySelector('ol');
@@ -61,7 +61,7 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 // função que busca na API e renderiza na tela
 function fetchApi() {
   fetch(url)
-    .then((response) => response.json())
+    .then(response => response.json())
     .then((data) => {
       data.results.forEach((product) => {
         const result = createProductItemElement(product);
