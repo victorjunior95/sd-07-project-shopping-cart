@@ -1,8 +1,3 @@
-const inserirItemHtml = (produto) => {
-  const secao = document.querySelector('.items');
-  secao.appendChild(createProductItemElement(produto));
-};
-
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
   e.className = className;
@@ -20,6 +15,11 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
+const inserirItemHtml = (produto) => {
+  const secao = document.querySelector('.items');
+  secao.appendChild(createProductItemElement(produto));
+};
+
 const converteObjetosDesejados = (objetosDoResult) => {
   console.log(objetosDoResult);
   objetosDoResult.map((item) => {
@@ -30,7 +30,7 @@ const converteObjetosDesejados = (objetosDoResult) => {
     };
     return inserirItemHtml(cadaProduto);
   });
-}
+};
 
 const showAlert = (message) => {
   window.alert(message);
@@ -45,11 +45,11 @@ const CarregaProdutos = () => {
       converteObjetosDesejados(objeto.results);
     })
     .catch(error => showAlert(error));
-}
+};
 
 window.onload = function onload() {
   CarregaProdutos(); // primeira função a ser feita,vai bucar os dados
-}
+};
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -57,8 +57,6 @@ function createProductImageElement(imageSource) {
   img.src = imageSource;
   return img;
 }
-
-
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
