@@ -40,50 +40,40 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-// const endpointQuery = (endpoint) => {
-//   fetch(endpoint)
-//   .then(result => result.json())
-//   .then((object) => {
-//     console.log(object)
-//     return object })
-// }
+const endpointQuery = async (endpoint) => {
+  const result = await fetch(endpoint);
+  const object = await result.json();
+  return object;
+};
 
 async function searchItemByID(id) {
   const endpoint = `https://api.mercadolibre.com/items/${id}`;
-  // const object = endpointQuery(endpoint)
-  fetch(endpoint)
-  .then(result => result.json())
-  .then((object) => {
-    const objDetails = {
-      sku: object.id,
-      name: object.title,
-      salePrice: object.price,
-    };
-    const ol = document.querySelector('.cart__items');
-    ol.appendChild(createCartItemElement(objDetails));
-  });
+  const object = await endpointQuery(endpoint);
+  const objDetails = {
+    sku: object.id,
+    name: object.title,
+    salePrice: object.price,
+  };
+  const ol = document.querySelector('.cart__items');
+  ol.appendChild(createCartItemElement(objDetails));
 }
 
-window.onload = function onload() {
+window.onload = async function onload() {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
-  fetch(endpoint)
-  .then(result => result.json())
-  .then((object) => {
-    const objectResults = object.results;
-    objectResults.forEach((atual) => {
-      const produto = {
-        sku: atual.id,
-        name: atual.title,
-        image: atual.thumbnail,
-      };
-      const section = document.querySelector('.items');
-      section.appendChild(createProductItemElement(produto));
-    });
-    document.querySelectorAll('.item').forEach((item) => {
-      item.childNodes[3].addEventListener('click', () => {
-      // console.log(item.childNodes);
-        searchItemByID(item.childNodes[0].innerText);
-      });
+  const object = await endpointQuery(endpoint);
+  const objectResults = object.results;
+  objectResults.forEach((atual) => {
+    const produto = {
+      sku: atual.id,
+      name: atual.title,
+      image: atual.thumbnail,
+    };
+    const section = document.querySelector('.items');
+    section.appendChild(createProductItemElement(produto));
+  });
+  document.querySelectorAll('.item').forEach((item) => {
+    item.childNodes[3].addEventListener('click', () => {
+      searchItemByID(item.childNodes[0].innerText);
     });
   });
 };
