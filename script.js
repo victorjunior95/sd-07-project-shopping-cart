@@ -88,7 +88,7 @@ const loading = () => {
   document.querySelector('.container').style.visibility = 'visible';
 };
 
-async function fetchItems () {
+async function fetchItems() {
   await fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
     .then((response) => {
       response.json().then((data) => {
@@ -106,7 +106,7 @@ async function fetchItems () {
       });
     },
   );
-};
+}
 
 window.onload = function onload() {
   fetchItems();
