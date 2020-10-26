@@ -98,13 +98,17 @@ function clearCartEvent() {
 
 window.onload = function onload() {
   async function itemsGenerator(event) {
+    const pai = document.getElementsByClassName('items')[0];
     const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=$${event}`;
+    const loading = document.createElement('p');
+    loading.innerText = 'loading...';
+    pai.appendChild(loading);
     const list = await fetch(endpoint)
       .then(response => response.json())
       .then(object => object.results);
+    pai.innerHTML = '';
     list.forEach((product) => {
       const filho = createProductItemElement(product);
-      const pai = document.getElementsByClassName('items')[0];
       pai.appendChild(filho);
     });
   }
