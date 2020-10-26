@@ -43,17 +43,17 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 }
 
 function loading() {
-  const div = document.createElement('div');
-  div.className = 'loading';
-  div.innerHTML = 'loading...';
-  document.body.appendChild(div);
-  return div;
+  const span = document.createElement('span');
+  span.className = 'loading';
+  span.innerHTML = 'loading...';
+  document.body.appendChild(span);
+  return span;
 }
 
 function removeMsg() {
-  const divWithmsg = document.getElementsByClassName('loading');
-  divWithmsg.innerHTML = '';
-  return divWithmsg;
+  const spanWithmsg = document.getElementsByClassName('loading');
+  spanWithmsg.innerHTML = '';
+  return spanWithmsg;
 }
 
 // requisito 2 passo 2
@@ -78,12 +78,13 @@ const appendToChart = (item) => {
 
 // requisito 1 - com Async/Await
 const fetchProducts = async () => {
-  setTimeout(loading(), 2000);
-  const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
-  const response = await fetch(endpoint);
-  const object = await response.json();
-  const result = object.results;
-  result.forEach(data => appendToChart(createProductItemElement(data)));
+setTimeout(loading(),2000);
+const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
+const response = await fetch(endpoint);
+const object = await response.json();
+const result = object.results;
+result.forEach(data => appendToChart(createProductItemElement(data)))
+removeMsg();
 };
 
 function getSkuFromProductItem(item) {
