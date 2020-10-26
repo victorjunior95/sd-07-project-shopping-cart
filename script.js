@@ -56,7 +56,7 @@ const handleResultes = (results) => {
   const tagFather = document.querySelector('.items');
 
   resEnt.forEach(comp => tagFather.appendChild(createProductItemElement(comp)));
-;};
+}
 
 const listCompadorsSearch = async (query) => {
   const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${query}&limit=10`;
