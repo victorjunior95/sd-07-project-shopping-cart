@@ -49,6 +49,7 @@ const searchProductList = (product) => {
   .then(object => object.results)
   .then(result => result.forEach((item) => {
     const section = createCartItemElement(item);
+    section.addEventListener('click', fetchItemById);
     document.getElementsByClassName('items')[0].appendChild(section);
   }));
 };
