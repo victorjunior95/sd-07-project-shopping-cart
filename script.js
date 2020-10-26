@@ -1,4 +1,39 @@
-window.onload = function onload() { };
+window.onload = function onload() {
+  CarregaProdutos(); // primeira função a ser feita,vai bucar os dados
+};
+
+
+const CarregaProdutos =  () =>  {
+  const endpoint ="https://api.mercadolibre.com/sites/MLB/search?q=$computador";
+  // não posso transformar direito em json porque tem que esperar respostas do servidor
+  fetch(endpoint)
+    .then((resposta) => resposta.json()) // endpoint convertido em json
+    .then((objeto) => { // dentro do objeto eu busquei os results
+      converteObjetosDesejados(objeto.results);
+    })
+    .catch((error) => showAlert(error));
+}
+
+const converteObjetosDesejados = (objetosDoResult) => {
+  console.log(objetosDoResult);
+  objetosDoResult.map((item, index) => {
+    const cadaProduto = {
+      sku: item.id,
+      name: item.title,
+      image: item.thumbnail,
+    }
+    inserirItemHtml(cadaProduto);
+  });
+}
+
+const inserirItemHtml = (produto) => {
+  const secao = document.querySelector('.items');
+  secao.appendChild(createProductItemElement(produto));
+}
+
+const showAlert = (message) => {
+  window.alert(message);
+}
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
