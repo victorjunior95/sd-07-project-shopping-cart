@@ -53,7 +53,7 @@ function createTotalPrice(value) {
   const addLoading = document.querySelector('.total');
   divLoad = document.createElement('div');
   divLoad.className = 'total-price';
-  divLoad.innerText = `${value}`;
+  divLoad.innerText = `${parseFloat(value)}`;
   addLoading.appendChild(divLoad);
 }
 // `Preço total do carrinho: $${value}`;
@@ -61,7 +61,7 @@ function createTotalPrice(value) {
 function somaTotalPrice(value) {
   const addLoading = document.querySelector('.total-price');
   const total = addLoading.innerText;
-  addLoading.innerHTML = `${total + value}`;
+  addLoading.innerHTML = `${parseFloat(total) + parseFloat(value)}`;
 }
 // `Preço total do carrinho: $${(parseFloat(total.split('$')[1]) + value).toFixed(2)}`;
 
