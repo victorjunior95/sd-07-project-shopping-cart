@@ -113,4 +113,3 @@ const emptyCart = () => {
 document.getElementById('empty-cart').addEventListener('click', emptyCart);
 
 sumPricesAssync();
-
