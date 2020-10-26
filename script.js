@@ -6,7 +6,14 @@ function createProductImageElement(imageSource) {
 }
 
 function cartItemClickListener(event) {
-  // sla
+  let IC = event.target;
+  if (IC.className !== 'cart__item') {
+    IC = event.target.parentNode;
+    if (IC.className !== 'cart__item') {
+      IC = event.target.parentNode.parentNode;
+    }
+  }
+  IC.parentNode.removeChild(IC);
 }
 
 function createCartItemElement({ id, title, price }) {
@@ -24,7 +31,13 @@ const infinitoalem = (objeto) => {
 };
 
 const addcarrinho = (event) => {
-  const idProduto = event.target.parentNode.querySelector('.item__sku').innerText;
+  let idProduto;
+  const ET = event.target;
+  if (event.target.className !== "item__add") {
+    idProduto = ET.parentNode.parentNode.parentNode.querySelector('.item__sku').innerText;
+  } else {
+    idProduto = ET.parentNode.querySelector('.item__sku').innerText;
+  }
   const api = `https://api.mercadolibre.com/items/${idProduto}`;
   fetch(api)
     .then(elemento => elemento.json())
