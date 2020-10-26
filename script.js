@@ -25,13 +25,14 @@ async function updatePrice(operation, priceItem, price = 0) {
   }
   // console.log(price);
   // console.log(sum);
+  localStorage.setItem('totalPrice', totalPrice);
   return totalPrice;
 }
 
 async function returnPrice(operation, priceItem) {
   const itemPrice = document.querySelector('.total-price');
   const calculationPrice = await updatePrice(operation, priceItem, Number(itemPrice.textContent));
-  itemPrice.innerHTML = calculationPrice;
+  itemPrice.textContent = calculationPrice;
 }
 
 function cartItemClickListener(event, item, id) {
@@ -54,23 +55,37 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 const getItemLocalStorage = () => {
   const listItemsStorage = Object.values(localStorage);
+  listItemsStorage.pop();
+  console.log(listItemsStorage);
   listItemsStorage.forEach((item) => {
     const { sku, name, salePrice } = JSON.parse(item);
     const createdcart = createCartItemElement({ sku, name, salePrice });
     const ol = document.querySelector('.cart__items');
     ol.appendChild(createdcart);
   });
+  const itemPrice = document.querySelector('.total-price');
+  const totalPrice = localStorage.getItem('totalPrice');
+  itemPrice.innerHTML = totalPrice;
+};
+
+const loading = (state) => {
+  const sectionItems = document.querySelector('.cart');
+  if (state === 'initial') {
+    const msgLoading = document.createElement('span');
+    msgLoading.className = 'loading';
+    msgLoading.textContent = 'Loading...';
+    sectionItems.appendChild(msgLoading);
+  } else if (state === 'final') {
+    const elementLoading = document.querySelector('.loading');
+    sectionItems.removeChild(elementLoading);
+  }
 };
 
 const itemRequisition = (ids) => {
   const endPointProduct = `https://api.mercadolibre.com/items/${ids}`;
-  const loading = document.querySelector('.loading');
+  loading('initial');
   fetch(endPointProduct)
-  .then(loading.innerHTML = 'Loading...')
-    .then((object) => {
-      loading.innerHTML = '';
-      return object.json();
-    })
+    .then(object => object.json())
     .then((product) => {
       const { id: sku, title: name, price: salePrice } = product;
       const item = { sku, name, salePrice };
@@ -79,6 +94,7 @@ const itemRequisition = (ids) => {
       ol.appendChild(createItem);
       returnPrice('sum', salePrice);
       setOrRemoveItemLocalStorage('add', item, sku);
+      loading('final');
     });
 };
 
