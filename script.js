@@ -53,7 +53,7 @@ function createTotalPrice(value){
   const addLoading = document.querySelector('.total');
   divLoad = document.createElement('div');
   divLoad.className = 'total-price';
-  divLoad.innerText = `Preço total do carrinho: $${value}`; 
+  divLoad.innerText = `Preço total do carrinho: $${value}`;
   addLoading.appendChild(divLoad);
 }
 
@@ -93,13 +93,12 @@ function responseForID(id) {
     .then(response => response.json())
     .then((productelected) => {
       const addLoading = document.querySelector('.total-price');
-      if(addLoading === null ) {
+      if (addLoading === null) {
         createTotalPrice(productelected.price);
-      }
-      else{
+      } else {
         somaTotalPrice(productelected.price);
       }
-      addCartLi(createCartItemElement(productelected))
+      addCartLi(createCartItemElement(productelected));
     })
     .catch(error => alert(error));
 }
