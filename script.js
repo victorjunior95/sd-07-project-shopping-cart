@@ -28,15 +28,53 @@ function createProductItemElement({ sku, name, image }) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
 
-const cartItemClickListener = event => event.target.remove();
+// const removeFronLocalStorage = () => {
+//   const liList = document.querySelectorAll('.cart__item');
+//   const split = liList[0].innerText.split('|||');
+//   console.log(split);
+//   console.log(split[0].substr(5, 12));
+//   console.log(split[1].substr(7, split[1].length - 1));
+//   console.log(split[2].substr(9));
+// };
+
+const cartItemClickListener = (event) => {
+  event.target.remove();
+  // removeFronLocalStorage();
+};
+
+const localStorageQuery = () => localStorage.getItem('shopList');
+
+const addLocalStorage = async ({ sku, name, salePrice }) => {
+  let shopList = JSON.parse(localStorageQuery());
+  const productObject = {
+    sku,
+    name,
+    salePrice,
+  };
+  if (shopList === null) {
+    shopList = [];
+  }
+  shopList.push(productObject);
+  localStorage.setItem('shopList', JSON.stringify(shopList));
+};
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.innerText = `SKU: ${sku} ||| NAME: ${name} ||| PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
+
+const loadShopCar = async (object) => {
+  newObject = JSON.parse(object);
+  if (newObject !== null) {
+    newObject.forEach((atual, index) => {
+      const ol = document.querySelector('.cart__items');
+      ol.appendChild(createCartItemElement(newObject[index]));
+    });
+  }
+};
 
 const endpointQuery = async (endpoint) => {
   const result = await fetch(endpoint);
@@ -54,9 +92,11 @@ async function searchItemByID(id) {
   };
   const ol = document.querySelector('.cart__items');
   ol.appendChild(createCartItemElement(objDetails));
+  await addLocalStorage(objDetails);
 }
 
 window.onload = async function onload() {
+  await loadShopCar(localStorageQuery());
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   const object = await endpointQuery(endpoint);
   const objectResults = object.results;
