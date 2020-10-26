@@ -50,7 +50,6 @@ function emptyCart() {
 }
 
 function createTotalPrice(value) {
-  console.log(value)
   const addLoading = document.querySelector('.total');
   divLoad = document.createElement('div');
   divLoad.className = 'total-price';
