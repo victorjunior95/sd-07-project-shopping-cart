@@ -10,7 +10,7 @@ function total() {
       sum += parseFloat(element.substr(1));
     }
   });
-  document.getElementById('total-price').innerText = `Preço Total: $${sum}`;
+  document.getElementById('total').innerText = `Preço Total: $${sum}`;
 }
 
 function createCartItemElement(sku, name, salePrice) {
