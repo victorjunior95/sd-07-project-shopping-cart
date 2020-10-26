@@ -39,15 +39,15 @@ function cartItemClickListener(event) {
 const handleResult = (object) => {
   const results = {};
   object.forEach((entry) => {
-      results.sku = entry.id;
-      results.name = entry.title;
-      results.image = entry.thumbnail;
-      appendList(createProductItemElement(results));
-    });
+    results.sku = entry.id;
+    results.name = entry.title;
+    results.image = entry.thumbnail;
+    appendList(createProductItemElement(results));
+  });
 };
 
 const getListItems = async () => {
-    try {
+  try {
       const myRequest = 'computador';
       const endPoint = await fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${myRequest}`);
       const response = await endPoint.json();
@@ -55,7 +55,7 @@ const getListItems = async () => {
     } catch (error) {
       console.log(error);
     }
-  };
+};
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
