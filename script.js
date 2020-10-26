@@ -2,15 +2,15 @@
 const removeItemFromLocalStorage = (id) => {
   const cartItens = Object.entries(localStorage);
   cartItens.forEach((item) => {
-    let itemKey = item[0];
-    let itemId = item[1].slice(0, 13);
+    const itemKey = item[0];
+    const itemId = item[1].slice(0, 13);
     if (itemId === id) localStorage.removeItem(`${itemKey}`);
   });
-}
+};
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
-  let id = event.target.innerText.slice(5, 18);
+  const id = event.target.innerText.slice(5, 18);
   removeItemFromLocalStorage(id);
   event.target.remove();
 }
@@ -18,10 +18,10 @@ function cartItemClickListener(event) {
 const putItemInLocalStorage = (id, name, price) => {
   if (localStorage.getItem('counter') === null) localStorage.setItem('counter', 0);
   let counter = localStorage.getItem('counter');
-  counter = parseInt(counter) +1;
+  counter = parseInt(`${counter}`) + 1;
   localStorage.setItem('counter', counter);
   localStorage.setItem(`cartItem${counter}`, [id, name, price]);
-}
+};
 
 function createCartItemElement(sku, name, salePrice) {
   const li = document.createElement('li');
@@ -39,19 +39,19 @@ const convertRequestToJSON = (url) => {
 };
 
 const recoverCart = () => {
-  let cartItems = Object.values(localStorage);
+  const cartItems = Object.values(localStorage);
   cartItems.forEach((item) => {
     if (item.length > 10) {
       const id = item.slice(0, 13);
-      const newString = item.slice(14, (item.length))
+      const newString = item.slice(14, (item.length));
       const commaPosition = newString.indexOf(',');
       const name = newString.slice(0, (commaPosition));
-      const price = newString.slice((commaPosition +1), newString.length);
+      const price = newString.slice((commaPosition + 1), newString.length);
       const cartItem = createCartItemElement(id, name, price);
       document.querySelector('.cart__items').appendChild(cartItem);
-    };
+    }
   });
-}
+};
 
 const addRequestToHTMLClass = (request, callback, HTMLClass) => {
   const { id, title, price, thumbnail } = request;
