@@ -31,7 +31,7 @@ function getSkuFromProductItem(item) {
 function cartItemClickListener(event) {
   const ol = document.querySelector('.cart__items');
   const li = event.target;
-  ol.removeChild(li);  
+  ol.removeChild(li);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -42,9 +42,14 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-const getFetchEndPoint = (endPoint) => fetch(endPoint);
+const getFetchEndPoint = endPoint => fetch(endPoint);
 
-const createExpectedObject = (id, title, thumbnail, price) => ({sku: id, name: title, image: thumbnail, salePrice: price});
+const createExpectedObject = (id, title, thumbnail, price) => ({
+  sku: id,
+  name: title,
+  image: thumbnail,
+  salePrice: price,
+});
 
 const printProduct = ({ id, title, thumbnail, price }) => {
   const newSection = createProductItemElement(createExpectedObject(id, title, thumbnail, price));
@@ -60,6 +65,7 @@ const callFetch = async (id) => {
     return data;
   } catch (error) {
     alert(error);
+    return error;
   }
 };
 
@@ -99,6 +105,7 @@ const loadPage = async () => {
     listeningAddToCartButton();
   } catch (error) {
     alert(error);
+    return error;
   }
 };
 
