@@ -97,7 +97,7 @@ function responseForID(id) {
       if (addLoading === null) {
         createTotalPrice(productelected.price);
       } else {
-        updateTotal(productelected.price,'+');
+        updateTotal(productelected.price, '+');
       }
       addCartLi(createCartItemElement(productelected));
     })
