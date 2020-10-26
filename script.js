@@ -27,7 +27,8 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  console.log(event);
+  const removeItem = document.querySelector('.cart__item');
+  removeItem.remove();
 }
 
 function createCartItemElement({ id, title, price }) {
