@@ -50,9 +50,9 @@ function loading() {
   return span;
 }
 
-function removeMsg() {
-  const spanWithmsg = document.getElementsByClassName('loading');
-}
+// function removeMsg() {
+//   const spanWithmsg = document.getElementsByClassName('loading');
+// }
 
 // requisito 2 passo 2
 const fetchToChart = (sku) => {
@@ -98,6 +98,5 @@ function cleanToChart() {
 window.onload = function onload() {
   loading();
   fetchProducts();
-  removeMsg();
   cleanToChart();
 };
