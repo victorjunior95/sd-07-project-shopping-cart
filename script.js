@@ -101,6 +101,7 @@ window.onload = function onload() {
     const pai = document.getElementsByClassName('items')[0];
     const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=$${event}`;
     const loading = document.createElement('p');
+    loading.className = 'loading';
     loading.innerText = 'loading...';
     pai.appendChild(loading);
     const list = await fetch(endpoint)
