@@ -119,3 +119,5 @@ document.getElementById('empty-cart').addEventListener('click', emptyCart);
 //   const localStoragePrice = localStorage.getItem('totalPrice');
 //   document.getElementById('total-price').innerText = `Preço total: $${localStoragePrice}`;
 // }
+
+sumPricesAssync();
