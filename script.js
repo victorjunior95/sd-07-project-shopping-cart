@@ -1,4 +1,4 @@
-window.onload = function onload() { };
+
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -22,7 +22,7 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-
+  section.dataset.id = sku;
   return section;
 }
 
@@ -30,17 +30,19 @@ function createProductItemElement({ sku, name, image }) {
 //  return item.querySelector('span.item__sku').innerText;
 // }
 
-// function cartItemClickListener(event) {
+function cartItemClickListener(event) {
   // coloque seu código aqui
-// }
+  const ol = document.querySelector('ol');
+  ol.removeChild(event.target);
+}
 
-// function createCartItemElement({ sku, name, salePrice }) {
-//  const li = document.createElement('li');
-//  li.className = 'cart__item';
-//  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-//  li.addEventListener('click', cartItemClickListener);
-//  return li;
-// }
+function createCartItemElement({ sku, name, salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
+}
 
 const inicio = async () => {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
@@ -57,4 +59,25 @@ const inicio = async () => {
   });
 };
 
-inicio();
+const adicionando = () => {
+  const clicado = document.querySelector('.items');
+  clicado.addEventListener('click', async (event) => {
+    const selecionado = event.target.closest('.item').dataset.id;
+    const endpoint = `https://api.mercadolibre.com/items/${selecionado}`;
+    const response = await fetch(endpoint);
+    const object = await response.json();
+    const emptyObject = {
+      sku: object.id,
+      name: object.title,
+      salePrice: object.price,
+    };
+    const creatLi = createCartItemElement(emptyObject);
+    const list = document.querySelector('ol');
+    list.appendChild(creatLi);
+  });
+};
+
+window.onload = function onload() {
+  inicio();
+  adicionando();
+};
