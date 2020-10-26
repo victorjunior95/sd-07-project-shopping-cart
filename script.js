@@ -23,7 +23,7 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createProductImageElement(image));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
 
-  return section;
+  addItem(section)
 }
 
 function getSkuFromProductItem(item) {
@@ -32,6 +32,11 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
+}
+
+function addItem(element) {
+  const section = document.querySelector('.items');
+  section.appendChild(element)
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
