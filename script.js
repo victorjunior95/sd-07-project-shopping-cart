@@ -109,15 +109,13 @@ const emptyCart = () => {
   ol = document.getElementById('cart__items');
   ol.innerHTML = '';
   localStorage.clear();
-  document.getElementById('total-price').innerText = "Preço total: $0";
+  document.getElementById('total-price').innerText = 'Preço total: $0';
 };
 document.getElementById('empty-cart').addEventListener('click', emptyCart);
 
-const loadPriceFromStorage = (() => {
-  if (localStorage.length === 0) {
-    document.getElementById('total-price').innerText = "Preço total: $0"
-  } else {
-    const localStoragePrice = localStorage.getItem('totalPrice');
-    document.getElementById('total-price').innerText = `Preço total: $${localStoragePrice}`;
-  }
-})();
+if (localStorage.length === 0) {
+  document.getElementById('total-price').innerText = 'Preço total: $0';
+} else {
+  const localStoragePrice = localStorage.getItem('totalPrice');
+  document.getElementById('total-price').innerText = `Preço total: $${localStoragePrice}`;
+}
