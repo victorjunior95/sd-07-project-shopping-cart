@@ -36,8 +36,8 @@ function getSkuFromProductItem(item) {
 
 // Utilizar para remover um item do carrinho
 function cartItemClickListener(event) {
-  if(event.target.className === 'cart__item'){
-      event.target.parentElement.removeChild(event.target);
+  if (event.target.className === 'cart__item') {
+    event.target.parentElement.removeChild(event.target);
   }
 }
 
