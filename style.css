@@ -20,6 +20,7 @@
 .container {
   display: flex;
   justify-content: space-around;
+  visibility: hidden;
   width: 100%;
 }
 
@@ -73,4 +74,15 @@
   flex-basis: 1;
   font-size: 16pt;
   text-align: center;
+}
+
+.loading {
+  align-items: center;
+  display: flex;
+  font-size: 200px;
+  height: 800px;
+  justify-content: center;
+  position: absolute;
+  visibility: visible;
+  width: 100%;
 }
