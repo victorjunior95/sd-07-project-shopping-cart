@@ -48,13 +48,13 @@ const handleResult = (object) => {
 
 const getListItems = async () => {
   try {
-      const myRequest = 'computador';
-      const endPoint = await fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${myRequest}`);
-      const response = await endPoint.json();
-      handleResult(response.results);
-    } catch (error) {
-      console.log(error);
-    }
+    const myRequest = 'computador';
+    const endPoint = await fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${myRequest}`);
+    const response = await endPoint.json();
+    handleResult(response.results);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 function createCartItemElement({ sku, name, salePrice }) {
