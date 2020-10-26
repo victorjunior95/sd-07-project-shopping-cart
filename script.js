@@ -52,7 +52,6 @@ const transformProductsList = (productsArray) => {
   const products = productsArray;
   const loading = document.querySelector('.loading');
   const listLoading = document.querySelector('.items');
-  
   listLoading.removeChild(loading);
   products.forEach(product => renderProductList(product));
 };
