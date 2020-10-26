@@ -43,7 +43,7 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 
 const getList = async () => {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
-  fetch(endpoint).then((response) => response.json()).then(data => {
+  fetch(endpoint).then(response => response.json()).then((data) => {
     const items = document.querySelector('.items');
     data.results.forEach((product) => {
       const { id: sku, title: name, thumbnail: image } = product;
