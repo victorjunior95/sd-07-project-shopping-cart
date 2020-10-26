@@ -59,8 +59,8 @@ function removeMsg() {
 // requisito 2 passo 2
 const fetchToChart = (sku) => {
   try {
-  const endpoint = `https://api.mercadolibre.com/items/${sku}`;
-  fetch(endpoint)
+    const endpoint = `https://api.mercadolibre.com/items/${sku}`;
+    fetch(endpoint)
   .then(response => response.json())
   .then((data) => {
     cathOl(createCartItemElement(data)); // requisito 2 passo 4
@@ -83,13 +83,13 @@ const appendToChart = (item) => {
 // requisito 1 - com Async/Await
 const fetchProducts = async () => {
   try {
-  setTimeout(loading(),2000);
-  const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
-  const response = await fetch(endpoint);
-  const object = await response.json();
-  const result = object.results;
-  result.forEach(data => appendToChart(createProductItemElement(data)));
-  removeMsg;
+    setTimeout(loading(), 2000);
+    const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
+    const response = await fetch(endpoint);
+    const object = await response.json();
+    const result = object.results;
+    result.forEach(data => appendToChart(createProductItemElement(data)));
+    removeMsg();
   } catch (err) {
     console.log(err);
   }
