@@ -36,8 +36,9 @@ function getSkuFromProductItem(item) {
 
 // Utilizar para remover um item do carrinho
 function cartItemClickListener(event) {
-  // coloque seu código aqui
-
+  if(event.target.className === 'cart__item'){
+      event.target.parentElement.removeChild(event.target);
+  }
 }
 
 // Utilizar para criar os componentes HTML referentes a um item do carrinho
