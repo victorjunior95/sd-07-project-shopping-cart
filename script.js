@@ -79,6 +79,7 @@ const putOnCart = (data) => {
   obj.salePrice = data.price;
   const product = createCartItemElement(obj);
   listCart.appendChild(product);
+
   localStorage.clear();
   localStorage.setItem('lista', listCart.innerHTML);
 };
@@ -106,7 +107,7 @@ const buttonID = () => {
 const putResults = (data) => {
   const sectionItem = document.querySelector('.items');
   const loading = document.querySelector('.loading');
-  loading.innerHTML = '';
+  loading.remove();
   const obj = {};
 
   data.forEach((element) => {
