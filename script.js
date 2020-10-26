@@ -101,5 +101,4 @@ function emptyCart() {
 window.onload = function onload() {
   listingProducts();
   loadLocalStorage();
-  emptyCart();
 };
