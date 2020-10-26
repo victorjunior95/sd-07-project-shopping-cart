@@ -75,9 +75,7 @@ async function closePopup() {
 function responseForID(id) {
   const endpointID = `https://api.mercadolibre.com/items/${id}`;
   fetch(endpointID)
-    .then((response) => {
-      return response.json();
-    })
+    .then(response => response.json())
     .then(productelected => addCartLi(createCartItemElement(productelected)))
     .catch(error => alert(error));
 }
