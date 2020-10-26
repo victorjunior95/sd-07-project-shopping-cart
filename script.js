@@ -84,18 +84,18 @@ function listingProducts() {
   }));
 }
 
-function loadLocalStorage () {
+function loadLocalStorage() {
   const cartItemsContainer = document.querySelector('.cart__items');
   cartItemsContainer.innerHTML = localStorage.getItem('cartItems');
 }
 
 function emptyCart() {
-  const emptyButton = document.querySelector('empty-cart')
+  const emptyButton = document.querySelector('empty-cart');
   emptyButton.addEventListener('click', () => {
     const cartItemsContainer = document.querySelector('.cart__items');
     cartItemsContainer.innerHTML = '';
     updateLocalStorage();
-  })
+  });
 }
 
 window.onload = function onload() {
