@@ -76,6 +76,7 @@ const appendToChart = (item) => {
 
 // requisito 1 - com Async/Await
 const fetchProducts = async () => {
+  loading();
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   const response = await fetch(endpoint);
   const object = await response.json();
@@ -96,7 +97,6 @@ function cleanToChart() {
 }
 
 window.onload = function onload() {
-  loading();
   fetchProducts();
   cleanToChart();
 };
