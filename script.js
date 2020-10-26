@@ -41,9 +41,19 @@ function createCartItemElement({ id, title, price }) {
   return li;
 }
 
+function emptyCart() {
+  const itensLista = document.querySelector('.cart__items');
+  const itens = document.querySelectorAll('.cart__item');
+  for (let item = 0; item < itens.length; item += 1) {
+    itensLista.removeChild(itens[item]);
+  }
+}
+
 function addCartLi(li) {
+  const btnempty = document.querySelector('.empty-cart');
   const addLis = document.querySelector('.cart__items');
   addLis.appendChild(li);
+  btnempty.addEventListener('click', emptyCart);
 }
 
 function getSkuFromProductItem(item) {
