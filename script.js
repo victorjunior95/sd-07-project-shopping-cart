@@ -18,6 +18,13 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   const liToRemove = event.target;
+  for (let index = 0; index < localStorage.length; index += 1) {
+    const key = localStorage.key(index);
+    const item = localStorage.getItem(key);
+    if (liToRemove.innerText.startsWith(`SKU: ${item}`)) {
+      localStorage.removeItem(key);
+    }
+  }
   liToRemove.remove();
 }
 
@@ -36,9 +43,15 @@ const manageCart = (object) => {
     name: object.title,
     salePrice: object.price,
   };
-  const indexInTheCart = localStorage.length + 1;
-  localStorage.setItem(indexInTheCart.toString(), JSON.stringify(product));
+  localStorage.setItem(product.name, product.sku);
   cart.appendChild(createCartItemElement(product));
+};
+
+const fetchFromStorage = (sku) => {
+  const endpoint = `https://api.mercadolibre.com/items/${sku}`;
+  fetch(endpoint)
+  .then(response => response.json())
+  .then(object => manageCart(object));
 };
 
 const fetchInfoFromId = () => {
@@ -81,11 +94,9 @@ const fetchItemsMercadoLivre = (term) => {
 };
 
 const recoverCart = () => {
-  const cart = document.querySelector('.cart__items');
   for (let index = 0; index < localStorage.length; index += 1) {
-    let key = localStorage.key(index);
-    const li = createCartItemElement(JSON.parse(localStorage.getItem(key)));
-    cart.appendChild(li);
+    const key = localStorage.key(index);
+    fetchFromStorage(localStorage.getItem(key));
   }
 };
 
