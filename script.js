@@ -33,17 +33,9 @@ function loading() {
   asideContainer.appendChild(loadingParagraph);
 }
 
-function checkNodes(cartNodes) {
-  return new Promise((resolve, reject) => {
-    if (!cartNodes) {
-      return reject(console.log('Erro'));
-    }
-    return resolve(cartNodes);
-  });
-}
 
 async function updatePrice() {
-  const data = await checkNodes(cart.childNodes);
+  const data = cart.childNodes;
   const cartItems = data;
   const cartList = [...cartItems];
   if (cartList.length > 0) {
