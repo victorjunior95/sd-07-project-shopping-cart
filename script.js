@@ -84,15 +84,13 @@ function getSkuFromProductItem(item) {
 
 function cleanToChart() {
   const buttonCleanChart = document.querySelector('.empty-cart');
-  buttonCleanChart.addEventListener('click',() => {
-    const elementsToChart = document.querySelectorAll('.cart__item');
-    for (const element of elementsToChart) {
-      element.remove();
-    }
-  })
+  buttonCleanChart.addEventListener('click', () => {
+    const chart = document.querySelector('.cart__items');
+    chart.innerHTML = '';    
+  });
 }
 
 window.onload = function onload() {
   fetchProducts();
-  cleanToChart()
+  cleanToChart();
 };
