@@ -49,6 +49,20 @@ function emptyCart() {
   }
 }
 
+function createTotalPrice(value){
+  const addLoading = document.querySelector('.total');
+  divLoad = document.createElement('div');
+  divLoad.className = 'total-price';
+  divLoad.innerText = `Preço total do carrinho: $${value}`; 
+  addLoading.appendChild(divLoad);
+}
+
+function somaTotalPrice(value){
+  const addLoading = document.querySelector('.total-price');
+  const total = addLoading.innerText;
+  addLoading.innerHTML = `Preço total do carrinho: $${(parseFloat(total.split('$')[1]) + value).toFixed(2)}`;
+}
+
 function addCartLi(li) {
   const btnempty = document.querySelector('.empty-cart');
   const addLis = document.querySelector('.cart__items');
@@ -60,23 +74,33 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__id').innerText;
 }
 
-// function openPopup() {
-//   openWindow = window.open(
-//     'loading.html',
-//     'popup',
-//     'width=350, height=255, top=100, left=110, scrollbars=no',
-//   );
+// function openLoading() {
+//   const addLoading = document.querySelector('.cart');
+//   divLoad = document.createElement('div');
+//   divLoad.className = 'loading';
+//   divLoad.innerText = `loading`; 
+//   addLoading.appendChild(divLoad);
 // }
 
 // function closePopup() {
-//   closeWindow = window.close();
+//   const closeLoading = document.querySelector('.loading');
+//   closeLoading.remove();
 // }
 
 function responseForID(id) {
   const endpointID = `https://api.mercadolibre.com/items/${id}`;
   fetch(endpointID)
     .then(response => response.json())
-    .then(productelected => addCartLi(createCartItemElement(productelected)))
+    .then((productelected) => {
+      const addLoading = document.querySelector('.total-price');
+      if(addLoading === null ) {
+        createTotalPrice(productelected.price);
+      }
+      else{
+        somaTotalPrice(productelected.price);
+      }
+      addCartLi(createCartItemElement(productelected))
+    })
     .catch(error => alert(error));
 }
 
