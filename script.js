@@ -1,16 +1,3 @@
-window.onload = function onload() {
-  getProductsFromApi('computador');
-  clickEvents();
-
-  if (localStorage.getItem('carrinho') !== null) {
-    const ol = document.querySelector('.cart__items');
-    ol.innerHTML = localStorage.getItem('carrinho');
-
-    const list = document.querySelectorAll('.cart__item');
-    list.forEach(li => li.addEventListener('click', cartItemClickListener));
-  }
-};
-
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -60,29 +47,33 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
+function fetchData(endpoint, repeat) {
+  fetch(endpoint)
+    .then(reponse => reponse.json())
+    .then((object) => {
+      const products = object.results;
+      if (repeat) {
+        products.forEach((product) => {
+          const { id: sku, title: name, thumbnail: image } = product;
+          createProductItemElement({ sku, name, image });
+        });
+      } else {
+        const { id: sku, title: name, price: salePrice } = object;
+        createCartItemElement({ sku, name, salePrice });
+      }
+    });
+}
+
 function getProductsFromApi(newProduct, maxQt = 4) {
   const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${newProduct}&limit=${maxQt}`;
 
-  fetch(endpoint)
-    .then(reponse => reponse.json())
-    .then(object => {
-      const products = object.results;
-      products.forEach((product) => {
-        const { id: sku, title: name, thumbnail: image } = product;
-        createProductItemElement({ sku, name, image });
-      });
-    });
+  fetchData(endpoint, true);
 }
 
 function getInfosByID(id) {
   const endpoint = `https://api.mercadolibre.com/items/${id}`;
 
-  fetch(endpoint)
-    .then(reponse => reponse.json())
-    .then(object => {
-      const { id: sku, title: name, price: salePrice } = object;
-      createCartItemElement({ sku, name, salePrice });
-    });
+  fetchData(endpoint, false);
 }
 
 function clickEvents() {
@@ -102,3 +93,16 @@ function clickEvents() {
     localStorage.setItem('carrinho', ol.innerHTML);
   });
 }
+
+window.onload = function onload() {
+  getProductsFromApi('computador');
+  clickEvents();
+
+  if (localStorage.getItem('carrinho') !== null) {
+    const ol = document.querySelector('.cart__items');
+    ol.innerHTML = localStorage.getItem('carrinho');
+
+    const list = document.querySelectorAll('.cart__item');
+    list.forEach(li => li.addEventListener('click', cartItemClickListener));
+  }
+};
