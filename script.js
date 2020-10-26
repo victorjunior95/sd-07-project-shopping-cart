@@ -11,7 +11,7 @@ function cartItemClickListener(event) {
   const filho = document.querySelector(id);
   const pai = document.querySelector('.cart__items');
   pai.removeChild(filho);
-  saveToStorage();
+  // saveToStorage();
 }
 
 function createCartItemElement({ id, title, price }) {
@@ -44,7 +44,7 @@ async function addToCart(id) {
   .then((item) => {
     shoppingCart.appendChild(createCartItemElement(item));
   });
-  saveToStorage();
+  // saveToStorage();
 }
 
 function createCustomElement(element, className, innerText, id, test) {
@@ -82,7 +82,7 @@ function clearCartEvent() {
   button.addEventListener('click', function () {
     console.log('pertou');
     document.querySelector('.cart__items').innerHTML = '';
-    saveToStorage();
+    // saveToStorage();
   });
 }
 
@@ -98,7 +98,7 @@ window.onload = function onload() {
       pai.appendChild(filho);
     });
   }
-  loadFromStorage();
+  // loadFromStorage();
   clearCartEvent();
   itemsGenerator('computador');
 };
