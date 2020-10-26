@@ -33,7 +33,7 @@ function loading() {
   asideContainer.appendChild(loadingParagraph);
 }
 
-async function updatePrice() {
+function updatePrice() {
   const cartItems = cart.childNodes;
   const cartList = [...cartItems];
 
@@ -51,14 +51,14 @@ async function updatePrice() {
   }
 }
 
-async function storeCart() {
+function storeCart() {
   localStorage.setItem('cart', cart.innerHTML);
   localStorage.setItem('totalPrice', sumItem);
   updatePrice();
   return sumItem;
 }
 
-async function cartItemClickListener(event) {
+function cartItemClickListener(event) {
   cart.removeChild(event.target);
   storeCart();
   updatePrice();
