@@ -77,8 +77,18 @@ const fetchCurrency = () => {
       }
     });
 };
-
+/* referencia para remover todos os filhos https://qastack.com.br/programming/3955229/remove-all-child-elements-of-a-dom-node-in-javascript */
+function removeListCar() {
+  const empty = document.getElementsByClassName('empty-cart')[0];
+  const listItemsCar = document.getElementsByClassName('cart__items')[0];
+  empty.addEventListener('click', () => {
+    while (listItemsCar.firstChild) {
+      listItemsCar.removeChild(listItemsCar.lastChild);
+    }
+  });
+}
 
 window.onload = function onload() {
   fetchCurrency();
+  removeListCar();
 };
