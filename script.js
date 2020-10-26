@@ -1,20 +1,32 @@
-const createProductImageElement = (imageSource) => {
-  const img = document.createElement('img');
-  img.className = 'item__image';
-  img.src = imageSource;
-  return img;
+let cartItensStorage = localStorage.getItem("cardItemsArr") !== null ?
+  JSON.parse(localStorage.getItem("cardItemsArr")) : [];
+
+const upDateLocalStorage = () => {
+  localStorage.setItem("cardItemsArr", JSON.stringify(cartItensStorage))
 };
 
-const cartItemClickListener = (event) => {
-  const listIntens = document.querySelector('.cart__items');
-  listIntens.removeChild(event.target);
+const setCartItemsArr = (obj) => {
+  cartItensStorage.push(obj);
+  upDateLocalStorage();
+};
+
+const rmCartItemArr = (event) => {
+  const index = cartItensStorage.findIndex(element => element.sku === event.target.id);
+  cartItensStorage.splice(index, 1); 
+  upDateLocalStorage();
+};
+
+const cardItemsRemoveLi = (event) => {
+  rmCartItemArr(event);
+  document.querySelector('.cart__items').removeChild(event.target);
 };
 
 const createCartItemElement = ({ sku, name, salePrice }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
+  li.id = `${sku}`;
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
+  li.addEventListener('click', cardItemsRemoveLi);
   return li;
 };
 
@@ -22,22 +34,32 @@ const getProductsObj = url => fetch(url)
   .then(result => result.json())
   .then(result => result);
 
+const getSkuFromProductItem = (item) => item.target.parentNode.querySelector('span').innerText;
+
 const addCardItens = async (item) => {
-  // Olha a gambiarra
-  const skuItem = item.target.parentNode.querySelector('span').innerText;
+  const skuItem = getSkuFromProductItem(item);
   const product = await getProductsObj(`https://api.mercadolibre.com/items/${skuItem}`);
   const { id: sku, title: name, price: salePrice } = product;
   const element = createCartItemElement({ sku, name, salePrice });
-  document.querySelector('.cart__items').appendChild(element);
+  const cartItems = document.querySelector('.cart__items');
+  cartItems.appendChild(element);
+  setCartItemsArr({ sku, name, salePrice });
 };
 
 const createCustomElement = (element, className, innerText) => {
   const e = document.createElement(element);
-  // Refatorar
-  if (element === 'button') e.addEventListener('click', addCardItens);
+  if (element === 'button')
+    e.addEventListener('click', addCardItens);
   e.className = className;
   e.innerText = innerText;
   return e;
+};
+
+const createProductImageElement = (imageSource) => {
+  const img = document.createElement('img');
+  img.className = 'item__image';
+  img.src = imageSource;
+  return img;
 };
 
 const createProductItemElement = ({ sku, name, image }) => {
@@ -51,8 +73,6 @@ const createProductItemElement = ({ sku, name, image }) => {
 
   return section;
 };
-/* Preciso entender quando usar
-const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText; */
 
 const outputProducts = async () => {
   const products = await getProductsObj('https://api.mercadolibre.com/sites/MLB/search?q=computador');
@@ -63,4 +83,17 @@ const outputProducts = async () => {
   });
 };
 
-window.onload = function onload() { outputProducts(); };
+const createCartItensOfStorage = (cartItensStorageArr) => {
+  if (localStorage.getItem("cardItemsArr") !== null)
+  cartItensStorageArr.map(e => {
+      const { sku, name, salePrice } = e;
+      const element = createCartItemElement({ sku, name, salePrice });
+      const cartItems = document.querySelector('.cart__items');
+      cartItems.appendChild(element);
+    })
+}
+
+window.onload = function onload() {
+  outputProducts(); 
+  createCartItensOfStorage(cartItensStorage);
+};
