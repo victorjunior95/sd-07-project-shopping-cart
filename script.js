@@ -27,10 +27,16 @@ function createCartElement(product) {
   const elementCreated = createProductItemElement(product);
   items.appendChild(elementCreated);
 }
+function updateTotal(value){
+  const addLoading = document.querySelector('.total-price');
+  const total = addLoading.innerText;
+  addLoading.innerText = `${parseFloat(total) - parseFloat(value)}`;
+}
 
 function cartItemClickListener(event) {
   const removeItem = document.querySelector('.cart__items');
   removeItem.removeChild(event.target);
+  updateTotal(event.toElement.innerText.split("$")[1])
 }
 
 function createCartItemElement({ id, title, price }) {
@@ -62,9 +68,6 @@ function somaTotalPrice(value) {
   const total = addLoading.innerText;
   addLoading.innerText = `${parseFloat(total) + parseFloat(value)}`;
 }
-// `Preço total do carrinho: $${value}`;
-// `Preço total do carrinho: $${(parseFloat(total.split('$')[1]) + value).toFixed(2)}`;
-
 
 function addCartLi(li) {
   const btnempty = document.querySelector('.empty-cart');
