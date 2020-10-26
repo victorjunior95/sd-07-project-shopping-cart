@@ -23,7 +23,7 @@ async function sumPriceItem() {
     const capNumbers = parseFloat(capNumber.substr(-10).replace(/([^\d])+/gim, '.').substr(1));
     numbers += capNumbers;
   });
-  totalPrice.innerText = await numbers.toFixed(2);
+  totalPrice.innerText = await numbers;
 }
 
 function pageApiLoading() {
