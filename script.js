@@ -24,23 +24,23 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-// function getSkuFromProductItem(item) {
-//   return item.querySelector('span.item__sku').innerText;
-// }
+function getSkuFromProductItem(item) {
+  return item.querySelector('span.item__sku').innerText;
+}
 
-// function cartItemClickListener(event) {
-//   // coloque seu código aqui
-// }
+function cartItemClickListener(event) {
+  // coloque seu código aqui
+}
 
-// function createCartItemElement({ sku, name, salePrice }) {
-//   const li = document.createElement('li');
-//   li.className = 'cart__item';
-//   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-//   li.addEventListener('click', cartItemClickListener);
-//   return li;
-// }
+function createCartItemElement({ sku, name, salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
+}
 
-const renderProduct = (singleProduct) => {
+const renderProductList = (singleProduct) => {
   const { id, title, thumbnail } = singleProduct;
   const finalProduct = createProductItemElement({ sku: id, name: title, image: thumbnail });
   const productsList = document.querySelector('.items');
@@ -48,17 +48,30 @@ const renderProduct = (singleProduct) => {
   productsList.appendChild(finalProduct);
 };
 
-const transformProducts = (productsArray) => {
+const transformProductsList = (productsArray) => {
   const products = productsArray;
-  products.forEach(product => renderProduct(product));
+  const loading = document.querySelector('.loading');
+  products.forEach(product => renderProductList(product));
+  loading.innerText = '';
 };
+
+const loadingMessage = () => {
+  const emptyProductsList = document.querySelector('.items');
+  const loadingMessage = document.createElement('p');
+  loadingMessage.className = 'loading';
+  loadingMessage.innerText = 'loading...';
+
+  emptyProductsList.appendChild(loadingMessage);
+
+}
 
 const fetchProductList = (product = 'computador') => {
   const productEndpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${product}`;
 
   fetch(productEndpoint)
+    .then(loadingMessage())
     .then(response => response.json())
-    .then(array => transformProducts(array.results));
+    .then(array => transformProductsList(array.results));
 };
 
 window.onload = () => {
