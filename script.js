@@ -39,7 +39,7 @@ function addItemsGotFromQuery(data) {
        sku: id, name: title, image: thumbnail 
       })
     )
-    console.log(id, title, thumbnail);
+    return item;
     }
   );
 }
