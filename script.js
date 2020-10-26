@@ -36,8 +36,9 @@ function createCartItemElement(sku, name, salePrice) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   document.querySelector('.cart__items').appendChild(li);
-  // li.addEventListener('click', cartItemClickListener);
-  // return li;
+  li.addEventListener('click', () => {
+    li.remove();
+  });
 }
 
 function cartItemClickListener() {
