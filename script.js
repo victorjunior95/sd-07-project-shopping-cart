@@ -1,5 +1,19 @@
 let totalPrice = 0;
 
+function createLoading() {
+  const loading = document.createElement('div');
+  loading.className = 'loading';
+  loading.innerHTML = 'loading';
+  const body = document.querySelector('body')
+  body.appendChild(loading);
+}
+
+function loadingDestruction() {
+  const loading = document.querySelector('.loading');
+  const body = document.querySelector('body');
+  body.removeChild(loading);
+}
+
 function changeLoadingDisplay(displayThatYouWant) {
   const loading = document.querySelector('.loading');
   loading.style.display = displayThatYouWant;
@@ -62,13 +76,13 @@ function createCartItemElement({ id, title, price }) {
 const fetchItemList = async (sku) => {
   const endpoint = `https://api.mercadolibre.com/items/${sku}`;
   try {
-    changeLoadingDisplay('block');
+    createLoading();
     const response = await fetch(endpoint);
     const item = await response.json();
     const li = createCartItemElement(item);
     const cartList = document.querySelector('.cart__items');
     cartList.appendChild(li);
-    changeLoadingDisplay('none');
+    loadingDestruction();
   } catch (error) {
     window.alert(error);
   }
@@ -88,7 +102,7 @@ const buttonEventListener = () => {
 const fetchProductsList = async (category) => {
   const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${category}`;
   try {
-    changeLoadingDisplay('block');
+    createLoading();
     const response = await fetch(endpoint);
     const object = await response.json();
     const itemsArray = await object.results;
@@ -98,7 +112,7 @@ const fetchProductsList = async (category) => {
       newFather.appendChild(newElement);
     });
     buttonEventListener();
-    changeLoadingDisplay('none');
+    loadingDestruction();
   } catch (error) {
     window.alert(error);
   }
