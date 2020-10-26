@@ -1,7 +1,26 @@
 
+const removeItemFromLocalStorage = (id) => {
+  const cartItens = Object.entries(localStorage);
+  cartItens.forEach((item) => {
+    let itemKey = item[0];
+    let itemId = item[1].slice(0, 13);
+    if (itemId === id) localStorage.removeItem(`${itemKey}`);
+  });
+}
+
 function cartItemClickListener(event) {
   // coloque seu código aqui
+  let id = event.target.innerText.slice(5, 18);
+  removeItemFromLocalStorage(id);
   event.target.remove();
+}
+
+const putItemInLocalStorage = (id, name, price) => {
+  if (localStorage.getItem('counter') === null) localStorage.setItem('counter', 0);
+  let counter = localStorage.getItem('counter');
+  counter = parseInt(counter) +1;
+  localStorage.setItem('counter', counter);
+  localStorage.setItem(`cartItem${counter}`, [id, name, price]);
 }
 
 function createCartItemElement(sku, name, salePrice) {
@@ -9,6 +28,8 @@ function createCartItemElement(sku, name, salePrice) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  removeItemFromLocalStorage(sku);
+  putItemInLocalStorage(sku, name, salePrice);
   return li;
 }
 
@@ -16,6 +37,21 @@ const convertRequestToJSON = (url) => {
   const conversion = fetch(url).then(response => response.json());
   return conversion;
 };
+
+const recoverCart = () => {
+  let cartItems = Object.values(localStorage);
+  cartItems.forEach((item) => {
+    if (item.length > 10) {
+      const id = item.slice(0, 13);
+      const newString = item.slice(14, (item.length))
+      const commaPosition = newString.indexOf(',');
+      const name = newString.slice(0, (commaPosition));
+      const price = newString.slice((commaPosition +1), newString.length);
+      const cartItem = createCartItemElement(id, name, price);
+      document.querySelector('.cart__items').appendChild(cartItem);
+    };
+  });
+}
 
 const addRequestToHTMLClass = (request, callback, HTMLClass) => {
   const { id, title, price, thumbnail } = request;
@@ -72,6 +108,7 @@ const createItens = () => {
 };
 
 window.onload = function onload() {
+  recoverCart();
   createItens();
 };
 
