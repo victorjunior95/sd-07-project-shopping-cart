@@ -11,7 +11,7 @@ const getProductsList = async (term) => {
   try {
     const response = await fetch(url);
     const object = await response.json();
-    const results = object.results;
+    const { results } = await object.results;
     return results;
   } catch (error) {
     return showAlert(error);
