@@ -2,11 +2,16 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+function cartItemClickListener(event) {
+  const clickedItem = event.target;
+  clickedItem.parentNode.removeChild(clickedItem);
+}
+
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  // li.addEventListener('click', cartItemClickListener);
+  li.addEventListener('click', cartItemClickListener);
   return li;
 }
 
@@ -22,10 +27,6 @@ const productByID = async (itemId) => {
     })
     .catch(() => console.log('Algo deu errado na seleção do item.'));
 };
-
-/* function cartItemClickListener(event) {
-
-} */
 
 // Referência projeto Rafael Guimarães
 const fetchItemByID = async (event) => {
