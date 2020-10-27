@@ -32,7 +32,7 @@ const adaptJSONResponses = (object) => {
     const item = createProductItemElement({ sku, name, image });
     itemsElementHTML.appendChild(item);
   });
-  // buttonAddShopCart();
+  buttonAddToCart();
 };
 
 const fetchProducts = async () => {
@@ -63,14 +63,33 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-// const buttonAddShopCart = () => {
-//   const allButtonsAddItem = document.getElementsByClassName('.item_add');
-//   allButtonsAddItem.forEach((button) => {
-//     button.addEventListener('click', () => {
-//       console.log('teste');
-//     });
-//   });
-// }
+const buttonAddToCart = () => {
+  const allButtonsAddItem = document.querySelectorAll('.item__add');
+  allButtonsAddItem.forEach((button) => {
+    button.addEventListener('click', () => {
+      const cartItem = button.parentNode.querySelector('.item__sku').innerText;
+      addToCart(cartItem);
+    });
+  });
+}
+
+const adaptJSONItem = (object) => {
+  const cartItems = document.querySelector('.cart__items');
+  const { id: sku, title: name, price: salePrice } = object;
+  const item = createCartItemElement({ sku, name, salePrice });
+  cartItems.appendChild(item);
+}
+
+const addToCart = async (itemID) => {
+  const endpointByID = `https://api.mercadolibre.com/items/${itemID}`;
+  try {
+    const response = await fetch(endpointByID);
+    const object = await response.json();
+    adaptJSONItem(object);
+  } catch (Error) {
+    alert(Error);
+  }
+}
 
 window.onload = function onload() {
   fetchProducts();
