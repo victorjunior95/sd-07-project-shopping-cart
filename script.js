@@ -11,8 +11,7 @@ const sumPrices = () => {
   const priceitems = document.querySelectorAll('[data-price-items]');
   const total = Array.from(priceitems, ({ dataset: { priceItems } }) =>
   Number(priceItems)).reduce((acc, price) => acc + price, 0);
-  const roundTotal = Math.round(total);
-  return roundTotal;
+  return total.toPrecision(6);
 };
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
