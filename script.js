@@ -87,7 +87,7 @@ const fetchProducts = () => {
       .then(data =>
         data.results.forEach((value) => {
           appendToChart(createProductItemElement(value));
-        })
+        }),
       )
       .then(eraseElement());
   }, 5000);
@@ -101,7 +101,7 @@ function cleanToChart() {
   const buttonCleanChart = document.querySelector('.empty-cart');
   buttonCleanChart.addEventListener('click', () => {
     const chart = document.querySelector('.cart__items');
-    chart.innerHTML = "";
+    chart.innerHTML = '';
   });
 }
 
