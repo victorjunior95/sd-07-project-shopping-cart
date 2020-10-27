@@ -1,6 +1,6 @@
-// const showAlert = (message) => {
-//   window.alert(message);
-// };
+const showAlert = (message) => {
+  window.alert(message);
+};
 
 const showTotalPrice = (total) => {
   const totalPrice = document.querySelector('.total-price');
@@ -56,7 +56,7 @@ const fecthComputerAsyncAwait = async () => {
       productOnScreen(objekt.results);
     }
   } catch (error) {
-    // showAlert(error);
+    showAlert(error);
   }
 };
 
@@ -107,10 +107,9 @@ const fecthIdAsyncAwait = async (id) => {
       addCartListById(object);
     }
   } catch (error) {
-    // showAlert(error);
+    showAlert(error);
   }
 };
-
 // function getSkuFromProductItem(item) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
@@ -134,12 +133,7 @@ function emptyCar() {
   });
 }
 
-// const waitLoading = () => {
-//   setTimeout(() => { document.querySelector('.loading').remove(); }, 5000);
-// };
-
 window.onload = async function onload() {
-  // waitLoading();
   goBackInsideCart();
   await fecthComputerAsyncAwait();
   catchAllProductEvent();
@@ -147,6 +141,8 @@ window.onload = async function onload() {
   showTotalPrice(sumPrices());
 };
 
+// Referência bibliográfica
+// https://github.com/tryber/sd-07-project-shopping-cart/pulls/EduSouza-programmer
 // Referência bibliográfica
 // https://github.com/tryber/sd-07-project-shopping-cart/pulls/EduSouza-programmer
 // https://www.youtube.com/watch?v=SB9PQrOJVz4
