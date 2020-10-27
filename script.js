@@ -1,19 +1,11 @@
 window.onload = function onload() {};
 
-/* const addToStorage = () => {
-  const getItens = document.querySelector('.cart__items')
-  getItens.forEach((element, index) => {
-    localStorage.setItem(index, element)
-  })
-}
-
-const clearstorage = () => {
-    localStorage.clear();
-}
-
-const eraseCart = () => {
-
-}*/
+const addToStorage = () => {
+  const getItem = document.querySelector('.cart__items').innerHTML;
+  localStorage.setItem('item', JSON.stringify(getItem));
+  // está pegando um html e transformando em uma string
+  // quando mandamos dados para o server ele precisa ser uma string
+};
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -48,8 +40,20 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   event.target.remove();
+  addToStorage();
 }
 
+const saveItens = () => {
+  const getItem = document.querySelector('.cart__items');
+  const ol = localStorage.getItem('item');
+  // retorna o valor que está armazenado
+  getItem.innerHTML = JSON.parse(ol);
+  // transforma a string em obj
+  const itensCart = document.querySelectorAll('.cart__item');
+  itensCart.forEach(item => item.addEventListener('click', cartItemClickListener));
+  console.log(ol);
+};
+saveItens();
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
@@ -82,6 +86,7 @@ function fetchItensOfCart(itemId) {
   fetch(endpoint)
   .then(response => response.json())
   .then(infos => addItensToCart(infos));
+  addToStorage();
 }
 
 const addItensToList = (event) => {
