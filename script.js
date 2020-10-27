@@ -92,7 +92,7 @@ function pegaArray(li) {
     price = li.split('|')[2].split(': $')[1];
   } catch (error) {
     price = li.split('|')[4].split(': $')[1];
-  } 
+  }
   return { id, title, price };
 }
 
