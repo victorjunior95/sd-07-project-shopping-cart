@@ -37,7 +37,7 @@ const createProductItemElement = ({
 const createPrice = (totalPrice) => {
   const cart = document.querySelector('.cart');
   const prices = document.querySelector('.total-price');
-  prices.innerText = `${totalPrice}`;
+  prices.innerHTML = `${totalPrice}`;
   cart.appendChild(prices);
   return prices;
 };
@@ -75,6 +75,7 @@ const removeAllItems = () => {
   const cartItems = document.querySelector('.cart__items');
   cartItems.innerHTML = '';
   localStorage.clear();
+  totalPrice();
 };
 
 const loadElements = () => {
