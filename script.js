@@ -30,7 +30,6 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-let sum = 0;
 const clearCart = () => {
   const list = document.querySelector('.cart__items');
   const buttonClear = document.querySelector('.empty-cart');
@@ -40,41 +39,41 @@ const clearCart = () => {
 
     const totalPrice = document.querySelector('.total-price');
     totalPrice.innerHTML = 'Preço total: $0';
-    sum = 0;
   });
 };
 
-const decreasesSum = (event) => {
-  const string = event.innerText;
-  const positionInitial = string.indexOf('PRICE') + 8;
-  const positionFinal = string.length;
-  const substring = string.substr(positionInitial, positionFinal);
-  const price = parseFloat(substring);
+const returnTotalPrice = () => {
+  const items = document.querySelectorAll('.cart__item');
+  if (!items) {
+    return 0;
+  }
+  let price = 0;
+  let sum = 0;
+  items.forEach((element) => {
+    const string = element.innerText;
+    const positionInitial = string.indexOf('PRICE') + 8;
+    const positionFinal = string.length;
+    const substring = string.substr(positionInitial, positionFinal);
+    price = parseFloat(substring);
+    sum += price;
+  });
 
-  return price;
+  return sum;
 };
 
 function cartItemClickListener(event) {
-  const price = decreasesSum(event.target);
-  sum -= price;
-  const totalPrice = document.querySelector('.total-price');
-  totalPrice.innerHTML = `Preço total: $${sum}`;
-  console.log(sum);
   event.target.remove();
-}
+  const sum = returnTotalPrice();
 
-const sumPrices = (price) => {
   const totalPrice = document.querySelector('.total-price');
-  sum += price;
   totalPrice.innerHTML = `Preço total: $${sum}`;
-};
+}
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
-  sumPrices(salePrice, true);
 
   return li;
 }
@@ -98,7 +97,11 @@ const putOnCart = (data) => {
   obj.salePrice = data.price;
   const product = createCartItemElement(obj);
   listCart.appendChild(product);
-  console.log(sum);
+
+  const sum = returnTotalPrice();
+  const totalPrice = document.querySelector('.total-price');
+  totalPrice.innerHTML = `Preço total: $${sum}`;
+
   localStorage.clear();
   localStorage.setItem('lista', listCart.innerHTML);
 };
