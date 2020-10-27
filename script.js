@@ -27,10 +27,38 @@ function createProductItemElement({ sku, name, image }) {
 // function getSkuFromProductItem(item) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
+const addToLocalStorage = () => {
+  const arrToSaveInLocalStorage = [];
+  const ol = document.querySelector('.cart__items');
+  for (let index = 0; index < ol.childElementCount; index += 1) {
+    const itemText = ol.children[index].innerText;
+    const objToSaveLocalStorage = { item: itemText };
+    arrToSaveInLocalStorage.push(objToSaveLocalStorage);
+  }
+  localStorage.setItem('Item', JSON.stringify(arrToSaveInLocalStorage));
+};
+const sumAmountToPay = () => {
+  const objectLocalStorage = JSON.parse(localStorage.getItem('Item'));
+  let amountToPayToReturn = 0;
+  for (let index = 0; index < objectLocalStorage.length; index += 1) {
+    const priceOfItem = objectLocalStorage[index].item.split('$')[1];
+    amountToPayToReturn += parseFloat(priceOfItem);
+  }
+  return amountToPayToReturn;
+};
+
+const totalPriceHTML = async () => {
+  const totalPriceToPay = await sumAmountToPay();
+  const divTotalPrice = document.querySelector('.total-price');
+  divTotalPrice.innerText = totalPriceToPay.toFixed(2);
+};
 
 function cartItemClickListener(event) {
   const ol = document.querySelector('.cart__items');
   ol.removeChild(event.target);
+  localStorage.clear();
+  addToLocalStorage();
+  totalPriceHTML();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -59,17 +87,6 @@ const addItensInHTML = async () => {
   });
 };
 
-const addToLocalStorage = () => {
-  const arrToSaveInLocalStorage = [];
-  const ol = document.querySelector('.cart__items');
-  for (let index = 0; index < ol.childElementCount; index += 1) {
-    const itemText = ol.children[index].innerText;
-    const objToSaveLocalStorage = { item: itemText };
-    arrToSaveInLocalStorage.push(objToSaveLocalStorage);
-  }
-  localStorage.setItem('Item', JSON.stringify(arrToSaveInLocalStorage));
-};
-
 const addItemIntoCar = () => {
   const sectionItems = document.querySelector('.items');
   sectionItems.addEventListener('click', async (event) => {
@@ -88,15 +105,19 @@ const addItemIntoCar = () => {
     const ol = document.querySelector('.cart__items');
     ol.appendChild(li);
     addToLocalStorage(li);
+    totalPriceHTML();
   });
 };
 window.onload = function onload() {
   addItensInHTML();
   addItemIntoCar();
+  totalPriceHTML();
+
   const btnClearOl = document.querySelector('.empty-cart');
   btnClearOl.addEventListener('click', () => {
     const ol = document.querySelector('.cart__items');
     ol.innerHTML = '';
+    addToLocalStorage();
   });
 
   const createLIFromLocalStorage = (textItem) => {
