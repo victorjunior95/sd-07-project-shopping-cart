@@ -18,7 +18,7 @@ function createPriceElement(value) {
   totalPrice.innerHTML = '';
   span.innerHTML = `${value}`;
   totalPrice.appendChild(span);
-  return true;
+  return totalPrice;
 }
 
 function getSkuFromProductItem(item) {
@@ -43,14 +43,14 @@ const getCartItemsObjectList = () => {
   return cartItemsObjectList;
 };
 
-const sumCartItemsList = async () => {
+const sumCartItemsList = () => {
   let sum = 0;
   const cartItemsObjectList = getCartItemsObjectList();
   if (cartItemsObjectList.length > 0) {
     sum = cartItemsObjectList
       .reduce((acc, cartItem) => (acc + parseFloat(cartItem.salePrice)), 0);
   }
-  createPriceElement(sum);
+  return createPriceElement(sum);
 };
 
 const updateCartItemsListLocalStorage = () => {
@@ -118,7 +118,7 @@ function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
   e.className = className;
   e.innerText = innerText;
-  e.addEventListener('click', productItemClickListener);
+  if (element === 'button') e.addEventListener('click', productItemClickListener);
   return e;
 }
 
