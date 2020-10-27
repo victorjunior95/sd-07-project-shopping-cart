@@ -68,10 +68,10 @@ const fetchToChart = (sku) => {
 };
 
 // requisito 2 passo 3
-const appendToChart = (item) => {
+const appendToChart = (value) => {
   const createDisplay = document.querySelector('.items');
-  createDisplay.appendChild(item);
-  item.addEventListener('click', (event) => {
+  createDisplay.appendChild(value);
+  value.addEventListener('click', (event) => {
     const getSku = event.currentTarget.firstChild.innerText;
     fetchToChart(getSku);
   });
