@@ -201,7 +201,8 @@ const createItens = () => {
       document.querySelector('.loading').remove();
       return response.results.forEach((computer) => {
         addRequestToHTMLClass(computer, createProductItemElement, '.items');
-      }) },
+      })
+    },
     );
 };
 
