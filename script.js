@@ -47,17 +47,17 @@ let total = 0;
 const sumPrice = (price) => {
   total += Number(price.toFixed(2));
   document.querySelector('.total-price').innerHTML = total;
-}
+};
 
 const subtractPrice = async () => {
   const totalPrice = document.querySelector('.cart__item').innerHTML.split('$');
   total -= Number(totalPrice[1]).toFixed(2);
-  if (total.toFixed(2) < 0 || document.querySelector('.cart__item').innerHTML === ''){
+  if ( total.toFixed(2) < 0 || document.querySelector('.cart__item').innerHTML === ''){
     // se o cart__item estiver sem item tambem zera
     total = 0;
   }
   document.querySelector('.total-price').innerHTML = Number(total.toFixed(2));
-}
+};
 
 // requisto 3 , somente esse retorno
 function cartItemClickListener(evento) {
@@ -71,7 +71,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
-  sumPrice(salePrice)
+  sumPrice(salePrice);
   return li;
 }
 
