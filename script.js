@@ -26,17 +26,19 @@ function createProductItemElement({ sku, name, image }) {
 
 async function updateLocalStorage() {
   const cartItems = document.querySelector('.cart__items').outerHTML;
-  const totalPrice = document.querySelector('.total-price').outerHTML;
   localStorage.setItem('cart-items', cartItems);
-  localStorage.setItem('total-price', totalPrice);
 }
 
-async function updateTotalCart(price) {
-  const totalPrice = document.querySelector('.total-price');
-  if (totalPrice.innerText !== '') {
-    totalPrice.innerText = (parseFloat(totalPrice.innerText) + price).toFixed(1);
+async function updateTotalCart() {
+  const cartItems = document.querySelectorAll('.cart__item');
+  if (cartItems.length > 0) {
+    let total = 0;
+    cartItems.forEach((item) => {
+      total += parseFloat(item.innerText.split('$')[1]);
+    })
+    document.querySelector('.total-price').innerText = total.toFixed(2);
   } else {
-    totalPrice.innerText = price;
+    document.querySelector('.total-price').innerText = '';
   }
 }
 
@@ -44,9 +46,8 @@ function cartItemClickListener(event) {
   const cartItems = document.querySelectorAll('.cart__item');
   cartItems.forEach((item) => {
     if (item === event.target) {
-      const priceReduce = event.target.innerText.split('$')[1] * (-1);
-      updateTotalCart(priceReduce);
       document.querySelector('.cart__items').removeChild(item);
+      updateTotalCart();
       updateLocalStorage();
     }
   });
@@ -55,12 +56,11 @@ function cartItemClickListener(event) {
 const loadLocalStorage = () => {
   if (localStorage.length !== 0) {
     document.querySelector('.cart__items').outerHTML = localStorage.getItem('cart-items');
-    document.querySelector('.total-price').outerHTML = localStorage.getItem('total-price');
-
     document.querySelectorAll('.cart__item')
     .forEach((item) => {
       item.addEventListener('click', cartItemClickListener);
     });
+    updateTotalCart();
   }
 };
 
@@ -87,8 +87,7 @@ function addItemToCart(event) {
           salePrice: price,
         };
         document.querySelector('.cart__items').appendChild(createCartItemElement(object));
-        console.log(price);
-        updateTotalCart(price);
+        updateTotalCart();
         updateLocalStorage();
       }),
     );
