@@ -7,30 +7,36 @@ const createLoadText = () => {
   itemsSection.appendChild(span);
 };
 
-const sumPricesAssync = async () => {
+const sumPricesAssync = () => new Promise((resolve, reject) => {
   const cartItemsId = document.getElementsByClassName('cart__item');
   let totalCartPrice = 0;
   for (let i = 0; i < cartItemsId.length; i += 1) {
     totalCartPrice += Number(cartItemsId[i].name);
   }
-  document.getElementById('total-price').innerText = Number(totalCartPrice.toFixed(2));
-};
+  if (typeof totalCartPrice === 'number') {
+    document.getElementById('total-price').innerText = Number(totalCartPrice.toFixed(2));
+    resolve('Success in summing');
+  } else {
+    reject('Error in summing');
+  }
+});
 
-function createProductImageElement(imageSource) {
+
+const createProductImageElement = (imageSource) => {
   const img = document.createElement('img');
   img.className = 'item__image';
   img.src = imageSource;
   return img;
-}
+};
 
-function createCustomElement(element, className, innerText) {
+const createCustomElement = (element, className, innerText) => {
   const e = document.createElement(element);
   e.className = className;
   e.innerText = innerText;
   return e;
-}
+};
 
-function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
+const createProductItemElement = ({ id: sku, title: name, thumbnail: image }) => {
   const section = document.createElement('section');
   section.className = 'item';
 
@@ -40,19 +46,19 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
 
   return section;
-}
+};
 
-function cartItemClickListener(event) {
+const cartItemClickListener = (event) => {
   const itemToRemove = event.target;
   const ol = document.getElementsByClassName('cart__items')[0];
   ol.removeChild(itemToRemove);
-}
+};
 
 const removeFromLocalStorage = (event) => {
   localStorage.removeItem(event.target.id);
 };
 
-function createCartItemElement({ id: sku, title: name, price: salePrice }) {
+const createCartItemElement = ({ id: sku, title: name, price: salePrice }) => {
   const li = document.createElement('li');
   li.id = sku;
   li.name = salePrice;
@@ -62,7 +68,7 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.addEventListener('click', removeFromLocalStorage);
   li.addEventListener('click', sumPricesAssync);
   return li;
-}
+};
 
 const fetchItemById = (event) => {
   const itemId =
@@ -82,7 +88,6 @@ const fetchItemById = (event) => {
 
 const fecthProductList = (product) => {
   const productQuery = `https://api.mercadolibre.com/sites/MLB/search?q=${product}`;
-  createLoadText();
   fetch(productQuery)
     .then(response => response.json())
     .then(object => object.results)
@@ -107,9 +112,7 @@ const emptyCart = () => {
   document.getElementById('total-price').innerText = 0;
 };
 
-window.onload = function onload() {
-  fecthProductList('computer');
-
+const createCartFromLocalStorage = () => {
   const localStorageValues = Object.entries(localStorage);
   if (localStorage.length > 0) {
     localStorageValues.forEach((item) => {
@@ -122,7 +125,12 @@ window.onload = function onload() {
       document.getElementById('cart__items').appendChild(localStorageLi);
     });
   }
+};
 
+window.onload = function onload() {
+  createLoadText();
+  createCartFromLocalStorage();
+  fecthProductList('computer');
   sumPricesAssync();
   document.getElementById('empty-cart').addEventListener('click', emptyCart);
 };
