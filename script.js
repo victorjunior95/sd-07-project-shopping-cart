@@ -2,6 +2,18 @@ const showAlert = (message) => {
   window.alert(message);
 };
 
+const showTotalPrice = (total) => {
+  const totalPrice = document.querySelector('.total-price');
+  totalPrice.innerHTML = total;
+};
+
+const sumPrices = () => {
+  const priceitems = document.querySelectorAll('[data-price-items]');
+  const total = Array.from(priceitems, ({ dataset: { priceItems } }) =>
+  Number(priceItems)).reduce((acc, price) => acc + price, 0);
+  const roundTotal = Math.round(total);
+  return roundTotal;
+};
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -64,6 +76,7 @@ function cartItemClickListener(event) {
   const cartItems = document.querySelector('.cart__items');
   cartItems.removeChild(event.target);
   saveInLocalStorage();
+  showTotalPrice(sumPrices());
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -72,14 +85,16 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  li.dataset.priceItems = salePrice;
   cartItems.appendChild(li);
   saveInLocalStorage();
   return li;
 }
 
-function addCartListById(elementId) {
+async function addCartListById(elementId) {
   const cartItems = document.querySelector('.cart__items');
   cartItems.appendChild(createCartItemElement(elementId));
+  await showTotalPrice(sumPrices());
 }
 
 const fecthIdAsyncAwait = async (id) => {
@@ -113,7 +128,10 @@ function catchAllProductEvent() {
 function emptyCar() {
   const cartItems = document.querySelector('.cart__items');
   const emptyCart = document.querySelector('.empty-cart');
-  emptyCart.addEventListener('click', () => { cartItems.innerHTML = ''; });
+  emptyCart.addEventListener('click', () => {
+    cartItems.innerHTML = '';
+    showTotalPrice(sumPrices());
+  });
 }
 
 window.onload = async function onload() {
@@ -121,4 +139,8 @@ window.onload = async function onload() {
   await fecthComputerAsyncAwait();
   catchAllProductEvent();
   emptyCar();
+  showTotalPrice(sumPrices());
 };
+
+// Referência bibliográfica
+// https://github.com/tryber/sd-07-project-shopping-cart/pulls/EduSouza-programmer
