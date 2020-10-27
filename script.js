@@ -36,6 +36,22 @@ const saveInLocalStorage = () => {
   localStorage.setItem('totalPrice', JSON.stringify(totalPrice));
 };
 
+const sumPrice = async () => {
+  const lis = document.querySelectorAll('.cart__item');
+  const resultElement = document.querySelector('.total-price');
+  const nodeListForArr = Array.from(lis);
+
+  const sum = nodeListForArr.reduce((total, li) => {
+    const liValue = li.innerText;
+    const arrOfValue = liValue.split('$');
+    return total + Number(arrOfValue[1]);
+  }, 0);
+
+  resultElement.innerText = sum.toFixed(2);
+
+  saveInLocalStorage();
+};
+
 async function cartItemClickListener(event) {
   const ol = document.querySelector('.cart__items');
   const li = event.target;
@@ -59,9 +75,9 @@ const loadLocalStorage = () => {
 
   const totalPrice = document.querySelector('.total-price');
 
-  let sumResult = localStorage.getItem('totalPrice')
+  let sumResult = localStorage.getItem('totalPrice');
   sumResult = JSON.parse(sumResult);
-  
+
   totalPrice.innerHTML = sumResult;
 };
 
@@ -98,22 +114,6 @@ const callFetch = async (id) => {
     alert(error);
     return error;
   }
-};
-
-const sumPrice = async () => {
-  const lis = document.querySelectorAll('.cart__item');
-  const resultElement = document.querySelector('.total-price');
-  const nodeListForArr = Array.from(lis);
-
-  const sum = nodeListForArr.reduce((sum, li) => {
-    const liValue = li.innerText;
-    const arrOfValue = liValue.split('$');
-    return sum + Number(arrOfValue[1]);
-  }, 0);
-
-  resultElement.innerText = sum.toFixed(2);
-
-  saveInLocalStorage();
 };
 
 const goToOL = async (event) => {
