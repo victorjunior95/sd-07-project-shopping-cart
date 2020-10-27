@@ -5,8 +5,8 @@ const upDateLocalStorage = () => {
   localStorage.setItem('cardItemsArr', JSON.stringify(cartItensStorage));
 };
 
-const cardItemsCaucPrices = () => {
-  const price = cartItensStorage.reduce((acc, crr) => crr.salePrice + acc, 0);
+const cardItemsCaucPrices = async () => {
+  const price = await cartItensStorage.reduce((acc, crr) => crr.salePrice + acc, 0);
   document.querySelector('.total-price').innerText = `Preço total: R$${price}`;
 };
 
@@ -41,7 +41,7 @@ const setCartItemsArr = (obj) => {
   cartItensStorage.push(obj);
   upDateLocalStorage();
 };
-
+// Melhorar esses async
 const addCardItens = async (item) => {
   const skuItem = getSkuFromProductItem(item);
   const product = await getProductsObj(`https://api.mercadolibre.com/items/${skuItem}`);
@@ -73,12 +73,10 @@ const createProductImageElement = (imageSource) => {
 const createProductItemElement = ({ sku, name, image }) => {
   const section = document.createElement('section');
   section.className = 'item';
-
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-
   return section;
 };
 
@@ -105,21 +103,24 @@ const createCartItensOfStorage = (cartItensStorageArr) => {
     cartItensStorageArr.forEach((e) => {
       const { sku, name, salePrice } = e;
       const element = createCartItemElement({ sku, name, salePrice });
-      const cartItems = document.querySelector('.cart__items');
-      cartItems.appendChild(element);
+      document.querySelector('.cart__items').appendChild(element);
     });
+    cardItemsCaucPrices();
   }
 };
 
-window.onload = function onload() {
-  loadingMsg();
-  outputProducts();
-  createCartItensOfStorage(cartItensStorage);
-  cardItemsCaucPrices();
+const btnEmptyCartEvent = () => {
   document.querySelector('.empty-cart').addEventListener('click', () => {
     cartItensStorage = [];
     upDateLocalStorage();
     cardItemsCaucPrices();
     document.querySelector('.cart__items').innerHTML = '';
   });
+};
+
+window.onload = function onload() {
+  loadingMsg();
+  outputProducts();
+  createCartItensOfStorage(cartItensStorage);
+  btnEmptyCartEvent();
 };
