@@ -1,4 +1,4 @@
-window.onload = function onload() { };
+const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=$computador';
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -26,7 +26,7 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-function getSkuFromProductItem(item) {
+/* function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
@@ -40,4 +40,20 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
-}
+}*/
+
+// créditos pro nosso amigo Vitor pela função abaixo
+const fetchProduct = () => {
+  fetch(endpoint).then(response => response.json()).then((data) => {
+    const items = document.querySelector('.items');
+    data.results.forEach((item) => {
+      const { id: sku, title: name, thumbnail: image } = item;
+      const product = createProductItemElement({ sku, name, image });
+      items.appendChild(product);
+    });
+  });
+};
+
+window.onload = function onload() {
+  fetchProduct();
+};
