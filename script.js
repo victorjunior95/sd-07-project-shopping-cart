@@ -1,7 +1,50 @@
+function getSkuFromProductItem(item) {
+  return item.querySelector('span.item__sku').innerText;
+}
+
+function createCartItemElement({ sku, name, salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  // li.addEventListener('click', cartItemClickListener);
+  return li;
+}
+
+const productByID = async (itemId) => {
+  const productEndPoint = `https://api.mercadolibre.com/items/${itemId}`;
+
+  return fetch(productEndPoint)
+    .then(response => response.json())
+    .then((jsonObject) => {
+      const objectSelectedbyId = jsonObject;
+      console.log(jsonObject);
+      return objectSelectedbyId;
+    })
+    .catch(() => console.log('Algo deu errado na seleção do item.'));
+};
+
+/* function cartItemClickListener(event) {
+
+} */
+
+// Referência projeto Rafael Guimarães
+const fetchItemByID = async (event) => {
+  const clickedElementParent = event.target.parentNode;
+  const idItem = getSkuFromProductItem(clickedElementParent);
+  const objectItemID = await productByID(idItem);
+  const { id: sku, title: name, price: salePrice } = objectItemID;
+  const cartItemList = createCartItemElement({ sku, name, salePrice });
+  const cartList = document.querySelector('.cart__items');
+  cartList.appendChild(cartItemList);
+};
+
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
   e.className = className;
   e.innerText = innerText;
+  if (element === 'button') {
+    e.addEventListener('click', fetchItemByID);
+  }
   return e;
 }
 
@@ -37,20 +80,6 @@ const productListing = async () => {
       createProductItemElement({ sku: element.id, name: element.title, image: element.thumbnail }));
   });
 };
-
-/* function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-} */
-/* function cartItemClickListener(event) {
-  // coloque seu código aqui
-} */
-/* function createCartItemElement({ sku, name, salePrice }) {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
-  return li;
-} */
 
 window.onload = function onload() {
   productListing();
