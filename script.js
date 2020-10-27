@@ -19,7 +19,7 @@ function getSkuFromProductItem(item) {
 function saveCart() {
   const cart = document.querySelector('.cart__items').innerHTML;
   localStorage.setItem('cart', cart);
-};
+}
 
 function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   const section = document.createElement('section');
