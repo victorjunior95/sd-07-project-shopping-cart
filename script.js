@@ -1,4 +1,3 @@
-
 function removeAll() {
   const ol = document.querySelector('.cart__items');
   ol.innerHTML = '';
@@ -28,13 +27,25 @@ const productByID = async (itemId) => {
     .then(response => response.json())
     .then((jsonObject) => {
       const objectSelectedbyId = jsonObject;
-      console.log(jsonObject);
       return objectSelectedbyId;
     })
     .catch(() => console.log('Algo deu errado na seleção do item.'));
 };
 
-// Referência projeto Rafael Guimarães
+const sumPricesOnScreen = (cartValue) => {
+  const totalPrice = document.querySelector('.total-price');
+  totalPrice.innerHTML = cartValue;
+};
+
+const sumPrice = () => {
+  let summation = 0;
+  const allItensInCart = document.querySelectorAll('.cart__item');
+  allItensInCart.forEach((element) => {
+    summation += parseFloat(element.innerHTML.split('$')[1]);
+  });
+  sumPricesOnScreen(summation);
+};
+
 const fetchItemByID = async (event) => {
   const clickedElementParent = event.target.parentNode;
   const idItem = getSkuFromProductItem(clickedElementParent);
@@ -43,6 +54,7 @@ const fetchItemByID = async (event) => {
   const cartItemList = createCartItemElement({ sku, name, salePrice });
   const cartList = document.querySelector('.cart__items');
   cartList.appendChild(cartItemList);
+  sumPrice();
 };
 
 function createCustomElement(element, className, innerText) {
