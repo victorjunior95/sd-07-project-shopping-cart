@@ -49,7 +49,8 @@ const removeFronLocalStorage = () => {
     somaLiValues += parseFloat(atual.innerText.split('$')[1]);
   });
   buySum = somaLiValues;
-  localStorage.setItem('shopSum', `$${somaLiValues}`);
+  // localStorage.setItem('shopSum', `$${somaLiValues}`);
+  localStorage.setItem('shopSum', somaLiValues);
   document.querySelector('.total-price').innerText = localStorage.getItem('shopSum');
 };
 
@@ -77,7 +78,8 @@ const loadShopCar = async (object) => {
 
 const sumPrices = (price) => {
   buySum += price;
-  localStorage.setItem('shopSum', `$${buySum}`);
+  // localStorage.setItem('shopSum', `$${buySum}`);
+  localStorage.setItem('shopSum', buySum);
   return buySum;
 };
 
@@ -86,7 +88,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
-  document.querySelector('.total-price').innerText = `$${sumPrices(salePrice)}`;
+  document.querySelector('.total-price').innerText = sumPrices(salePrice);
   return li;
 }
 
