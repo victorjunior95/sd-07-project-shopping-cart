@@ -115,10 +115,13 @@ const clearList = () => {
 };
 
 window.onload = async function onload() {
+  const loading = document.querySelector('.loading');
+  loading.className = 'loading';
   await loadShopCar(localStorageQuery());
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   const object = await endpointQuery(endpoint);
   const objectResults = object.results;
+  loading.className = 'loading hide-loading';
   objectResults.forEach((atual) => {
     const produto = {
       sku: atual.id,
