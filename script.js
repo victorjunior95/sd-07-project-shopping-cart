@@ -28,11 +28,9 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-const saveInLocalStorage = (liArr) => {
-  console.log(liArr);
-  localStorage.clear();
-  localStorage.setItem('liLength', liArr.length);
-  liArr.forEach((li, index) => localStorage.setItem(`li${index}`, li));
+const saveInLocalStorage = () => {
+  const ol = document.querySelector('.cart__items').innerHTML;
+  localStorage.setItem('cartList', JSON.stringify(ol));
 };
 
 function cartItemClickListener(event) {
@@ -40,8 +38,21 @@ function cartItemClickListener(event) {
   const li = event.target;
   ol.removeChild(li);
 
-  saveInLocalStorage(ol.childNodes);
+  saveInLocalStorage();
 }
+
+const loadLocalStorage = () => {
+  let jsonList = localStorage.getItem('cartList');
+  jsonList = JSON.parse(jsonList);
+  
+  const ol = document.querySelector('.cart__items');
+
+  ol.innerHTML = jsonList;
+
+  const lis = document.querySelectorAll('li');
+
+  lis.forEach(li => li.addEventListener('click', cartItemClickListener));
+};
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
@@ -87,23 +98,18 @@ const goToOL = async (event) => {
   const ol = document.querySelector('.cart__items');
 
   const objectOfFetch = await callFetch(gettingSku);
-  const { id } = objectOfFetch;
-  const { title } = objectOfFetch;
-  const { thumbnail } = objectOfFetch;
-  const { price } = objectOfFetch;
+  const { id, title, thumbnail, price } = objectOfFetch;
 
   const expectedObject = createExpectedObject(id, title, thumbnail, price);
   const li = createCartItemElement(expectedObject);
 
   ol.appendChild(li);
-  saveInLocalStorage(ol.childNodes)
+  saveInLocalStorage()
 };
 
 const listeningAddToCartButton = () => {
   const buttons = document.querySelectorAll('.item__add');
-  buttons.forEach((button) => {
-    button.addEventListener('click', goToOL);
-  });
+  buttons.forEach((button) => button.addEventListener('click', goToOL));
 };
 
 const loadPage = async () => {
@@ -112,6 +118,7 @@ const loadPage = async () => {
     const data = await promiseResult.json();
     const arrOfObjects = data.results;
     arrOfObjects.forEach(printProduct);
+    loadLocalStorage();
     listeningAddToCartButton();
   } catch (error) {
     alert(error);
