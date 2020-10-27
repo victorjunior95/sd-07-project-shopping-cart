@@ -69,12 +69,15 @@ const loadItemLocalStorage = () => {
   });
 };
 
-const removeItemOfHtml = (nameClass, callback) => {
-  const elemFather = document.querySelector(nameClass);
+const removeItemOfHtml = (nameClassOfFather, callback) => {
+  const elemFather = document.querySelector(nameClassOfFather);
   while (elemFather.lastElementChild) {
     elemFather.removeChild(elemFather.lastElementChild);
   }
-  callback ? callback() : undefined;
+  if (callback === undefined) {
+    return undefined;
+  }
+  return callback();
 };
 
 const localStorageCreateItem = ({ sku, name, salePrice }) => {
