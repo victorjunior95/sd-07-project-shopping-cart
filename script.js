@@ -1,16 +1,78 @@
 
+const identifyIdNameAndPrice = (item) => {
+  const firstComma = item.indexOf(',');
+  const id = item.slice(0, firstComma);
+  const newString = item.slice((firstComma + 1), (item.length));
+  const secondComma = newString.indexOf(',');
+  const name = newString.slice(0, (secondComma));
+  const price = newString.slice((secondComma + 1), newString.length);
+  let itemData = [id, name, price];
+  return itemData;
+};
+
+const selectTotalPrice = () => {
+  let totalPrice = document.querySelector('.total-price').innerText;
+  totalPrice = parseFloat(totalPrice.slice(16, (totalPrice.length)), 10);
+  return totalPrice;
+};
+
+async function totalPriceInnerText(price) {
+  document.querySelector('.total-price').innerText = await `Preço total: R$ ${price}`;
+};
+
+const removeLastItem = (string) => {
+  if (string[string.length - 1] === '0' || string[string.length - 1] === '.') {
+    string = string.slice(0, (string.length - 1))
+  };
+  return string;
+};
+
+const removeZero = (string) => {
+  if (string[0] === '0') {
+    string = '0';
+    return string;
+  }
+  string = removeLastItem(string);
+  string = removeLastItem(string);
+  string = removeLastItem(string);
+  return string;
+};
+
+const roundNumber = (string) => {
+  stringNumber = string.toFixed(2);
+  let number = removeZero(stringNumber);
+  return number;
+};
+
+async function discountTotalPrice(price) {
+  let totalPrice = selectTotalPrice();
+  if (typeof price === 'string') price = parseFloat(price, 10);
+  totalPrice -= price;
+  if (totalPrice >= 0) {
+    totalPrice = roundNumber(totalPrice);
+    await totalPriceInnerText(totalPrice);
+  }
+};
+
 const removeItemFromLocalStorage = (id) => {
   const cartItens = Object.entries(localStorage);
   cartItens.forEach((item) => {
     const itemKey = item[0];
-    const itemId = item[1].slice(0, 13);
-    if (itemId === id) localStorage.removeItem(`${itemKey}`);
+    const itemData = identifyIdNameAndPrice(item[1]);
+    const [itemId, name, price] = itemData;
+    if (itemId === id) {
+      localStorage.removeItem(`${itemKey}`);
+      discountTotalPrice(price);
+    };
   });
 };
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
-  const id = event.target.innerText.slice(5, 18);
+  const item = event.target.innerText;
+  const idFirstLetter = item.indexOf('M');
+  const idLastNumber = item.indexOf('|');
+  const id = item.slice(idFirstLetter, (idLastNumber -1));
   removeItemFromLocalStorage(id);
   event.target.remove();
 }
@@ -23,6 +85,14 @@ const putItemInLocalStorage = (id, name, price) => {
   localStorage.setItem(`cartItem${counter}`, [id, name, price]);
 };
 
+async function addTotalPrice(price) {
+  let totalPrice = selectTotalPrice();
+  if (typeof price === 'string') price = parseFloat(price, 10);
+  totalPrice += price;
+  totalPrice = roundNumber(totalPrice);
+  await totalPriceInnerText(totalPrice);
+};
+
 function createCartItemElement(sku, name, salePrice) {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -30,6 +100,7 @@ function createCartItemElement(sku, name, salePrice) {
   li.addEventListener('click', cartItemClickListener);
   removeItemFromLocalStorage(sku);
   putItemInLocalStorage(sku, name, salePrice);
+  addTotalPrice(salePrice);
   return li;
 }
 
@@ -37,16 +108,25 @@ const convertRequestToJSON = (url) => {
   const conversion = fetch(url).then(response => response.json());
   return conversion;
 };
+/*
+const cartInitialPrice = () => {
+  const cartItens = Object.values(localStorage);
+  cartItens.forEach((item) => {
+    if (item.length > 10) {
+      const itemData = identifyIdNameAndPrice(item);
+      const [id, name, price] = itemData;
+      console.log(price);
+      addTotalPrice(price);
+    };
+  })
+}; */
 
 const recoverCart = () => {
   const cartItems = Object.values(localStorage);
   cartItems.forEach((item) => {
     if (item.length > 10) {
-      const id = item.slice(0, 13);
-      const newString = item.slice(14, (item.length));
-      const commaPosition = newString.indexOf(',');
-      const name = newString.slice(0, (commaPosition));
-      const price = newString.slice((commaPosition + 1), newString.length);
+      const itemData = identifyIdNameAndPrice(item);
+      const [id, name, price] = itemData;
       const cartItem = createCartItemElement(id, name, price);
       document.querySelector('.cart__items').appendChild(cartItem);
     }
