@@ -53,7 +53,7 @@ async function addToCart() {
   const itemID = this.closest('.item').dataset.sku;
   const item = await fetchItemForCart(itemID);
   const handledItem = handleProduct(item);
-  const cart = document.querySelector('.cart');
+  const cart = document.querySelector('.cart__items');
   cart.appendChild(createCartItemElement(handledItem));
 }
 
