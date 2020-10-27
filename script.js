@@ -59,6 +59,8 @@ function createProductsList() {
   fetch(url)
     .then(response => response.json())
     .then((response) => {
+      const loading = document.querySelector('.loading');
+      loading.remove();
       response.results.forEach((item) => {
         const { id: sku, title: name, thumbnail: image } = item;
         const productItem = createProductItemElement({ sku, name, image });
