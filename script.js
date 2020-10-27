@@ -1,3 +1,5 @@
+let buySum = 0;
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -41,6 +43,14 @@ const addLocalStorage = async () => {
 
 const removeFronLocalStorage = () => {
   addLocalStorage();
+  const liList = document.querySelectorAll('.cart__item');
+  let somaLiValues = 0;
+  liList.forEach((atual) => {
+    somaLiValues += parseFloat(atual.innerText.split('$')[1]);
+  });
+  buySum = somaLiValues;
+  localStorage.setItem('shopSum', somaLiValues);
+  document.querySelector('.total-price').innerText = `$${localStorage.getItem('shopSum')}`;
 };
 
 const cartItemClickListener = (event) => {
@@ -49,6 +59,9 @@ const cartItemClickListener = (event) => {
 };
 
 const loadShopCar = async (object) => {
+  if (localStorage.getItem('shopSum')) {
+    document.querySelector('.total-price').innerText = `$${localStorage.getItem('shopSum')}`;
+  }
   newObject = await JSON.parse(object);
   if (newObject !== null) {
     newObject.forEach((atual) => {
@@ -62,11 +75,18 @@ const loadShopCar = async (object) => {
   }
 };
 
+const sumPrices = (price) => {
+  buySum += price;
+  localStorage.setItem('shopSum', buySum);
+  return buySum;
+};
+
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  document.querySelector('.total-price').innerText = `$${sumPrices(salePrice)}`;
   return li;
 }
 
