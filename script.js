@@ -24,8 +24,9 @@ function createProductItemElement({ sku, name, image }) {
 
   return section;
 }
-
-
+function clearCart() {
+  document.getElementsByClassName('cart__items')[0].innerHTML = '';
+}
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
@@ -82,4 +83,5 @@ const getListOfProducts = async () => {
 
 window.onload = function onload() {
   getListOfProducts();
+  document.getElementsByClassName('empty-cart')[0].addEventListener('click', clearCart);
 };
