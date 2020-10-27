@@ -165,8 +165,6 @@ const loadPage = async () => {
   }
 };
 
-
-
 window.onload = function onload() {
   loadPage();
 };
