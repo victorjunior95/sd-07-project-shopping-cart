@@ -26,7 +26,7 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 // source https://www.devmedia.com.br/javascript-substring-selecionando-parte-de-uma-string/39232
 const sumItems = async () => {
   const arrayOfItems = [];
-  const sumPrice = document.querySelector('.sum-price');
+  const sumPrice = document.querySelector('.total-price');
   const cartItems = document.querySelectorAll('.cart__item');
   if (cartItems.length === 0) {
     sumPrice.innerText = 0;
@@ -38,7 +38,7 @@ const sumItems = async () => {
 // source https://medium.com/aprendajs/convertendo-uma-string-em-um-numero-em-javascript-e6c856fb53be
     arrayOfPricesInString.forEach(item => arrayOfPrices.push(Number(item)));
     const sum = arrayOfPrices.reduce((previousValue, currentValue) => previousValue + currentValue);
-    sumPrice.innerText = sum;
+    sumPrice.innerText = `${sum}`;
     localStorage.setItem('totalValue', sum);
   }
   return sumPrice;
@@ -120,7 +120,7 @@ const fetchItems = async () => {
 const createClearButton = () => {
   const clearButton = document.getElementsByClassName('empty-cart')[0];
   const cartItems = document.getElementsByClassName('cart__items')[0];
-  const cartCust = document.getElementsByClassName('sum-price')[0];
+  const cartCust = document.getElementsByClassName('total-price')[0];
   clearButton.addEventListener('click', () => {
     cartItems.innerHTML = '';
     cartCust.innerText = 0;
@@ -131,7 +131,7 @@ const createClearButton = () => {
 const requireLocalStorage = () => {
   const allCart = document.querySelector('ol');
   allCart.innerHTML = localStorage.getItem('finalCart');
-  const values = document.querySelector('.sum-price');
+  const values = document.querySelector('.total-price');
   values.innerHTML = localStorage.getItem('totalValue');
 };
 
