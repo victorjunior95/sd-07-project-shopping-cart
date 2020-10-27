@@ -4,42 +4,42 @@ const getComputerById = async (id) => {
     await fetch(`https://api.mercadolibre.com/items/${id}`)
   ).json();
   return objResponse;
-}
+};
 
 const getComputerList = async () => {
   const resultsComputer = await (
     await fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador&limit=8')
   ).json();
   return resultsComputer.results;
-}
+};
 
 const saveOrUpdateLS = async (html) => {
   localStorage.setItem('ListCar', html);
-}
+};
 
 const loadLocalStorage = () => {
   const carItems = document.querySelector('.cart__items');
   const ListCar = localStorage.getItem('ListCar');
-  if (ListCar) carItens.innerHTML = listCar;
-}
+  if (ListCar) carItens.innerHTML = ListCar;
+};
 
 const updateDisplayTotalPrice = (total) => {
   const spanElement = document.querySelector('.total-price');
   spanElement.innerHTML = total;
-}
+};
 
 const sumPricesItemCart = () => {
   const priceItems = document.querySelectorAll('[data-price-items]');
   const total = Array.from(priceItems, ({ dataset: { priceItems } }) =>
     Number(priceItems)).reduce((acc, price) => acc + price, 0);
   return total;
-}
+};
 
 const clearCart = () => {
   const cartItems = document.querySelectorAll('.cart__items');
   cartItems.forEach(item => item.remove());
   updateDisplayTotalPrice(sumPricesItemCart());
-}
+};
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -80,14 +80,14 @@ const listProductScreen = async () => {
   const sectionItems = document.querySelector('.items');
   const products = await getComputerList();
   products.forEach(product => sectionItems.appendChild(createProductItemElement(product)));
-}
+};
 
 const loadingListComputers = () => {
   setTimeout(() => {
     document.querySelector('.loading').remove();
     listProductScreen();
   }, 3000);
-}
+};
 
 function cartItemClickListener(event) {
   const cartItems = document.querySelector('.cart__items');
@@ -111,7 +111,7 @@ const addToCar = async (id) => {
   cartItems.appendChild(createCartItemElement(await productId));
   saveOrUpdateLS(cartItems.innerHTML);
   updateDisplayTotalPrice(sumPricesItemCart());
-}
+};
 
 const handleEventsClicks = () => {
   document.addEventListener('click', (event) => {
@@ -128,11 +128,11 @@ const handleEventsClicks = () => {
         break;
     }
   });
-}
+};
 
 window.onload = () => {
   loadingListComputers();
   loadLocalStorage();
   handleEventsClicks();
   updateDisplayTotalPrice(sumPricesItemCart());
-}
+};
