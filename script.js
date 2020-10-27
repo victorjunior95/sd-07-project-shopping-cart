@@ -118,7 +118,7 @@ const computerSearch = async (id) => {
 
 const clearList = function () {
   document.querySelector('.cart__items').innerHTML = '';
-}
+};
 
 
 window.onload = function onload() {
