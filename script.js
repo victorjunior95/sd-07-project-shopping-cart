@@ -30,7 +30,11 @@ function createCartElement(product) {
 function updateTotal(value, operador) {
   const addLoading = document.querySelector('.total-price');
   const total = addLoading.innerText;
-  addLoading.innerText = `${parseFloat(total) + operador + parseFloat(value)}`;
+  if( operador === '+'){
+    addLoading.innerText = `${parseFloat(total) + parseFloat(value)}`;
+  } else {
+    addLoading.innerText = `${parseFloat(total) - parseFloat(value)}`;
+  }
 }
 
 function cartItemClickListener(event) {
