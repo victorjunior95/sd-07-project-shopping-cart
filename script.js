@@ -25,31 +25,45 @@ function pageLoading() {
   }, 300);
 }
 
-function createProductItemElement({ sku, name, image }) {
+function getSkuFromProductItem(item) {
+  return item.target.parentNode.querySelector('span.item__sku').innerText;
+}
+
+function createCartItemElement({ id: sku, title: name, price: salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
+}
+
+async function addToCart(sku) {
+  await fetch(`https://api.mercadolibre.com/items/${sku}`)
+    .then(result => result.json())
+    .then((object) => {
+      pageLoading();
+      const cartItems = document.querySelector('.cart__items');
+      cartItems.appendChild(createCartItemElement(object));
+    })
+    .catch(erro => showError(erro));
+}
+
+function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   const section = document.createElement('section');
   section.className = 'item';
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
-  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-
+  const addCartBtn = section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
+  addCartBtn.addEventListener('click', (event) => {
+    // const sku = event.target.parentNode.childNodes[0].innerText;
+    addToCart(getSkuFromProductItem(event));
+  });
   return section;
 }
 
-// function getSkuFromProductItem(item) {
-//   return item.querySelector('span.item__sku').innerText;
-// }
-
 // function cartItemClickListener(event) {
 //   // coloque seu código aqui
-// }
-
-// function createCartItemElement({ sku, name, salePrice }) {
-//   const li = document.createElement('li');
-//   li.className = 'cart__item';
-//   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-//   li.addEventListener('click', cartItemClickListener);
-//   return li;
 // }
 
 async function searchProducts(prdoduct) {
@@ -59,8 +73,7 @@ async function searchProducts(prdoduct) {
     .then((object) => {
       pageLoading();
       object.results.forEach((element) => {
-        const { id: sku, title: name, thumbnail: image } = element;
-        const item = createProductItemElement({ sku, name, image });
+        const item = createProductItemElement(element);
         items.appendChild(item);
       });
     })
