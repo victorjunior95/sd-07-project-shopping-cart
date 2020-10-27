@@ -95,6 +95,20 @@ const requisicao = () => {
     .then(object => arrayproduto(object.results));
 };
 
+const botao = () => {
+  const olpai = document.querySelector('.cart');
+  const local = document.querySelector('.empty-cart');
+  local.addEventListener('click', (event) => {
+    const localdetudo = document.querySelector('.cart__items');
+    while (localdetudo.firstChild) {
+      localdetudo.removeChild(localdetudo.firstChild);
+    }
+    valor = 0
+    olpai.querySelector('.total-price').innerText = valor;
+  })
+}
+
 window.onload = function onload() {
   requisicao();
+  botao();
 };
