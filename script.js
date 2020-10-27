@@ -103,10 +103,10 @@ const botao = () => {
     while (localdetudo.firstChild) {
       localdetudo.removeChild(localdetudo.firstChild);
     }
-    valor = 0
+    valor = 0;
     olpai.querySelector('.total-price').innerText = valor;
-  })
-}
+  });
+};
 
 window.onload = function onload() {
   requisicao();
