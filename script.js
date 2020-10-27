@@ -49,7 +49,7 @@ async function getItemApiById(id) {
 
 function addToCartClickListener() {
   document.querySelectorAll('.item__add').forEach((item) => {
-    item.addEventListener('click', (event => {
+    item.addEventListener('click', ((event) => {
       getItemApiById(event.target.parentNode.firstChild.innerText);
     }));
   });
