@@ -38,7 +38,7 @@ const sumPricesItemsCart = () => {
 const clearCart = () => {
   const cartItems = document.querySelectorAll('.cart__item');
   cartItems.forEach(item => item.remove());
-  updateDisplayTotalPrice(sumPricesItemCart());
+  updateDisplayTotalPrice(sumPricesItemsCart());
 };
 
 function createCustomElement(element, className, innerText, sku = null) {
