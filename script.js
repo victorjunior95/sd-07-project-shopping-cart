@@ -4,9 +4,17 @@ const errorAlert = (error) => {
   window.alert(error);
 };
 
+const saveCartList = () => {
+  localStorage.clear();
+
+  const ol = document.querySelector('.cart__items');
+  localStorage.setItem('cartList', ol.innerHTML);
+};
+
 function cartItemClickListener(event) {
   const cartOL = document.querySelector('.cart__items');
   cartOL.removeChild(event.target);
+  saveCartList();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -41,6 +49,7 @@ const fetchItemByID = async (event) => {
   const cartItemList = createCartItemElement({ sku, name, salePrice });
   const cartList = document.querySelector('.cart__items');
   cartList.appendChild(cartItemList);
+  saveCartList();
   // referência projeto Rafael Guimarães
 };
 
@@ -104,6 +113,7 @@ const removeAllItems = () => {
   while (ol.firstChild) {
     ol.removeChild(ol.firstChild);
   }
+  saveCartList();
 };
 
 const clearCartButton = () => {
@@ -111,8 +121,13 @@ const clearCartButton = () => {
   clearAllButton.addEventListener('click', removeAllItems);
 };
 
+const newSession = () => {
+  const ol = document.querySelector('.cart__items');
+  ol.innerHTML = localStorage.getItem('cartList');
+};
 
 window.onload = function onload() {
   fetchProducts('computador');
   clearCartButton();
+  newSession();
 };
