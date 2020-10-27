@@ -52,16 +52,14 @@ function createLoad() {
   const h1 = createCustomElement('h1', 'load', 'loading...');
   loadingCreated.appendChild(h1);
 
-  document.body.appendChild(loadingCreated);
+  return document.body.appendChild(loadingCreated);
 }
 
 function loadAPI(loaded = false) {
   const loading = document.querySelector('.loading');
-  if (loaded === true) {
-    loading.style.visibility = 'hidden';
-  } else {
-    loading.style.visibility = 'visible';
-  }
+  if (loaded === true) return loading.remove();
+
+  return createLoad();
 }
 
 async function fetchData(endpoint, repeat = true) {
@@ -111,7 +109,6 @@ function clickEvents() {
 }
 
 window.onload = function onload() {
-  createLoad();
   getProductsFromApi('computador');
   clickEvents();
 
