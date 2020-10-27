@@ -52,10 +52,10 @@ function addItensToCart(object) {
 
 function fetchProducts() {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
+  const products = document.querySelector('.items');
   fetch(endpoint)
   .then(response => response.json())
   .then(infos => infos.results.forEach((item) => {
-    const products = document.querySelector('.items');
     products.appendChild(createProductItemElement(item));
   }));
 }
@@ -69,16 +69,20 @@ function fetchItensOfCart(itemId) {
   .then(infos => addItensToCart(infos));
 }
 
-const addItenstoList = (event) => {
+const addItensToList = (event) => {
   if (event.target.className === 'item__add') {
+    // estamos dizendo que o se o item que iniciou o envento tem essa classe faça:
+    // no caso o item é o botão
+    // e no caso vai ser de um produto específico que queremos colocar no carrinho
     const itemId = getSkuFromProductItem(event.target.parentElement);
+    // ele está pegando o valor do ID, que é o inetrText
     fetchItensOfCart(itemId);
   }
 };
 
 const sectionOfItens = () => {
   const getClick = document.querySelector('.items');
-  getClick.addEventListener('click', addItenstoList);
-}
+  getClick.addEventListener('click', addItensToList);
+};
 
 sectionOfItens();
