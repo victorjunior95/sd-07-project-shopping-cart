@@ -1,4 +1,3 @@
-let shoppingCart = [];
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -32,8 +31,8 @@ function getSkuFromProductItem(item) {
 function cartItemClickListener(event) {
   const cartItem = event.target;
   cartItem.parentElement.removeChild(cartItem);
-  shoppingCart.pop(cartItem);
-  localStorage.setItem('shoppingCart', shoppingCart.toString());
+  const cart = document.querySelector('.cart__items');
+  localStorage.setItem('shoppingCart', cart.innerHTML);
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -48,12 +47,7 @@ function appendItemToCart(object) {
   const cartItem = createCartItemElement(object);
   const cart = document.querySelector('.cart__items');
   cart.appendChild(cartItem);
-}
-
-function appendItemToLocalCart(object) {
-  const { id: sku } = object;
-  shoppingCart.push([sku]);
-  localStorage.setItem('shoppingCart', shoppingCart.toString());
+  localStorage.setItem('shoppingCart', cart.innerHTML);
 }
 
 function handleProducts(products) {
@@ -88,16 +82,9 @@ async function addToCart(event) {
   const endpoint = `https://api.mercadolibre.com/items/${QUERY}`;
   await fetchData(endpoint, (object) => {
     appendItemToCart(object);
-    appendItemToLocalCart(object);
   });
 }
 
-async function localToCart(QUERY) {
-  const endpoint = `https://api.mercadolibre.com/items/${QUERY}`;
-  await fetchData(endpoint, (object) => {
-    appendItemToCart(object);
-  });
-}
 
 function createAddToCartEventListener() {
   const items = document.querySelectorAll('.item__add');
@@ -115,8 +102,9 @@ window.onload = async function onload() {
     createAddToCartEventListener();
   });
 
-  if (localStorage.getItem('shoppingCart') !== null) {
-    shoppingCart = localStorage.getItem('shoppingCart', shoppingCart).split(',');
-    shoppingCart.forEach(item => localToCart(item));
-  }
+  const cart = document.querySelector('.cart__items');
+  cart.innerHTML = localStorage.getItem('shoppingCart');
+
+  const cartItems = document.querySelectorAll('.cart__item');
+  cartItems.forEach(item => item.addEventListener('click', cartItemClickListener));
 };
