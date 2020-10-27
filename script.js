@@ -41,19 +41,19 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
-//REQUISITO FEITO EM AULA PELO O ALUNO : Vitor Rodrigues da Conceição
+
 const loadProducts = () => {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   fetch(endpoint).then(response => response.json()).then(data => {
-    const items = document.querySelector('.items')
+    const items = document.querySelector('.items');
     data.results.fotEach(product => {
-      const { id: sku, title: name, thumbnail: image} = product;
-      const item = createCartItemElement({ sku, name, image});
-      items.appendChild(item)
-    })
-  })
-}
+      const { id: sku, title: name, thumbnail: image } = product;
+      const item = createCartItemElement({ sku, name, image });
+      items.appendChild(item);
+    });
+  });
+};
 
 window.onload = function onload() {
-  loadProducts()
-}
+  loadProducts();
+};
