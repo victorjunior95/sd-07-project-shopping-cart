@@ -95,7 +95,6 @@ const clickButton = () => {
 };
 
 const loading = () => {
-  console.log('loading...');
   const body = document.querySelector('body');
   const loadElement = document.createElement('div');
   loadElement.className = 'loading';
