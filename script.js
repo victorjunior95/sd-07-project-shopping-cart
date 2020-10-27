@@ -52,7 +52,7 @@ function loading() {
 
 function removeMsg() {
   setTimeout(() => {
-    const items = document.getElementsByClassName('items')
+    const items = document.getElementsByClassName('items');
     items.removeChild(items.firstChild);
   }, 2000);
 }
