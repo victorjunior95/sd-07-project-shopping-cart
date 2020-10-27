@@ -31,8 +31,8 @@ const selectChild = (arrayValue) => { // referência Rodrigo Sudario - Requisito
   ); // para que a section receba cada um dos objetos como filhos
 };
 
-function cartItemClickListener(event) {
-  // some code here
+function cartItemClickListener(event) { // remove as Lis ao click, requisito 3
+  document.querySelector('.cart__items').removeChild(event.target);
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -42,6 +42,7 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
+
 function getSkuFromProductItem(item) { // requisito 2
   const justId = item.querySelector('span.item__sku').innerText;
   const endpoint = `https://api.mercadolibre.com/items/${justId}`;
