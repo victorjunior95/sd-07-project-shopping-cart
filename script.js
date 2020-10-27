@@ -1,6 +1,6 @@
-const showAlert = (message) => {
-  window.alert(message);
-};
+// const showAlert = (message) => {
+//   window.alert(message);
+// };
 
 const showTotalPrice = (total) => {
   const totalPrice = document.querySelector('.total-price');
@@ -56,7 +56,7 @@ const fecthComputerAsyncAwait = async () => {
       productOnScreen(objekt.results);
     }
   } catch (error) {
-    showAlert(error);
+    // showAlert(error);
   }
 };
 
@@ -107,7 +107,7 @@ const fecthIdAsyncAwait = async (id) => {
       addCartListById(object);
     }
   } catch (error) {
-    showAlert(error);
+    // showAlert(error);
   }
 };
 
@@ -135,10 +135,7 @@ function emptyCar() {
 }
 
 const waitLoading = () => {
-  setTimeout(() => {
-    document.querySelector('.loading').remove();
-    fecthComputerAsyncAwait();
-  }, 5000);
+  setTimeout(() => { document.querySelector('.loading').remove(); }, 5000);
 };
 
 window.onload = async function onload() {
