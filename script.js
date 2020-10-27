@@ -47,10 +47,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 async function fetchAPI(api) {
-  if (api) {
-    return fetch(api)
-    .then(response => response.json());
-  }
+  return fetch(api).then(response => response.json());
 }
 
 const addProducts = (product, tag) => tag.appendChild(product);
@@ -58,7 +55,7 @@ const addProducts = (product, tag) => tag.appendChild(product);
 async function consultProduct(supply) {
   const API = `${API_URL}${supply}`;
   await fetchAPI(API)
-    .then((data) => data.results.forEach((product) => {
+    .then(data => data.results.forEach((product) => {
       const { id: sku, title: name, thumbnail: image } = product;
       const item = createProductItemElement({ sku, name, image });
       addProducts(item, itemsSection);
