@@ -26,8 +26,7 @@ function getCartItemsPrices() {
   for (let i = 0; i < cartItems.length; i += 1) {
     const itemSplitting = cartItems[i].innerText.split(' | NAME: ');
     const itemSplittingToName = itemSplitting[1].split(' | PRICE: ');
-    const [symbol, price] = itemSplittingToName[1].split('$');
-    console.log(symbol);
+    const [, price] = itemSplittingToName[1].split('$');
     total += parseFloat(price);
   }
 
