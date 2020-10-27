@@ -142,8 +142,8 @@ const fillProductListByTerm = async (term) => {
     const { results } = await fetchAsyncEndPoint(API_URL_ML_SEARCH);
     sectionItems.removeChild(loading);
     results
-      .map(({ id, title, thumbnail }) => ({ sku: id, name: title, image: thumbnail }))
-      .forEach(product => sectionItems.appendChild(createProductItemElement(product)));
+      .forEach(({ id: sku, title: name, thumbnail: image }) =>
+        sectionItems.appendChild(createProductItemElement({ sku, name, image })));
   } catch (error) {
     showAlert(error);
   }
