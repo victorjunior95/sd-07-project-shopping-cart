@@ -200,8 +200,8 @@ const createItens = () => {
     .then((response) => {
       document.querySelector('.loading').remove();
       return response.results.forEach((computer) => {
-      addRequestToHTMLClass(computer, createProductItemElement, '.items');
-    })},
+        addRequestToHTMLClass(computer, createProductItemElement, '.items');
+      }) },
     );
 };
 
