@@ -6,7 +6,7 @@ const identifyIdNameAndPrice = (item) => {
   const secondComma = newString.indexOf(',');
   const name = newString.slice(0, (secondComma));
   const price = newString.slice((secondComma + 1), newString.length);
-  let itemData = [id, name, price];
+  const itemData = [id, name, price];
   return itemData;
 };
 
@@ -18,41 +18,44 @@ const selectTotalPrice = () => {
 
 async function totalPriceInnerText(price) {
   document.querySelector('.total-price').innerText = await `Preço total: R$ ${price}`;
-};
+}
 
 const removeLastItem = (string) => {
-  if (string[string.length - 1] === '0' || string[string.length - 1] === '.') {
-    string = string.slice(0, (string.length - 1))
-  };
-  return string;
+  let stringNumber = string;
+  if (stringNumber[stringNumber.length - 1] === '0' || stringNumber[stringNumber.length - 1] === '.') {
+    stringNumber = stringNumber.slice(0, (stringNumber.length - 1));
+  }
+  return stringNumber;
 };
 
 const removeZero = (string) => {
-  if (string[0] === '0') {
-    string = '0';
-    return string;
+  let stringNumber = string;
+  if (stringNumber[0] === '0') {
+    stringNumber = '0';
+    return stringNumber;
   }
-  string = removeLastItem(string);
-  string = removeLastItem(string);
-  string = removeLastItem(string);
-  return string;
+  stringNumber = removeLastItem(stringNumber);
+  stringNumber = removeLastItem(stringNumber);
+  stringNumber = removeLastItem(stringNumber);
+  return stringNumber;
 };
 
 const roundNumber = (string) => {
   stringNumber = string.toFixed(2);
-  let number = removeZero(stringNumber);
+  const number = removeZero(stringNumber);
   return number;
 };
 
 async function discountTotalPrice(price) {
+  let discount = price;
   let totalPrice = selectTotalPrice();
-  if (typeof price === 'string') price = parseFloat(price, 10);
-  totalPrice -= price;
+  if (typeof discount === 'string') discount = parseFloat(discount, 10);
+  totalPrice -= discount;
   if (totalPrice >= 0) {
     totalPrice = roundNumber(totalPrice);
     await totalPriceInnerText(totalPrice);
   }
-};
+}
 
 const removeItemFromLocalStorage = (id) => {
   const cartItens = Object.entries(localStorage);
@@ -62,15 +65,15 @@ const removeItemFromLocalStorage = (id) => {
     const [itemId, name, price] = itemData;
     if (itemId === id) {
       localStorage.removeItem(`${itemKey}`);
-      discountTotalPrice(price);
-    };
+      discountTotalPrice(price, name);
+    }
   });
 };
 
 const getItemId = (item) => {
   const idFirstLetter = item.indexOf('M');
   const idLastNumber = item.indexOf('|');
-  const id = item.slice(idFirstLetter, (idLastNumber -1));
+  const id = item.slice(idFirstLetter, (idLastNumber - 1));
   return id;
 };
 
@@ -91,9 +94,10 @@ const putItemInLocalStorage = (id, name, price) => {
 };
 
 async function addTotalPrice(price) {
+  let sum = price;
   let totalPrice = selectTotalPrice();
-  if (typeof price === 'string') price = parseFloat(price, 10);
-  totalPrice += price;
+  if (typeof sum === 'string') sum = parseFloat(sum, 10);
+  totalPrice += sum;
   totalPrice = roundNumber(totalPrice);
   await totalPriceInnerText(totalPrice);
 };
@@ -199,7 +203,7 @@ const emptyCart = () => {
     const itemText = item.innerText;
     const id = getItemId(itemText);
     removeItemFromLocalStorage(id);
-    item.remove()
+    item.remove();
   });
 };
 
