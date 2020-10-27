@@ -1,7 +1,3 @@
-const genericAPIReq = (handleAPIReq, link) => {
-  handleAPIReq(link);
-};
-
 const changeLoadingState = () => {
   document.querySelector('.loading').remove();
 };
@@ -31,7 +27,6 @@ const displayOnHTML = (element, content) => {
 
 let toBePayed = 0;
 const totalSum = (value = 0) => {
-  //
   toBePayed += value;
   displayOnHTML('.total-price', toBePayed);
   return toBePayed;
@@ -132,12 +127,7 @@ const handleAPIRequest = async (API_REQ) => {
     if (jso.error) {
       throw new Error(jso.error);
     }
-    if (jso.id) {
-      addToHTML('.cart__items', createCartItemElement(jso));
-      setLocalSave();
-    } else {
-      handleAmountOfElementsOnHTML(jso.results);
-    }
+    handleAmountOfElementsOnHTML(jso.results);
   } catch (error) {
     showAlert(error);
   }
@@ -174,14 +164,3 @@ window.onload = function onload() {
   getLocalSave();
   setupEventHandlers();
 };
-
-// function teste(callback, apiReq) {
-//   console.log('asdffd');
-//   callback(apiReq);
-// }
-// async function fetchCall(api) {
-//   const a = await fetch(api);
-//   return a;
-// }
-
-// teste(fetchCall, 'dads');
