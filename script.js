@@ -15,10 +15,10 @@ async function totalPrice() {
   const totalItemsInCart = document.querySelectorAll('.cart__item');
   let sum = 0;
   for (let index = 0; index < totalItemsInCart.length; index += 1) {
-    const price = parseInt(totalItemsInCart[index].dataset.price);
+    const price = parseFloat(totalItemsInCart[index].dataset.price, 10);
     sum += price;
   }
-  totalPriceContainer.innerText = sum;
+  totalPriceContainer.innerText = sum.toFixed(2);
 }
 
 function cartItemClickListener(event) {
