@@ -116,7 +116,21 @@ const recoverCart = () => {
   }
 };
 
+const cartCleaner = () => {
+  const listItems = document.querySelectorAll('.cart__item');
+  listItems.forEach((item) => {
+    const substring = item.innerText.split('$');
+    const priceOfTheItem = parseFloat(substring[1]);
+    item.remove();
+    updateTotalPrice(priceOfTheItem, '-');
+    updateLocalStorage();
+  })
+  
+}
+
 window.onload = function onload() {
   fetchItemsMercadoLivre('computador');
   recoverCart();
+  const btnCleanCart = document.querySelector('.empty-cart');
+  btnCleanCart.addEventListener('click', cartCleaner);
 };
