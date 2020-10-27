@@ -35,7 +35,12 @@ const functionFetchJSON = async (endpoint, adaptFunction) => {
 };
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  const li = document.querySelectorAll('.cart__item');
+  li.forEach((itemCart) => {
+    itemCart.addEventListener('click', () => {
+      itemCart.remove();
+    });
+  });
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -82,8 +87,6 @@ const adaptJSONResponses = (object) => {
 const fetchProducts = async () => {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   functionFetchJSON(endpoint, adaptJSONResponses);
-
-  createProductItemElement();
 };
 
 function getSkuFromProductItem(item) {
