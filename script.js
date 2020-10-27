@@ -45,9 +45,9 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 function loading() {
   const span = document.createElement('span');
   span.className = 'loading';
-  span.innerHTML = 'loading';
-  const items = document.getElementsByClassName('items');
-  items.appendChild(span);
+  span.innerHTML = 'loading...';
+  const listProducts = document.getElementsByClassName('items');
+  listProducts.appendChild(span);
 }
 
 function removeMsg() {
