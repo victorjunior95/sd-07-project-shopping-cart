@@ -18,9 +18,14 @@ const fetchComputer = search => {
       if (object.error) {
         throw new Error(object.error);
       } else {
-
-
-
+        // Abstração facilitada pelo colega Vitor Rodrigues
+        const itemsSection = document.querySelector('.items');
+        const resultProduct = object.results;
+        resultProduct.forEach(product => {
+          const { id: sku, title: name, thumbnail: image } = product;
+          const eachItem = createProductItemElement({ sku, name, image });
+          itemsSection.appendChild(eachItem);
+        });
       }
     });
 };
