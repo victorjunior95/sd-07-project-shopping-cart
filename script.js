@@ -1,5 +1,23 @@
-window.onload = function onload() { };
-// Iniciando o projeto
+window.onload = async function onload() {
+  loadProducts();
+  // const arrayOfProducts = await findItemAndReturnArrayObject();
+  // console.log(arrayOfProducts);
+};
+
+const findItemAndReturnArrayObject = async (item) => {
+  const endPoint = `https://api.mercadolibre.com/sites/MLB/search?q=${item}`;
+  try {
+  const response = await fetch(endPoint);
+  const object = await response.json();
+  if (object.error) {
+    throw new Error(object.error);
+  } else {
+    return object.results;
+  }
+  } catch (error) {
+    alert(error);
+  }}
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -14,10 +32,29 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+const loadProducts = () => {
+  const endPoint = "https://api.mercadolibre.com/sites/MLB/search?q=$COMPUTADOR"
+  fetch(endPoint)
+  .then(response=>(response.json()))
+  .then(response=>response.results.forEach(product=> {
+    const items = document.querySelector('.items');
+    const {id:sku, title:name, thumbnail:image} = product;
+    const item = createProductItemElement({ sku, name, image });
+    items.appendChild(item);
+  }))
+}
+
+function appendElementInAClass (classFather, classChild) {
+  classFather = document.querySelector(classFather);
+  classChild = document.querySelector(classChild);
+  classFather.appendChild(classChild);
+}
+
+
+
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
-
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));

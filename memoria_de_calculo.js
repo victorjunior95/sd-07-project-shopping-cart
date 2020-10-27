@@ -1,10 +1,24 @@
+const { AsyncLocalStorage } = require('async_hooks');
 const fetch = require('node-fetch');
 
-const findItem = (item) => {
-    const endPoint = `https://api.mercadolibre.com/sites/MLB/search?q=$${item}`;
-    fetch(endPoint)
+const findItemAndReturnArrayObject = async (item) => {
+    const endPoint = `https://api.mercadolibre.com/sites/MLB/search?q=${item}`;
+    return await fetch(endPoint)
     .then(response=>response.json())
-    .then(data=>console.log(data.results));
+    .then((object) => {
+        if(object.error) {
+            throw new Error (object.error)
+        } else {
+            (object.results);
+        }
+    })
+    .catch((error)=>alert(error));
 }
 
-findItem("COMPUTADOR");
+
+const arrayOfProducts = findItemAndReturnArrayObject('COMPUTADOR');
+console.log(arrayOfProducts);
+// const ObjectForMySite = (array) => {
+//     const 
+// }
+
