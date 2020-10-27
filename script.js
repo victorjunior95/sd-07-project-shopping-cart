@@ -74,7 +74,6 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
-  //  teste
 }
 
 const listProductScreen = async () => {
@@ -135,5 +134,5 @@ window.onload = () => {
   loadingListComputers();
   loadLocalStorage();
   handleEventsClicks();
-  updateDisplayTotalPrice(sumPricesItemCart());
+  updateDisplayTotalPrice(sumPricesItemsCart());
 };
