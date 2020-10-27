@@ -48,7 +48,7 @@ async function addToCart(productAdd) {
     const data = await response.json();
     const { id: sku, title: name, price: salePrice } = data;
     const productComponents = { sku, name, salePrice };
-    const cartItems = document.querySelector('.cart_items');
+    const cartItems = document.querySelector('.cart__items');
     cartItems.appendChild(createCartItemElement(productComponents));
     console.log(productComponents);
   } catch (error) {
@@ -70,7 +70,7 @@ async function fetchItems() {
         const productComponents = { sku, name, image };
         const items = document.querySelector('.items');
         const product = createProductItemElement(productComponents);
-        product.querySelector('button.item_add').addEventListener('click', addToCart);
+        product.querySelector('button.item__add').addEventListener('click', addToCart);
         items.appendChild(product);
       }
     }
