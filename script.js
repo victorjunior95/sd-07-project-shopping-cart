@@ -23,16 +23,15 @@ const updateLocalStorage = () => {
 const updateTotalPrice = async (price, operator) => {
   const spanWithActualPrice = document.querySelector('#total_price');
   const actualTotalPrice = parseFloat(spanWithActualPrice.innerText);
-  console.log(actualTotalPrice);
-  console.log(price);
   let newTotalPrice = 0;
   if (operator === '+') {
     newTotalPrice = actualTotalPrice + price;
   } else if (operator === '-') {
     newTotalPrice = actualTotalPrice - price;
+    console.log('subtraiu');
   }
   localStorage.setItem('totalPrice', newTotalPrice);
-  spanWithActualPrice.innerText = newTotalPrice.toFixed(2);
+  spanWithActualPrice.innerText = newTotalPrice.toFixed();
 };
 
 function cartItemClickListener(event) {
@@ -64,13 +63,6 @@ const manageCart = (object) => {
   updateLocalStorage();
   updateTotalPrice(product.salePrice, '+');
 };
-
-// const fetchFromStorage = (sku) => {
-  //   const endpoint = `https://api.mercadolibre.com/items/${sku}`;
-  //   fetch(endpoint)
-  //   .then(response => response.json())
-  //   .then(object => manageCart(object));
-// };
 
 const fetchInfoFromId = () => {
   const item = event.target.parentElement;
@@ -113,12 +105,15 @@ const fetchItemsMercadoLivre = (term) => {
 
 const recoverCart = () => {
   const cart = document.querySelector('.cart__items');
-  cart.innerHTML = localStorage.getItem('cart');
+  const itemsSaved = localStorage.getItem('cart');
+  cart.innerHTML = itemsSaved;
   const listItems = cart.querySelectorAll('li');
   for (let index = 0; index < listItems.length; index += 1) {
     listItems[index].addEventListener('click', cartItemClickListener);
   }
-  updateTotalPrice(parseFloat(localStorage.getItem('totalPrice')));
+  if (itemsSaved) {
+    updateTotalPrice(parseFloat(localStorage.getItem('totalPrice')), '+');
+  }
 };
 
 
