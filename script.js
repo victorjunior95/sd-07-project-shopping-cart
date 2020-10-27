@@ -35,7 +35,7 @@ async function updateTotalCart() {
     cartItems.forEach((item) => {
       total += parseFloat(item.innerText.split('$')[1]);
     });
-    document.querySelector('.total-price').innerText = total.toFixed(2);
+    document.querySelector('.total-price').innerText = total;
   } else {
     document.querySelector('.total-price').innerText = '';
   }
