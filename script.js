@@ -53,6 +53,6 @@ function fetchProdutcs() {
     });
 }
 
-window.onload = function onload() { 
-  fetchProdutcs(); 
+window.onload = function onload() {
+  fetchProdutcs();
 };
