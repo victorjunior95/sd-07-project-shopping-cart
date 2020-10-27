@@ -69,26 +69,28 @@ const loadItemLocalStorage = () => {
   });
 };
 
-const removeItemOfHtml = (nameClass) => {
+const removeItemOfHtml = (nameClass, callback) => {
   const elemFather = document.querySelector(nameClass);
   while (elemFather.lastElementChild) {
     elemFather.removeChild(elemFather.lastElementChild);
   }
-  return loadItemLocalStorage();
+  callback ? callback() : undefined;
 };
 
 const localStorageCreateItem = ({ sku, name, salePrice }) => {
   const sendLocalStorageItem = { SKU: sku, NAME: name, PRICE: salePrice };
   localStorage.setItem(sku, JSON.stringify(sendLocalStorageItem));
-  return removeItemOfHtml('ol', '.cart__items');
+  return removeItemOfHtml('.cart__items', loadItemLocalStorage);
 };
 
 function listItemsForSelect(dataSearch) {
-  const getSecion = document.querySelector('.items');
-  const removeLoading = document.querySelector('.h2-loading');
-  getSecion.removeChild(removeLoading);
+  removeItemOfHtml('.items', undefined);
+  // const getSecion = document.querySelector('.items');
+  // const removeLoading = document.querySelector('.h2-loading');
+  // getSecion.removeChild(removeLoading);
   const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${dataSearch}`;
   fetch(endpoint)
+  .then(removeItemOfHtml('.items'))
     .then((response) => {
       response.json().then((data) => {
         data.results.forEach((productItem) => {
@@ -117,7 +119,7 @@ const cartItemClickListener = () => {
       const itemSelected = event.target.innerText;
       const idOfItemSelected = itemSelected.split(' ');
       localStorage.removeItem(idOfItemSelected[1]);
-      removeItemOfHtml('ol', '.cart__items');
+      removeItemOfHtml('.cart__items', loadItemLocalStorage);
     }
   });
 };
@@ -126,7 +128,7 @@ const clearAllCart = () => {
   const buttonCart = document.querySelector('.empty-cart');
   buttonCart.addEventListener('click', () => {
     localStorage.clear();
-    return removeItemOfHtml('ol', '.cart__items');
+    return removeItemOfHtml('.cart__items', loadItemLocalStorage);
   });
 };
 
