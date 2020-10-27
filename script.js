@@ -32,6 +32,17 @@ function cartItemClickListener(event) {
   // coloque seu código aqui
 }
 
+function cleanCart() {
+  const btnClean = document.querySelector('.empty-cart');
+  btnClean.addEventListener('click', removeAll);
+}
+
+function removeAll() {
+  const ol = document.querySelector('ol.cart__items');
+  document.querySelectorAll('li.cart__item')
+    .forEach(item => ol.removeChild(item));
+}
+
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -79,4 +90,6 @@ const fetchCurrency = () => {
 
 window.onload = function onload() {
   fetchCurrency();
+  cleanCart();
+
 };
