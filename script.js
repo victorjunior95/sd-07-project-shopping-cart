@@ -60,7 +60,7 @@ const eraseElement = () => {
 const fetchToChart = (sku) => {
   const endpoint = `https://api.mercadolibre.com/items/${sku}`;
   fetch(endpoint)
-    .then(response => response.json())
+    .then((response) => response.json())
     .then((data) => {
       cathOl(createCartItemElement(data)); // requisito 2 passo 4
     });
@@ -84,7 +84,8 @@ const fetchProducts = () => {
       'https://api.mercadolibre.com/sites/MLB/search?q=computador';
     fetch(endpoint)
       .then(data => data.json())
-      .then(data => data.results.forEach((value) => {
+      .then(data => 
+        data.results.forEach((value) => {
           appendToChart(createProductItemElement(value));
         })
       )
