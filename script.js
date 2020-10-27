@@ -10,7 +10,7 @@ function loadOrderedList() {
 }
 
 function saveOnLocalStorage(listOfProducts) {
- console.log(listOfProducts); 
+  console.log(listOfProducts);
 }
 
 function getSkuFromProductItem(item) {
