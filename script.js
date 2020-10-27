@@ -101,11 +101,13 @@ function getClickForCart() {
 
 function clearCart() {
   const cartList = document.querySelector('.cart__items');
-  cartList.innerHTML = '';
-  saveCart();
+  if (cartList.childNodes.length !== 0) {
+    cartList.innerHTML = '';
+    saveCart();
+  }
 }
 
-function loadButton() {
+function loadClearButton() {
   const clearButton = document.querySelector('.empty-cart');
   clearButton.addEventListener('click', clearCart);
 }
@@ -114,5 +116,5 @@ window.onload = async function onload() {
   await getFilteredProducts();
   getClickForCart();
   reloadCart();
-  loadButton();
+  loadClearButton();
 };
