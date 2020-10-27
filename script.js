@@ -26,10 +26,6 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-// function getSkuFromProductItem(item) {
-//   return item.querySelector('span.item__sku').innerText;
-// }
-
 const localStorageQuery = () => localStorage.getItem('shopList');
 
 const addLocalStorage = async () => {
