@@ -64,6 +64,7 @@ function createCartItemElement({
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   tagFather.appendChild(li);
+  saveList();
 }
 
 const handleResultes = (results) => {
@@ -110,7 +111,6 @@ window.onload = function onload() {
     if (event.target.className === 'item__add') {
       computerSearch(event.target.parentElement.firstChild.innerText);
     }
-    saveList();
   });
   listComputersSearch('computador');
 };
