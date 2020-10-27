@@ -39,7 +39,7 @@ const converteObjetosDesejados = (objetosDoResult) => {
       name: item.title,
       image: item.thumbnail,
     };
-    return inserirItemHtml(cadaProduto)
+    return inserirItemHtml(cadaProduto);
   });
 };
 
@@ -57,22 +57,22 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 // terceira func criada (segundo requisito)
 const trataID = (id) => {
-  const umItem = `https://api.mercadolibre.com/items/${id}`
+  const umItem = `https://api.mercadolibre.com/items/${id}`;
   console.log(umItem);
   fetch(umItem)
-  .then((res) => res.json())
+  .then(res => res.json())
   .then((objeto) => {
     const listaOl = document.querySelector('.cart__items');
     console.log(objeto);
     produto = {
       sku: objeto.id,
       name: objeto.title,
-      salePrice: objeto.price
+      salePrice: objeto.price,
     };
     listaOl.appendChild(createCartItemElement(produto));
   })
   .catch(error => showAlert(error));
-}
+};
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
@@ -83,7 +83,7 @@ const pegarIdComputadorClicando = (evento) => {
   const idItem = getSkuFromProductItem(evento.target.parentNode);
   // evento target se refere ao proprio botao nesse caso
   trataID(idItem);
-}
+};
 
 // primeira func criada ( segundo requisito)
 function addButtonsEvent() {
@@ -100,13 +100,13 @@ const CarregaProdutos = () => {
   fetch(endpoint)
     .then(resposta => resposta.json()) // endpoint convertido em json
     .then((objeto) => { // dentro do objeto eu busquei os results
-      converteObjetosDesejados(objeto.results)
+      converteObjetosDesejados(objeto.results);
     })
     .then(addButtonsEvent) // vou chamar essa funçao apos o carregamento +)
     .catch(error => showAlert(error));
 };
 
-window.onload =  function onload() {
-   CarregaProdutos();
+window.onload = function onload() {
+  CarregaProdutos();
   // primeira função a ser feita,vai buscar os dados
 };
