@@ -25,7 +25,7 @@ function createProductItemElement({ sku, name, image }) {
 }
 
 const generateProducts = () => {
-  //Abstração facilitada pelo colega Vitor Rodrigues
+  // Abstração facilitada pelo colega Vitor Rodrigues
   const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   const itemsSection = document.querySelector('.items');
   fetch(API_URL)
