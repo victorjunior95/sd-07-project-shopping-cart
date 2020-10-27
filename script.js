@@ -50,7 +50,7 @@ const sumAmountToPay = () => {
 const totalPriceHTML = async () => {
   const totalPriceToPay = await sumAmountToPay();
   const divTotalPrice = document.querySelector('.total-price');
-  divTotalPrice.innerText = totalPriceToPay.toFixed(2);
+  divTotalPrice.innerText = totalPriceToPay;
 };
 
 function cartItemClickListener(event) {
