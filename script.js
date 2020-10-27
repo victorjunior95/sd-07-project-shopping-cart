@@ -51,7 +51,7 @@ function registerCartLocalStorage(trigered) {
 
 function cartItemClickListener(event) {
   event.target.remove();
-  registerCartLocalStorage('remove');
+  registeCartLocalStorage('remove');
   sumCart();
 }
 
