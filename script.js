@@ -10,17 +10,32 @@ function updateLocalStorage() {
   localStorage.setItem('cartItems', cartItemsContainer.innerHTML);
 }
 
+async function totalPrice() {
+  const totalPriceContainer = document.querySelector('.total-price');
+  const totalItemsInCart = document.querySelectorAll('.cart__item');
+  let sum = 0;
+  for (let index = 0; index < totalItemsInCart.length; index += 1) {
+    const price = parseInt(totalItemsInCart[index].dataset.price);
+    sum += price;
+  }
+  totalPriceContainer.innerText = sum;
+}
+
 function cartItemClickListener(event) {
   const cartItemsContainer = document.querySelector('.cart__items');
   cartItemsContainer.removeChild(event.currentTarget);
+  totalPrice();
   updateLocalStorage();
 }
+
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  li.dataset.price = salePrice;
+  totalPrice();
   return li;
 }
 
@@ -46,6 +61,7 @@ function addEventButton(element) {
       .then((data) => {
         const dataElements = { sku: data.id, name: data.title, salePrice: data.price };
         appendElement(cartItemsContainer, createCartItemElement, dataElements);
+        totalPrice();
         updateLocalStorage();
       });
   });
@@ -87,18 +103,22 @@ function listingProducts() {
 function loadLocalStorage() {
   const cartItemsContainer = document.querySelector('.cart__items');
   cartItemsContainer.innerHTML = localStorage.getItem('cartItems');
+  const cartItens = document.getElementsByClassName('cart__item');
+  for (let index = 0; index < cartItens.length; index += 1) {
+    cartItens[index].addEventListener('click', cartItemClickListener);
+  }
 }
 
-function emptyCart() {
-  const emptyButton = document.querySelector('empty-cart');
-  emptyButton.addEventListener('click', () => {
+function emptyCart(button) {
+  button.addEventListener('click', () => {
     const cartItemsContainer = document.querySelector('.cart__items');
     cartItemsContainer.innerHTML = '';
-    updateLocalStorage();
+    // updateLocalStorage();
   });
 }
 
 window.onload = function onload() {
   listingProducts();
   loadLocalStorage();
+  emptyCart(document.querySelector('empty-cart'));
 };
