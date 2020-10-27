@@ -99,8 +99,11 @@ function pegaArray(li) {
 function recuperaCart() {
   for (let item = 0; item <= localStorage.length; item += 1) {
     const li = localStorage.getItem(localStorage.key(item));
-    const liComplete = createCartItemElement(pegaArray(li));
-    addCartLi(liComplete);
+    if (localStorage.getItem(localStorage.key(item)) !== null) {
+      console.log(li);
+      const liComplete = createCartItemElement(pegaArray(li));
+      addCartLi(liComplete);
+    }
   }
 }
 
