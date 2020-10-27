@@ -37,8 +37,9 @@ const clearCart = () => {
   buttonClear.addEventListener('click', () => {
     list.innerHTML = '';
     localStorage.clear();
+
     const totalPrice = document.querySelector('.total-price');
-    totalPrice.innerHTML = `Preço total: $0`;
+    totalPrice.innerHTML = 'Preço total: $0';
     sum = 0;
   });
 };
