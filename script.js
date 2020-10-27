@@ -39,7 +39,6 @@ const converteObjetosDesejados = (objetosDoResult) => {
       name: item.title,
       image: item.thumbnail,
     };
-    
     return inserirItemHtml(cadaProduto);
   });
 };
@@ -48,21 +47,21 @@ let total = 0;
 const sumPrice = (price) => {
   total += Number(price.toFixed(2));
   document.querySelector('.total-price').innerHTML = total;
-};
+}
 
 const subtractPrice = async () => {
-  let totalPrice = document.querySelector('.cart__item').innerHTML.split('$')
+  const totalPrice = document.querySelector('.cart__item').innerHTML.split('$');
   total -= Number(totalPrice[1]).toFixed(2);
-  if(total.toFixed(2) < 0 || document.querySelector('.cart__item').innerHTML == ''){
+  if (total.toFixed(2) < 0 || document.querySelector('.cart__item').innerHTML === ''){
     // se o cart__item estiver sem item tambem zera
     total = 0;
-  };
+  }
   document.querySelector('.total-price').innerHTML = Number(total.toFixed(2));
 }
 
-// requisto 3 , somente esse retorno 
+// requisto 3 , somente esse retorno
 function cartItemClickListener(evento) {
-  subtractPrice()
+  subtractPrice();
   evento.target.remove();
   // o prorpio li selecionado vai ser apagado
 }
