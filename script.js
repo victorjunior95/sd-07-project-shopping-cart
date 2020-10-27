@@ -1,7 +1,3 @@
-// const showAlert = (error) => {
-//   window.alert(error);
-// };
-
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -71,9 +67,18 @@ function createProductsList() {
     });
 }
 
+function clearCart() {
+  const button = document.querySelector('.empty-cart');
+  button.addEventListener('click', () => {
+    const cart = document.querySelector('.cart__items');
+    cart.innerHTML = '';
+  });
+}
+
 window.onload = function onload() {
   createProductsList();
   fetchLocalStorage();
+  clearCart();
 };
 
 // function getSkuFromProductItem(item) {
