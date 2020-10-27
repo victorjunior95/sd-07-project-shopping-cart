@@ -42,7 +42,7 @@ function cartItemClickListener(event) {
   removeItem.removeChild(event.target);
   const valueItem = event.toElement.innerText.split('$');
   updateTotal(valueItem[1], '-');
-  console.log(event.toElement.innerText.split('|')[0].split(':')[1])
+  console.log(event.toElement.innerText.split('|')[0].split(':')[1]);
   localStorage.removeItem(event.toElement.innerText.split('|')[0].split(':')[1]);
 }
 
@@ -61,7 +61,7 @@ function emptyCart() {
   const itens = document.querySelectorAll('.cart__item');
   for (let item = 0; item < itens.length; item += 1) {
     itensLista.removeChild(itens[item]);
-  };
+  }
   localStorage.clear();
   removePaiTotal.removeChild(removeTotal);
 }
@@ -90,10 +90,8 @@ function recuperaCart() {
     const id = li.split('|')[0].split(':')[1];
     const title = li.split('|')[1].split(':')[1];
     let price = li.split('|')[2].split(': $')[1];
-    console.log(price);
     if (id !== undefined && title !== undefined && price === undefined) {
       price = li.split('|')[4].split(': $')[1];
-      console.log(price);
       const liComplete = createCartItemElement({ id, title, price });
       addCartLi(liComplete);
     }
