@@ -30,6 +30,7 @@ const functionFetchJSON = async (endpoint, adaptFunction) => {
     const object = await responseURL.json();
     adaptFunction(object);
   } catch (Error) {
+    alert(Error);
   }
 };
 
@@ -44,9 +45,9 @@ function createCartItemElement({ sku, name, salePrice }) {
 const adaptJSONItem = (object) => {
   const cartItems = document.querySelector('.cart__items');
   const { id: sku, title: name, price: salePrice } = object;
-  const item = createCartItemElement({ sku, name, salePrice });
-  cartItems.appendChild(item);
-}
+  cartItems.appendChild(createCartItemElement({ sku, name, salePrice }));
+  // cartItems.appendChild(item);
+};
 
 const addToCart = async (itemID) => {
   const endpointByID = `https://api.mercadolibre.com/items/${itemID}`;
