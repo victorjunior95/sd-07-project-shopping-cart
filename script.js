@@ -1,12 +1,20 @@
 const saveList = () => {
   localStorage.clear();
-  localStorage.setItem('listaComputers', document.querySelector('.cart__items').innerHTML)
+  localStorage.setItem('listaComputers', document.querySelector('.cart__items').innerHTML);
+};
+
+// Utilizar para remover um item do carrinho
+function cartItemClickListener(event) {
+  if (event.target.className === 'cart__item') {
+    event.target.parentElement.removeChild(event.target);
+  }
+  saveList();
 }
 
 const loadList = () => {
   document.querySelector('.cart__items').innerHTML = localStorage.getItem('listaComputers');
-  document.querySelectorAll('.cart__item').forEach((li) => li.addEventListener('click', cartItemClickListener));
-}
+  document.querySelectorAll('.cart__item').forEach(li => li.addEventListener('click', cartItemClickListener));
+};
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -42,14 +50,6 @@ function createProductItemElement({
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
-}
-
-// Utilizar para remover um item do carrinho
-function cartItemClickListener(event) {
-  if (event.target.className === 'cart__item') {
-    event.target.parentElement.removeChild(event.target);
-  }
-  saveList();
 }
 
 // Utilizar para criar os componentes HTML referentes a um item do carrinho
