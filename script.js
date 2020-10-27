@@ -23,13 +23,17 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   return section;
 }
 
-const selectChild = (arrayValue) => { // referência Rodrigo Sudario - requisito 1
+const selectChild = (arrayValue) => { // referência Rodrigo Sudario - Requisito 1
   const sectionHere = document.querySelector('.items'); // section que vai receber o novo item
   const value = Object.entries(arrayValue); // para formar arrays com chave e valor
   value.forEach(product =>
     sectionHere.appendChild(createProductItemElement(product[1])),
   ); // para que a section receba cada um dos objetos como filhos
 };
+
+function cartItemClickListener(event) {
+  // some code here
+}
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
@@ -64,7 +68,3 @@ const functionToFetch = () => { // requisito 1
 window.onload = function onload() {
   functionToFetch();
 };
-
-function cartItemClickListener(event) {
-  // some code here
-}
