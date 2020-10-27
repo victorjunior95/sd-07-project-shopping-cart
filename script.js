@@ -86,6 +86,8 @@ function createProductItemElement({ sku, name, image }) {
 
 const manageItems = (resultsArray) => {
   const itemsSection = document.querySelector('.items');
+  const loadAwarn = document.querySelector('.loading');
+  loadAwarn.remove();
   resultsArray.forEach((item) => {
     const product = {
       sku: item.id,
@@ -97,6 +99,9 @@ const manageItems = (resultsArray) => {
 };
 
 const fetchItemsMercadoLivre = (term) => {
+  const itemsSection = document.querySelector('.items');
+  const loadAwarn = createCustomElement('h1', 'loading', 'CARREGANDO...');
+  itemsSection.appendChild(loadAwarn);
   const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${term}`;
   fetch(endpoint)
     .then(response => response.json())
