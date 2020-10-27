@@ -13,7 +13,7 @@ function createCustomElement(element, className, innerText) {
 }
 
 const newObjectItems = (object) => {
-  let newObj = {};
+  const newObj = {};
   newObj.sku = object.id;
   newObj.name = object.title;
   newObj.image = object.thumbnail;
@@ -32,21 +32,21 @@ const createNewSectionItems = (object) => {
 const fetchApiShopping = (product) => {
   const endPoint = `https://api.mercadolibre.com/sites/MLB/search?q=${product}`;
   fetch(endPoint)
-    .then((response) => response.json())
-    .then((data) =>
+    .then(response => response.json())
+    .then(data =>
       data.results.forEach((object) => {
         // console.log(object);
         createNewSectionItems(newObjectItems(object));
-      })
+      }),
     );
 };
 
 function cartItemClickListener(event) {
   // console.log(event.target.innerText)
-  let parent = event.target.parentNode;
+  const parent = event.target.parentNode;
   // console.log(event.target.innerText);
   Object.keys(localStorage).forEach((key) => {
-    let item = JSON.parse(localStorage.getItem(key));
+    const item = JSON.parse(localStorage.getItem(key));
     // console.log(item[key].id)
     if (event.target.innerText.includes(item[key].id)) {
       // console.log('funfou');
@@ -65,7 +65,7 @@ const sumPriceListItems = () => {
   let count = 0;
 
   Object.keys(localStorage).forEach((key) => {
-    let storage = JSON.parse(localStorage.getItem(key));
+    const storage = JSON.parse(localStorage.getItem(key));
     count += storage[key].price;
     // console.log(count);
   });
@@ -77,7 +77,7 @@ const sumPriceListItems = () => {
 };
 
 const addLocalStorage = (key, value) => {
-  let object = { [key]: value };
+  const object = { [key]: value };
   localStorage.setItem(key, JSON.stringify(object));
   sumPriceListItems();
 };
@@ -101,10 +101,10 @@ function getSkuFromProductItem(item) {
 
 const fetchApiIds = (event) => {
   // console.log(event.target.parentNode)
-  let id = getSkuFromProductItem(event.target.parentNode);
+  const id = getSkuFromProductItem(event.target.parentNode);
   const endPoint = `https://api.mercadolibre.com/items/${id}`;
   fetch(endPoint)
-    .then((response) => response.json())
+    .then(response => response.json())
     .then((data) => {
       createCartItemElement(data);
     });
@@ -130,9 +130,9 @@ function createProductItemElement({ sku, name, image }) {
 const updateLiStorage = () => {
   Object.keys(localStorage).forEach((key) => {
     // console.log(key);
-    let object = JSON.parse(localStorage.getItem(key));
+    const object = JSON.parse(localStorage.getItem(key));
     // console.log(object[key]);
-    let item = `SKU: ${object[key].id} | NAME: ${object[key].title} | PRICE: $${object[key].price}`;
+    const item = `SKU: ${object[key].id} | NAME: ${object[key].title} | PRICE: $${object[key].price}`;
     // console.log(item);
     const li = document.createElement('li');
     li.className = 'cart__item';
