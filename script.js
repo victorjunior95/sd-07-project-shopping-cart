@@ -6,11 +6,11 @@ const fecthAndParse = (link, toSearch) => {
 };
 
 function loadOrderedList() {
-  
+
 }
 
 function saveOnLocalStorage(listOfProducts) {
-
+ console.log(listOfProducts); 
 }
 
 function getSkuFromProductItem(item) {
