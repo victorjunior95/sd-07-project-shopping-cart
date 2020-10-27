@@ -1,3 +1,5 @@
+// PARA DESENVOLVER ESTE PROJETO ME BASEEI  NO CODIGO DO COLEGA VICTOR.
+// PUDE APRENDER MUITO COM A SUA FORMA DE ABSTRACAO E SUA OBJETIVIDADE.
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
