@@ -87,9 +87,9 @@ const adicionando = () => {
 };
 
 const carrinho = () => {
-  const carrinho = document.querySelector('.cart')
-  localStorage.setItem('carinho', carrinho);
-}
+  const car = document.querySelector('.cart');
+  localStorage.setItem('carinho', car);
+};
 
 window.onload = function onload() {
   inicio();
