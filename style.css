@@ -24,7 +24,7 @@
 }
 
 .loading {
-  animation: is-rotating is infinite;
+  animation: is-rotating;
   border: 6px solid honeydew;
   border-radius: 50%;
   border-top-color: crimson;
