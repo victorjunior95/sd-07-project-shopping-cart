@@ -85,12 +85,10 @@ function addCartLi(li) {
 }
 
 function pegaArray(li) {
+  let price = li.split('|')[2].split(': $')[1];
   const id = li.split('|')[0].split(':')[1];
   const title = li.split('|')[1].split(':')[1];
-  let price;
-  try {
-    price = li.split('|')[2].split(': $')[1];
-  } catch (error) {
+  if (price === undefined) {
     price = li.split('|')[4].split(': $')[1];
   }
   return { id, title, price };
