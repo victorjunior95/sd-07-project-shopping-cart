@@ -29,12 +29,12 @@ const maisalem = ({ price }) => {
   const olpai = document.querySelector('.cart');
   if (olpai.querySelector('.total-price')) {
     valor += price;
-    olpai.querySelector('.total-price').innerText = `total = ${valor}`;
+    olpai.querySelector('.total-price').innerText = valor;
   } else {
     valor = price;
     const h3 = document.createElement('h3');
     h3.className = 'total-price';
-    h3.innerText = `total = ${valor}`;
+    h3.innerText = valor;
     olpai.appendChild(h3);
   }
 };
