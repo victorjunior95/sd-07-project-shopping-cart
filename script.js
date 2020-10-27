@@ -45,14 +45,17 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 function loading() {
   const span = document.createElement('span');
   span.className = 'loading';
-  span.innerHTML = 'loading';
-  document.body.appendChild(span);
-  return span;
+  span.innerHTML = 'loading...';
+  const items = document.getElementsByClassName('items');
+  items.appendChild(span);
 }
 
-// function removeMsg() {
-//   const spanWithmsg = document.getElementsByClassName('loading');
-// }
+function removeMsg() {
+  setTimeout(() => {
+    const items = document.getElementsByClassName('items')
+    items.removeChild(items.firstChild);
+  }, 2000);
+}
 
 // requisito 2 passo 2
 const fetchToChart = (sku) => {
@@ -75,13 +78,15 @@ const appendToChart = (item) => {
 };
 
 // requisito 1 - com Async/Await
-const fetchProducts = async () => {
-  loading();
+const fetchProducts = () => {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
-  const response = await fetch(endpoint);
-  const object = await response.json();
-  const result = object.results;
-  result.forEach(data => appendToChart(createProductItemElement(data)));
+  setTimeout(loading, 10);
+  fetch(endpoint)
+  .then(data => data.json())
+  .then(data => data.results.forEach((value) => {
+    appendToChart(createProductItemElement(value));
+  }))
+  .then(removeMsg());
 };
 
 function getSkuFromProductItem(item) {
