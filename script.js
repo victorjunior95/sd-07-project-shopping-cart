@@ -93,7 +93,8 @@ function fetchProductApi(query) {
   fetch(endpoint)
     .then((response) => {
       section.innerHTML = '';
-      return response.json()})
+      return response.json();
+    })
     .then(object => object.results.forEach(({ id, title, thumbnail }) => {
       const newItem = { sku: id, name: title, image: thumbnail };
       const HtmlElement = createProductItemElement(newItem);
