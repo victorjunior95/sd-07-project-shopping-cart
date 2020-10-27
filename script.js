@@ -18,7 +18,7 @@ async function totalPrice() {
     const price = parseFloat(totalItemsInCart[index].dataset.price, 10);
     sum += price;
   }
-  totalPriceContainer.innerText = sum.toFixed(2);
+  totalPriceContainer.innerText = sum;
 }
 
 function cartItemClickListener(event) {
