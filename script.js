@@ -110,6 +110,7 @@ const fecthIdAsyncAwait = async (id) => {
     showAlert(error);
   }
 };
+
 // function getSkuFromProductItem(item) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
@@ -133,7 +134,15 @@ function emptyCar() {
   });
 }
 
+const waitLoading = () => {
+  setTimeout(() => {
+    document.querySelector('.loading').remove();
+    fecthComputerAsyncAwait();
+  }, 5000);
+};
+
 window.onload = async function onload() {
+  waitLoading();
   goBackInsideCart();
   await fecthComputerAsyncAwait();
   catchAllProductEvent();
@@ -143,3 +152,4 @@ window.onload = async function onload() {
 
 // Referência bibliográfica
 // https://github.com/tryber/sd-07-project-shopping-cart/pulls/EduSouza-programmer
+// https://www.youtube.com/watch?v=SB9PQrOJVz4
