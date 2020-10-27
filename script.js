@@ -4,12 +4,10 @@ function createProductImageElement(imageSource) {
   img.src = imageSource;
   return img;
 }
-
 function updateLocalStorage() {
   const cartItemsContainer = document.querySelector('.cart__items');
   localStorage.setItem('cartItems', cartItemsContainer.innerHTML);
 }
-
 async function totalPrice() {
   const totalPriceContainer = document.querySelector('.total-price');
   const totalItemsInCart = document.querySelectorAll('.cart__item');
@@ -27,7 +25,6 @@ function cartItemClickListener(event) {
   totalPrice();
   updateLocalStorage();
 }
-
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -37,39 +34,30 @@ function createCartItemElement({ sku, name, salePrice }) {
   totalPrice();
   return li;
 }
-
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
-
 function fetchingAPIById(itemId) {
-  return fetch(
-    `https://api.mercadolibre.com/items/${itemId}`,
-  ).then(response => response.json());
+  return fetch(`https://api.mercadolibre.com/items/${itemId}`)
+    .then(response => response.json());
 }
-
 function appendElement(container, callback, elements) {
   return container.appendChild(callback(elements));
 }
-
 function addEventButton(element) {
   element.addEventListener('click', () => {
     const itemId = getSkuFromProductItem(event.target.parentElement);
     const cartItemsContainer = document.querySelector('.cart__items');
     const item = fetchingAPIById(itemId);
-    item.then((data) => {
-      const dataElements = {
-        sku: data.id,
-        name: data.title,
-        salePrice: data.price,
-      };
-      appendElement(cartItemsContainer, createCartItemElement, dataElements);
-      totalPrice();
-      updateLocalStorage();
-    });
+    item
+      .then((data) => {
+        const dataElements = { sku: data.id, name: data.title, salePrice: data.price };
+        appendElement(cartItemsContainer, createCartItemElement, dataElements);
+        totalPrice();
+        updateLocalStorage();
+      });
   });
 }
-
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
   e.className = className;
@@ -77,39 +65,27 @@ function createCustomElement(element, className, innerText) {
   if (element === 'button') addEventButton(e);
   return e;
 }
-
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
-
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
-  section.appendChild(
-    createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'),
-  );
-
+  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
   return section;
 }
-
 function listingProducts() {
   const productsContainer = document.querySelector('.items');
   fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
-    .then(response => response.json())
-    .then(data =>
-      data.results.forEach((product) => {
-        const productElements = {
-          sku: product.id,
-          name: product.title,
-          image: product.thumbnail,
-        };
-        productsContainer.appendChild(
-          createProductItemElement(productElements),
-        );
-      }),
-    );
+  .then(response => response.json())
+  .then(data => data.results.forEach((product) => {
+    const productElements = { sku: product.id, name: product.title, image: product.thumbnail };
+    productsContainer
+    .appendChild(
+      createProductItemElement(productElements),
+      );
+  }));
 }
-
 function loadLocalStorage() {
   const cartItemsContainer = document.querySelector('.cart__items');
   cartItemsContainer.innerHTML = localStorage.getItem('cartItems');
@@ -127,8 +103,7 @@ function emptyCart() {
 }
 
 window.onload = function onload() {
+  loadLocalStorage();
   document.querySelector('.empty-cart').addEventListener('click', emptyCart);
   listingProducts();
-  loadLocalStorage();
-  emptyCart();
 };
