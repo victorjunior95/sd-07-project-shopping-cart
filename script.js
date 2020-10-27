@@ -1,3 +1,9 @@
+
+function removeAll(){
+  const ol = document.querySelector('.cart__items');
+  ol.innerHTML = '';
+}
+
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
