@@ -19,7 +19,7 @@ async function totalSum() {
     one = parseFloat(one[one.length - 1].substring(1));
     sum += one;
   }
-  pai.innerText = sum.toFixed(2);
+  pai.innerText = parseFloat(sum.toFixed(2));
 }
 
 function saveToStorage() {
