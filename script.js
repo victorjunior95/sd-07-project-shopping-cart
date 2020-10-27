@@ -12,7 +12,12 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-const createProductItemElement = ({ id: sku, title: name, thumbnail: image }) => {
+const createProductItemElement = ({
+  id: sku,
+  title: name,
+  thumbnail: image,
+  price: salesPrice,
+}) => {
   const section = document.createElement('section');
   section.className = 'item';
 
@@ -20,6 +25,7 @@ const createProductItemElement = ({ id: sku, title: name, thumbnail: image }) =>
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
+  section.setAttribute('item-price', salesPrice);
 
   return section;
 };
@@ -32,26 +38,41 @@ function cartItemClickListener(event) {
   event.target.remove();
 }
 
+// const totalPrice = (price) => {
+//   const cart = document.querySelector('.cart');
+//   const prices = document.createElement('p');
+//   prices.className = 'total-price';
+//   prices.innerHTML = `Preço total: R$ ${price}`;
+//   cart.appendChild(prices);
+// }
+
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const cartItems = document.querySelector('.cart__items');
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.setAttribute('item-price', salePrice);
   li.addEventListener('click', cartItemClickListener);
   cartItems.appendChild(li);
   const cartSave = document.querySelector('.cart__items').innerHTML;
   localStorage.setItem('savedItems', cartSave);
+  // let totalPrice = 0;
+  // totalPrice =+ salePrice
+  // console.log(totalPrice);
 }
 
-const saveElements = () => {
-  document.querySelector('.cart__items').innerHTML = localStorage.getItem('savedItems');
+const removeAllItems = () => {
+  const cartItems = document.querySelector('.cart__items');
+  cartItems.innerHTML = '';
+  localStorage.clear();
 };
 
-const removeAllItems = () => {
+const loadElements = () => {
+  document.querySelector('.cart__items').innerHTML = localStorage.getItem('savedItems');
+  document.querySelectorAll('.cart__items li')
+    .forEach(e => e.addEventListener('click', cartItemClickListener));
   const buttonRemove = document.querySelector('.empty-cart');
-  const cartItems = document.querySelector('.cart__items');
-  buttonRemove.addEventListener('click', () => (cartItems.innerHTML = ''));
-  localStorage.clear();
+  buttonRemove.addEventListener('click', removeAllItems);
 };
 
 const fetchProduct = async (id) => {
@@ -59,7 +80,6 @@ const fetchProduct = async (id) => {
   await fetch(endpoint)
     .then(response => response.json())
     .then(data => createCartItemElement(data))
-    .then(save => saveStorage(save))
     .catch(error => error);
 };
 
@@ -101,6 +121,5 @@ const fetchCurrency = async (currency) => {
 
 window.onload = function onload() {
   fetchCurrency('computador');
-  saveElements();
-  removeAllItems();
+  loadElements();
 };
