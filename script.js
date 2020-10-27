@@ -8,7 +8,7 @@ function createProductImageElement(imageSource) {
 
 const load = () => {
   const texto = document.querySelector('h4');
-  setTimeout(() => { texto.className = 'loading NV' }, 1000);
+  setTimeout(() => { texto.className = 'loading NV'; }, 1000);
   texto.className = 'loading';
 };
 
