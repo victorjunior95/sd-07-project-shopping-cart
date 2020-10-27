@@ -73,36 +73,16 @@ function emptyCart() {
   removeTotal.innerText = '';
 }
 
-function comparaID(liId, id, conteudo) {
-  if (liId === id) {
-    localStorage.setItem(id, conteudo);
-  } else {
-    localStorage.setItem(id, conteudo);
-  }
-}
-
-function comparID(id, conteudo) {
-  for (let item = 0; item <= localStorage.length; item += 1) {
-    const getLi = localStorage.getItem(localStorage.key(item));
-    if (getLi !== null) {
-      const liId = getLi.split('|')[0].split(':')[1];
-      comparaID(liId, id, conteudo);
-    } else {
-      localStorage.setItem(id, conteudo);
-    }
-  }
-}
-
+let index = 1;
 function addCartLi(li) {
   const btnempty = document.querySelector('.empty-cart');
   const addLis = document.querySelector('.cart__items');
   addLis.appendChild(li);
   btnempty.addEventListener('click', emptyCart);
-  const id = li.innerText.split('|')[0].split(':')[1];
   const conteudo = li.innerText;
-  comparID(id, conteudo);
+  localStorage.setItem(index, conteudo);
+  index += 1;
 }
-
 
 function pegaArray(li) {
   let price;
