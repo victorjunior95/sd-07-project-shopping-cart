@@ -34,8 +34,7 @@ function changePrice(salePrice, procedure) {
   if (procedure === 'add') {
     const total = document.querySelector('.total-price');
     total.innerText = (Number(salePrice) + Number(total.innerText)).toFixed(2);
-  }
-  else {
+  } else {
     const total = document.querySelector('.total-price');
     total.innerText = (Number(total.innerText) - Number(salePrice)).toFixed(2);
   }
