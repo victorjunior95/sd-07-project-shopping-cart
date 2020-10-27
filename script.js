@@ -14,13 +14,13 @@ const getComputerList = async () => {
 };
 
 const saveOrUpdateLS = async (html) => {
-  localStorage.setItem('ListCar', html);
+  localStorage.setItem('listCar', html);
 };
 
 const loadLocalStorage = () => {
-  const carItems = document.querySelector('.cart__items');
-  const ListCar = localStorage.getItem('ListCar');
-  if (ListCar) carItens.innerHTML = listCar;
+  const cartItems = document.querySelector('.cart__items');
+  const listCar = localStorage.getItem('listCar');
+  if (listCar) carItens.innerHTML = listCar;
 };
 
 const updateDisplayTotalPrice = (total) => {
@@ -28,7 +28,7 @@ const updateDisplayTotalPrice = (total) => {
   spanElement.innerHTML = total;
 };
 
-const sumPricesItemCart = () => {
+const sumPricesItemsCart = () => {
   const priceitems = document.querySelectorAll('[data-price-items]');
   const total = Array.from(priceitems, ({ dataset: { priceItems } }) =>
     Number(priceItems)).reduce((acc, price) => acc + price, 0);
@@ -41,13 +41,6 @@ const clearCart = () => {
   updateDisplayTotalPrice(sumPricesItemCart());
 };
 
-function createProductImageElement(imageSource) {
-  const img = document.createElement('img');
-  img.className = 'item__image';
-  img.src = imageSource;
-  return img;
-}
-
 function createCustomElement(element, className, innerText, sku = null) {
   const e = document.createElement(element);
   e.className = className;
@@ -58,6 +51,13 @@ function createCustomElement(element, className, innerText, sku = null) {
   }
 
   return e;
+}
+
+function createProductImageElement(imageSource) {
+  const img = document.createElement('img');
+  img.className = 'item__image';
+  img.src = imageSource;
+  return img;
 }
 
 function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
@@ -73,7 +73,7 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 }
 
 function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
+  //return item.querySelector('span.item__sku').innerText;
 }
 
 const listProductScreen = async () => {
@@ -93,7 +93,7 @@ function cartItemClickListener(event) {
   const cartItems = document.querySelector('.cart__items');
   event.target.remove();
   saveOrUpdateLS(cartItems.innerHTML);
-  updateDisplayTotalPrice(sumPricesItemCart());
+  updateDisplayTotalPrice(sumPricesItemsCart());
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -110,7 +110,7 @@ const addToCar = async (id) => {
   const productId = await getComputerById(id);
   cartItems.appendChild(createCartItemElement(await productId));
   saveOrUpdateLS(cartItems.innerHTML);
-  updateDisplayTotalPrice(sumPricesItemCart());
+  updateDisplayTotalPrice(sumPricesItemsCart());
 };
 
 const handleEventsClicks = () => {
