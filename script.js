@@ -63,22 +63,25 @@ function fetchData(endpoint, repeat = true) {
     });
 }
 
+function loadAPI(loaded = false) {
+  const loading = document.querySelector('.loading');
+  if (loaded === true) return loading.style.visibility = 'hidden';
+  loading.style.visibility = 'visible';
+}
+
 function getProductsFromApi(newProduct, maxQt = 4) {
   const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${newProduct}&limit=${maxQt}`;
 
   fetchData(endpoint);
-  loadedAPI();
+  loadedAPI(true);
 }
 
 function getInfosByID(id) {
   const endpoint = `https://api.mercadolibre.com/items/${id}`;
 
+  loadAPI();
   fetchData(endpoint, false);
-}
-
-function loadedAPI() {
-  const loading = document.querySelector('.loading');
-  loading.style.visibility = 'hidden';
+  loadAPI(true);
 }
 
 function clickEvents() {
