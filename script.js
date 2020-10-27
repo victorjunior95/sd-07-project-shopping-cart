@@ -41,13 +41,7 @@ const setLocalSave = () => {
 };
 
 function cartItemClickListenerRemove(event) {
-  const elementClicked = event.target;
-
-  const value = elementClicked.innerText.split('$')[1];
-  totalSum(-parseFloat(value, 10));
-
-  elementClicked.remove();
-
+  event.target.remove();
   setLocalSave();
 }
 
@@ -58,10 +52,12 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListenerRemove);
+  li.addEventListener('click', (event) => {
+    cartItemClickListenerRemove(event);
+    totalSum(-formatPrice);
+  });
 
   totalSum(formatPrice);
-  setLocalSave();
   return li;
 }
 
@@ -71,10 +67,10 @@ const handleAPIRequestToPrice = (API_REQ) => {
       return response.json();
     })
     .then((res) => {
-      console.log(res);
       if (res.error) {
         throw new Error(res.error);
       }
+      console.log(res);
       addToHTML('.cart__items', createCartItemElement(res));
       setLocalSave();
     })
@@ -127,6 +123,7 @@ const handleAPIRequest = async (API_REQ) => {
     if (jso.error) {
       throw new Error(jso.error);
     }
+    console.log(jso);
     handleAmountOfElementsOnHTML(jso.results);
   } catch (error) {
     showAlert(error);
@@ -134,20 +131,15 @@ const handleAPIRequest = async (API_REQ) => {
 };
 
 const getLocalSave = () => {
-  const currentItems = localStorage.getItem('Cart_Items');
-  const currentPriceToBePayed = parseFloat(
-    localStorage.getItem('Cart_Sum'),
-    10,
-  );
+  const currentSave = localStorage.getItem('Cart_Items');
 
   const list = document.querySelector('.cart__items');
-  list.innerHTML = currentItems;
-
+  list.innerHTML = currentSave;
   document.querySelectorAll('.cart__item').forEach((item) => {
     item.addEventListener('click', cartItemClickListenerRemove);
   });
-  totalSum(currentPriceToBePayed);
-  return currentItems;
+  totalSum();
+  return currentSave;
 };
 
 const setupEventHandlers = () => {
