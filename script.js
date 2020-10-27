@@ -123,18 +123,24 @@ const convertRequestToJSON = (url) => {
   });
   return conversion;
 };
-/*
+
+const identifyPrice = (item) => {
+  const secondComma = item.indexOf(',', 20);
+  const price = item.slice(secondComma + 1, item.length);
+  return price;
+}
+
 const cartInitialPrice = () => {
   const cartItens = Object.values(localStorage);
+  let initialPrice = 0;
   cartItens.forEach((item) => {
     if (item.length > 10) {
-      const itemData = identifyIdNameAndPrice(item);
-      const [id, name, price] = itemData;
-      console.log(price);
-      addTotalPrice(price);
+      const price = parseFloat(identifyPrice(item), 10);
+      initialPrice += price;
     };
   })
-}; */
+  totalPriceInnerText(initialPrice);
+};
 
 const recoverCart = () => {
   const cartItems = Object.values(localStorage);
@@ -225,6 +231,7 @@ const checkCounter = () => {
 window.onload = function onload() {
   createItens();
   recoverCart();
+  cartInitialPrice();
   document.querySelector('.empty-cart').addEventListener('click', emptyCart);
   checkCounter();
 };
