@@ -30,47 +30,8 @@ const functionFetchJSON = async (endpoint, adaptFunction) => {
     const object = await responseURL.json();
     adaptFunction(object);
   } catch (Error) {
-}
-}
-
-const addToCart = async (itemID) => {
-  const endpointByID = `https://api.mercadolibre.com/items/${itemID}`;
-  functionFetchJSON(endpointByID, adaptJSONItem)
-}
-
-const buttonAddToCart = () => {
-  const allButtonsAddItem = document.querySelectorAll('.item__add');
-  allButtonsAddItem.forEach((button) => {
-    button.addEventListener('click', () => {
-      const cartItem = button.parentNode.querySelector('.item__sku').innerText;
-      addToCart(cartItem);
-    });
-  });
-}
-
-// forEach feito com a ajuda da resolução realizada pelo Vitor no fechamento do dia 26/10
-const adaptJSONResponses = (object) => {
-  const itemsElementHTML = document.querySelector('.items');
-  object.results.forEach((product) => {
-    const { id: sku, title: name, thumbnail: image } = product;
-    const item = createProductItemElement({ sku, name, image });
-    itemsElementHTML.appendChild(item);
-  });
-  buttonAddToCart();
+  }
 };
-
-const fetchProducts = async () => {
-  const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
-  functionFetchJSON(endpoint, adaptJSONResponses)
-}
-
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
-
-function cartItemClickListener(event) {
-  // coloque seu código aqui
-}
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
@@ -85,6 +46,45 @@ const adaptJSONItem = (object) => {
   const { id: sku, title: name, price: salePrice } = object;
   const item = createCartItemElement({ sku, name, salePrice });
   cartItems.appendChild(item);
+}
+
+const addToCart = async (itemID) => {
+  const endpointByID = `https://api.mercadolibre.com/items/${itemID}`;
+  functionFetchJSON(endpointByID, adaptJSONItem);
+};
+
+const buttonAddToCart = () => {
+  const allButtonsAddItem = document.querySelectorAll('.item__add');
+  allButtonsAddItem.forEach((button) => {
+    button.addEventListener('click', () => {
+      const cartItem = button.parentNode.querySelector('.item__sku').innerText;
+      addToCart(cartItem);
+    });
+  });
+};
+
+// forEach feito com a ajuda da resolução realizada pelo Vitor no fechamento do dia 26/10
+const adaptJSONResponses = (object) => {
+  const itemsElementHTML = document.querySelector('.items');
+  object.results.forEach((product) => {
+    const { id: sku, title: name, thumbnail: image } = product;
+    const item = createProductItemElement({ sku, name, image });
+    itemsElementHTML.appendChild(item);
+  });
+  buttonAddToCart();
+};
+
+const fetchProducts = async () => {
+  const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
+  functionFetchJSON(endpoint, adaptJSONResponses);
+};
+
+function getSkuFromProductItem(item) {
+  return item.querySelector('span.item__sku').innerText;
+}
+
+function cartItemClickListener(event) {
+  // coloque seu código aqui
 }
 
 window.onload = function onload() {
