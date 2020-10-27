@@ -40,7 +40,7 @@ async function sumCart() {
   totalPrice.innerText = `${sum}`;
 }
 
-function registerCartLocalStorage(trigered) {
+function registeCartLocalStorage(trigered) {
   const productsInCart = document.querySelectorAll('.cart__item');
   if (trigered === 'remove') localStorage.clear();
   for (let item = 0; item < productsInCart.length; item += 1) {
