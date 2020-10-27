@@ -31,7 +31,7 @@ const updateTotalPrice = async (price, operator) => {
     console.log('subtraiu');
   }
   localStorage.setItem('totalPrice', newTotalPrice);
-  spanWithActualPrice.innerText = newTotalPrice.toFixed();
+  spanWithActualPrice.innerText = newTotalPrice;
 };
 
 function cartItemClickListener(event) {
@@ -115,7 +115,6 @@ const recoverCart = () => {
     updateTotalPrice(parseFloat(localStorage.getItem('totalPrice')), '+');
   }
 };
-
 
 window.onload = function onload() {
   fetchItemsMercadoLivre('computador');
