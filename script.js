@@ -40,7 +40,7 @@ const fetchItemByID = async (event) => {
   const cartItemList = createCartItemElement({ sku, name, salePrice });
   const cartList = document.querySelector('.cart__items');
   cartList.appendChild(cartItemList);
-  // referencia projeto Rafael Guimarães
+  // referência projeto Rafael Guimarães
 };
 
 function createCustomElement(element, className, innerText) {
