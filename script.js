@@ -23,8 +23,30 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   return section;
 }
 
+// source https://www.devmedia.com.br/javascript-substring-selecionando-parte-de-uma-string/39232
+const sumItems = async () => {
+  const arrayOfItems = [];
+  const sumPrice = document.querySelector('.sum-price');
+  const cartItems = document.querySelectorAll('.cart__item');
+  if (cartItems.length === 0) {
+    sumPrice.innerText = 0;
+  } else {
+    cartItems.forEach(item => arrayOfItems.push(item.innerText));
+    const arrayOfPricesInString = [];
+    arrayOfItems.forEach(item => arrayOfPricesInString.push(item.substring(item.indexOf('$') + 1)));
+    const arrayOfPrices = [];
+// source https://medium.com/aprendajs/convertendo-uma-string-em-um-numero-em-javascript-e6c856fb53be
+    arrayOfPricesInString.forEach(item => arrayOfPrices.push(Number(item)));
+    const sum = arrayOfPrices.reduce((previousValue, currentValue) => previousValue + currentValue);
+    sumPrice.innerText = sum;
+    localStorage.setItem('totalValue', sum);
+  }
+  return sumPrice;
+};
+
 function cartItemClickListener(event) {
   event.target.remove();
+  sumItems();
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -38,10 +60,6 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   localStorage.setItem('finalCart', cartSet);
   return li;
 }
-// function getSkuFromProductItem(item) {
-//   return item.querySelector('span.item__sku').innerText;
-// }
-
 const addToCart = async (itemID) => {
   const API_URL = `https://api.mercadolibre.com/items/${itemID}`;
   try {
@@ -52,6 +70,7 @@ const addToCart = async (itemID) => {
       throw new Error(object.error);
     } else {
       createCartItemElement(object);
+      sumItems();
     }
   } catch (error) {
     console.error(error);
@@ -67,6 +86,7 @@ const addEventAddCart = () => {
     });
   });
 };
+
 
 const handleResults = (results) => {
   const hall = document.querySelector('.items');
@@ -100,8 +120,10 @@ const fetchItems = async () => {
 const createClearButton = () => {
   const clearButton = document.getElementsByClassName('empty-cart')[0];
   const cartItems = document.getElementsByClassName('cart__items')[0];
+  const cartCust = document.getElementsByClassName('sum-price')[0];
   clearButton.addEventListener('click', () => {
     cartItems.innerHTML = '';
+    cartCust.innerText = 0;
     localStorage.clear();
   });
 };
@@ -109,6 +131,8 @@ const createClearButton = () => {
 const requireLocalStorage = () => {
   const allCart = document.querySelector('ol');
   allCart.innerHTML = localStorage.getItem('finalCart');
+  const values = document.querySelector('.sum-price');
+  values.innerHTML = localStorage.getItem('totalValue');
 };
 
 window.onload = function onload() {
