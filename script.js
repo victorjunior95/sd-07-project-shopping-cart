@@ -38,10 +38,10 @@ const consulta = () => {
   const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${QUERY}`;
   fetch(endpoint)
     .then(response => response.json())
-    .then(data => {
+    .then((data) => {
       const items = document.querySelector('.items');
-      data.results.forEach(product => {
-        const { id: sku, tittle: name, thumbnail: image } = product;
+      data.results.forEach((product) => {
+        const { id: sku, title: name, thumbnail: image } = product;
         const item = createProductItemElement({ sku, name, image });
         items.appendChild(item);
       });
