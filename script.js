@@ -3,8 +3,8 @@ window.onload = function onload() {
 };
 
 function createProductImageElement(imageSource) {
-  const img = document.createElement("img");
-  img.className = "item__image";
+  const img = document.createElement('img');
+  img.className = 'item__image';
   img.src = imageSource;
   return img;
 }
@@ -17,21 +17,21 @@ function createCustomElement(element, className, innerText) {
 }
 
 function createProductItemElement({ sku, name, image }) {
-  const section = document.createElement("section");
-  section.className = "item";
+  const section = document.createElement('section');
+  section.className = 'item';
 
-  section.appendChild(createCustomElement("span", "item__sku", sku));
-  section.appendChild(createCustomElement("span", "item__title", name));
+  section.appendChild(createCustomElement('span', 'item__sku', sku));
+  section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   section.appendChild(
-    createCustomElement("button", "item__add", "Adicionar ao carrinho!")
+    createCustomElement('button', 'item__add', 'Adicionar ao carrinho!')
   );
 
   return section;
 }
 
 function getSkuFromProductItem(item) {
-  return item.querySelector("span.item__sku").innerText;
+  return item.querySelector('span.item__sku').innerText;
 }
 
 function cartItemClickListener(event) {
@@ -39,10 +39,10 @@ function cartItemClickListener(event) {
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
-  const li = document.createElement("li");
-  li.className = "cart__item";
+  const li = document.createElement('li');
+  li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener("click", cartItemClickListener);
+  li.addEventListener('click', cartItemClickListener);
   return li;
 }
 
@@ -51,7 +51,7 @@ const fetchComputer = () => {
   fetch(endpoint)
     .then((response) => response.json())
     .then((data) => {
-      const items = document.querySelector(".items");
+      const items = document.querySelector('.items');
       data.results.forEach((product) => {
         const { id: sku, title: name, thumbnail: image } = product;
         const item = createProductItemElement({ sku, name, image });
@@ -59,6 +59,10 @@ const fetchComputer = () => {
       });
     });
   // Conforme ajuda do colega Vitor Rodrigues.
+};
+
+window.onload = function onload() {
+  fetchComputer();
 };
 
 // const handleComputers = (computers) => {
