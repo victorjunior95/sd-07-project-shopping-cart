@@ -116,9 +116,8 @@ const computerSearch = async (id) => {
   }
 };
 
-const clearList = () => {
-  return document.querySelector('.cart__items').innerHTML = ''
-}
+const clearList = () => document.querySelector('.cart__items').innerHTML = '';
+
 
 window.onload = function onload() {
   loadList();
