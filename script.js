@@ -1,4 +1,3 @@
-let array;
 let valor;
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
