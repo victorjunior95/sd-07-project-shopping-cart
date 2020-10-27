@@ -1,6 +1,48 @@
-window.onload = function onload() { };
+const showAlert = (message) => {
+  window.alert(message);
+}
 
-function createProductImageElement(imageSource) {
+  const fetchProductsAwaitAsync = async (products) => {
+    const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=computador`;  
+    try {
+      const response = await fetch(endpoint);
+      const object = await response.json();  
+      if (object.error) {
+        throw new Error(object.error);
+      } else {
+        handleResults(object.results);
+      }
+    } catch (error) {
+      showAlert(error);
+    }
+  }
+
+  const handleResults = (results) => {
+    const productsEntries = Object.entries(results);
+    const {id: sku, title: name , thumbnail: image}  = productsEntries;
+   console.log(productsEntries);
+     const items = document.querySelector('.items');
+    productsEntries.ForEach(product => {
+      const item = createProductItemElement({ sku, name, image});
+      items.appendChild(item);
+     
+    }); console.log(product);
+  }
+  
+  // const loadProducts = ()  => {
+  //     const endpoint = "https://api.mercadolibre.com/sites/MLB/search?q=computador";
+  //     fetch(endpoint).then(response => response.json()).then(data => {
+  //       const items = document.querySelector('.items');
+  //       data.results.foreach(product => {
+  //         const { id: sku, title: name, thumbnail: image } = product;
+  //         const item = createProductItemElement({ sku, name, image });
+  //         items. appendChild(item);
+  //       })
+  //     })
+  // }
+
+
+  function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
   img.src = imageSource;
@@ -17,7 +59,6 @@ function createCustomElement(element, className, innerText) {
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
-
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
@@ -41,3 +82,10 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
+
+window.onload = function onload() { 
+  fetchProductsAwaitAsync();
+   handleResults();
+  //setTimeout(() => console.log('loading...'), 5000);
+  // loadProducts();
+};
