@@ -29,7 +29,7 @@ const updateDisplayTotalPrice = (total) => {
 };
 
 const sumPricesItemCart = () => {
-  const priceItems = document.querySelectorAll('[data-price-items]');
+  const otherPriceItems = document.querySelectorAll('[data-price-items]');
   const total = Array.from(otherPriceItems, ({ dataset: { otherPriceItems } }) =>
     Number(otherPriceItems)).reduce((acc, price) => acc + price, 0);
   return total;
