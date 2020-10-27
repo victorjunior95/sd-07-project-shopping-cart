@@ -66,8 +66,8 @@ async function consultProduct(supply) {
 async function addProductToCart(id) {
   const endPoint = `https://api.mercadolibre.com/items/${id}`;
   await fetchAPI(endPoint)
-    .then((data) => {
-      const { id: sku, title: name, price: salePrice } = data;
+    .then((resolve) => {
+      const { id: sku, title: name, price: salePrice } = resolve;
       const li = createCartItemElement({ sku, name, salePrice });
       addProducts(li, ol);
     })
