@@ -54,8 +54,9 @@ function cartItemClickListener() {
       fetch(`https://api.mercadolibre.com/items/${sku}`)
         .then(response => response.json())
         .then((data) => {
-          createCartItemElement(data.id, data.title, data.price)
-          increasePrice(data.price);});
+          createCartItemElement(data.id, data.title, data.price);
+          increasePrice(data.price);
+        });
     }));
 }
 
