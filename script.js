@@ -98,6 +98,21 @@ const fetchProducts = (product) => {
     });
 };
 
+const removeAllItems = () => {
+  const ol = document.querySelector('.cart__items');
+
+  while (ol.firstChild) {
+    ol.removeChild(ol.firstChild);
+  }
+};
+
+const clearCartButton = () => {
+  const clearAllButton = document.querySelector('.empty-cart');
+  clearAllButton.addEventListener('click', removeAllItems);
+};
+
+
 window.onload = function onload() {
   fetchProducts('computador');
+  clearCartButton();
 };
