@@ -73,7 +73,7 @@ function createCartItemElement({
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   tagFather.appendChild(li);
-  totalPrices.innerText = parseInt(totalPrices.innerText) + parseInt(salePrice);
+  totalPrices.innerText = parseInt(totalPrices.innerText, 10) + parseInt(salePrice, 10);
   totalPriceSum();
   saveList();
 }
@@ -124,5 +124,6 @@ window.onload = function onload() {
     }
   });
   listComputersSearch('computador');
-  document.querySelector('.empty-cart').addEventListener('click', () => document.querySelector('.cart__items').innerHTML = '');
+  document.querySelector('.empty-cart').addEventListener('click', () => {
+  return document.querySelector('.cart__items').innerHTML = ''});
 };
