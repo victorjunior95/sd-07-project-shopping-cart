@@ -1,12 +1,3 @@
-
-
-const addToStorage = () => {
-  const olContent = document.querySelector('.cart__items').innerHTML;
-  localStorage.setItem('content', JSON.stringify(olContent));
-  // está pegando um html e transformando em uma string
-  // quando mandamos dados para o server ele precisa ser uma string
-};
-
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -39,7 +30,6 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   event.target.remove();
-  addToStorage();
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -57,16 +47,17 @@ function addItensToCart(object) {
 }
 
 function fetchProducts() {
-  const container = document.querySelector('.container');
-  const loading = document.querySelector('.loading');
-  loading.innerText = 'loading...';
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   const products = document.querySelector('.items');
+  const x = document.querySelector('.container');
+  const y = document.querySelector('.loading');
+  y.innerText = 'loading...';
   fetch(endpoint)
   .then(response => response.json())
   .then(infos => infos.results.forEach((item) => {
     products.appendChild(createProductItemElement(item));
   }));
+  x.removeChild(y);
   /* const getItem = document.querySelector('.cart__items');
   const ol = localStorage.getItem('item');
   // retorna o valor que está armazenado
@@ -75,13 +66,6 @@ function fetchProducts() {
   const itensCart = document.querySelectorAll('.cart__item');
   itensCart.forEach(item => item.addEventListener('click', cartItemClickListener));
   console.log(ol);*/
-  container.removeChild(loading);
-  const newOlContent = document.querySelector('.cart__items');
-  const olContent = localStorage.getItem('content');
-  newOlContent.innerHTML = JSON.parse(olContent);
-  const itensCart = document.querySelectorAll('.cart__item');
-  itensCart.forEach(item => item.addEventListener('click', cartItemClickListener));
-  console.log(olContent);
 }
 
 function fetchItensOfCart(itemId) {
@@ -89,7 +73,6 @@ function fetchItensOfCart(itemId) {
   fetch(endpoint)
   .then(response => response.json())
   .then(infos => addItensToCart(infos));
-  addToStorage();
 }
 
 const addItensToList = (event) => {
