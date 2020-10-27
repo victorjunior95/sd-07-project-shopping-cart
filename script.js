@@ -84,10 +84,9 @@ const fetchProducts = () => {
       'https://api.mercadolibre.com/sites/MLB/search?q=computador';
     fetch(endpoint)
       .then(data => data.json())
-      .then(data =>
-        data.results.forEach((value) => {
+      .then(data => data.results.forEach((value) => {
           appendToChart(createProductItemElement(value));
-        }),
+        })
       )
       .then(eraseElement());
   }, 5000);
