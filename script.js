@@ -118,9 +118,7 @@ const convertRequestToJSON = (url) => {
   loading.className = 'loading';
   loading.innerText = 'loading...';
   document.querySelector('body').appendChild(loading);
-  const conversion = fetch(url).then((response) => {
-    return response.json();
-  });
+  const conversion = fetch(url).then(response => response.json());
   return conversion;
 };
 
@@ -128,7 +126,7 @@ const identifyPrice = (item) => {
   const secondComma = item.indexOf(',', 20);
   const price = item.slice(secondComma + 1, item.length);
   return price;
-}
+};
 
 const cartInitialPrice = () => {
   const cartItens = Object.values(localStorage);
@@ -137,8 +135,8 @@ const cartInitialPrice = () => {
     if (item.length > 10) {
       const price = parseFloat(identifyPrice(item), 10);
       initialPrice += price;
-    };
-  })
+    }
+  });
   totalPriceInnerText(initialPrice);
 };
 
@@ -221,6 +219,7 @@ const emptyCart = () => {
     removeItemFromLocalStorage(id);
     item.remove();
   });
+  totalPriceInnerText(0);
 };
 
 const checkCounter = () => {
