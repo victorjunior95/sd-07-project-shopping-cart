@@ -35,6 +35,16 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
+const updateTotalPrice = async (price) => {
+  const spanWithActualPrice = document.querySelector('#total_price');
+  const actualTotalPrice = parseFloat(spanWithActualPrice.innerText);
+  console.log(actualTotalPrice);
+  console.log(price);
+  const newTotalPrice = actualTotalPrice + price;
+  localStorage.setItem('totalPrice', newTotalPrice);
+  spanWithActualPrice.innerText = newTotalPrice.toFixed(2);
+};
+
 const manageCart = (object) => {
   const cart = document.querySelector('.cart__items');
   const product = {
@@ -48,10 +58,10 @@ const manageCart = (object) => {
 };
 
 // const fetchFromStorage = (sku) => {
-//   const endpoint = `https://api.mercadolibre.com/items/${sku}`;
-//   fetch(endpoint)
-//   .then(response => response.json())
-//   .then(object => manageCart(object));
+  //   const endpoint = `https://api.mercadolibre.com/items/${sku}`;
+  //   fetch(endpoint)
+  //   .then(response => response.json())
+  //   .then(object => manageCart(object));
 // };
 
 const fetchInfoFromId = () => {
@@ -103,15 +113,6 @@ const recoverCart = () => {
   updateTotalPrice(parseFloat(localStorage.getItem('totalPrice')));
 };
 
-const updateTotalPrice = async (price) => {
-  const spanWithActualPrice = document.querySelector('#total_price');
-  const actualTotalPrice = parseFloat(spanWithActualPrice.innerText);
-  console.log(actualTotalPrice);
-  console.log(price);
-  const newTotalPrice = actualTotalPrice + price;
-  localStorage.setItem('totalPrice', newTotalPrice);
-  return spanWithActualPrice.innerText = newTotalPrice.toFixed(2);
-};
 
 window.onload = function onload() {
   fetchItemsMercadoLivre('computador');
