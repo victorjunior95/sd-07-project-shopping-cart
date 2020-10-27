@@ -1,5 +1,3 @@
-window.onload = function onload() { };
-
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -31,7 +29,6 @@ function createProductItemElement({ sku, name, image }) {
 } */
 
 /* function cartItemClickListener(event) {
-  // coloque seu código aqui
 } */
 
 /* function createCartItemElement({ sku, name, salePrice }) {
@@ -44,7 +41,7 @@ function createProductItemElement({ sku, name, image }) {
 
 // Função elaborada com base na explicação de Vitor Rodrigues
 function loadProducts() {
-  fetch('https://api.mercadolibre.com/sites/MLB/search?q=computer')
+  fetch('https://api.mercadolibre.com/sites/MLB/search?q=$computer')
     .then(response => response.json())
     .then((data) => {
       const items = document.querySelector('.items');
@@ -56,4 +53,6 @@ function loadProducts() {
     });
 }
 
-window.onload(loadProducts());
+window.onload = function onload() {
+  loadProducts();
+};
