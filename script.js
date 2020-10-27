@@ -109,16 +109,19 @@ function loadLocalStorage() {
   }
 }
 
-function emptyCart(button) {
-  button.addEventListener('click', () => {
-    const cartItemsContainer = document.querySelector('.cart__items');
-    cartItemsContainer.innerHTML = '';
-    // updateLocalStorage();
-  });
-}
+// function emptyCart() {
+//   const emptyBtn = document.querySelector('empty-cart')
+//   emptyBtn.addEventListener('click', () => {
+//     const cartItemsContainer = document.querySelector('.cart__items');
+//     cartItemsContainer.innerHTML = '';
+//     const totalPriceContainer = document.querySelector('.total-price');
+//     totalPriceContainer.innerText = 0;
+//     localStorage.clear();
+//   });
+// }
 
 window.onload = function onload() {
   listingProducts();
   loadLocalStorage();
-  emptyCart(document.querySelector('empty-cart'));
+  // emptyCart();
 };
