@@ -114,9 +114,9 @@ const LS = () => {
   if (localStorage.carrinho) {
     document.querySelector('.cart').innerHTML = localStorage.carrinho;
   } else {
-    localStorage.setItem("carrinho", document.querySelector('.cart').innerHTML.toString());
+    localStorage.setItem('carrinho', document.querySelector('.cart').innerHTML.toString());
   }
-}
+};
 
 window.onload = function onload() {
   LS();
