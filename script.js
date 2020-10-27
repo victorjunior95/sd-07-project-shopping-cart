@@ -28,8 +28,31 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+async function sumCart() {
+  const productsInCart = document.querySelectorAll('.cart__item');
+  const totalPrice = document.querySelector('.total-price');
+  let sum = 0;
+  for (let item = 0; item < productsInCart.length; item += 1) {
+    const priceCart = productsInCart[item]
+    .innerText.split(' | ')[2].split(': ')[1].replace('$', '');
+    sum += Number(priceCart);
+  }
+  totalPrice.innerText = `${sum}`;
+}
+
+function registerCartLocalStorage(trigered) {
+  const productsInCart = document.querySelectorAll('.cart__item');
+  if (trigered === 'remove') localStorage.clear();
+  for (let item = 0; item < productsInCart.length; item += 1) {
+    const skuCart = productsInCart[item].innerText.split(' | ')[0].split(': ')[1];
+    localStorage.setItem(`Item-${item}`, skuCart);
+  }
+}
+
 function cartItemClickListener(event) {
   event.target.remove();
+  registerCartLocalStorage('remove');
+  sumCart();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -40,17 +63,24 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-async function addToCart(productAdd) {
-  const itemID = getSkuFromProductItem(productAdd.target.parentElement);
+
+async function registerToCart(itemID) {
   const endpoint = `https://api.mercadolibre.com/items/${itemID}`;
+  const response = await fetch(endpoint);
+  const data = await response.json();
+  const { id: sku, title: name, price: salePrice } = data;
+  const productComponents = { sku, name, salePrice };
+  const cartItems = document.querySelector('.cart__items');
+  const productCart = createCartItemElement(productComponents);
+  cartItems.appendChild(productCart);
+  registeCartLocalStorage('add');
+  await sumCart();
+}
+
+function addToCart(productAdd) {
+  const itemID = getSkuFromProductItem(productAdd.target.parentElement);
   try {
-    const response = await fetch(endpoint);
-    const data = await response.json();
-    const { id: sku, title: name, price: salePrice } = data;
-    const productComponents = { sku, name, salePrice };
-    const cartItems = document.querySelector('.cart__items');
-    cartItems.appendChild(createCartItemElement(productComponents));
-    console.log(productComponents);
+    registerToCart(itemID);
   } catch (error) {
     console.error(error);
   }
@@ -61,7 +91,7 @@ async function fetchItems() {
   try {
     const response = await fetch(endpoint);
     const data = await response.json();
-
+    
     if (data.error) {
       throw new Error(data.error);
     } else {
@@ -79,4 +109,14 @@ async function fetchItems() {
   }
 }
 
-window.onload = function onload() { fetchItems(); };
+function loadCart() {
+  for (let getItem = 0; getItem < localStorage.length; getItem += 1) {
+    const itemSaved = localStorage[`Item-${getItem}`];
+    registerToCart(itemSaved);
+  }
+}
+
+window.onload = function onload() {
+  fetchItems();
+  loadCart();
+};
