@@ -43,13 +43,13 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 }
 
 function loading() {
-  setTimeout(() => {
-  const span = document.createElement('span');
-  span.className = 'loading';
-  span.innerHTML = 'loading...';
-  const items = document.getElementsByClassName('items');
-  items.appendChild(span);
-  }, 2000); 
+    setTimeout(() => {
+    const span = document.createElement('span');
+    span.className = 'loading';
+    span.innerHTML = 'loading...';
+    const items = document.getElementsByClassName('items');
+    items.appendChild(span);
+    }, 2000);
 }
 
 function removeMsg() {
