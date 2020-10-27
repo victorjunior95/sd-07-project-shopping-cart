@@ -66,6 +66,16 @@ const functionToFetch = () => { // requisito 1
     .then(click => eventButton());
 };
 
+const cleanButton = () => { // requisito 6
+  const justOl = document.querySelector('.cart__items');
+  document.querySelector('.empty-cart').addEventListener('click', () => {
+    while (justOl.firstChild) {
+      justOl.removeChild(justOl.firstChild);
+    }
+  });
+};
+
 window.onload = function onload() {
   functionToFetch();
+  cleanButton();
 };
