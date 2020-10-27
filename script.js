@@ -70,7 +70,7 @@ async function fetchData(endpoint, repeat = true) {
   const response = await end.json();
   const obj = await response;
   const products = await obj.results;
-  
+
   if (repeat) {
     products.forEach((product) => {
       const { id, title, thumbnail } = product;
