@@ -63,10 +63,10 @@ const returnTotalPrice = () => {
 
 function cartItemClickListener(event) {
   event.target.remove();
-  const sum = returnTotalPrice();
 
+  const sum = returnTotalPrice();
   const totalPrice = document.querySelector('.total-price');
-  totalPrice.innerHTML = `Preço total: $${sum}`;
+  totalPrice.innerHTML = `${sum}`;
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -100,7 +100,7 @@ const putOnCart = (data) => {
 
   const sum = returnTotalPrice();
   const totalPrice = document.querySelector('.total-price');
-  totalPrice.innerHTML = `Preço total: $${sum}`;
+  totalPrice.innerHTML = `${sum}`;
 
   localStorage.clear();
   localStorage.setItem('lista', listCart.innerHTML);
