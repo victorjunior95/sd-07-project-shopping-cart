@@ -28,6 +28,8 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+// Thiago Pederzolli JSON
+
 const saveInLocalStorage = () => {
   const ol = document.querySelector('.cart__items').innerHTML;
   localStorage.setItem('cartList', JSON.stringify(ol));
@@ -61,6 +63,8 @@ async function cartItemClickListener(event) {
   await sumPrice();
   saveInLocalStorage();
 }
+
+// Thiago Pederzolli JSON
 
 const loadLocalStorage = () => {
   let jsonList = localStorage.getItem('cartList');
@@ -152,10 +156,17 @@ const emptyCart = () => {
   });
 };
 
+const removeLoadingMessage = () => {
+  const container = document.querySelector('.container');
+  const nodesContainer = container.children;
+  container.removeChild(nodesContainer[0]);
+};
+
 const loadPage = async () => {
   try {
     const promiseResult = await getFetchEndPoint('https://api.mercadolibre.com/sites/MLB/search?q=$computador');
     const data = await promiseResult.json();
+    removeLoadingMessage();
     const arrOfObjects = data.results;
     arrOfObjects.forEach(printProduct);
     loadLocalStorage();
