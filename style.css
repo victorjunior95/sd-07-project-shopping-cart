@@ -75,6 +75,8 @@
   text-align: center;
 }
 
+/* Loader: https://www.w3schools.com/howto/howto_css_loader.asp */
+
 .loader {
   animation: spin 1s linear infinite;
   border: 6px solid rgb ( 243 , 243 , 243 );
