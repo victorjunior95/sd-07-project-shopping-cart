@@ -83,7 +83,7 @@ const fetchProducts = async () => {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   functionFetchJSON(endpoint, adaptJSONResponses);
 
-  createProductItemElement()
+  createProductItemElement();
 };
 
 function getSkuFromProductItem(item) {
