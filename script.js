@@ -94,10 +94,27 @@ const clickButton = () => {
   });
 };
 
+const loading = () => {
+  console.log('loading...');
+  const body = document.querySelector('body');
+  const loadElement = document.createElement('div');
+  loadElement.className = 'loading';
+  loadElement.innerText = 'loading...';
+  body.appendChild(loadElement);
+};
+
+const removeLoading = () => {
+  const body = document.querySelector('body');
+  const loadingElement = document.querySelector('.loading');
+  body.removeChild(loadingElement);
+};
+
 const fetchCurrency = async (currency) => {
   const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${currency}`;
   try {
+    loading();
     const response = await fetch(endpoint);
+    removeLoading();
     const object = await response.json();
 
     if (object.error) {
