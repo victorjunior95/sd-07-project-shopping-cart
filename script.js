@@ -141,6 +141,16 @@ const listeningAddToCartButton = () => {
   buttons.forEach(button => button.addEventListener('click', goToOL));
 };
 
+const emptyCart = () => {
+  const emptyButton = document.querySelector('.empty-cart');
+  const ol = document.querySelector('.cart__items');
+  emptyButton.addEventListener('click', async () => {
+    ol.innerHTML = '';
+    await sumPrice();
+    saveInLocalStorage();
+  });
+};
+
 const loadPage = async () => {
   try {
     const promiseResult = await getFetchEndPoint('https://api.mercadolibre.com/sites/MLB/search?q=$computador');
@@ -149,10 +159,13 @@ const loadPage = async () => {
     arrOfObjects.forEach(printProduct);
     loadLocalStorage();
     listeningAddToCartButton();
+    emptyCart();
   } catch (error) {
     alert(error);
   }
 };
+
+
 
 window.onload = function onload() {
   loadPage();
