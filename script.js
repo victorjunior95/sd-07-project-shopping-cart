@@ -114,12 +114,16 @@ const clearList = () => {
   removeFronLocalStorage();
 };
 
+const hideLoading = () => {
+  document.querySelector('.loading').className = 'loaded';
+};
+
 window.onload = async function onload() {
   await loadShopCar(localStorageQuery());
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   const object = await endpointQuery(endpoint);
   const objectResults = object.results;
-  document.querySelector('.loading').style.display = 'none';
+  await hideLoading();
   objectResults.forEach((atual) => {
     const produto = {
       sku: atual.id,
