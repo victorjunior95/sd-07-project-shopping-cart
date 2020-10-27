@@ -52,7 +52,7 @@ const sumPrice = (price) => {
 const subtractPrice = async () => {
   const totalPrice = document.querySelector('.cart__item').innerHTML.split('$');
   total -= Number(totalPrice[1]).toFixed(2);
-  if ( total.toFixed(2) < 0 || document.querySelector('.cart__item').innerHTML === ''){
+  if (total.toFixed(2) < 0 || document.querySelector('.cart__item').innerHTML === '') {
     // se o cart__item estiver sem item tambem zera
     total = 0;
   }
