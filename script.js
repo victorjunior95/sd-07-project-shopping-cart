@@ -43,8 +43,9 @@ const converteObjetosDesejados = (objetosDoResult) => {
   });
 };
 
-function cartItemClickListener(event) {
-  // coloque seu código aqui
+function cartItemClickListener(evento) {
+  evento.target.remove();
+  // o prorpio li selecionado vai ser apagado 
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -76,12 +77,14 @@ const trataID = (id) => {
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
+  // vou selecionar do parentNode esse elemento e trazero texto dele
 }
 
 // segunda func criada ( segundo requisito)
 const pegarIdComputadorClicando = (evento) => {
   const idItem = getSkuFromProductItem(evento.target.parentNode);
   // evento target se refere ao proprio botao nesse caso
+  // esse parent node é um monte de coisas
   trataID(idItem);
 };
 
