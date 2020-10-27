@@ -114,16 +114,16 @@ async function fetchItems() {
 
 function loadCart() {
   if (localStorage.Items) {
-  const valuesLocalStorage = localStorage.Items.split(',SK');
-  for (let getItem = 0; getItem < valuesLocalStorage.length; getItem += 1) {
-    const sku = valuesLocalStorage[getItem].split(' | ')[0].split(': ')[1];
-    const name = valuesLocalStorage[getItem].split(' | ')[1].split(': ')[1];
-    const salePrice = valuesLocalStorage[getItem].split(' | ')[2].split(': ')[1].replace('$', '');
-    const productComponents = { sku, name, salePrice };
-    const cartItems = document.querySelector('.cart__items');
-    const productCart = createCartItemElement(productComponents);
-    cartItems.appendChild(productCart);
-    sumCart();
+    const valuesLocalStorage = localStorage.Items.split(',SK');
+    for (let getItem = 0; getItem < valuesLocalStorage.length; getItem += 1) {
+      const sku = valuesLocalStorage[getItem].split(' | ')[0].split(': ')[1];
+      const name = valuesLocalStorage[getItem].split(' | ')[1].split(': ')[1];
+      const salePrice = valuesLocalStorage[getItem].split(' | ')[2].split(': ')[1].replace('$', '');
+      const productComponents = { sku, name, salePrice };
+      const cartItems = document.querySelector('.cart__items');
+      const productCart = createCartItemElement(productComponents);
+      cartItems.appendChild(productCart);
+      sumCart();
     }
   }
 }
