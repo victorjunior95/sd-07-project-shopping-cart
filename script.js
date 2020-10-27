@@ -100,7 +100,7 @@ async function addTotalPrice(price) {
   totalPrice += sum;
   totalPrice = roundNumber(totalPrice);
   await totalPriceInnerText(totalPrice);
-};
+}
 
 function createCartItemElement(sku, name, salePrice) {
   const li = document.createElement('li');
@@ -213,9 +213,9 @@ const checkCounter = () => {
 };
 
 window.onload = function onload() {
-  document.querySelector('.empty-cart').addEventListener('click', emptyCart);
-  recoverCart();
   createItens();
+  recoverCart();
+  document.querySelector('.empty-cart').addEventListener('click', emptyCart);
   checkCounter();
 };
 
