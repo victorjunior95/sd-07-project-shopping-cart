@@ -116,6 +116,10 @@ const computerSearch = async (id) => {
   }
 };
 
+const clearList = () => {
+  return document.querySelector('.cart__items').innerHTML = ''
+}
+
 window.onload = function onload() {
   loadList();
   document.addEventListener('click', (event) => {
@@ -124,6 +128,5 @@ window.onload = function onload() {
     }
   });
   listComputersSearch('computador');
-  document.querySelector('.empty-cart').addEventListener('click', () => {
-  return document.querySelector('.cart__items').innerHTML = ''});
+  document.querySelector('.empty-cart').addEventListener('click', clearList);
 };
