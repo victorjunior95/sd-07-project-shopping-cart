@@ -88,6 +88,9 @@ const fetchItems = async () => {
       throw new Error(object.error);
     } else {
       handleResults(object.results);
+      // solução de loading pós-consulta PR Vitor-rc1
+      const loading = document.querySelector('.loading');
+      loading.remove();
     }
   } catch (error) {
     console.error(error);
