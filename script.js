@@ -1,3 +1,13 @@
+const saveList = () => {
+  localStorage.clear();
+  localStorage.setItem('listaComputers', document.querySelector('.cart__items').innerHTML)
+}
+
+const loadList = () => {
+  document.querySelector('.cart__items').innerHTML = localStorage.getItem('listaComputers');
+  document.querySelectorAll('.cart__item').forEach((li) => li.addEventListener('click', cartItemClickListener));
+}
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -39,6 +49,7 @@ function cartItemClickListener(event) {
   if (event.target.className === 'cart__item') {
     event.target.parentElement.removeChild(event.target);
   }
+  saveList();
 }
 
 // Utilizar para criar os componentes HTML referentes a um item do carrinho
@@ -94,10 +105,12 @@ const computerSearch = async (id) => {
 };
 
 window.onload = function onload() {
+  loadList();
   document.addEventListener('click', (event) => {
     if (event.target.className === 'item__add') {
       computerSearch(event.target.parentElement.firstChild.innerText);
     }
+    saveList();
   });
   listComputersSearch('computador');
 };
