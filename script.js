@@ -34,7 +34,7 @@ async function updateLocalStorage() {
 async function updateTotalCart(price) {
   const totalPrice = document.querySelector('.total-price');
   if (totalPrice.innerText !== '') {
-    totalPrice.innerText = parseInt(totalPrice.innerText, 10) + price;
+    totalPrice.innerText = (parseFloat(totalPrice.innerText) + price).toFixed(2);
   } else {
     totalPrice.innerText = price;
   }
@@ -44,9 +44,9 @@ function cartItemClickListener(event) {
   const cartItems = document.querySelectorAll('.cart__item');
   cartItems.forEach((item) => {
     if (item === event.target) {
-      document.querySelector('.cart__items').removeChild(item);
-      const priceReduce = parseInt(event.target.innerText.split('$')[1], 10) * (-1);
+      const priceReduce = event.target.innerText.split('$')[1] * (-1);
       updateTotalCart(priceReduce);
+      document.querySelector('.cart__items').removeChild(item);
       updateLocalStorage();
     }
   });
