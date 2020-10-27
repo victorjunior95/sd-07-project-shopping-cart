@@ -114,11 +114,11 @@ function createCartItemElement(sku, name, salePrice) {
 }
 
 const convertRequestToJSON = (url) => {
+  const loading = document.createElement('h1');
+  loading.className = 'loading';
+  loading.innerText = 'loading...';
+  document.querySelector('body').appendChild(loading);
   const conversion = fetch(url).then((response) => {
-    const loading = document.createElement('h1');
-    loading.className = 'loading';
-    loading.innerText = 'loading...';
-    document.querySelector('body').appendChild(loading);
     return response.json();
   });
   return conversion;
