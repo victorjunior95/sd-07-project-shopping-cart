@@ -46,37 +46,38 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-const addProducts = (product, tag) => {
-  tag.appendChild(product);
-};
+async function fetchAPI(api) {
+  if (api) {
+    return fetch(api)
+    .then(response => response.json());
+  }
+}
 
-function consultProduct(supply) {
+const addProducts = (product, tag) => tag.appendChild(product);
+
+async function consultProduct(supply) {
   const API = `${API_URL}${supply}`;
-  fetch(API)
-  .then(response => response.json())
-  .then((data) => {
-    data.results.forEach((product) => {
+  await fetchAPI(API)
+    .then((data) => data.results.forEach((product) => {
       const { id: sku, title: name, thumbnail: image } = product;
       const item = createProductItemElement({ sku, name, image });
       addProducts(item, itemsSection);
-    });
-  })
-  .catch(reject => console.log(reject));
+    }))
+    .catch(err => err);
 }
 
-function addProductToCart(id) {
+async function addProductToCart(id) {
   const endPoint = `https://api.mercadolibre.com/items/${id}`;
-  fetch(endPoint)
-  .then(response => response.json())
-  .then(data => {
-    const { id: sku, title: name, price: salePrice } = data;
-    const li = createCartItemElement({ sku, name, salePrice });
-    addProducts(li, ol);
-  })
-  .catch(reject => console.log(reject))
+  await fetchAPI(endPoint)
+    .then((data) => {
+      const { id: sku, title: name, price: salePrice } = data;
+      const li = createCartItemElement({ sku, name, salePrice });
+      addProducts(li, ol);
+    })
+    .catch(err => alert(err));
 }
 
-itemsSection.addEventListener('click', function(event) {
+itemsSection.addEventListener('click', function (event) {
   if (event.target.className === 'item__add') {
     const father = event.target.parentNode;
     const id = father.firstChild.innerText;
