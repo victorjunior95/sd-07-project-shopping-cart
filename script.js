@@ -15,6 +15,7 @@ function cartItemClickListener(event) {
     }
   }
   IC.parentNode.removeChild(IC);
+  localStorage.carrinho = document.querySelector('.cart').innerHTML.toString();
 }
 
 function createCartItemElement({ id, title, price }) {
@@ -44,6 +45,7 @@ const infinitoalem = (objeto) => {
   const xablaupai = document.querySelector('.cart__items');
   maisalem(objeto);
   xablaupai.appendChild(xablau);
+  localStorage.carrinho = document.querySelector('.cart').innerHTML.toString();
 };
 
 const addcarrinho = (event) => {
@@ -108,7 +110,16 @@ const botao = () => {
   });
 };
 
+const LS = () => {
+  if (localStorage.carrinho) {
+    document.querySelector('.cart').innerHTML = localStorage.carrinho;
+  } else {
+    localStorage.setItem("carrinho", document.querySelector('.cart').innerHTML.toString());
+  }
+}
+
 window.onload = function onload() {
+  LS();
   requisicao();
   botao();
 };
