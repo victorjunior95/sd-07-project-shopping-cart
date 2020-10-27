@@ -40,7 +40,7 @@ async function sumCart() {
   totalPrice.innerText = `${sum}`;
 }
 
-function registeCartLocalStorage(trigered) {
+async function registeCartLocalStorage(trigered) {
   const productsInCart = document.querySelectorAll('.cart__item');
   if (trigered === 'remove') localStorage.clear();
   for (let item = 0; item < productsInCart.length; item += 1) {
@@ -81,6 +81,7 @@ function addToCart(productAdd) {
   const itemID = getSkuFromProductItem(productAdd.target.parentElement);
   try {
     registerToCart(itemID);
+    registeCartLocalStorage('add');
   } catch (error) {
     console.error(error);
   }
@@ -115,7 +116,17 @@ function loadCart() {
   }
 }
 
+function clearCart() {
+  const cartItems = document.querySelector('.cart__items');
+  cartItems.innerHTML = '';
+  sumCart();
+  localStorage.clear();
+}
+
 window.onload = function onload() {
   fetchItems();
   loadCart();
+
+  const emptyCart = document.querySelector('.empty-cart');
+  emptyCart.addEventListener('click', clearCart);
 };
