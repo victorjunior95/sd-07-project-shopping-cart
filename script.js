@@ -34,7 +34,7 @@ async function updateLocalStorage() {
 async function updateTotalCart(price) {
   const totalPrice = document.querySelector('.total-price');
   if (totalPrice.innerText !== '') {
-    totalPrice.innerText = (parseFloat(totalPrice.innerText) + price).toFixed(2);
+    totalPrice.innerText = (parseFloat(totalPrice.innerText) + price).toFixed(1);
   } else {
     totalPrice.innerText = price;
   }
