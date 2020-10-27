@@ -18,10 +18,21 @@ const showAlert = (message) => {
 
 const updateCart = () => {
   localStorage.setItem('ol', document.querySelector('.cart__items').innerHTML);
+  localStorage.setItem('price', document.querySelector('.total-price').innerText);
+};
+
+const prices = () => {
+  const allItemCart = document.querySelectorAll('.cart__item');
+  let sum = 0;
+  allItemCart.forEach((li) => {
+    sum += parseFloat(li.innerText.split('$')[1]);
+  });
+  document.querySelector('.total-price').innerText = sum;
 };
 
 async function cartItemClickListener(event) {
   await event.target.remove();
+  prices();
   updateCart();
 }
 
@@ -33,7 +44,7 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   return li;
 }
 
-const fetchAddCar = async (id) => {
+const fetchAddCart = async (id) => {
   const endpoint = `https://api.mercadolibre.com/items/${id}`;
   try {
     const response = await fetch(endpoint);
@@ -43,6 +54,7 @@ const fetchAddCar = async (id) => {
       throw new Error(object.error);
     } else {
       ol.appendChild(createCartItemElement(object));
+      prices();
     }
   } catch (error) {
     showAlert(error);
@@ -62,7 +74,7 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   const button = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
   button.addEventListener('click', async function (event) {
     const parentElement = await event.target.parentElement;
-    await fetchAddCar(getSkuFromProductItem(parentElement));
+    await fetchAddCart(getSkuFromProductItem(parentElement));
     updateCart();
   });
   section.appendChild(button);
@@ -89,6 +101,10 @@ const fetchList = async () => {
 
 const loadLocalStorage = () => {
   const ol = document.querySelector('.cart__items');
+  const price = document.querySelector('.total-price');
+  if (localStorage.price) {
+    price.innerText = localStorage.getItem('price');
+  }
   if (localStorage.ol) {
     ol.innerHTML = localStorage.getItem('ol');
     ol.querySelectorAll('li').forEach(li => li.addEventListener('click', cartItemClickListener));
@@ -96,6 +112,8 @@ const loadLocalStorage = () => {
 };
 
 window.onload = function onload() {
+  const span = createCustomElement('span', 'total-price', 0);
+  document.querySelector('.cart').appendChild(span);
   fetchList();
   loadLocalStorage();
 };
