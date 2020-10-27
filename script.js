@@ -93,7 +93,11 @@ const emptyItens = () => {
 };
 
 window.onload = async () => {
-  fetchMercadoLivre();
+  setTimeout(function () {
+    fetchMercadoLivre();
+    const load = document.querySelector('.loading');
+    load.remove();
+  }, 2000);
   const empty = document.querySelector('.empty-cart');
   empty.addEventListener('click', function () {
     emptyItens();
