@@ -41,26 +41,26 @@ function createProductItemElement({ sku, name, image }) {
 // function getSkuFromProductItem(item) {
 //  return item.querySelector('span.item__sku').innerText;
 // }
-const addInLocalStorage = (item) => {
-  localStorage.setItem('item', item);
-};
-
-const removeLocalStorange = (remove) => {
-  localStorage.removeItem('item', remove);
-};
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
   const ol = document.querySelector('ol');
-  const remove = ol.removeChild(event.target);
-  removeLocalStorange(remove);
+  ol.removeChild(event.target);
 }
+
+// codigo retirado do repositorio de Bruno Sordi, entendido passo a passo
+const addLocalStorage = (product) => {
+  const currentLocalStorage = JSON.parse(localStorage.getItem('cart')) || [];
+  currentLocalStorage.push(product);
+  localStorage.setItem('cart', JSON.stringify(currentLocalStorage));
+};
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  addLocalStorage(li.outerHTML);
   return li;
 }
 
@@ -94,14 +94,8 @@ const adicionando = () => {
     };
     const creatLi = createCartItemElement(emptyObject);
     const list = document.querySelector('ol');
-    const item = list.appendChild(creatLi);
-    addInLocalStorage(item);
+    list.appendChild(creatLi);
   });
-};
-
-const carrinho = () => {
-  const car = document.querySelector('.cart');
-  localStorage.setItem('carinho', car);
 };
 
 const clearCart = () => {
@@ -109,14 +103,25 @@ const clearCart = () => {
   botao.addEventListener('click', () => {
     const list = document.querySelector('.cart__items');
     list.innerHTML = '';
+    localStorage.clear();
   });
-  localStorage.clear();
+};
+
+const getLocalStorage = () => {
+  const currentLocalStorage = JSON.parse(localStorage.getItem('cart'));
+  if (!currentLocalStorage) return;
+  const ol = document.querySelector('.cart__items');
+  currentLocalStorage.forEach((element) => {
+    ol.innerHTML += element;
+    ol.addEventListener('click', cartItemClickListener);
+  });
+  console.log(currentLocalStorage);
 };
 
 window.onload = function onload() {
   inicio();
   adicionando();
-  carrinho();
   clearCart();
   creatLoading();
+  getLocalStorage();
 };
