@@ -1,3 +1,7 @@
+const genericAPIReq = (handleAPIReq, link) => {
+  handleAPIReq(link);
+};
+
 const changeLoadingState = () => {
   document.querySelector('.loading').remove();
 };
@@ -27,6 +31,7 @@ const displayOnHTML = (element, content) => {
 
 let toBePayed = 0;
 const totalSum = (value = 0) => {
+  //
   toBePayed += value;
   displayOnHTML('.total-price', toBePayed);
   return toBePayed;
@@ -41,7 +46,13 @@ const setLocalSave = () => {
 };
 
 function cartItemClickListenerRemove(event) {
-  event.target.remove();
+  const elementClicked = event.target;
+
+  const value = elementClicked.innerText.split('$')[1];
+  totalSum(-parseFloat(value, 10));
+
+  elementClicked.remove();
+
   setLocalSave();
 }
 
@@ -52,12 +63,10 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', (event) => {
-    cartItemClickListenerRemove(event);
-    totalSum(-formatPrice);
-  });
+  li.addEventListener('click', cartItemClickListenerRemove);
 
   totalSum(formatPrice);
+  setLocalSave();
   return li;
 }
 
@@ -67,10 +76,10 @@ const handleAPIRequestToPrice = (API_REQ) => {
       return response.json();
     })
     .then((res) => {
+      console.log(res);
       if (res.error) {
         throw new Error(res.error);
       }
-      console.log(res);
       addToHTML('.cart__items', createCartItemElement(res));
       setLocalSave();
     })
@@ -123,23 +132,32 @@ const handleAPIRequest = async (API_REQ) => {
     if (jso.error) {
       throw new Error(jso.error);
     }
-    console.log(jso);
-    handleAmountOfElementsOnHTML(jso.results);
+    if (jso.id) {
+      addToHTML('.cart__items', createCartItemElement(jso));
+      setLocalSave();
+    } else {
+      handleAmountOfElementsOnHTML(jso.results);
+    }
   } catch (error) {
     showAlert(error);
   }
 };
 
 const getLocalSave = () => {
-  const currentSave = localStorage.getItem('Cart_Items');
+  const currentItems = localStorage.getItem('Cart_Items');
+  const currentPriceToBePayed = parseFloat(
+    localStorage.getItem('Cart_Sum'),
+    10,
+  );
 
   const list = document.querySelector('.cart__items');
-  list.innerHTML = currentSave;
+  list.innerHTML = currentItems;
+
   document.querySelectorAll('.cart__item').forEach((item) => {
     item.addEventListener('click', cartItemClickListenerRemove);
   });
-  totalSum();
-  return currentSave;
+  totalSum(currentPriceToBePayed);
+  return currentItems;
 };
 
 const setupEventHandlers = () => {
@@ -156,3 +174,14 @@ window.onload = function onload() {
   getLocalSave();
   setupEventHandlers();
 };
+
+// function teste(callback, apiReq) {
+//   console.log('asdffd');
+//   callback(apiReq);
+// }
+// async function fetchCall(api) {
+//   const a = await fetch(api);
+//   return a;
+// }
+
+// teste(fetchCall, 'dads');
