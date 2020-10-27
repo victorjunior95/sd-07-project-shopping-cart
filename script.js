@@ -7,9 +7,12 @@ function createProductImageElement(imageSource) {
 }
 
 const load = () => {
-  const texto = document.querySelector('h4');
-  setTimeout(() => { texto.className = 'loading NV'; }, 1000);
-  texto.className = 'loading';
+  const texto = document.querySelector('.cart');
+  const div = document.createElement('div');
+  div.className = 'loading';
+  div.innerHTML = "loading...";
+  setTimeout(() => { texto.removeChild(texto.querySelector('div')); }, 1000);
+  texto.appendChild(div);
 };
 
 function cartItemClickListener(event) {
