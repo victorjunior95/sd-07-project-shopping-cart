@@ -10,7 +10,7 @@ const load = () => {
   const texto = document.querySelector('.cart');
   const div = document.createElement('div');
   div.className = 'loading';
-  div.innerHTML = "loading...";
+  div.innerHTML = 'loading...';
   setTimeout(() => { texto.removeChild(texto.querySelector('div')); }, 1000);
   texto.appendChild(div);
 };
