@@ -28,34 +28,38 @@ function createProductItemElement({ sku, name, image }) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
 
-// const removeFronLocalStorage = () => {
-//   const liList = document.querySelectorAll('.cart__item');
-//   const split = liList[0].innerText.split('|||');
-//   console.log(split);
-//   console.log(split[0].substr(5, 12));
-//   console.log(split[1].substr(7, split[1].length - 1));
-//   console.log(split[2].substr(9));
-// };
+const localStorageQuery = () => localStorage.getItem('shopList');
+
+const addLocalStorage = async () => {
+  const shopList = [];
+  const liList = document.querySelectorAll('.cart__item');
+  liList.forEach((atual) => {
+    shopList.push(atual.innerText);
+  });
+  localStorage.setItem('shopList', JSON.stringify(shopList));
+};
+
+const removeFronLocalStorage = () => {
+  addLocalStorage();
+};
 
 const cartItemClickListener = (event) => {
   event.target.remove();
-  // removeFronLocalStorage();
+  removeFronLocalStorage();
 };
 
-const localStorageQuery = () => localStorage.getItem('shopList');
-
-const addLocalStorage = async ({ sku, name, salePrice }) => {
-  let shopList = JSON.parse(localStorageQuery());
-  const productObject = {
-    sku,
-    name,
-    salePrice,
-  };
-  if (shopList === null) {
-    shopList = [];
+const loadShopCar = async (object) => {
+  newObject = await JSON.parse(object);
+  if (newObject !== null) {
+    newObject.forEach((atual) => {
+      const ol = document.querySelector('.cart__items');
+      const li = document.createElement('li');
+      li.className = 'cart__item';
+      li.innerText = atual;
+      li.addEventListener('click', cartItemClickListener);
+      ol.appendChild(li);
+    });
   }
-  shopList.push(productObject);
-  localStorage.setItem('shopList', JSON.stringify(shopList));
 };
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -65,16 +69,6 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
-
-const loadShopCar = async (object) => {
-  newObject = JSON.parse(object);
-  if (newObject !== null) {
-    newObject.forEach((atual, index) => {
-      const ol = document.querySelector('.cart__items');
-      ol.appendChild(createCartItemElement(newObject[index]));
-    });
-  }
-};
 
 const endpointQuery = async (endpoint) => {
   const result = await fetch(endpoint);
@@ -92,7 +86,7 @@ async function searchItemByID(id) {
   };
   const ol = document.querySelector('.cart__items');
   ol.appendChild(createCartItemElement(objDetails));
-  await addLocalStorage(objDetails);
+  await addLocalStorage();
 }
 
 window.onload = async function onload() {
