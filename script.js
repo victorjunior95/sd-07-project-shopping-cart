@@ -47,7 +47,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-function fetchData(endpoint, repeat) {
+function fetchData(endpoint, repeat = true) {
   fetch(endpoint)
     .then(reponse => reponse.json())
     .then((obj) => {
@@ -66,13 +66,19 @@ function fetchData(endpoint, repeat) {
 function getProductsFromApi(newProduct, maxQt = 4) {
   const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${newProduct}&limit=${maxQt}`;
 
-  fetchData(endpoint, true);
+  fetchData(endpoint);
+  loadedAPI();
 }
 
 function getInfosByID(id) {
   const endpoint = `https://api.mercadolibre.com/items/${id}`;
 
   fetchData(endpoint, false);
+}
+
+function loadedAPI() {
+  const loading = document.querySelector('.loading');
+  loading.style.visibility = 'hidden';
 }
 
 function clickEvents() {
