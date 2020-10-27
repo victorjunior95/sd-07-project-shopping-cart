@@ -41,3 +41,28 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
+
+//codigo aqui
+window.onload = () => {
+  searchItem();
+}
+
+
+const searchItem = async (query) => {
+  const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=computador`;
+  
+  fetch(endpoint).then(response => response.json().then(data => {
+    const items = document.querySelector('.items');
+    data.results.forEach(product =>{
+      const {id: sku, title: name, thumbnail: image} = product;
+      const item = createProductItemElement({ sku, name, image });
+      items.appendChild(item);
+    })
+  }))
+}
+
+
+const listItems = (local) => {
+  const place = document.querySelector('.items');
+  place.innerHTML = local;
+}
