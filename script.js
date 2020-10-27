@@ -124,9 +124,8 @@ const cartCleaner = () => {
     item.remove();
     updateTotalPrice(priceOfTheItem, '-');
     updateLocalStorage();
-  })
-  
-}
+  });
+};
 
 window.onload = function onload() {
   fetchItemsMercadoLivre('computador');
