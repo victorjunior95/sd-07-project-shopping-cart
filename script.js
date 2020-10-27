@@ -90,7 +90,7 @@ const fetchProducts = () => {
         }),
       )
       .then(eraseElement());
-  }, 5000);
+  }, 1000);
 };
 
 function getSkuFromProductItem(item) {
