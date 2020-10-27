@@ -14,8 +14,10 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function cartItemClickListener(event) {
-  // coloque seu código aqui
+// função que remove itens do carrinho de compras com um click
+function cartItemClickListener(li) {
+  const removeItems = document.querySelector('ol');
+  removeItems.removeChild(li);
 }
 
 // cria lista com elementos do carrinho
@@ -23,24 +25,18 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
+  li.addEventListener('click', () => cartItemClickListener(li));
   return li;
-}
-
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
 }
 
 // função faz busca por item e add carrinho
 function fetchItemToCart(sku) {
-  console.log('click');
   const endpoint = `https://api.mercadolibre.com/items/${sku}`;
   fetch(endpoint)
     .then(response => response.json())
     .then((object) => {
       const createCartItem = createCartItemElement(object);
       const addToCart = document.querySelector('ol');
-      console.log(addToCart);
       addToCart.appendChild(createCartItem);
     });
 }
@@ -56,6 +52,10 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'))
     .addEventListener('click', () => fetchItemToCart(sku));
   return section;
+}
+
+function getSkuFromProductItem(item) {
+  return item.querySelector('span.item__sku').innerText;
 }
 
 // função que busca na API e renderiza na tela
