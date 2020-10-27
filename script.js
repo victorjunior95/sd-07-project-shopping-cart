@@ -85,11 +85,16 @@ function addCartLi(li) {
 }
 
 function recuperaCart() {
-  for (let item = 0; item < localStorage.length; item += 1) {
+  for (let item = 0; item <= localStorage.length; item += 1) {
     const li = localStorage.getItem(localStorage.key(item));
     const id = li.split('|')[0].split(':')[1];
     const title = li.split('|')[1].split(':')[1];
-    const price = li.split('|')[2].split(': $')[1];
+    let price = li.split('|')[2].split(': $')[1];
+    console.log(price);
+    if (price === undefined){
+      price = li.split('|')[4].split(': $')[1];
+      console.log(price);
+    }
     if (id !== undefined && title !== undefined && price !== undefined) {
       const liComplete = createCartItemElement({ id, title, price });
       addCartLi(liComplete);
