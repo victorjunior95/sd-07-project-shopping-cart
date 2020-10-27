@@ -52,6 +52,7 @@ function appendItemToCart(object) {
 
 function handleProducts(products) {
   const items = document.querySelector('.items');
+  items.innerHTML = '';
   products.forEach((product) => {
     const newItem = createProductItemElement(product);
     items.appendChild(newItem);
@@ -111,6 +112,7 @@ window.onload = async function onload() {
   const QUERY = 'computador';
   const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${QUERY}`;
 
+  document.querySelector('.items').innerHTML = '<div class="loading">Carregando...</div>';
   await fetchData(endpoint, (object) => {
     handleProducts(object.results);
   });
