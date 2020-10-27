@@ -49,8 +49,8 @@ fetch(endpoint)
 .then((object) => {
   const { results } = object;
   const sectionItens = document.querySelector('.items');
-    results.forEach((product) => {
-      const { id: sku, title: name, thumbnail: image } = product;
-      sectionItens.appendChild(createProductItemElement(sku, name, image));
-    });
+  results.forEach((product) => {
+    const { id: sku, title: name, thumbnail: image } = product;
+    sectionItens.appendChild(createProductItemElement(sku, name, image));
+  });
 });
