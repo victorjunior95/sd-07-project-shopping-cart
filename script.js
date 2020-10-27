@@ -43,22 +43,16 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-function handleCartItem(item) {
-  const { id: sku, title: name, price: salePrice } = item;
-  const cartItem = { sku, name, salePrice };
-  return cartItem;
-}
-
-function handleProducts(product) {
-  const { id: sku, title: name, thumbnail: image } = product;
-  const handledProduct = { sku, name, image };
+function handleProduct(product) {
+  const { id: sku, title: name, thumbnail: image, price: salePrice } = product;
+  const handledProduct = { sku, name, image, salePrice };
   return handledProduct;
 }
 
 async function addToCart() {
   const itemID = this.closest('.item').dataset.sku;
   const item = await fetchItemForCart(itemID);
-  const handledItem = handleCartItem(item);
+  const handledItem = handleProduct(item);
   const cart = document.querySelector('.cart');
   cart.appendChild(createCartItemElement(handledItem));
 }
@@ -78,7 +72,7 @@ function createProductItemElement({ sku, name, image }) {
 async function loadItems() {
   const fetchedProducts = await fetchProductsFromApi();
   fetchedProducts.forEach((product) => {
-    const item = handleProducts(product);
+    const item = handleProduct(product);
     const listOfItems = document.querySelector('.items');
     listOfItems.appendChild(createProductItemElement(item));
   });
