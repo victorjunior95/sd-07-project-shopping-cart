@@ -19,7 +19,7 @@ async function totalSum() {
     one = parseFloat(one[one.length - 1].substring(1));
     sum += one;
   }
-  pai.innerText = sum;
+  pai.innerText = sum.toFixed(2);
 }
 
 function saveToStorage() {
@@ -90,7 +90,6 @@ function createProductItemElement({ id, title, thumbnail }) {
 function clearCartEvent() {
   const button = document.querySelector('.empty-cart');
   button.addEventListener('click', function () {
-    console.log('pertou');
     document.querySelector('.cart__items').innerHTML = '';
     saveToStorage();
   });
@@ -127,4 +126,5 @@ window.onload = function onload() {
   createEvents();
   clearCartEvent();
   itemsGenerator('computador');
+  totalSum();
 };
