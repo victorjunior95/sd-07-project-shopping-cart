@@ -5,13 +5,8 @@ const upDateLocalStorage = () => {
   localStorage.setItem('cardItemsArr', JSON.stringify(cartItensStorage));
 };
 
-const setCartItemsArr = (obj) => {
-  cartItensStorage.push(obj);
-  upDateLocalStorage();
-};
-
-const cardItemsCaucPrices = async () => {
-  const price = await cartItensStorage.reduce((acc, crr) => crr.salePrice + acc, 0);
+const cardItemsCaucPrices = () => {
+  const price = cartItensStorage.reduce((acc, crr) => crr.salePrice + acc, 0);
   document.querySelector('.total-price').innerText = `Preço total: R$${price}`;
 };
 
@@ -42,13 +37,27 @@ const getProductsObj = url => fetch(url)
 
 const getSkuFromProductItem = item => item.target.parentNode.querySelector('span').innerText;
 
+const setCartItemsArr = (obj) => {
+  cartItensStorage.push(obj);
+  upDateLocalStorage();
+};
+
+const loadingMsg = () => {
+  const container = document.createElement('span');
+  container.className = 'loading';
+  container.innerText = 'loading...';
+  document.querySelector('.items').appendChild(container);
+};
+
 const addCardItens = async (item) => {
+  loadingMsg();
   const skuItem = getSkuFromProductItem(item);
   const product = await getProductsObj(`https://api.mercadolibre.com/items/${skuItem}`);
   const { id: sku, title: name, price: salePrice } = product;
   const element = createCartItemElement({ sku, name, salePrice });
   const cartItems = document.querySelector('.cart__items');
   cartItems.appendChild(element);
+  cartItems.removeChild(document.querySelector('loading'));
   setCartItemsArr({ sku, name, salePrice });
   cardItemsCaucPrices();
 };
