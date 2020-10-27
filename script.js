@@ -1,5 +1,5 @@
 
-function removeAll(){
+function removeAll() {
   const ol = document.querySelector('.cart__items');
   ol.innerHTML = '';
 }
@@ -89,5 +89,6 @@ const productListing = async () => {
 };
 
 window.onload = function onload() {
+  removeAll();
   productListing();
 };
