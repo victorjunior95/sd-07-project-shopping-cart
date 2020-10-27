@@ -84,17 +84,21 @@ function addCartLi(li) {
   localStorage.setItem(id, conteudo);
 }
 
+function pegaArray(li) {
+  const id = li.split('|')[0].split(':')[1];
+  const title = li.split('|')[1].split(':')[1];
+  let price = li.split('|')[2].split(': $')[1];
+  if (price === undefined) {
+    price = li.split('|')[4].split(': $')[1];
+  }
+  return { id, title, price };
+}
+
 function recuperaCart() {
   for (let item = 0; item <= localStorage.length; item += 1) {
     const li = localStorage.getItem(localStorage.key(item));
-    const id = li.split('|')[0].split(':')[1];
-    const title = li.split('|')[1].split(':')[1];
-    let price = li.split('|')[2].split(': $')[1];
-    if (id !== undefined && title !== undefined && price === undefined) {
-      price = li.split('|')[4].split(': $')[1];
-      const liComplete = createCartItemElement({ id, title, price });
-      addCartLi(liComplete);
-    }
+    const liComplete = createCartItemElement(pegaArray(li));
+    addCartLi(liComplete);
   }
 }
 
