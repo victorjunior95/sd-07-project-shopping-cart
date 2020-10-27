@@ -20,10 +20,27 @@ const updateLocalStorage = () => {
   const cartUpdated = document.querySelector('.cart__items').innerHTML;
   localStorage.setItem('cart', cartUpdated);
 };
+const updateTotalPrice = async (price, operator) => {
+  const spanWithActualPrice = document.querySelector('#total_price');
+  const actualTotalPrice = parseFloat(spanWithActualPrice.innerText);
+  console.log(actualTotalPrice);
+  console.log(price);
+  let newTotalPrice = 0;
+  if (operator === '+') {
+    newTotalPrice = actualTotalPrice + price;
+  } else if (operator === '-') {
+    newTotalPrice = actualTotalPrice - price;
+  }
+  localStorage.setItem('totalPrice', newTotalPrice);
+  spanWithActualPrice.innerText = newTotalPrice.toFixed(2);
+};
 
 function cartItemClickListener(event) {
   const liToRemove = event.target;
+  const substring = liToRemove.innerText.split('$');
+  const priceOfTheItem = parseFloat(substring[1]);
   liToRemove.remove();
+  updateTotalPrice(priceOfTheItem, '-');
   updateLocalStorage();
 }
 
@@ -35,15 +52,6 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-const updateTotalPrice = async (price) => {
-  const spanWithActualPrice = document.querySelector('#total_price');
-  const actualTotalPrice = parseFloat(spanWithActualPrice.innerText);
-  console.log(actualTotalPrice);
-  console.log(price);
-  const newTotalPrice = actualTotalPrice + price;
-  localStorage.setItem('totalPrice', newTotalPrice);
-  spanWithActualPrice.innerText = newTotalPrice.toFixed(2);
-};
 
 const manageCart = (object) => {
   const cart = document.querySelector('.cart__items');
@@ -54,7 +62,7 @@ const manageCart = (object) => {
   };
   cart.appendChild(createCartItemElement(product));
   updateLocalStorage();
-  updateTotalPrice(product.salePrice);
+  updateTotalPrice(product.salePrice, '+');
 };
 
 // const fetchFromStorage = (sku) => {
