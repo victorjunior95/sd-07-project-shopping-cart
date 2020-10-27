@@ -28,6 +28,19 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+function getItemValue(valueStr) {
+  let itemPrice = parseInt(valueStr, 10);
+  if (valueStr.includes('.')) {
+    const [integerStr, decimalStr] = valueStr.split('.');
+    const integer = parseInt(integerStr, 10);
+    if (decimalStr.length === 1) decimal = parseInt(decimalStr, 10) * 10;
+    else {
+      decimal = parseInt(decimalStr, 10);
+    }
+    itemPrice = integer + (decimal / 100);
+  }
+  return itemPrice;
+}
 async function updateCartValue() {
   const cartItems = document.querySelectorAll('.cart__item');
   const priceSpan = document.querySelector('.total-price');
@@ -36,8 +49,11 @@ async function updateCartValue() {
   } else {
     let totalPrice = 0;
     cartItems.forEach((item) => {
-      totalPrice += parseInt(item.innerHTML.split('$')[1], 10);
+      itemPriceString = item.innerHTML.split('$')[1];
+      const itemPrice = getItemValue(itemPriceString);
+      totalPrice += itemPrice;
     });
+    totalPrice = Math.round(totalPrice * 100) / 100;
     priceSpan.innerHTML = totalPrice;
   }
 }
