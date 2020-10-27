@@ -47,7 +47,8 @@ const sumPrice = async () => {
     return total + Number(arrOfValue[1]);
   }, 0);
 
-  resultElement.innerText = sum.toFixed(2);
+  resultElement.innerText = sum;
+  // resultElement.innerText = sum.toFixed(2);
 
   saveInLocalStorage();
 };
