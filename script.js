@@ -20,7 +20,7 @@ const saveOrUpdateLS = async (html) => {
 const loadLocalStorage = () => {
   const cartItems = document.querySelector('.cart__items');
   const listCar = localStorage.getItem('listCar');
-  if (listCar) carItens.innerHTML = listCar;
+  if (listCar) carItems.innerHTML = listCar;
 };
 
 const updateDisplayTotalPrice = (total) => {
