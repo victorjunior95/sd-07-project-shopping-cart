@@ -75,8 +75,8 @@
   text-align: center;
 }
 
-.loading {  
-  background-color: rgb(0,0,0);
+.loading {
+  background-color: black;
   height: 100%;
   left: 0;
   overflow-x: hidden;

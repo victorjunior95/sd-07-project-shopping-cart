@@ -65,15 +65,18 @@ function fetchData(endpoint, repeat = true) {
 
 function loadAPI(loaded = false) {
   const loading = document.querySelector('.loading');
-  if (loaded === true) return loading.style.visibility = 'hidden';
-  loading.style.visibility = 'visible';
+  if (loaded === true) {
+    loading.style.visibility = 'hidden';
+  } else {
+    loading.style.visibility = 'visible';
+  }
 }
 
 function getProductsFromApi(newProduct, maxQt = 4) {
   const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${newProduct}&limit=${maxQt}`;
 
   fetchData(endpoint);
-  loadedAPI(true);
+  loadAPI(true);
 }
 
 function getInfosByID(id) {
