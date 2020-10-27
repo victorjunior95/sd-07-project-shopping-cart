@@ -45,7 +45,7 @@ const converteObjetosDesejados = (objetosDoResult) => {
 
 function cartItemClickListener(evento) {
   evento.target.remove();
-  // o prorpio li selecionado vai ser apagado 
+  // o prorpio li selecionado vai ser apagado
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
