@@ -114,7 +114,13 @@ function createCartItemElement(sku, name, salePrice) {
 }
 
 const convertRequestToJSON = (url) => {
-  const conversion = fetch(url).then(response => response.json());
+  const conversion = fetch(url).then((response) => {
+    const loading = document.createElement('h1');
+    loading.className = 'loading';
+    loading.innerText = 'loading...';
+    document.querySelector('body').appendChild(loading);
+    return response.json();
+  });
   return conversion;
 };
 /*
@@ -155,6 +161,7 @@ const addItemToCart = (element) => {
   convertRequestToJSON(`https://api.mercadolibre.com/items/${idNumber}`)
     .then((response) => {
       addRequestToHTMLClass(response, createCartItemElement, '.cart__items');
+      document.querySelector('.loading').remove();
     });
 };
 
@@ -190,9 +197,11 @@ function createProductItemElement(sku, name, image) {
 
 const createItens = () => {
   convertRequestToJSON('https://api.mercadolibre.com/sites/MLB/search?q=cumputador')
-    .then(response => response.results.forEach((computer) => {
+    .then((response) => {
+      document.querySelector('.loading').remove();
+      return response.results.forEach((computer) => {
       addRequestToHTMLClass(computer, createProductItemElement, '.items');
-    }),
+    })},
     );
 };
 
