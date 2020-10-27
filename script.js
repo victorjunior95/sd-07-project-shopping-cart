@@ -1,7 +1,3 @@
-window.onload = function onload() { 
-  loadProducts();
-};
-
 const allItems = document.querySelector('.items');
 
 function createProductImageElement(imageSource) {
@@ -57,7 +53,7 @@ const loadProducts = () => {
           const { id: sku, title: name, thumbnail: image } = product;
           const item = createProductItemElement({ sku, name, image });
           allItems.appendChild(item);
-        })
+        });
       } else {
         console.error('TERM INVALID');
       }
@@ -65,4 +61,8 @@ const loadProducts = () => {
     .catch(error => console.error('ERROR! Nao foi possivel converter pra json. Link ou term invalido.'));
   })
   .catch(error => console.error('ERROR! Link invalido.'));
-}
+};
+
+window.onload = function onload() {
+  loadProducts();
+};
