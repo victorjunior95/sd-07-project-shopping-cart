@@ -14,7 +14,12 @@ function createCustomElement(element, className, innerText) {
 
 function removeFromLocalStorage(cartItem) {
   const localCartItems = JSON.parse(localStorage.getItem('cartItems'));
-  const newLocalStorage = localCartItems.filter(element => element !== cartItem);
+  const str = cartItem.replace(/\s/g, '');
+
+  const newLocalStorage = localCartItems.filter((element) => {
+    const strElement = element.replace(/\s/g, '');
+    return strElement !== str;
+  });
 
   localStorage.setItem('cartItems', JSON.stringify(newLocalStorage));
 }
@@ -26,7 +31,9 @@ function getCartItemsPrices() {
   for (let i = 0; i < cartItems.length; i += 1) {
     const itemSplitting = cartItems[i].innerText.split(' | NAME: ');
     const itemSplittingToName = itemSplitting[1].split(' | PRICE: ');
+
     const [, price] = itemSplittingToName[1].split('$');
+
     total += parseFloat(price);
   }
 
@@ -46,15 +53,20 @@ function calculateTotalPrice() {
 }
 
 async function showTotalPrice() {
-  const totalValue = await calculateTotalPrice();
   const label = document.querySelector('.total-price');
 
-  label.innerText = totalValue;
+  try {
+    const totalValue = await calculateTotalPrice();
+    label.innerText = totalValue;
+  } catch (error) {
+    label.innerText = '-';
+  }
 }
 
 function cartItemClickListener(e) {
   // coloque seu código aqui
   const cartItem = e.srcElement.innerText;
+
   const cartList = e.srcElement.parentElement.children;
 
   for (let i = 0; i < cartList.length; i += 1) {
@@ -79,16 +91,15 @@ function addToLocalStorage({ sku, name, salePrice }) {
   if (localStorage.length === 0) {
     const localCartItems = [];
 
-    localCartItems.push(`SKU: ${sku} | NAME: ${name} | PRICE: ${salePrice}`);
+    localCartItems.push(`SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`);
     localStorage.setItem('cartItems', JSON.stringify(localCartItems));
   } else {
     const locallyCartItems = JSON.parse(localStorage.getItem('cartItems'));
 
-    locallyCartItems.push(`SKU: ${sku} | NAME: ${name} | PRICE: ${salePrice}`);
+    locallyCartItems.push(`SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`);
     localStorage.setItem('cartItems', JSON.stringify(locallyCartItems));
   }
 }
-
 // async function addTotalPrice(salePrice) {
 //   const total = document.querySelector('.total-price').innerText;
 //   total.innerText = parseInt(total) + salePrice;
@@ -167,7 +178,7 @@ function loadLocalStorage() {
   localCartItems.forEach((item) => {
     const itemSplitting = item.split(' | NAME: ');
     const itemSplittingToSku = itemSplitting[0].split('SKU: ');
-    const itemSplittingToName = itemSplitting[1].split(' | PRICE: ');
+    const itemSplittingToName = itemSplitting[1].split(' | PRICE: $');
 
     const sku = itemSplittingToSku[1].trim();
     const name = itemSplittingToName[0].trim();
