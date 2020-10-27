@@ -91,8 +91,18 @@ const carrinho = () => {
   localStorage.setItem('carinho', car);
 };
 
+const clearCart = () => {
+  const botao = document.querySelector('.empty-cart');
+  botao.addEventListener('click', () => {
+    const list = document.querySelector('.cart__items');
+    list.innerHTML = '';
+  });
+  localStorage.clear();
+};
+
 window.onload = function onload() {
   inicio();
   adicionando();
   carrinho();
+  clearCart();
 };
