@@ -31,7 +31,7 @@ function createProductItemElement(name, sku, image) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
 function increasePrice(salePrice) {
-  const total = document.querySelector('.value');
+  const total = document.querySelector('.total-price');
   total.innerText = Number(salePrice) + Number(total.innerText);
 }
 
