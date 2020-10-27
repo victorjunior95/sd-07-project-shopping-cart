@@ -78,14 +78,14 @@ function cartItemClickListener(event) {
   let parent = event.target.parentNode;
   // console.log(event.target.innerText);
   Object.keys(localStorage).forEach((key) => {
-    let item = JSON.parse(localStorage.getItem(key))
+    let item = JSON.parse(localStorage.getItem(key));
     // console.log(item[key].id)
     if (event.target.innerText.includes(item[key].id)) {
       // console.log('funfou');
       localStorage.removeItem(key);
       parent.removeChild(event.target);
     }
-  })
+  });
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -104,6 +104,7 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 const addLocalStorage = (key, value) => {
   let object = { [key]: value };
   localStorage.setItem(key, JSON.stringify(object));
+  sumPriceListItems();
 };
 
 const updateLiStorage = () => {
@@ -126,16 +127,31 @@ const addLiCartItem = (li) => {
   ol.appendChild(li);
 };
 
+const sumPriceListItems = () => {
+  let count = 0;
+
+  Object.keys(localStorage).forEach((key) => {
+    let storage = JSON.parse(localStorage.getItem(key));
+    count += storage[key].price;
+    // console.log(count);
+  });
+
+  const p = document.createElement("p");
+  p.classList.add("total-price");
+  p.innerHTML = `<strong>Valor Total: R$${count}</strong>`;
+  addLiCartItem(p);
+};
+
 const clearShoppingCar = () => {
-  const button = document.querySelector('.empty-cart');
-  button.addEventListener('click', clearItems)
-}
+  const button = document.querySelector(".empty-cart");
+  button.addEventListener("click", clearItems);
+};
 
 const clearItems = () => {
-  const ol = document.querySelector('.cart__items');
-  ol.innerHTML = '';
+  const ol = document.querySelector(".cart__items");
+  ol.innerHTML = "";
   localStorage.clear();
-}
+};
 
 window.onload = function onload() {
   fetchApiShopping("computador");
