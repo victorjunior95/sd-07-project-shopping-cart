@@ -67,12 +67,17 @@ const removeItemFromLocalStorage = (id) => {
   });
 };
 
-function cartItemClickListener(event) {
-  // coloque seu código aqui
-  const item = event.target.innerText;
+const getItemId = (item) => {
   const idFirstLetter = item.indexOf('M');
   const idLastNumber = item.indexOf('|');
   const id = item.slice(idFirstLetter, (idLastNumber -1));
+  return id;
+};
+
+function cartItemClickListener(event) {
+  // coloque seu código aqui
+  const item = event.target.innerText;
+  const id = getItemId(item);
   removeItemFromLocalStorage(id);
   event.target.remove();
 }
@@ -187,9 +192,27 @@ const createItens = () => {
     );
 };
 
+const emptyCart = () => {
+  const cartItensHTMLCollection = document.getElementsByClassName('cart__item');
+  const cartItensArray = [].slice.call(cartItensHTMLCollection);
+  cartItensArray.forEach((item) => {
+    const itemText = item.innerText;
+    const id = getItemId(itemText);
+    removeItemFromLocalStorage(id);
+    item.remove()
+  });
+};
+
+const checkCounter = () => {
+  counter = localStorage.getItem('counter');
+  if (counter > 10000) localStorage.counter = 0;
+};
+
 window.onload = function onload() {
+  document.querySelector('.empty-cart').addEventListener('click', emptyCart);
   recoverCart();
   createItens();
+  checkCounter();
 };
 
 function getSkuFromProductItem(item) {
