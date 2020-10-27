@@ -96,6 +96,16 @@ function clearCartEvent() {
   });
 }
 
+function createEvents() {
+  const list = document.querySelectorAll('.cart__item');
+  list.forEach((item) => {
+    const id = item.className.split(' ')[1];
+    item.addEventListener('click', function () {
+      cartItemClickListener(id);
+    });
+  });
+}
+
 window.onload = function onload() {
   async function itemsGenerator(event) {
     const pai = document.getElementsByClassName('items')[0];
@@ -114,6 +124,7 @@ window.onload = function onload() {
     });
   }
   loadFromStorage();
+  createEvents();
   clearCartEvent();
   itemsGenerator('computador');
 };
