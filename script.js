@@ -93,6 +93,7 @@ async function loadItems() {
     const listOfItems = document.querySelector('.items');
     listOfItems.appendChild(createProductItemElement(item));
   });
+  await document.querySelector('.loading-box').remove();
 }
 
 function emptyCart() {
