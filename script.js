@@ -90,9 +90,10 @@ function addButtonsEvent() {
 function fetchProductApi(query) {
   const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${query}`;
   const section = document.querySelector('.items');
-  section.innerHTML = '';
   fetch(endpoint)
-    .then(response => response.json())
+    .then((response) => {
+      section.innerHTML = '';
+      return response.json()})
     .then(object => object.results.forEach(({ id, title, thumbnail }) => {
       const newItem = { sku: id, name: title, image: thumbnail };
       const HtmlElement = createProductItemElement(newItem);
