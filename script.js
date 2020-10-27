@@ -108,6 +108,7 @@ const getAllProducts = async () => {
   const loadingInfo = document.createElement('p');
 
   loadingInfo.innerText = 'Loading...';
+  loadingInfo.className = 'loading';
   items.appendChild(loadingInfo);
   await fetch(API_URL)
     .then(object => object.json())
