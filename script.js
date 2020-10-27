@@ -134,12 +134,12 @@ function emptyCar() {
   });
 }
 
-const waitLoading = () => {
-  setTimeout(() => { document.querySelector('.loading').remove(); }, 5000);
-};
+// const waitLoading = () => {
+//   setTimeout(() => { document.querySelector('.loading').remove(); }, 5000);
+// };
 
 window.onload = async function onload() {
-  waitLoading();
+  // waitLoading();
   goBackInsideCart();
   await fecthComputerAsyncAwait();
   catchAllProductEvent();

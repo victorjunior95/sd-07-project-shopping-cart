@@ -1,4 +1,4 @@
-header {
+/* header {
   display: flex;
   justify-content: center;
   min-height: 100vh;
@@ -20,7 +20,7 @@ header {
   to {
     transform: rotate( 1turn );
   }
-}
+} */
 
 .top-bar {
   align-items: center;
