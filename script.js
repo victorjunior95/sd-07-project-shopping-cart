@@ -114,16 +114,25 @@ const clearList = () => {
   removeFronLocalStorage();
 };
 
-const hideLoading = () => {
-  document.querySelector('.loading').className = 'loaded';
+const showOrHideLoading = async () => {
+  if (document.querySelector('.loading')) {
+    document.querySelector('.loading').remove();
+  } else {
+    const section = document.querySelector('.container');
+    const span = document.createElement('span');
+    span.className = 'loading';
+    span.innerText = 'loading...';
+    section.appendChild(span);
+  }
 };
 
 window.onload = async function onload() {
+  await showOrHideLoading();
   await loadShopCar(localStorageQuery());
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   const object = await endpointQuery(endpoint);
   const objectResults = object.results;
-  await hideLoading();
+  await showOrHideLoading();
   objectResults.forEach((atual) => {
     const produto = {
       sku: atual.id,
