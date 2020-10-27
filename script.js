@@ -20,7 +20,7 @@ const saveOrUpdateLS = async (html) => {
 const loadLocalStorage = () => {
   const carItems = document.querySelector('.cart__items');
   const ListCar = localStorage.getItem('ListCar');
-  if (ListCar) carItens.innerHTML = ListCar;
+  if (ListCar) carItens.innerHTML = listCar;
 };
 
 const updateDisplayTotalPrice = (total) => {
@@ -29,8 +29,8 @@ const updateDisplayTotalPrice = (total) => {
 };
 
 const sumPricesItemCart = () => {
-  const priceItems = document.querySelectorAll('[data-price-items]');
-  const total = Array.from(priceItems, ({ dataset: { priceItems } }) =>
+  const priceitems = document.querySelectorAll('[data-price-items]');
+  const total = Array.from(priceitems, ({ dataset: { priceItems } }) =>
     Number(priceItems)).reduce((acc, price) => acc + price, 0);
   return total;
 };
