@@ -85,8 +85,8 @@ const fetchProducts = () => {
     fetch(endpoint)
       .then(data => data.json())
       .then(data => data.results.forEach((value) => {
-          appendToChart(createProductItemElement(value));
-        }));
+        appendToChart(createProductItemElement(value));
+      }));
       // .then(eraseElement());
   }, 5000);
 };
