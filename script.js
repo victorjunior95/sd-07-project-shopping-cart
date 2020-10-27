@@ -86,7 +86,13 @@ const adicionando = () => {
   });
 };
 
+const carrinho = () => {
+  const carrinho = document.querySelector('.cart')
+  localStorage.setItem('carinho', carrinho);
+}
+
 window.onload = function onload() {
   inicio();
   adicionando();
+  carrinho();
 };
