@@ -53,19 +53,48 @@ async function productList() {
   const response = await fetch(endpoint)
   .then(object => object.json());
   response.results.forEach((item) => {
-    const itemId = item.id;
-    const itemName = item.title;
-    const itemImage = item.thumbnail;
-    const addedItem = {
-      sku: itemId,
-      name: itemName,
-      image: itemImage,
-    };
-    itemsList.appendChild(createProductItemElement(addedItem));
+    // const itemId = item.id;
+    // const itemName = item.title;
+    // const itemImage = item.thumbnail;
+    // const addedItem = {
+    //   sku: itemId,
+    //   name: itemName,
+    //   image: itemImage,
+    // };
+    const { id: sku, title: name, thumbnail: image } = item;
+    itemsList.appendChild(createProductItemElement({ sku, name, image }));
   });
 }
 
+async function addToCart(id) {
+  const cart = document.querySelector('.cart__items');
 
-window.onload = function onload() {
-  productList();
+  const endpoint = `https://api.mercadolibre.com/items/${id}`;
+  const response = await fetch(endpoint)
+    .then(data => data.json());
+
+  const { id: sku, title: name, price: salePrice } = response;
+  const itemToCart = createCartItemElement({ sku, name, salePrice });
+  cart.appendChild(itemToCart);
+}
+
+function addButton() {
+  // Catch the button on the script
+  const buttons = document.querySelectorAll('.item__add');
+  const itemsId = document.querySelectorAll('.item__sku');
+
+  buttons.forEach((button, index) => {
+    button.addEventListener('click', () => {
+      // console.log(button.classList);
+      const id = itemsId[index].textContent;
+      // console.log(id);
+      addToCart(id);
+    });
+  });
+}
+
+window.onload = async function onload() {
+  await productList();
+  addButton();
+  // addToCart();
 };
