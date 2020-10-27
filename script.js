@@ -16,16 +16,15 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+const updateLocalStorage = () => {
+  const cartUpdated = document.querySelector('.cart__items').innerHTML;
+  localStorage.setItem('cart', cartUpdated);
+};
+
 function cartItemClickListener(event) {
   const liToRemove = event.target;
-  for (let index = 0; index < localStorage.length; index += 1) {
-    const key = localStorage.key(index);
-    const item = localStorage.getItem(key);
-    if (liToRemove.innerText.startsWith(`SKU: ${item}`)) {
-      localStorage.removeItem(key);
-    }
-  }
   liToRemove.remove();
+  updateLocalStorage();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -43,16 +42,16 @@ const manageCart = (object) => {
     name: object.title,
     salePrice: object.price,
   };
-  localStorage.setItem(product.name, product.sku);
   cart.appendChild(createCartItemElement(product));
+  updateLocalStorage();
 };
 
-const fetchFromStorage = (sku) => {
-  const endpoint = `https://api.mercadolibre.com/items/${sku}`;
-  fetch(endpoint)
-  .then(response => response.json())
-  .then(object => manageCart(object));
-};
+// const fetchFromStorage = (sku) => {
+//   const endpoint = `https://api.mercadolibre.com/items/${sku}`;
+//   fetch(endpoint)
+//   .then(response => response.json())
+//   .then(object => manageCart(object));
+// };
 
 const fetchInfoFromId = () => {
   const item = event.target.parentElement;
@@ -94,13 +93,15 @@ const fetchItemsMercadoLivre = (term) => {
 };
 
 const recoverCart = () => {
-  for (let index = 0; index < localStorage.length; index += 1) {
-    const key = localStorage.key(index);
-    fetchFromStorage(localStorage.getItem(key));
+  const cart = document.querySelector('.cart__items');
+  cart.innerHTML = localStorage.getItem('cart');
+  const listItems = cart.querySelectorAll('li');
+  for (let index = 0; index < listItems.length; index += 1) {
+    listItems[index].addEventListener('click', cartItemClickListener);
   }
 };
 
 window.onload = function onload() {
   fetchItemsMercadoLivre('computador');
-  if (localStorage.length !== 0) recoverCart();
+  recoverCart();
 };
