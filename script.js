@@ -1,6 +1,3 @@
-window.onload = function onload() { 
-  consulta();
-};
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -40,17 +37,16 @@ const consulta = () => {
   const QUERY = 'computador';
   const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${QUERY}`;
   fetch(endpoint)
-    .then((response) => response.json())
+    .then(response => response.json())
     .then(data => {
       const items = document.querySelector('.items');
       data.results.forEach(product => {
         const { id: sku, tittle: name, thumbnail: image } = product;
         const item = createProductItemElement({ sku, name, image });
-        items.appendChild(item)       
+        items.appendChild(item);
       });
     });
-  
-}
+};
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
@@ -59,3 +55,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
+
+window.onload = function onload() {
+  consulta();
+};
