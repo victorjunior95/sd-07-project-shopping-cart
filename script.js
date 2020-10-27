@@ -44,7 +44,7 @@ function cartItemClickListener(event) {
 const loadLocalStorage = () => {
   let jsonList = localStorage.getItem('cartList');
   jsonList = JSON.parse(jsonList);
-  
+
   const ol = document.querySelector('.cart__items');
 
   ol.innerHTML = jsonList;
@@ -104,12 +104,12 @@ const goToOL = async (event) => {
   const li = createCartItemElement(expectedObject);
 
   ol.appendChild(li);
-  saveInLocalStorage()
+  saveInLocalStorage();
 };
 
 const listeningAddToCartButton = () => {
   const buttons = document.querySelectorAll('.item__add');
-  buttons.forEach((button) => button.addEventListener('click', goToOL));
+  buttons.forEach(button => button.addEventListener('click', goToOL));
 };
 
 const loadPage = async () => {
