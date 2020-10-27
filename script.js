@@ -38,7 +38,8 @@ function cartItemClickListener(event) {
   // coloque seu código aqui!
 }
 
-function createCartItemElement({ sku, name, salePrice }) {
+function createCartItemElement(object) {
+  const { id: sku, title: name, price: salePrice } = object;
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
@@ -66,9 +67,8 @@ async function consultProduct(supply) {
 async function addProductToCart(id) {
   const endPoint = `https://api.mercadolibre.com/items/${id}`;
   await fetchAPI(endPoint)
-    .then((resolve) => {
-      const { id: sku, title: name, price: salePrice } = resolve;
-      const li = createCartItemElement({ sku, name, salePrice });
+    .then((data) => {
+      const li = createCartItemElement(data);
       addProducts(li, ol);
     })
     .catch(err => alert(err));
