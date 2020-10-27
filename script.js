@@ -55,7 +55,7 @@ function addToLocalStorage({ sku, name, salePrice }) {
   }
 }
 
-// function addTotalPrice(salePrice) {
+// async function addTotalPrice(salePrice) {
 //   const total = document.querySelector('.total-price').innerText;
 //   total.innerText = parseInt(total) + salePrice;
 //   console.log(total);
@@ -75,7 +75,7 @@ function addToCart(itemId) {
       };
       const cartItems = document.querySelector('.cart__items');
       cartItems.appendChild(createCartItemElement(itemCart));
-      // await addTotalPrice(item.price);
+      // addTotalPrice(item.price);
       addToLocalStorage(itemCart);
     });
 }
@@ -102,15 +102,19 @@ function createProductItemElement({ sku, name, image }) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
 
-const getAllProducts = () => {
+const getAllProducts = async () => {
   const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
+  const items = document.querySelector('.items');
+  const loadingInfo = document.createElement('p');
 
-  fetch(API_URL)
+  loadingInfo.innerText = 'Loading...';
+  items.appendChild(loadingInfo);
+  await fetch(API_URL)
     .then(object => object.json())
     .then((element) => {
       const { results } = (element);
+      items.removeChild(loadingInfo);
       results.forEach((result) => {
-        const items = document.querySelector('.items');
         const objectResult = {
           sku: result.id,
           name: result.title,
@@ -123,6 +127,7 @@ const getAllProducts = () => {
 
 function loadLocalStorage() {
   const localCartItems = JSON.parse(localStorage.getItem('cartItems'));
+  const cartItems = document.querySelector('.cart__items');
 
   localCartItems.forEach((item) => {
     const itemSplitting = item.split(' | NAME: ');
@@ -133,7 +138,6 @@ function loadLocalStorage() {
     const name = itemSplittingToName[0].trim();
     const salePrice = itemSplittingToName[1].trim();
 
-    const cartItems = document.querySelector('.cart__items');
     cartItems.appendChild(createCartItemElement({ sku, name, salePrice }));
   });
 }
