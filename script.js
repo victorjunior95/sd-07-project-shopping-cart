@@ -25,7 +25,7 @@ function createProductItemElement({ sku, name, image }) {
 }
 
 function getSkuFromProductItem(item) {
-return item.querySelector('span.item__sku').innerText;
+  return item.querySelector('span.item__sku').innerText;
 }
 
 function cartItemClickListener(event) {
@@ -46,8 +46,8 @@ async function addToCart(productAdd) {
   try {
     const response = await fetch(endpoint);
     const data = await response.json();
-    const { id: sku, title: name, price: salePrice} = data;
-    const productComponents = { sku, mae, salePrice };
+    const { id: sku, title: name, price: salePrice } = data;
+    const productComponents = { sku, name, salePrice };
     const cartItems = document.querySelector('.cart_items');
     cartItems.appendChild(createCartItemElement(productComponents));
     console.log(productComponents);
