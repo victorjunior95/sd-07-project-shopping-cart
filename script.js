@@ -1,4 +1,8 @@
-window.onload = function onload() { };
+window.onload = function onload() { 
+  loadProducts();
+};
+
+const allItems = document.querySelector('.items');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -40,4 +44,25 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
+}
+
+const loadProducts = () => {
+  const term = 'computador';
+  fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${term}`)
+  .then((response) => {
+    response.json()
+    .then((data) => {
+      if (data.results.length > 0) {
+        data.results.forEach((product) => {
+          const { id: sku, title: name, thumbnail: image } = product;
+          const item = createProductItemElement({ sku, name, image });
+          allItems.appendChild(item);
+        })
+      } else {
+        console.error('TERM INVALID');
+      }
+    })
+    .catch(error => console.error('ERROR! Nao foi possivel converter pra json. Link ou term invalido.'));
+  })
+  .catch(error => console.error('ERROR! Link invalido.'));
 }
