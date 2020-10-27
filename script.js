@@ -87,5 +87,6 @@ window.onload = function onload() {
   document.querySelector('.empty-cart').addEventListener('click', () => {
     document.querySelector('.cart__items').innerHTML = '';
     document.querySelector('.total-price').innerText = 0;
+    localStorage.clear();
   });
 };
