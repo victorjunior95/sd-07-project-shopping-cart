@@ -60,8 +60,8 @@ const eraseElement = () => {
 const fetchToChart = (sku) => {
   const endpoint = `https://api.mercadolibre.com/items/${sku}`;
   fetch(endpoint)
-    .then((response) => response.json())
-    .then(data => {
+    .then(response => response.json())
+    .then((data) => {
       cathOl(createCartItemElement(data)); // requisito 2 passo 4
     });
 };
@@ -87,7 +87,7 @@ const fetchProducts = () => {
       .then(data =>
         data.results.forEach((value) => {
           appendToChart(createProductItemElement(value));
-        })
+        }),
       )
       .then(eraseElement());
   }, 5000);
