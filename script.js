@@ -35,12 +35,7 @@ const functionFetchJSON = async (endpoint, adaptFunction) => {
 };
 
 function cartItemClickListener(event) {
-  const li = document.querySelectorAll('.cart__item');
-  li.forEach((itemCart) => {
-    itemCart.addEventListener('click', () => {
-      itemCart.remove();
-    });
-  });
+  event.target.remove();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
