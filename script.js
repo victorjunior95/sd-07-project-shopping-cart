@@ -91,7 +91,6 @@ async function fetchItems() {
   try {
     const response = await fetch(endpoint);
     const data = await response.json();
-    
     if (data.error) {
       throw new Error(data.error);
     } else {
