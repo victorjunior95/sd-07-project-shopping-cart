@@ -62,15 +62,29 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
+function createLoadingElement() {
+  const cart = document.querySelector('.cart');
+  const loadingElement = createCustomElement('span', 'loading', 'loading...');
+  cart.appendChild(loadingElement);
+}
+
+function removeLoadingElement() {
+  const cart = document.querySelector('.cart');
+  const loadingElement = document.querySelector('.loading');
+  cart.removeChild(loadingElement);
+}
+
 const getFilteredProducts = () => {
   const itemsSection = document.querySelector('.items');
   const endPoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
+  createLoadingElement();
   return fetch(endPoint)
     .then(response => response.json())
     .then(data => data.results.forEach(({ id: sku, title: name, thumbnail: image }) => {
       const itemToBeInserted = createProductItemElement({ sku, name, image });
       itemsSection.appendChild(itemToBeInserted);
-    }));
+    }))
+    .then(removeLoadingElement());
 };
 
 const insertProductInCart = (event) => {
@@ -78,6 +92,7 @@ const insertProductInCart = (event) => {
   const cartSection = document.querySelector('.cart__items');
   const idSelected = itemSelected.querySelector('.item__sku').innerText;
   const endPoint = `https://api.mercadolibre.com/items/${idSelected}`;
+  createLoadingElement();
   fetch(endPoint)
     .then(response => response.json())
     .then(({ id: sku, title: name, price: salePrice }) => {
@@ -89,7 +104,8 @@ const insertProductInCart = (event) => {
       const itemToBeInsertedInCart = createCartItemElement(newItemCart);
       cartSection.appendChild(itemToBeInsertedInCart);
       saveCart();
-    });
+    })
+    .then(removeLoadingElement());
 };
 
 function getClickForCart() {
@@ -112,9 +128,16 @@ function loadClearButton() {
   clearButton.addEventListener('click', clearCart);
 }
 
+/* function sumTotalCart() {
+  const newList = localStorage.getItem('Carrinho de Compras');
+  const list = JSON.parse(newList);
+  console.log(newList);
+} */
+
 window.onload = async function onload() {
   await getFilteredProducts();
   getClickForCart();
   reloadCart();
   loadClearButton();
+  /* sumTotalCart(); */
 };
