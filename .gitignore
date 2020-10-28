@@ -4,3 +4,10 @@
 .vscode
 node_modules/
 cypress/reports
+cypress
+forestadmin
+sd-0x-project-shopping-cart-tests-master
+cypress.json
+package-lock.json
+package.json
+reporter.json
