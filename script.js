@@ -9,7 +9,7 @@ const findItemAndReturnArrayObject = async (item) => {
       return object.results;
     }
   } catch (error) {
-    alert(error);
+    return alert(error);
   }
 };
 
@@ -27,11 +27,11 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function appendElementInAClass(classFather, classChild) {
-  father = document.querySelector(classFather);
-  child = document.querySelector(classChild);
-  father.appendChild(child);
-}
+// function appendElementInAClass(classFather, classChild) {
+//   father = document.querySelector(classFather);
+//   child = document.querySelector(classChild);
+//   father.appendChild(child);
+// }
 
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
