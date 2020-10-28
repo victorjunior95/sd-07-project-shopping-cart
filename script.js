@@ -47,12 +47,14 @@ function calcularPreco(price, type) {
   const precoHTML = document.querySelector('.total-price');
   const total = Number(precoHTML.innerText);
   if (type === 'add') precoHTML.innerText = Number(parseFloat(total + price).toFixed(2));
+  // assim que eu adiciono um item no carrinho eu adiciono a add
   if (type === 'remove') precoHTML.innerText = Number(parseFloat(total - price).toFixed(2));
+  // na mesma funcao que eu vou remover um item do carrinho eu tambem removo o preco do total
 }
 
 async function cartItemClickListener(evento) {
   const valorUmPorduto = document.querySelector('.cart__item').innerHTML.split('$');
-  const price = + valorUmPorduto[1];
+  const price = +valorUmPorduto[1];
   // cada vez que eu aperto o bota do adcionar carrinho eu ativo e evento do bota
   // que busca o elemento desejado que foi definido na funcao createCartItemElement
   calcularPreco(price, 'remove');
