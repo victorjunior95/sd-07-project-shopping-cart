@@ -43,26 +43,10 @@ const converteObjetosDesejados = (objetosDoResult) => {
   });
 };
 
-let total = 0;
-const sumPrice = async (price) => {
-  total += Number(price.toFixed(2));
-  document.querySelector('.total-price').innerHTML = total;
-};
-
-const subtractPrice = async () => {
-  console.log(document.querySelector('.cart__items').innerHTML);
-  const totalPrice = document.querySelector('.cart__item').innerHTML.split('$');
-  total -= Number(totalPrice[1]).toFixed(2);
-  if (total < 0 || document.querySelector('.cart__items').innerHTML === '') {
-    // se o cart__item estiver sem item tambem zera
-    total = 0;
-  }
-  document.querySelector('.total-price').innerHTML = Number(total.toFixed(2));
-};
-
 // requisto 3 , somente esse retorno
-function cartItemClickListener(evento) {
-  subtractPrice();
+  async function cartItemClickListener(evento) {
+  const price = +evento.target.innerText.slice(-6).replace('$', '');
+  calculatePrice(price, 'remove');
   evento.target.remove();
   // o prorpio li selecionado vai ser apagado
 }
@@ -72,7 +56,6 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
-  sumPrice(salePrice);
   return li;
 }
 
@@ -89,8 +72,8 @@ const trataID = (id) => {
       salePrice: objeto.price,
     };
     listaOl.appendChild(createCartItemElement(produto));
+    calculatePrice(produto.salePrice, 'add')
   })
-  .catch(error => showAlert(error));
 };
 
 function getSkuFromProductItem(item) {
@@ -131,3 +114,10 @@ window.onload = function onload() {
   CarregaProdutos();
   // primeira função a ser feita,vai buscar os dados
 };
+
+  function calculatePrice(price, type) {
+  const priceInput = document.querySelector('.total-price');
+  const total = Number(priceInput.innerText);
+  if (type === 'add') priceInput.innerText = (total + Number(parseFloat(price.toFixed(2))));
+  if (type === 'remove') priceInput.innerText = (total - Number(parseFloat(price.toFixed(2))));
+}
