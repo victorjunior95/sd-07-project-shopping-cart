@@ -53,10 +53,10 @@ const fetchItemByID = async (event) => {
   const clickedElementParent = event.target.parentNode;
   const idItem = getSkuFromProductItem(clickedElementParent);
   const cartList = document.querySelector('.cart__items');
-  const loading = createLoading();
-  cartList.appendChild(loading);
+  cartList.appendChild(createLoading());
   const objectItemID = await fetchAPIByID(idItem);
-  cartList.remove('.loading');
+  const loading = document.querySelector('.loading');
+  cartList.removeChild(loading);
   const { id: sku, title: name, price: salePrice } = objectItemID;
   const cartItemList = createCartItemElement({ sku, name, salePrice });
   cartList.appendChild(cartItemList);
