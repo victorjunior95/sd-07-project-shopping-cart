@@ -3,6 +3,16 @@ const saveList = () => {
   localStorage.setItem('listaComputers', document.querySelector('.cart__items').innerHTML);
 };
 
+
+const sum = function (array) {
+  return array.reduce((acc, item) => {
+    const string = item.innerHTML;
+    const value = string.substring(string.indexOf('$') + 1);
+    acc += parseInt(value, 10);
+    return acc;
+  }, 0)
+}
+
 // Consulta: https://stackoverflow.com/questions/14779878/how-to-iterate-through-a-nodelist-functional-style
 const totalPriceSum = async () => {
   try {
@@ -10,12 +20,12 @@ const totalPriceSum = async () => {
     const totalPrices = await document.querySelector('.total-price');
 
     if (items.error) {
-      throw new Error(items.error)
+      throw new Error(items.error);
     } else {
       totalPrices.innerText = sum(items);
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 }
 
@@ -68,15 +78,6 @@ function createProductItemElement({
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
-}
-
-const sum = function (array) {
-  return array.reduce((acc, item) => {
-    const string = item.innerHTML;
-    const value = string.substring(string.indexOf('$') + 1);
-    acc += parseInt(value, 10);
-    return acc;
-  }, 0)
 }
 
 // Utilizar para criar os componentes HTML referentes a um item do carrinho
