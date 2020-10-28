@@ -6,7 +6,7 @@ function createProductImageElement(imageSource) {
 }
 
 const saveItens = () => {
-  localStorage.setItem('cart', document.querySelector('.cart__items').innerHTML);
+  localStorage.setItem('savedCart', document.querySelector('.cart__items').innerHTML);
 };
 
 function createCustomElement(element, className, innerText) {
@@ -45,12 +45,6 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   return li;
 }
 
-function addItensToCart(object) {
-  const goToCart = document.querySelector('.cart__items');
-  const addTolist = createCartItemElement(object);
-  goToCart.appendChild(addTolist);
-}
-
 function fetchProducts() {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   const products = document.querySelector('.items');
@@ -59,6 +53,12 @@ function fetchProducts() {
   .then(infos => infos.results.forEach((item) => {
     products.appendChild(createProductItemElement(item));
   }));
+}
+
+function addItensToCart(object) {
+  const goToCart = document.querySelector('.cart__items');
+  const addTolist = createCartItemElement(object);
+  goToCart.appendChild(addTolist);
 }
 
 const fetchItensOfCart = async (itemId) => {
@@ -71,11 +71,7 @@ const fetchItensOfCart = async (itemId) => {
 
 const addItensToList = (event) => {
   if (event.target.className === 'item__add') {
-    // estamos dizendo que o se o item que iniciou o envento tem essa classe faça:
-    // no caso o item é o botão
-    // e no caso vai ser de um produto específico que queremos colocar no carrinho
     const itemId = getSkuFromProductItem(event.target.parentElement);
-    // ele está pegando o valor do ID, que é o inetrText
     fetchItensOfCart(itemId);
   }
 };
@@ -99,10 +95,10 @@ emptyCart();
 window.onload = async () => {
   setTimeout(function () {
     fetchProducts();
-    const load = document.querySelector('.loading');
-    load.remove();
+    const loadingSite = document.querySelector('.loading');
+    loadingSite.innerHTML = '';
   }, 1000);
-  const cart = document.querySelector('.cart__items');
-  cart.innerHTML = localStorage.getItem('cart');
+  const getCart = document.querySelector('.cart__items');
+  getCart.innerHTML = localStorage.getItem('savedCart');
   document.querySelectorAll('li').forEach(product => product.addEventListener('click', cartItemClickListener));
 };
