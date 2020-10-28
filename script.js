@@ -5,6 +5,14 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+const clearCart = () => {
+  const clearButton = document.querySelector('.empty-cart');
+  const cartOl = document.querySelector('.cart__items');
+  clearButton.addEventListener('click', function () {
+    cartOl.innerHTML = '';
+  });
+};
+
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
   e.className = className;
@@ -33,7 +41,6 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 function addingToCart(product) {
   const API_URL = `https://api.mercadolibre.com/items/${product}`;
-  console.log(API_URL);
   const cartOl = document.querySelector('.cart__items');
   fetch(API_URL)
   .then(response => response.json())
@@ -83,11 +90,12 @@ const generateProducts = () => {
 const recoveredList = () => {
   const cartOl = document.querySelector('.cart__items');
   cartOl.innerHTML = localStorage.getItem('savedOl');
-  const itemsLi = cartOl.querySelectorAll('li');
+  const itemsLi = document.querySelectorAll('li');
   itemsLi.forEach(item => item.addEventListener('click', cartItemClickListener));
 };
 
 window.onload = function onload() {
   generateProducts();
   recoveredList();
+  clearCart();
 };
