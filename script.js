@@ -113,9 +113,8 @@ const fetchProducts = (product) => {
       if (object.error) {
         throw new Error(object.error);
       } else {
-        const addItems = document.querySelector('.items');
-        addItems.appendChild(createLoading());
         filterResultsObject(object.results);
+        const addItems = document.querySelector('.items');
         const loading = document.querySelector('.loading');
         addItems.removeChild(loading);
       }
@@ -141,7 +140,13 @@ const newSession = () => {
   ol.innerHTML = localStorage.getItem('cartList');
 };
 
+const callLoading = () => {
+  const addItems = document.querySelector('.items');
+  addItems.appendChild(createLoading());
+};
+
 window.onload = function onload() {
+  callLoading();
   fetchProducts('computador');
   clearCartButton();
   newSession();
