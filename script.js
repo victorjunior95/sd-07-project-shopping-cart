@@ -42,7 +42,7 @@ function cartItemClickListener(event) {
 
 function reloadCart() {
   const cartList = document.querySelector('.cart__items');
-  if (localStorage.getItem('Carrinho de Compras') !== 'undefined' || localStorage.getItem('Carrinho de Compras') !== 'null') {
+  if (localStorage.getItem('Carrinho de Compras') !== null) {
     const newList = localStorage.getItem('Carrinho de Compras');
     const list = JSON.parse(newList);
     list.forEach((item) => {
@@ -85,7 +85,7 @@ const getFilteredProducts = () => {
       const itemToBeInserted = createProductItemElement({ sku, name, image });
       itemsSection.appendChild(itemToBeInserted);
     }))
-    .then(removeLoadingElement());
+    .then(removeLoadingElement);
 };
 
 const insertProductInCart = (event) => {
