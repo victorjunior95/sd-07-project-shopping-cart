@@ -1,3 +1,5 @@
+
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -71,20 +73,27 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 
 const addItensInHTML = async () => {
-  const endPoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
-  const resultOfFetchAPI = await fetch(endPoint);
-  const objectWithAllInformationFetch = await resultOfFetchAPI.json();
-  const arrayResultsOfJsonObject = objectWithAllInformationFetch.results;
-  const objectToFunctionCreateProductItemElement = {};
-  const sectionItems = document.querySelector('.items');
-
-  arrayResultsOfJsonObject.forEach((item) => {
-    objectToFunctionCreateProductItemElement.sku = item.id;
-    objectToFunctionCreateProductItemElement.name = item.title;
-    objectToFunctionCreateProductItemElement.image = item.thumbnail;
-
-    sectionItems.appendChild(createProductItemElement(objectToFunctionCreateProductItemElement));
-  });
+  const loading = document.createElement('p');
+  loading.innerText = 'loading...';
+  const cart = document.querySelector('.items');
+  cart.appendChild(loading);
+  try {
+    const endPoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
+    const resultOfFetchAPI = await fetch(endPoint);
+    const objectWithAllInformationFetch = await resultOfFetchAPI.json();
+    const arrayResultsOfJsonObject = objectWithAllInformationFetch.results;
+    const objectToFunctionCreateProductItemElement = {};
+    const sectionItems = document.querySelector('.items');
+    cart.removeChild(loading);
+    arrayResultsOfJsonObject.forEach((item) => {
+      objectToFunctionCreateProductItemElement.sku = item.id;
+      objectToFunctionCreateProductItemElement.name = item.title;
+      objectToFunctionCreateProductItemElement.image = item.thumbnail;
+      sectionItems.appendChild(createProductItemElement(objectToFunctionCreateProductItemElement));
+    });
+  } catch (erro) {
+    alert(erro);
+  }
 };
 
 const addItemIntoCar = () => {
@@ -118,6 +127,7 @@ window.onload = function onload() {
     const ol = document.querySelector('.cart__items');
     ol.innerHTML = '';
     addToLocalStorage();
+    totalPriceHTML();
   });
 
   const createLIFromLocalStorage = (textItem) => {
