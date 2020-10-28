@@ -13,6 +13,8 @@ function createCustomElement(element, className, innerText) {
 }
 
 function cartItemClickListener(event) {
+  const cartOl = document.querySelector('.cart__items');
+  cartOl.removeChild(event.target);
   console.log(event);
 }
 
@@ -54,7 +56,6 @@ function createProductItemElement({ sku, name, image }) {
     addingToCart(getSkuFromProductItem(product));
   });
   section.appendChild(addItemButton);
-
   return section;
 }
 
