@@ -30,7 +30,9 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   const cartList = document.querySelector('.cart__items');
+  // removeItem([...(event.target).parentNode.children].indexOf(event.target));
   cartList.removeChild(event.target);
+  localStorage.setItem('cartContent', cartList.innerHTML);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -41,9 +43,9 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-const showAlert = (message) => {
-  window.alert(message);
-};
+// const showAlert = (message) => {
+//   window.alert(message);
+// };
 
 const fetchCart = async (toMyCart) => {
   const endpoint = `https://api.mercadolibre.com/items/${toMyCart}`;
@@ -62,6 +64,7 @@ const fetchCart = async (toMyCart) => {
         salePrice: price,
       });
       cartList.appendChild(cartItem);
+      localStorage.setItem('cartContent', cartList.innerHTML);
     }
   } catch (error) {
     console.log(error);
@@ -95,12 +98,52 @@ const fetchQuery = async (myQuery) => {
       handleQuery(object.results);
     }
   } catch (error) {
-    showAlert(error);
+    console.log(error);
   }
 };
+
+const reload = () => {
+  const list = localStorage.getItem('cartContent');
+  const cartList = document.querySelector('.cart__items');
+  cartList.innerHTML = list;
+  cartList.childNodes.forEach(element => 
+    element.addEventListener('click', cartItemClickListener)
+  );
+}
 
 window.onload = function onload() {
   // Query for computer
   const QUERY = 'computador';
   fetchQuery(QUERY);
+  reload();
 };
+
+// function salvaLista() {
+//   localStorage.clear();
+//   const cartList = document.querySelectorAll('li');
+//   for (let element = 0; element < cartList.length; element += 1) {
+//     const  = {
+//       task: listaTarefas[elemento].innerText,
+//       status: situacao,
+//     };
+//     const starefa = JSON.stringify(tarefa);
+//     localStorage.setItem(elemento, starefa);
+//   }
+// }
+
+// function apagaLista() {
+//   localStorage.clear();
+//   inicioListaTarefas.innerHTML = 'Lista de Tarefas';
+// }
+// function recriaLista() {
+//   for (let elemento = 0; elemento < localStorage.length; elemento += 1) {
+//     const starefa = localStorage.getItem(elemento);
+//     const tarefa = document.createElement('li');
+//     const objetoTarefa = JSON.parse(starefa);
+//     tarefa.innerText = objetoTarefa.task;
+//     if (objetoTarefa.status === 'completed') {
+//       tarefa.classList.toggle('completed');
+//     }
+//     inicioListaTarefas.appendChild(tarefa);
+//   }
+// }
