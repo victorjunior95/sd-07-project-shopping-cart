@@ -1,7 +1,3 @@
-window.onload = function onload() { 
-  loadProducts(`computador`)
-};
-
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -50,12 +46,15 @@ const loadProducts = (search) => {
 
   fetch(endpoint)
     .then(response => response.json())
-    .then(object => {
+    .then((object) => {
       object.results.forEach((product) => {
-        const {id: sku, title: name, thumbnail: image} = product;
+        const { id: sku, title: name, thumbnail: image } = product;
         const item = createProductItemElement({ sku, name, image });
         list.appendChild(item);
       });
     });
-}
+};
 
+window.onload = function onload() { 
+  loadProducts('computador');
+};
