@@ -39,6 +39,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.dataset.salePrice = salePrice;
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
@@ -105,9 +106,19 @@ const fetchQuery = async (myQuery) => {
 const reload = () => {
   const list = localStorage.getItem('cartContent');
   const cartList = document.querySelector('.cart__items');
+  let cartTotal = 0;
   cartList.innerHTML = list;
-  cartList.childNodes.forEach(element =>
-    element.addEventListener('click', cartItemClickListener));
+  cartList.childNodes.forEach(element => {
+    element.addEventListener('click', cartItemClickListener);
+    cartTotal += parseInt(element.dataset.salePrice);
+    console.log(cartTotal.toFixed(2));
+  });
+};
+
+const emptyCart = () => {
+  const cartList = document.querySelector('.cart__items');
+  cartList.innerHTML = '';
+  localStorage.clear();
 };
 
 window.onload = function onload() {
@@ -115,6 +126,8 @@ window.onload = function onload() {
   const QUERY = 'computador';
   fetchQuery(QUERY);
   reload();
+  const emptyCartButton = document.querySelector('.empty-cart');
+  emptyCartButton.addEventListener('click', emptyCart);
 };
 
 // function salvaLista() {
