@@ -70,6 +70,14 @@ function fetchContent() {
     });
 }
 
+function emptyCart() {
+  const cartItems = document.querySelector('.cart__items');
+  cartItems.innerText = '';
+  const emptyCartButton = document.querySelector('.empty-cart');
+  emptyCartButton.addEventListener('click', emptyCart);
+}
+
 window.onload = function onload() {
   fetchContent();
+  emptyCart();
 };
