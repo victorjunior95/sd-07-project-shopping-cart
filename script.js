@@ -50,14 +50,14 @@ const sumPrice = async (price) => {
 };
 
 const subtractPrice = async () => {
-  console.log(document.querySelector('.cart__items').innerHTML)
+  console.log(document.querySelector('.cart__items').innerHTML);
   const totalPrice = document.querySelector('.cart__item').innerHTML.split('$');
   total -= Number(totalPrice[1]).toFixed(2);
   if (total < 0 || document.querySelector('.cart__items').innerHTML === '') {
     // se o cart__item estiver sem item tambem zera
     total = 0;
   }
-   document.querySelector('.total-price').innerHTML = Number(total.toFixed(2));
+  document.querySelector('.total-price').innerHTML = Number(total.toFixed(2));
 };
 
 // requisto 3 , somente esse retorno
