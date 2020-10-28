@@ -8,7 +8,7 @@ const sum = function (array) {
   array.forEach((item) => {
     const string = item.innerHTML;
     const value = string.substring(string.indexOf('$') + 1);
-    acc += parseInt(value, 10);
+    acc += parseFloat(value);
   });
   return acc;
 };
@@ -22,7 +22,7 @@ const totalPriceSum = async () => {
     if (items.error) {
       throw new Error(items.error);
     } else {
-      totalPrices.innerText = sum(items);
+      totalPrices.innerText = sum(items).toFixed(2);
     }
   } catch (error) {
     console.log(error);
