@@ -16,10 +16,15 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+function storageSetItem() {
+  const allLi = document.querySelector('ol');
+  localStorage.setItem('item', allLi.innerHTML);
+}
+
 function cartItemClickListener(event) {
-  // coloque seu código aqui
   const ol = document.querySelector('.cart__items');
   ol.removeChild(event.target);
+  storageSetItem();
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -35,7 +40,10 @@ function fetchById(id) {
   const url = `https://api.mercadolibre.com/items/${id}`;
   fetch(url)
     .then(response => response.json())
-    .then(product => ol.appendChild(createCartItemElement(product)))
+    .then((product) => {
+      ol.appendChild(createCartItemElement(product));
+      storageSetItem();
+    })
     .catch(error => console.log(error));
 }
 
@@ -53,6 +61,7 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
     // Target: faz retornar o elemento onde o evento ocorreu.
     // ParentNode: retorna o pai do nó especificado, como um objeto node.
     fetchById(id);
+    // storageSetItem();
   });
   section.appendChild(buttonAddProduct);
 
@@ -70,5 +79,8 @@ const fetchApi = (product) => {
 };
 
 window.onload = function onload() {
+  const allLi = document.querySelector('ol');
+  allLi.innerHTML = localStorage.getItem('item');
+
   fetchApi('computador');
 };
