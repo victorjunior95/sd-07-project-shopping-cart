@@ -30,7 +30,6 @@ function cartItemClickListener(event) {
   event.target.remove(); // https://www.w3schools.com/jsref/met_element_remove.asp
 }
 
-
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -51,7 +50,7 @@ function showItemCart(id) {
 }
 
 function clickButton() {
-  const selectedItems = document.querySelectorAll('button');
+  const selectedItems = document.querySelectorAll('button.item__add');
   selectedItems.forEach(item => item.addEventListener('click', () => {
     showItemCart(getSkuFromProductItem(item.parentElement));
   }));
@@ -70,6 +69,14 @@ function productList() {
     .then(object => clickButton(object));
 }
 
+function cleanCart() {
+  document.querySelector('.empty-cart').addEventListener('click', () => {
+    document.querySelector('.cart__items').innerText = '';
+  });
+}
+
+
 window.onload = function onload() {
   productList();
+  cleanCart();
 };
