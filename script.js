@@ -1,3 +1,5 @@
+// node_modules/.bin/cypress run
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -25,7 +27,7 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  event.target.remove(); // https://www.w3schools.com/jsref/met_element_remove.asp
 }
 
 
