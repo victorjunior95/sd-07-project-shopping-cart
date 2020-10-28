@@ -1,4 +1,29 @@
 
+function loadItemStorage() {
+  return (JSON.parse(localStorage.getItem('items')));
+}
+
+function addStorage(items) {
+  return localStorage.setItem('items', JSON.stringify(items));
+}
+
+function removeStorage(index) {
+  const items = loadItemStorage();
+  items.splice(index, 1);
+  addStorage(items);
+}
+
+function addItemLocalStorage({ id, title, price }) {
+  const items = [];
+  if ((typeof (Storage) !== 'undefined') && (localStorage.length !== 0)) {
+    const storageValues = loadItemStorage();
+    storageValues.forEach((element) => {
+      items.push(element);
+    });
+  }
+  items.push({ id, title, price });
+  addStorage(items);
+}
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
