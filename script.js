@@ -5,13 +5,13 @@ const findItemAndReturnArrayObject = async (item) => {
     const object = await response.json();
     if (object.error) {
     throw new Error(object.error);
-  } else {
-    return object.results;
-  }
+    } else {
+      return object.results;
+    }
   } catch (error) {
     alert(error);
   }
-}
+};
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -28,21 +28,21 @@ function createCustomElement(element, className, innerText) {
 }
 
 const loadProducts = () => {
-  const endPoint = 'https://api.mercadolibre.com/sites/MLB/search?q=$COMPUTADOR'
+  const endPoint = 'https://api.mercadolibre.com/sites/MLB/search?q=$COMPUTADOR';
   fetch(endPoint)
   .then(response => (response.json()))
-  .then(response => response.results.forEach(product => {
+  .then(response => response.results.forEach((product) => {
     const items = document.querySelector('.items');
-    const { id: sku, title: name, thumbnail: image} = product;
+    const { id: sku, title: name, thumbnail: image } = product;
     const item = createProductItemElement({ sku, name, image });
     items.appendChild(item);
   }));
 };
 
-function appendElementInAClass (classFather, classChild) {
-  classFather = document.querySelector(classFather);
-  classChild = document.querySelector(classChild);
-  classFather.appendChild(classChild);
+function appendElementInAClass(classFather, classChild) {
+  father = document.querySelector(classFather);
+  child = document.querySelector(classChild);
+  father.appendChild(child);
 }
 
 function createProductItemElement({ sku, name, image }) {
