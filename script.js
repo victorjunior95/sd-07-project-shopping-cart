@@ -113,7 +113,11 @@ const fetchProducts = (product) => {
       if (object.error) {
         throw new Error(object.error);
       } else {
+        const addItems = document.querySelector('.items');
+        addItems.appendChild(createLoading());
         filterResultsObject(object.results);
+        const loading = document.querySelector('.loading');
+        addItems.removeChild(loading);
       }
     });
 };
