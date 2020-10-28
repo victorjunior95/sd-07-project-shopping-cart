@@ -22,7 +22,7 @@ const totalPriceSum = async () => {
     if (items.error) {
       throw new Error(items.error);
     } else {
-      totalPrices.innerText = sum(items).toFixed(2);
+      totalPrices.innerText = Math.round(sum(items) * 100) / 100;
     }
   } catch (error) {
     console.log(error);
@@ -139,6 +139,7 @@ const computerSearch = async (id) => {
 
 const clearList = function () {
   document.querySelector('.cart__items').innerHTML = '';
+  totalPriceSum();
 };
 
 
