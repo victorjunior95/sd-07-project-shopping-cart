@@ -12,6 +12,10 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+function cartItemClickListener(event) {
+  event.target.remove();
+}
+
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -48,10 +52,6 @@ function createProductItemElement({ sku, name, image }) {
   }));
   section.appendChild(button);
   return section;
-}
-
-function cartItemClickListener(event) {
-  event.target.remove();
 }
 
 const loadProducts = (search) => {
