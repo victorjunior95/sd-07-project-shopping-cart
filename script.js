@@ -28,27 +28,29 @@ function createProductItemElement({
   return section;
 }
 
-// function getSkuFromProductItem(item) {
-//   return item.querySelector('span.item__sku').innerText;
-// }
+function getSkuFromProductItem(item) {
+  return item.querySelector('span.item__sku').innerText;
+}
 
-// function cartItemClickListener(event) {
-//   // coloque seu código aqui
-// }
+// 3
+function cartItemClickListener(event) {
+  const selectedItemsOl = document.querySelector('.cart__items');
+  selectedItemsOl.removeChild(event.target);
+}
 
-// function createCartItemElement({
-//   sku,
-//   name,
-//   salePrice,
-// }) {
-//   const li = document.createElement('li');
-//   li.className = 'cart__item';
-//   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-//   li.addEventListener('click', cartItemClickListener);
-//   return li;
-// }
+function createCartItemElement({
+  id: sku,
+  title: name,
+  price: salePrice,
+}) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
+}
 
-
+// 1
 const fetchCurrency = async () => {
   const list = document.querySelector('.items');
   const endPoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
@@ -59,10 +61,37 @@ const fetchCurrency = async () => {
       list.appendChild(createProductItemElement(checkItem));
     });
   } catch (error) {
-    console.log(error);
+    alert(error);
   }
 };
 
+// 2
+function createItems(item) {
+  const selected = document.querySelector('.cart__items');
+  const createItem = createCartItemElement(item);
+  selected.appendChild(createItem);
+}
+// 2.1
+function searchItems(ItemID) {
+  const endPoint = `https://api.mercadolibre.com/items/${ItemID}`;
+  fetch(endPoint)
+    .then(response => response.json())
+    .then(item => createItems(item));
+}
+// 2.2
+function addItems(event) {
+  if (event.target.className === 'item__add') {
+    const item = getSkuFromProductItem(event.target.parentElement);
+    searchItems(item);
+  }
+}
+// 2.3
+function addWithClick() {
+  const addClick = document.querySelector('.items');
+  addClick.addEventListener('click', addItems);
+}
+
 window.onload = function onload() {
   fetchCurrency();
+  addWithClick();
 };
