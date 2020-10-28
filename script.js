@@ -111,9 +111,19 @@ const loadLocalStorage = () => {
   }
 };
 
+const emptyCart = () => {
+  const btnEmptyCart = document.querySelector('.empty-cart');
+  btnEmptyCart.addEventListener('click', function () {
+    document.querySelector('.cart__items').innerHTML = '';
+    localStorage.clear();
+    prices();
+  });
+};
+
 window.onload = function onload() {
   const span = createCustomElement('span', 'total-price', 0);
   document.querySelector('.cart').appendChild(span);
   fetchList();
   loadLocalStorage();
+  emptyCart();
 };
