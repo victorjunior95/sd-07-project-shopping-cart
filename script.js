@@ -37,8 +37,6 @@ function cartItemClickListener(event) {
   // coloque seu código aqui
 }
 
-
-
 const handleResult = (object) => {
   const results = {};
   object.forEach((entry) => {
@@ -55,27 +53,37 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
-};
+}
+
+const requestApiAddCart =  async (idProduct) => {
+  const requestEndPoint = await fetch(`https://api.mercadolibre.com/items/${idProduct}`);
+  try {
+    const objectResponse = await requestEndPoint.json();
+    const { id, title, price } = objectResponse;
+    const item = { sku: id, name: title, salePrice: price };
+    return item;
+} catch (error) {
+  console.log(error);
+}
+}
 
 const addCart = (buttons) => {
   buttons.forEach((button) => {
     button.addEventListener('click', async (event) => {
       if (button === event.currentTarget) {
         const idProduct = getSkuFromProductItem(button.parentNode);
-        const requestEndPoint = await fetch(`https://api.mercadolibre.com/items/${idProduct}`);
-        try {
-          const objectResponse = await requestEndPoint.json();
-          const { id, title, price } = objectResponse;
-          const item = { sku: id, name: title, salePrice: price };
-          const cart = document.querySelector('.cart__items');
-          cart.appendChild(createCartItemElement(item));
-        } catch (error) {
-          console.log(error);
-        }
+        const item = await requestApiAddCart(idProduct);
+        const cart = document.querySelector('.cart__items');
+        cart.appendChild(createCartItemElement(item));
       }
-    })
-  })
-}
+    });
+  });
+};
+
+const listnerButton = () => {
+  const buttonAddCart = document.querySelectorAll('.item__add');
+  addCart(buttonAddCart);
+};
 
 const getListItems = async () => {
   try {
@@ -89,14 +97,6 @@ const getListItems = async () => {
   listnerButton();
 };
 
-const listnerButton = () => {
-  const buttonAddCart = document.querySelectorAll('.item__add');
-  addCart(buttonAddCart);
-}
-
 window.onload = function onload() {
   getListItems();
 };
-
-
-
