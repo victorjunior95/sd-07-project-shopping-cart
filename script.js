@@ -131,7 +131,7 @@ const addProduct = async (sku) => {
     const response = await fetch(endPoint);
     const object = await response.json();
     if (!object) {
-      throw new Error('Erro');
+      throw new Error(object.error);
     } else {
       addCart(object);
     }
