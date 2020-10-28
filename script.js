@@ -57,7 +57,7 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 const selectChild = (arrayValue) => { // referência Rodrigo Sudario - Requisito 1
   const sectionHere = document.querySelector('.items'); // section que vai receber o novo item
   const value = Object.entries(arrayValue); // para formar arrays com chave e valor
-  value.forEach((product) =>
+  value.forEach(product =>
     sectionHere.appendChild(createProductItemElement(product[1])),
   ); // para que a section receba cada um dos objetos como filhos
 };
@@ -66,7 +66,7 @@ const functionToFetch = () => { // requisito 1
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   fetch(endpoint)
     .then(response => response.json())
-    .then(object => {
+    .then((object) => {
       document.querySelector('.loading').remove();
       selectChild(object.results);
     }) // envia só o results
