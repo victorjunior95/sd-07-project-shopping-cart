@@ -12,6 +12,15 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+const addLoading = () => {
+  document.querySelector('.container').appendChild(
+    createCustomElement('h1', 'loading', 'loading...'));
+}
+
+const removeLoading = () => {
+  document.querySelector('.loading').remove()
+}
+
 const cleanCart = () => {
   const cleanButton = document.querySelector('.empty-cart');
   const cart = document.querySelector('.cart__items');
@@ -38,7 +47,9 @@ const addProductsOnCart = (id) => {
   fetch(endpoint)
     .then(response => response.json())
     .then((item) => {
+      addLoading();
       document.querySelector('.cart__items').appendChild(createCartItemElement(item));
+      removeLoading();
     });
 };
 
@@ -68,11 +79,13 @@ const loadProducts = (search) => {
   fetch(endpoint)
     .then(response => response.json())
     .then((object) => {
+      addLoading();
       object.results.forEach((product) => {
         const { id: sku, title: name, thumbnail: image } = product;
         const item = createProductItemElement({ sku, name, image });
         list.appendChild(item);
       });
+      removeLoading();
     });
 };
 
