@@ -44,9 +44,9 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 //  codigo aqui
 window.onload = () => {
-  const searchItem = async (query) => {
+  const searchItem = async () => {
     const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
-    fetch(endpoint).then((response) => response.json().then((data) => {
+    fetch(endpoint).then((response) => response.json().then(data => {
       const items = document.querySelector('.items');
       data.results.forEach((product) => {
         const { id: sku, title: name, thumbnail: image } = product;
@@ -54,9 +54,9 @@ window.onload = () => {
         items.appendChild(item);
       });
     }));
-  }
+  };
   searchItem();
-}
+};
 
 const addCart = document.querySelector('.item__add');
 
@@ -65,9 +65,9 @@ addCart.addEventListener(click, () => {
   fetch(endpointCart).then((response) => {
     response.json().then((data) => {
       const cart = document.querySelector('.cart__items');
-      const { id: sku, title: name, price:salePrice} = data.result;
-      const cartItem = createCartItemElement({sku, name, price});
+      const { id: sku, title: name, price: salePrice } = data.result;
+      const cartItem = createCartItemElement({ sku, name, price });
       cart.appendChild(cartItem);
-    })
-  })
-},itemId)
+    });
+  });
+}, itemId );

@@ -75,11 +75,11 @@
   text-align: center;
 }
 
-.card-img-top{
+.card-img-top {
   height: 300px;
 }
 
-.card{
+.card {
   border: 1px ridge green;
   text-align: center;
   justify-content: center;
@@ -93,12 +93,12 @@
   margin-bottom: 10px;
 }
 
-.search-form{
+.search-form {
   width: 600px;
   display: flex;
 }
 
-.custom-file{
+.custom-file {
   width: 40%;
   padding-top: 10px;
 }
