@@ -1,3 +1,5 @@
+window.onload = function onload() { };
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -12,42 +14,6 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-const showAlert = (message) => {
-  window.alert(message);
-};
-
-function createCartItemElement({ sku, name, salePrice }) {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
-  return li;
-}
-
-function cartItemClickListener(event) {
-
-}
-
-const fetchAddCar = async (id) => {
-  const endpoint = `https://api.mercadolibre.com/items/${id}`;
-  try {
-    const response = await fetch(endpoint);
-    const object = await response.json();
-    const ol = document.querySelector('.cart__items');
-    if (object.error) {
-      throw new Error(object.error);
-    } else {
-      ol.appendChild(createCartItemElement(object));
-    }
-  } catch (error) {
-    showAlert(error);
-  }
-};
-
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
-
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
@@ -57,13 +23,23 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createProductImageElement(image));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
 
-  const button = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
-  button.addEventListener('click', function (event) {
-    const parentElement = event.target.parentElement;
-    fetchAddCar(getSkuFromProductItem(parentElement));
-  });
-  section.appendChild(button);
   return section;
+}
+
+function getSkuFromProductItem(item) {
+  return item.querySelector('span.item__sku').innerText;
+}
+
+function cartItemClickListener(event) {
+
+}
+
+function createCartItemElement({ sku, name, salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
 }
 
 const loadProducts = () => {
