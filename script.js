@@ -52,6 +52,28 @@ function calcularPreco(price, type) {
   // na mesma funcao que eu vou remover um item do carrinho eu tambem removo o preco do total
 }
 
+const salvar = () => {
+  const carrinho = document.querySelector('.cart__items');
+  const PRICES = document.querySelector('.total-price').innerHTML;
+  localStorage.setItem('Carrinho_de_compras', carrinho.innerHTML);
+  localStorage.setItem('prices', PRICES);
+};
+
+const carregar = () => {
+  document.querySelector('.cart__items').innerHTML = localStorage.getItem('Carrinho_de_compras');
+  // vou inserir dentro de cart__items todos os items do
+  // storage que automaticamente serao estruturados
+  // nas devidas posiçoes
+  console.log(localStorage.getItem('prices'));
+  document.querySelector('.total-price').innerHTML = localStorage.getItem('prices');
+  // vou pegar o total price e inserir no html carregado
+  document.querySelectorAll('.cart__item')
+  .forEach(li => li.addEventListener('click', cartItemClickListener));
+  // vou pegar todos os elementos carregados e para cada 
+  // elemento vou aplicar a funcao ja feita de remover
+  // os itens , remove e subtrai
+};
+
 async function cartItemClickListener(evento) {
   const indiceUmPorduto = +evento.target.innerText.indexOf('$') + 1;
   // com o indexOf eu pego o indice do elemento que eu quero + 1
@@ -72,7 +94,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
-  // cada vez que eu clicar em algum elemento na lista esse evento ocorre 
+  // cada vez que eu clicar em algum elemento na lista esse evento ocorre
   return li;
 }
 
@@ -136,22 +158,3 @@ window.onload = function onload() {
   // primeira função a ser feita,vai buscar os dados
   carregar();
 };
-
-const salvar = () => {
-  const carrinho = document.querySelector('.cart__items');
-  const PRICES = document.querySelector('.total-price').innerHTML
-  localStorage.setItem('Carrinho_de_compras', carrinho.innerHTML);
-  localStorage.setItem('prices', PRICES);
-};
-
-const carregar = () => {
-  document.querySelector('.cart__items').innerHTML = localStorage.getItem('Carrinho_de_compras');
-  // vou inserir dentro de cart__items todos os items do storage que automaticamente serao estruturados
-  // nas devidas posiçoes
-  console.log(localStorage.getItem('prices'));
-  document.querySelector('.total-price').innerHTML = localStorage.getItem('prices');
-  // vou pegar o total price e inserir no html carregado
-  document.querySelectorAll('.cart__item').forEach(li => li.addEventListener('click', cartItemClickListener));
-  // vou pegar todos os elementos carregados e para cada elemento vou aplicar a funcao ja feita de remover
-  // os itens , remove e subtrai
-}
