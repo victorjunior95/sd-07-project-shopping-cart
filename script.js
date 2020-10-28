@@ -1,9 +1,3 @@
-window.onload = async function onload() {
-  loadProducts();
-  // const arrayOfProducts = await findItemAndReturnArrayObject();
-  // console.log(arrayOfProducts);
-};
-
 const findItemAndReturnArrayObject = async (item) => {
   const endPoint = `https://api.mercadolibre.com/sites/MLB/search?q=${item}`;
   try {
@@ -78,3 +72,9 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
+
+window.onload = async function onload() {
+  loadProducts();
+  const arrayOfProducts = await findItemAndReturnArrayObject();
+  console.log(arrayOfProducts);
+};
