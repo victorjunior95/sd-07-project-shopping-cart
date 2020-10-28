@@ -17,12 +17,12 @@ header {
   align-items: center;
   justify-content: center;
   height: 60px;
-  background-color: rgb( 255 , 241 , 89 );
+  background-color: rgb( 255, 241, 89 );
 }
 
 .empty-cart {
   align-self: center;
-  background-color: rgb( 255 , 241 , 89 );
+  background-color: rgb( 255, 241, 89 );
   font-size: 15px;
   border-radius: 5px;
   height: 30px;
@@ -35,7 +35,7 @@ header {
   flex-basis: 70%;
   flex-wrap: wrap;
   justify-content: center;
-  background-color: rgb( 239 , 239 , 239 );
+  background-color: rgb( 239, 239, 239 );
   margin-right: 5px;
   border-radius: 5px;
 }
@@ -55,7 +55,7 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgb( 255 , 241 , 89 );
+  background-color: rgb( 255, 241, 89 );
   width: 30px;
   height: 100%;
   margin-right: 10px;
@@ -98,7 +98,7 @@ header {
 }
 
 .item .item__add {
-  background-color: rgb( 52 , 131 , 250 );
+  background-color: rgb( 52, 131, 250 );
   border: 0;
   cursor: pointer;
   margin: 0;
@@ -108,7 +108,7 @@ header {
 }
 
 .item__add:hover {
-  background-color: rgb( 38 , 100 , 192 );
+  background-color: rgb( 38, 100, 192 );
   transition: 0.5s;
 }
 
@@ -126,13 +126,13 @@ li {
   border-radius: 5px;
   margin-right: 10px;
   padding: 5px;
-  background-color: rgb( 239 , 239 , 239 );
+  background-color: rgb( 239, 239, 239 );
 }
 
 .cart-items {
   margin-top: 3px;
   margin-bottom: 5px;
-  background-color: rgb( 255 , 255 , 255 );
+  background-color: white;
   overflow-y: scroll;
   overflow-x: hidden;
   height: 85%;
