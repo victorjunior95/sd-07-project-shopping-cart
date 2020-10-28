@@ -12,13 +12,6 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-const productId = (click) => {
-  const parentElement = click.target.parentElement;
-  const id = parentElement.firstChild.innerText;
-
-  return id;
-};
-
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
@@ -40,6 +33,13 @@ const fetchProductAndAddCart = (itemID) => {
   fetch(`https://api.mercadolibre.com/items/${itemID}`)
     .then(response => response.json())
     .then(product => ol.appendChild(createCartItemElement(product)));
+};
+
+const productId = (click) => {
+  const parentElement = click.target.parentElement;
+  const id = parentElement.firstChild.innerText;
+
+  return id;
 };
 
 const createButtonAndAddEvent = () => {
@@ -76,3 +76,5 @@ const createListItems = (QUERY) => {
 window.onload = function onload() {
   createListItems('computadores');
 };
+
+// Os requisitos 1 e 2 foram feitos após as apresentações sobre cada um feitas por @vitor-rc1 e @ThiagoEsdras, por isso as lógicas podem estar bastante parecidas.
