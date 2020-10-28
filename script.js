@@ -1,25 +1,30 @@
-let cartItensStorage = localStorage.getItem('cardItemsArr') !== null ?
+let cardItemsArrStorage = localStorage.getItem('cardItemsArr') !== null ?
   JSON.parse(localStorage.getItem('cardItemsArr')) : [];
 
 const upDateLocalStorage = () => {
-  localStorage.setItem('cardItemsArr', JSON.stringify(cartItensStorage));
+  localStorage.setItem('cardItemsArr', JSON.stringify(cardItemsArrStorage));
 };
 
-const cardItemsCaucPrices = async () => {
-  const price = await cartItensStorage.reduce((acc, crr) => crr.salePrice + acc, 0);
-  document.querySelector('.total-price').innerText = `${price}`;
+const calcCardItemsArrStorage = async () => {
+  const price = await cardItemsArrStorage.reduce((acc, crr) => crr.salePrice + acc, 0);
+  document.querySelector('#total-price').innerText = `${price}`;
 };
 
-const rmCartItemArr = (event) => {
-  const index = cartItensStorage.findIndex(element => element.sku === event.target.id);
-  cartItensStorage.splice(index, 1);
+const removeCardItemsArrStorage = (event) => {
+  const index = cardItemsArrStorage.findIndex(element => element.sku === event.target.id);
+  cardItemsArrStorage.splice(index, 1);
   upDateLocalStorage();
-  cardItemsCaucPrices();
+  calcCardItemsArrStorage();
 };
 
-const cardItemsRemoveLi = (event) => {
-  rmCartItemArr(event);
+const pushCardItemsArrStorage = (obj) => {
+  cardItemsArrStorage.push(obj);
+  upDateLocalStorage();
+};
+
+const removeCardItemsLi = (event) => {
   document.querySelector('.cart__items').removeChild(event.target);
+  removeCardItemsArrStorage(event);
 };
 
 const createCartItemElement = ({ sku, name, salePrice }) => {
@@ -27,7 +32,7 @@ const createCartItemElement = ({ sku, name, salePrice }) => {
   li.className = 'cart__item';
   li.id = `${sku}`;
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cardItemsRemoveLi);
+  li.addEventListener('click', removeCardItemsLi);
   return li;
 };
 
@@ -35,28 +40,36 @@ const getProductsObj = url => fetch(url)
   .then(result => result.json())
   .then(result => result);
 
-const getSkuFromProductItem = item => item.target.parentNode.querySelector('span').innerText;
-
-const setCartItemsArr = (obj) => {
-  cartItensStorage.push(obj);
-  upDateLocalStorage();
-};
-// Melhorar esses async
-const addCardItens = async (item) => {
-  const skuItem = getSkuFromProductItem(item);
+const getCartItemsApi = async (item) => {
+  const skuItem = item.target.parentNode.querySelector('span').innerText;
   const product = await getProductsObj(`https://api.mercadolibre.com/items/${skuItem}`);
   const { id: sku, title: name, price: salePrice } = product;
-  const element = createCartItemElement({ sku, name, salePrice });
-  const cartItems = document.querySelector('.cart__items');
-  cartItems.appendChild(element);
-  setCartItemsArr({ sku, name, salePrice });
-  cardItemsCaucPrices();
+  return { sku, name, salePrice };
+}
+
+const addCardItems = async (item) => {
+  const product = await getCartItemsApi(item);
+  const element = createCartItemElement(product);
+  document.querySelector('.cart__items').appendChild(element);
+  pushCardItemsArrStorage(product);
+  calcCardItemsArrStorage();
+};
+
+const createCartItensOfArrStorage = (cardItemsArrStorageArr) => {
+  if (localStorage.getItem('cardItemsArr') !== null) {
+    cardItemsArrStorageArr.forEach((e) => {
+      const { sku, name, salePrice } = e;
+      const element = createCartItemElement({ sku, name, salePrice });
+      document.querySelector('.cart__items').appendChild(element);
+    });
+    calcCardItemsArrStorage();
+  }
 };
 
 const createCustomElement = (element, className, innerText) => {
   const e = document.createElement(element);
   if (element === 'button') {
-    e.addEventListener('click', addCardItens);
+    e.addEventListener('click', addCardItems);
   }
   e.className = className;
   e.innerText = innerText;
@@ -87,7 +100,7 @@ const loadingMsg = () => {
   document.querySelector('.items').appendChild(container);
 };
 
-const outputProducts = async () => {
+const loadProducts = async () => {
   const products = await getProductsObj('https://api.mercadolibre.com/sites/MLB/search?q=computador');
   const container = document.querySelector('.items');
   products.results.forEach((product) => {
@@ -98,29 +111,18 @@ const outputProducts = async () => {
   container.removeChild(document.querySelector('.loading'));
 };
 
-const createCartItensOfStorage = (cartItensStorageArr) => {
-  if (localStorage.getItem('cardItemsArr') !== null) {
-    cartItensStorageArr.forEach((e) => {
-      const { sku, name, salePrice } = e;
-      const element = createCartItemElement({ sku, name, salePrice });
-      document.querySelector('.cart__items').appendChild(element);
-    });
-    cardItemsCaucPrices();
-  }
-};
-
-const btnEmptyCartEvent = () => {
+const btnEmptyCardAddListener = () => {
   document.querySelector('.empty-cart').addEventListener('click', () => {
-    cartItensStorage = [];
+    cardItemsArrStorage = [];
     upDateLocalStorage();
-    cardItemsCaucPrices();
+    calcCardItemsArrStorage();
     document.querySelector('.cart__items').innerHTML = '';
   });
 };
 
 window.onload = function onload() {
+  btnEmptyCardAddListener();
+  createCartItensOfArrStorage(cardItemsArrStorage);
   loadingMsg();
-  outputProducts();
-  createCartItensOfStorage(cartItensStorage);
-  btnEmptyCartEvent();
+  loadProducts();
 };
