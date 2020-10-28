@@ -53,11 +53,10 @@ function calcularPreco(price, type) {
 }
 
 async function cartItemClickListener(evento) {
-  const valorUmPorduto = document.querySelector('.cart__item').innerHTML.split('$');
-  const price = +valorUmPorduto[1];
-  // cada vez que eu aperto o bota do adcionar carrinho eu ativo e evento do bota
+  const valorUmPorduto = +evento.target.innerText.slice(-6).replace('$', '');
+    // cada vez que eu aperto o bota do adcionar carrinho eu ativo e evento do bota
   // que busca o elemento desejado que foi definido na funcao createCartItemElement
-  calcularPreco(price, 'remove');
+  calcularPreco(valorUmPorduto, 'remove');
   evento.target.remove();
   // o prorpio li selecionado vai ser apagado
 }
@@ -124,4 +123,9 @@ const CarregaProdutos = () => {
 window.onload = function onload() {
   CarregaProdutos();
   // primeira função a ser feita,vai buscar os dados
+};
+
+const saveLocalStorage = () => {
+  const shoppingCart = document.querySelector('.cart__items');
+  localStorage.setItem('List_Shopping_Cart', shoppingCart.innerHTML);
 };
