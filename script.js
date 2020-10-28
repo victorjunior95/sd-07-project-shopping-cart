@@ -43,10 +43,19 @@ const converteObjetosDesejados = (objetosDoResult) => {
   });
 };
 
-// requisto 3 , somente esse retorno
-  async function cartItemClickListener(evento) {
-  const price = +evento.target.innerText.slice(-6).replace('$', '');
-  calculatePrice(price, 'remove');
+function calcularPreco(price, type) {
+  const precoHTML = document.querySelector('.total-price');
+  const total = Number(precoHTML.innerText);
+  if (type === 'add') precoHTML.innerText = Number(parseFloat(total + price).toFixed(2));
+  if (type === 'remove') precoHTML.innerText = Number(parseFloat(total - price).toFixed(2));
+}
+
+async function cartItemClickListener(evento) {
+  const valorUmPorduto = document.querySelector('.cart__item').innerHTML.split('$');
+  const price =+ valorUmPorduto[1];
+  // cada vez que eu aperto o bota do adcionar carrinho eu ativo e evento do bota
+  // que busca o elemento desejado que foi definido na funcao createCartItemElement
+  calcularPreco(price, 'remove');
   evento.target.remove();
   // o prorpio li selecionado vai ser apagado
 }
@@ -72,7 +81,7 @@ const trataID = (id) => {
       salePrice: objeto.price,
     };
     listaOl.appendChild(createCartItemElement(produto));
-    calculatePrice(produto.salePrice, 'add')
+    calcularPreco(produto.salePrice, 'add')
   })
 };
 
@@ -114,10 +123,3 @@ window.onload = function onload() {
   CarregaProdutos();
   // primeira função a ser feita,vai buscar os dados
 };
-
-  function calculatePrice(price, type) {
-  const priceInput = document.querySelector('.total-price');
-  const total = Number(priceInput.innerText);
-  if (type === 'add') priceInput.innerText = (total + Number(parseFloat(price.toFixed(2))));
-  if (type === 'remove') priceInput.innerText = (total - Number(parseFloat(price.toFixed(2))));
-}
