@@ -153,8 +153,19 @@ const CarregaProdutos = () => {
     .catch(error => showAlert(error));
 };
 
+const botApagar = () => {
+  document.querySelector('.empty-cart').addEventListener('click', () => {
+    document.querySelector('.cart__items').innerHTML = '';
+    document.querySelector('.total-price').innerHTML = 0;
+    salvar();
+  });
+}
+
 window.onload = function onload() {
   CarregaProdutos();
   // primeira função a ser feita,vai buscar os dados
   carregar();
+  botApagar();
 };
+
+
