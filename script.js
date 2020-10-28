@@ -40,11 +40,16 @@ function cartItemClickListener(event) {
   father.removeChild(children);
 }
 
-function createCartItemElement(object) {
-  const { id: sku, title: name, price: salePrice } = object;
+function createCartItemElement(parameter) {
   const li = document.createElement('li');
   li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+
+  if (typeof parameter === 'string') li.innerText = parameter;
+  else {
+    const { id: sku, title: name, price: salePrice } = parameter;
+    li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  }
+
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
@@ -54,6 +59,17 @@ async function fetchAPI(api) {
 }
 
 const addProducts = (product, tag) => tag.appendChild(product);
+
+function addLocalStorage(string) {
+  if (localStorage.getItem('items')) {
+    const arrayItems = JSON.parse(localStorage.getItem('items'));
+    arrayItems.push(string);
+    localStorage.setItem('items', JSON.stringify(arrayItems));
+  } else {
+    const listOfItems = [string];
+    localStorage.setItem('items', JSON.stringify(listOfItems));
+  }
+}
 
 async function consultProduct(supply) {
   const API = `${API_URL}${supply}`;
@@ -66,11 +82,22 @@ async function consultProduct(supply) {
     .catch(err => err);
 }
 
+function loadShoppingCart(){
+  if (localStorage.getItem('items')) {
+    const arrayItems = JSON.parse(localStorage.getItem('items'));
+    arrayItems.forEach((item) => {
+      const itemList = createCartItemElement(item);
+      addProducts(itemList, ol);
+    })
+  }
+}
+
 async function addProductToCart(id) {
   const endPoint = `https://api.mercadolibre.com/items/${id}`;
   await fetchAPI(endPoint)
     .then((data) => {
       const li = createCartItemElement(data);
+      addLocalStorage(li.innerText);
       addProducts(li, ol);
     })
     .catch(err => alert(err));
@@ -84,4 +111,7 @@ itemsSection.addEventListener('click', function (event) {
   }
 });
 
-window.onload = function onload() { consultProduct('computador'); };
+window.onload = function onload() {
+  consultProduct('computador');
+  loadShoppingCart();
+};
