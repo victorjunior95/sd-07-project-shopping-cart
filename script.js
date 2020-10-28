@@ -75,7 +75,14 @@ async function itemsFounded() {
     );
 }
 
+const btnClear = () => {
+  document.querySelector('.empty-cart').addEventListener('click', () => {
+    document.querySelector('.cart__items').innerHTML = '';
+  });
+};
+
 window.onload = async function onload() {
   await itemsFounded();
   checkProdutct();
+  btnClear();
 };
