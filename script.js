@@ -7,7 +7,7 @@ const upDateLocalStorage = () => {
 
 const calcCardItemsArrStorage = async () => {
   const price = await cardItemsArrStorage.reduce((acc, crr) => crr.salePrice + acc, 0);
-  document.querySelector('#total-price').innerText = `${price}`;
+  document.querySelector('.total-price').innerText = `${price}`;
 };
 
 const removeCardItemsArrStorage = (event) => {
