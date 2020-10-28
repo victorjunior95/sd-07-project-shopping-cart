@@ -57,6 +57,12 @@ async function registerToCart(itemID) {
   }
 }
 
+async function addToCart(productAdd) {
+  const itemID = getSkuFromProductItem(productAdd.target.parentElement);
+  await registerToCart(itemID);
+  registeCartLocalStorage('add');
+}
+
 const loadProducts = () => {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   fetch(endpoint).then(response => response.json()).then((data) => {
