@@ -3,15 +3,15 @@ const saveList = () => {
   localStorage.setItem('listaComputers', document.querySelector('.cart__items').innerHTML);
 };
 
-
 const sum = function (array) {
-  return array.reduce((acc, item) => {
+  let acc = 0;
+  array.forEach((item) => {
     const string = item.innerHTML;
     const value = string.substring(string.indexOf('$') + 1);
     acc += parseInt(value, 10);
-    return acc;
-  }, 0)
-}
+  });
+  return acc;
+};
 
 // Consulta: https://stackoverflow.com/questions/14779878/how-to-iterate-through-a-nodelist-functional-style
 const totalPriceSum = async () => {
@@ -143,7 +143,6 @@ const clearList = function () {
 
 
 window.onload = function onload() {
-
   loadList();
   document.addEventListener('click', (event) => {
     if (event.target.className === 'item__add') {
