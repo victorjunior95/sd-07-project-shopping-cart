@@ -1,4 +1,4 @@
-const showAlert = (message) => {
+const displayAlert = (message) => {
   window.alert(message);
 };
 
@@ -41,10 +41,12 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   return section;
 }
 
-const productOnScreen = (vector) => {
+
+const productOnScreen = async (vector) => {
   const items = document.querySelector('.items');
-  vector.forEach(product => items.appendChild(createProductItemElement(product)));
+  await vector.forEach(product => items.appendChild(createProductItemElement(product)));
 };
+
 const fecthComputerAsyncAwait = async () => {
   const endpoints = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   try {
@@ -53,10 +55,11 @@ const fecthComputerAsyncAwait = async () => {
     if (objekt.error) {
       throw new Error(objekt.error);
     } else {
+      document.querySelector('h3').remove();
       productOnScreen(objekt.results);
     }
   } catch (error) {
-    showAlert(error);
+    displayAlert(error);
   }
 };
 
@@ -107,7 +110,7 @@ const fecthIdAsyncAwait = async (id) => {
       addCartListById(object);
     }
   } catch (error) {
-    showAlert(error);
+    displayAlert(error);
   }
 };
 // function getSkuFromProductItem(item) {
@@ -132,10 +135,18 @@ function emptyCar() {
     showTotalPrice(sumPrices());
   });
 }
+const awaitLoading = () => {
+  const tagHeader = document.querySelector('header');
+  const tagh3 = document.createElement('h3');
+  tagh3.innerHTML = 'loading...';
+  tagh3.className = 'loading';
+  tagHeader.appendChild(tagh3);
+};
 
 window.onload = async function onload() {
-  goBackInsideCart();
+  awaitLoading();
   await fecthComputerAsyncAwait();
+  goBackInsideCart();
   catchAllProductEvent();
   emptyCar();
   showTotalPrice(sumPrices());
@@ -144,3 +155,4 @@ window.onload = async function onload() {
 // Referência bibliográfica
 // https://github.com/tryber/sd-07-project-shopping-cart/pulls/EduSouza-programmer
 // https://www.youtube.com/watch?v=SB9PQrOJVz4
+// https://www.youtube.com/watch?v=45XFqfbCVrE
