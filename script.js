@@ -55,16 +55,16 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-const requestApiAddCart =  async (idProduct) => {
+const requestApiAddCart = async (idProduct) => {
   const requestEndPoint = await fetch(`https://api.mercadolibre.com/items/${idProduct}`);
   try {
     const objectResponse = await requestEndPoint.json();
     const { id, title, price } = objectResponse;
     const item = { sku: id, name: title, salePrice: price };
     return item;
-} catch (error) {
-  console.log(error);
-}
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 const addCart = (buttons) => {
