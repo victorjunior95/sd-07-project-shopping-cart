@@ -12,6 +12,14 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+const cleanCart = () => {
+  const cleanButton = document.querySelector('.empty-cart');
+  const cart = document.querySelector('.cart__items');
+  cleanButton.addEventListener('click', () => {
+    cart.innerHTML = '';
+  });
+};
+
 function cartItemClickListener(event) {
   event.target.remove();
 }
@@ -70,4 +78,5 @@ const loadProducts = (search) => {
 
 window.onload = function onload() {
   loadProducts('computador');
+  cleanCart();
 };
