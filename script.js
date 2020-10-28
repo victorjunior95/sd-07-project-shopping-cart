@@ -12,6 +12,21 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+const productId = (click) => {
+  const parentElement = click.target.parentElement;
+  const id = parentElement.firstChild.innerText;
+
+  return id;
+};
+
+function getSkuFromProductItem(item) {
+  return item.querySelector('span.item__sku').innerText;
+}
+
+function cartItemClickListener(event) {
+  // iniciando o projeto. VAMOS COM TUDO :rocket:
+}
+
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -19,13 +34,6 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
-
-const productId = (click) => {
-  const parentElement = click.target.parentElement;
-  const id = parentElement.firstChild.innerText;
-
-  return id;
-};
 
 const fetchProductAndAddCart = (itemID) => {
   const ol = document.querySelector('.cart__items');
@@ -64,14 +72,6 @@ const createListItems = (QUERY) => {
 
   return section;
 };
-
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
-
-function cartItemClickListener(event) {
-  // iniciando o projeto. VAMOS COM TUDO :rocket:
-}
 
 window.onload = function onload() {
   createListItems('computadores');
