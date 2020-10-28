@@ -143,6 +143,4 @@ window.onload = async function onload() {
 
 // Referência bibliográfica
 // https://github.com/tryber/sd-07-project-shopping-cart/pulls/EduSouza-programmer
-// Referência bibliográfica
-// https://github.com/tryber/sd-07-project-shopping-cart/pulls/EduSouza-programmer
 // https://www.youtube.com/watch?v=SB9PQrOJVz4
