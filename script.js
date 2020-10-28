@@ -59,21 +59,6 @@ const salvar = () => {
   localStorage.setItem('prices', PRICES);
 };
 
-const carregar = () => {
-  document.querySelector('.cart__items').innerHTML = localStorage.getItem('Carrinho_de_compras');
-  // vou inserir dentro de cart__items todos os items do
-  // storage que automaticamente serao estruturados
-  // nas devidas posiçoes
-  console.log(localStorage.getItem('prices'));
-  document.querySelector('.total-price').innerHTML = localStorage.getItem('prices');
-  // vou pegar o total price e inserir no html carregado
-  document.querySelectorAll('.cart__item')
-  .forEach(li => li.addEventListener('click', cartItemClickListener));
-  // vou pegar todos os elementos carregados e para cada 
-  // elemento vou aplicar a funcao ja feita de remover
-  // os itens , remove e subtrai
-};
-
 async function cartItemClickListener(evento) {
   const indiceUmPorduto = +evento.target.innerText.indexOf('$') + 1;
   // com o indexOf eu pego o indice do elemento que eu quero + 1
@@ -88,6 +73,21 @@ async function cartItemClickListener(evento) {
   salvar();
   // o prorpio li selecionado vai ser apagado
 }
+
+const carregar = () => {
+  document.querySelector('.cart__items').innerHTML = localStorage.getItem('Carrinho_de_compras');
+  // vou inserir dentro de cart__items todos os items do
+  // storage que automaticamente serao estruturados
+  // nas devidas posiçoes
+  console.log(localStorage.getItem('prices'));
+  document.querySelector('.total-price').innerHTML = localStorage.getItem('prices');
+  // vou pegar o total price e inserir no html carregado
+  document.querySelectorAll('.cart__item')
+  .forEach(li => li.addEventListener('click', cartItemClickListener));
+  // vou pegar todos os elementos carregados e para cada
+  // elemento vou aplicar a funcao ja feita de remover
+  // os itens , remove e subtrai
+};
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
