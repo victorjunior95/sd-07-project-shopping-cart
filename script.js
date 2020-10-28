@@ -45,7 +45,7 @@ const getCartItemsApi = async (item) => {
   const product = await getProductsObj(`https://api.mercadolibre.com/items/${skuItem}`);
   const { id: sku, title: name, price: salePrice } = product;
   return { sku, name, salePrice };
-}
+};
 
 const addCardItems = async (item) => {
   const product = await getCartItemsApi(item);
