@@ -82,13 +82,13 @@ async function consultProduct(supply) {
     .catch(err => err);
 }
 
-function loadShoppingCart(){
+function loadShoppingCart() {
   if (localStorage.getItem('items')) {
     const arrayItems = JSON.parse(localStorage.getItem('items'));
     arrayItems.forEach((item) => {
       const itemList = createCartItemElement(item);
       addProducts(itemList, ol);
-    })
+    });
   }
 }
 
