@@ -106,10 +106,9 @@ const reload = () => {
   const list = localStorage.getItem('cartContent');
   const cartList = document.querySelector('.cart__items');
   cartList.innerHTML = list;
-  cartList.childNodes.forEach(element => 
-    element.addEventListener('click', cartItemClickListener)
-  );
-}
+  cartList.childNodes.forEach(element =>
+    element.addEventListener('click', cartItemClickListener));
+};
 
 window.onload = function onload() {
   // Query for computer
