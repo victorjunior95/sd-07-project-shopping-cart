@@ -35,6 +35,9 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
+  const currentItem = event.currentTarget;
+  const getElementFather = currentItem.parentNode;
+  getElementFather.removeChild(currentItem);
 }
 
 const handleResult = (object) => {
