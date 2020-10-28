@@ -159,7 +159,7 @@ const botApagar = () => {
     document.querySelector('.total-price').innerHTML = 0;
     salvar();
   });
-}
+};
 
 window.onload = function onload() {
   CarregaProdutos();
@@ -167,5 +167,3 @@ window.onload = function onload() {
   carregar();
   botApagar();
 };
-
-
