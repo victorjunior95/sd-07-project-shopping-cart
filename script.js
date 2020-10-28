@@ -12,11 +12,6 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-const addSectionItems = (section) => {
-  const sectionItems = document.querySelector('.items');
-  sectionItems.appendChild(section);
-};
-
 const newObjectItems = (object) => {
   const newObj = {};
   newObj.sku = object.id;
@@ -25,15 +20,11 @@ const newObjectItems = (object) => {
   return newObj;
 };
 
-const createNewSectionItems = (object) => {
-  addSectionItems(createProductItemElement(object));
-};
-
 const removeLoadMessage = () => {
   const container = document.querySelector('.items');
   const p = document.querySelector('.loading');
   container.removeChild(p);
-}
+};
 
 const fetchApiShopping = (product) => {
   const endPoint = `https://api.mercadolibre.com/sites/MLB/search?q=${product}`;
@@ -42,22 +33,22 @@ const fetchApiShopping = (product) => {
       removeLoadMessage();
       return response.json();
     })
-    .then((data) =>
+    .then(data =>
       data.results.forEach((object) => {
         // console.log(object);
         createNewSectionItems(newObjectItems(object));
-      })
+      }),
     );
 };
 
 // SOMANDO ITEMS DA LISTA
 const sumPriceListItems = (price) => {
-  const strong = document.querySelector('.total-price')
-  strong.innerText = `TOTAL R$: ${price}`
+  const strong = document.querySelector('.total-price');
+  strong.innerText = `TOTAL R$: ${price}`;
 };
 
 const updatePrice = () => {
-  let array = JSON.parse(localStorage.getItem('list'));
+  const array = JSON.parse(localStorage.getItem('list'));
   let value = 0;
   // console.log(array);
   array.forEach((li) => {
@@ -76,7 +67,7 @@ const addLocalStorage = (key, value) => {
 const arrayLocalStorage = () => {
   const array = [];
   const ol = document.querySelector('.cart__items');
-  ol.childNodes.forEach((li) => array.push(li.innerText));
+  ol.childNodes.forEach(li => array.push(li.innerText));
   return array;
 };
 
@@ -116,7 +107,7 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 // ATUALIZAR LOCAL STORAGE
 const updateLiStorage = () => {
   // console.log(JSON.parse(localStorage.getItem('list'))[1]);
-  let array = JSON.parse(localStorage.getItem('list'));
+  const array = JSON.parse(localStorage.getItem('list'));
   if (array) {
     array.forEach((info) => {
       // console.log(info)
@@ -141,7 +132,7 @@ const fetchApiIds = (event) => {
   const id = getSkuFromProductItem(event.target.parentNode);
   const endPoint = `https://api.mercadolibre.com/items/${id}`;
   fetch(endPoint)
-    .then((response) => response.json())
+    .then(response => response.json())
     .then((data) => {
       createCartItemElement(data);
     });
@@ -158,12 +149,21 @@ function createProductItemElement({ sku, name, image }) {
   const button = createCustomElement(
     'button',
     'item__add',
-    'Adicionar ao carrinho!'
+    'Adicionar ao carrinho!',
   );
   button.addEventListener('click', fetchApiIds);
   section.appendChild(button);
   return section;
 }
+
+const addSectionItems = (section) => {
+  const sectionItems = document.querySelector('.items');
+  sectionItems.appendChild(section);
+};
+
+const createNewSectionItems = (object) => {
+  addSectionItems(createProductItemElement(object));
+};
 
 // LIMPANDO TODA LISTA
 const clearItems = () => {
