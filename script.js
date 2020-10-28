@@ -24,19 +24,21 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   return li;
 }
 
+const saveLocal = () => { // requisito 4
+  const allList = document.querySelector('ol'); // todas as li novas a partir do pai
+  localStorage.setItem('Item', allList.innerHTML);
+};
 function getSkuFromProductItem(item) { // requisito 2
   const justId = item.querySelector('span.item__sku').innerText;
   const endpoint = `https://api.mercadolibre.com/items/${justId}`;
   fetch(endpoint)
     .then(response => response.json())
-    .then(data =>
-    document.querySelector('.cart__items').appendChild(createCartItemElement(data)));
+    .then((data) => {
+      document.querySelector('.cart__items').appendChild(createCartItemElement(data));
+      saveLocal();
+    });
 }
 
-const saveLocal = () => { // requisito 4
-  const allList = document.querySelector('ol'); // todas as li novas a partir do pai
-  localStorage.setItem('Item', allList.innerHTML);
-};
 function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   const section = document.createElement('section');
   section.className = 'item';
@@ -47,7 +49,6 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   const returnButton = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
   returnButton.addEventListener('click', (event) => {
     getSkuFromProductItem(event.target.parentNode); // buscar o id que é irmão do button
-    saveLocal();
   });
   section.appendChild(returnButton);
   return section;
