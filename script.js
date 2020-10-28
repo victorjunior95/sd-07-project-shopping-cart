@@ -3,12 +3,28 @@ function saveData() {
   localStorage.setItem('itensSaved', cartList.innerHTML);
 }
 
+function getDataFromLocalStorage() {
+  const cartList = document.querySelector('.cart__items');
+  cartList.innerHTML = localStorage.getItem('itensSaved');
+}
+
 function removeAll() {
   const ol = document.querySelector('.cart__items');
   ol.innerHTML = '';
   const totalPrice = document.querySelector('.total-price');
   totalPrice.innerHTML = 0;
   saveData();
+}
+
+function createElementLoading() {
+  const elementLoading = document.createElement('p');
+  elementLoading.className = 'loading';
+  elementLoading.innerText = 'loading...';
+  return elementLoading;
+}
+
+function removeElementLoading() {
+  document.querySelector('.loading').remove();
 }
 
 function clearCartButton() {
@@ -18,11 +34,6 @@ function clearCartButton() {
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
-}
-
-function getDataFromLocalStorage() {
-  const cartList = document.querySelector('.cart__items');
-  cartList.innerHTML = localStorage.getItem('itensSaved');
 }
 
 const sumPrice = () => {
@@ -61,6 +72,7 @@ const productByID = async (itemId) => {
     .catch(() => console.log('Algo deu errado na seleção do item.'));
 };
 
+// Lógica retirada do projeto de Rafael Guimarães: Turma 7.
 const fetchItemByID = async (event) => {
   const clickedElementParent = event.target.parentNode;
   const idItem = getSkuFromProductItem(clickedElementParent);
@@ -104,15 +116,17 @@ function createProductItemElement({ sku, name, image }) {
 const productListing = async () => {
   const endPoint = 'https://api.mercadolibre.com/sites/MLB/search?q=$computador';
   const items = document.querySelector('.items');
+  const loadingElement = createElementLoading();
+  items.append(loadingElement);
   const list = await fetch(endPoint)
     .then(response => response.json())
     .then(jsonObject => jsonObject.results)
     .catch(() => console.log('Algo deu errado!'));
-
   list.forEach((element) => {
     items.appendChild(
       createProductItemElement({ sku: element.id, name: element.title, image: element.thumbnail }));
   });
+  removeElementLoading();
 };
 
 window.onload = function onload() {
