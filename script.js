@@ -47,9 +47,7 @@ const addProductsOnCart = (id) => {
   fetch(endpoint)
     .then(response => response.json())
     .then((item) => {
-      addLoading();
       document.querySelector('.cart__items').appendChild(createCartItemElement(item));
-      removeLoading();
     });
 };
 
