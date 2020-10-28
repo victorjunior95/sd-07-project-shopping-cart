@@ -1,12 +1,28 @@
+function saveData() {
+  const cartList = document.querySelector('.cart__items');
+  localStorage.setItem('itensSaved', cartList.innerHTML);
+}
+
 function removeAll() {
   const ol = document.querySelector('.cart__items');
   ol.innerHTML = '';
   const totalPrice = document.querySelector('.total-price');
   totalPrice.innerHTML = 0;
+  saveData();
+}
+
+function clearCartButton() {
+  const buttonCleanAll = document.querySelector('.empty-cart');
+  buttonCleanAll.addEventListener('click', removeAll);
 }
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
+}
+
+function getDataFromLocalStorage() {
+  const cartList = document.querySelector('.cart__items');
+  cartList.innerHTML = localStorage.getItem('itensSaved');
 }
 
 const sumPrice = () => {
@@ -21,6 +37,7 @@ const sumPrice = () => {
 function cartItemClickListener(event) {
   const clickedItem = event.target;
   clickedItem.parentNode.removeChild(clickedItem);
+  saveData();
   sumPrice();
 }
 
@@ -52,6 +69,7 @@ const fetchItemByID = async (event) => {
   const cartItemList = createCartItemElement({ sku, name, salePrice });
   const cartList = document.querySelector('.cart__items');
   cartList.appendChild(cartItemList);
+  saveData();
   sumPrice();
 };
 
@@ -75,7 +93,6 @@ function createProductImageElement(imageSource) {
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
-
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
@@ -99,6 +116,7 @@ const productListing = async () => {
 };
 
 window.onload = function onload() {
-  removeAll();
   productListing();
+  getDataFromLocalStorage();
+  clearCartButton();
 };
