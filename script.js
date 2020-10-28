@@ -42,7 +42,7 @@ const fetchCart = (addCart) => {
   const ol = document.querySelector('.cart__items');
   const loading = document.createElement('h1.loading');
   ol.appendChild(loading);
-  loading.innerText = 'loading...'
+  loading.innerText = 'loading...';
   fetch(addCart)
     .then(response => response.json())
     .then((teste) => {
@@ -103,7 +103,7 @@ const fetchItems = () => {
   const ol = document.querySelector('.cart__items');
   const loading = document.createElement('h1.loading');
   ol.appendChild(loading);
-  loading.innerText = 'loading...'
+  loading.innerText = 'loading...';
   fetch(endpoint)
     .then(response => response.json())
     .then((object) => {
