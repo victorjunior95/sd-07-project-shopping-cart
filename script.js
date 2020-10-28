@@ -40,7 +40,8 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 
 const fetchCart = (addCart) => {
   const ol = document.querySelector('.cart__items');
-  const loading = document.createElement('h1.loading');
+  const loading = document.createElement('h1');
+  loading.classList.add('loading');
   ol.appendChild(loading);
   loading.innerText = 'loading...';
   fetch(addCart)
@@ -101,7 +102,8 @@ const addItems = (itemFromArray) => {
 const fetchItems = () => {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   const ol = document.querySelector('.cart__items');
-  const loading = document.createElement('h1.loading');
+  const loading = document.createElement('h1');
+  loading.classList.add('loading');
   ol.appendChild(loading);
   loading.innerText = 'loading...';
   fetch(endpoint)
