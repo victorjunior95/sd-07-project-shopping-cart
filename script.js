@@ -40,7 +40,7 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 
 const fetchCart = (addCart) => {
   const loading = document.querySelector('.loading');
-  loading.innerHTML = 'Loading...';
+  loading.innerHTML = 'loading...';
   fetch(addCart)
     .then(response => response.json())
     .then((teste) => {
@@ -99,7 +99,7 @@ const addItems = (itemFromArray) => {
 const fetchItems = () => {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   const loading = document.querySelector('.loading');
-  loading.innerHTML = 'Loading...';
+  loading.innerHTML = 'loading...';
   fetch(endpoint)
     .then(response => response.json())
     .then((object) => {
