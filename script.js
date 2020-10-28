@@ -29,10 +29,19 @@ const createNewSectionItems = (object) => {
   addSectionItems(createProductItemElement(object));
 };
 
+const removeLoadMessage = () => {
+  const container = document.querySelector('.items');
+  const p = document.querySelector('.loading');
+  container.removeChild(p);
+}
+
 const fetchApiShopping = (product) => {
   const endPoint = `https://api.mercadolibre.com/sites/MLB/search?q=${product}`;
   fetch(endPoint)
-    .then((response) => response.json())
+    .then((response) => {
+      removeLoadMessage();
+      return response.json();
+    })
     .then((data) =>
       data.results.forEach((object) => {
         // console.log(object);
@@ -175,5 +184,4 @@ window.onload = function onload() {
   fetchApiShopping('computador');
   updateLiStorage();
   clearShoppingCar();
-  // sumPriceListItems(1);
 };
