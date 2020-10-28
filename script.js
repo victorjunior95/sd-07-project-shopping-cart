@@ -90,22 +90,30 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-const fectchItem = endpoint => (
+function loadAPI(isVisible) {
+  const loading = document.querySelector('.loading');
+  if (isVisible) {
+    loading.style.visibility = 'visible';
+  } else loading.style.visibility = 'hidden';
+}
 
-    fetch(endpoint)
-      .then(response => response.json())
-      .then((item) => {
-        document.querySelector('.cart__items')
-        .appendChild(
-          createCartItemElement(
-            itemObjectCreate(
-              ['sku', 'name', 'salePrice'],
-              ['id', 'title', 'price'],
-              item)));
-        totalCartPrice();
-        cartLocalStorage();
-      })
-);
+const fectchItem = (endpoint) => {
+  loadAPI(true);
+  fetch(endpoint)
+    .then(response => response.json())
+    .then((item) => {
+      document.querySelector('.cart__items')
+      .appendChild(
+        createCartItemElement(
+          itemObjectCreate(
+            ['sku', 'name', 'salePrice'],
+            ['id', 'title', 'price'],
+            item)));
+      totalCartPrice();
+      cartLocalStorage();
+      loadAPI(false);
+    });
+};
 
 function handlerEventClick(event) {
   if (event.target.className === 'item__add') {
@@ -121,7 +129,7 @@ function handlerEventClick(event) {
 
 function fectchItemSearch(query) {
   const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${query}`;
-
+  loadAPI(true);
   fetch(endpoint)
     .then(response => response.json())
     .then((data) => {
@@ -133,6 +141,7 @@ function fectchItemSearch(query) {
               ['sku', 'name', 'image'],
               ['id', 'title', 'thumbnail'],
               item))));
+      loadAPI(false);
     });
 }
 
