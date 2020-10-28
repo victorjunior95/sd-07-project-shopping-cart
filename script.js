@@ -24,7 +24,7 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   return section;
 }
 
-// totalPrice foi baseada na função do Thiago Pederzolli
+// totalPrice foi baseada na função calculatePrice do Thiago Pederzolli
 // fonte: https://github.com/tryber/sd-07-project-shopping-cart/pull/32/commits/80e23921c8901e1ee94958b47ca1d28df38e3225
 const totalPrice = async (price, type) => {
   const itemPrice = document.querySelector('.total-price');
