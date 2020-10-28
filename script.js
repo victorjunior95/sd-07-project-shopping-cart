@@ -3,9 +3,9 @@ const findItemAndReturnArrayObject = async (item) => {
   try {
     const response = await fetch(endPoint);
     const object = await response.json();
-     if (object.error) {
-      throw new Error(object.error);
-    } else {
+      if (object.error) {
+       throw new Error(object.error);
+     } else {
       return object.results;
     }
   } catch (error) {
