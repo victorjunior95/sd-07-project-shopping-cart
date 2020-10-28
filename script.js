@@ -15,7 +15,7 @@ function createCustomElement(element, className, innerText) {
 // SOMANDO ITEMS DA LISTA
 const sumPriceListItems = (price) => {
   const strong = document.querySelector('.total-price');
-  strong.innerText = `TOTAL R$: ${price}`;
+  strong.innerText = price;
 };
 
 const updatePrice = () => {
