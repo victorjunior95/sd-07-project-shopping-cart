@@ -24,23 +24,32 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   return section;
 }
 
-// totalPrice foi baseada na função calculatePrice do Thiago Pederzolli
+// totalCartPrice foi baseada na função calculatePrice do Thiago Pederzolli
 // fonte: https://github.com/tryber/sd-07-project-shopping-cart/pull/32/commits/80e23921c8901e1ee94958b47ca1d28df38e3225
-const totalPrice = async (price, type) => {
+const totalCartPrice = async (price, type) => {
   const itemPrice = document.querySelector('.total-price');
   const total = Number(itemPrice.innerText);
-  if (type === 'sum') itemPrice.innerText = total + Number(parseFloat(price.toFixed(2)));
-  if (type === 'sub') itemPrice.innerText = total - Number(parseFloat(price.toFixed(2)));
+  if (type === 'sum') itemPrice.innerText = Number(parseFloat(total + price).toFixed(2));
+  if (type === 'sub') itemPrice.innerText = Number(parseFloat(total - price).toFixed(2));
 };
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+const saveCart = () => {
+  const savedCart = document.querySelector('.cart__items');
+  localStorage.setItem('cartItems', savedCart.innerHTML);
+
+  const totalPrice = document.querySelector('.total-price');
+  localStorage.setItem('totalPrice', totalPrice.innerText);
+};
+
 async function cartItemClickListener(event) {
   const price = +event.target.innerText.slice(-6).replace('$', '');
-  totalPrice(price, 'sub');
+  totalCartPrice(price, 'sub');
   event.target.remove();
+  saveCart();
 }
 const getProductById = id => `https://api.mercadolibre.com/items/${id}`;
 
@@ -52,15 +61,10 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   return li;
 }
 
-/* const saveCart = item => {
-  const saveArray = [];
-  saveArray.push(item);
-  console.log(saveArray);
-  document.querySelectorAll('.cart__item').forEach(item => {
-    saveArray.push(item);
-    localStorage.setItem('cart-item', JSON.stringify(saveArray));
-  });
-}; */
+const localCartItems = () => {
+  document.querySelector('.cart__items').innerHTML = localStorage.getItem('cartItems');
+  document.querySelector('.total-price').innerText = localStorage.getItem('totalPrice');
+};
 
 const fetchProductItemCart = (item) => {
   fetch(item)
@@ -71,7 +75,8 @@ const fetchProductItemCart = (item) => {
         .appendChild(createCartItemElement(teste)))
     .then(itemPrice => itemPrice.innerHTML.split('$'))
     .then(price => parseFloat(price[1]))
-    .then(number => totalPrice(number, 'sum'));
+    .then(number => totalCartPrice(number, 'sum'))
+    .then(() => saveCart());
 };
 
 const searchProduct = (product, maxResults) =>
@@ -103,11 +108,14 @@ const fetchProductsApi = () => {
 
 const emptyCart = () => {
   document.querySelector('.empty-cart').addEventListener('click', () => {
+    document.querySelector('.total-price').innerText = '';
     document.querySelectorAll('.cart__item').forEach(item => item.remove());
+    saveCart();
   });
 };
 
 window.onload = async function onload() {
   fetchProductsApi();
   emptyCart();
+  localCartItems();
 };
