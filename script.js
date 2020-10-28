@@ -12,35 +12,6 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-const newObjectItems = (object) => {
-  const newObj = {};
-  newObj.sku = object.id;
-  newObj.name = object.title;
-  newObj.image = object.thumbnail;
-  return newObj;
-};
-
-const removeLoadMessage = () => {
-  const container = document.querySelector('.items');
-  const p = document.querySelector('.loading');
-  container.removeChild(p);
-};
-
-const fetchApiShopping = (product) => {
-  const endPoint = `https://api.mercadolibre.com/sites/MLB/search?q=${product}`;
-  fetch(endPoint)
-    .then((response) => {
-      removeLoadMessage();
-      return response.json();
-    })
-    .then(data =>
-      data.results.forEach((object) => {
-        // console.log(object);
-        createNewSectionItems(newObjectItems(object));
-      }),
-    );
-};
-
 // SOMANDO ITEMS DA LISTA
 const sumPriceListItems = (price) => {
   const strong = document.querySelector('.total-price');
@@ -163,6 +134,35 @@ const addSectionItems = (section) => {
 
 const createNewSectionItems = (object) => {
   addSectionItems(createProductItemElement(object));
+};
+
+const newObjectItems = (object) => {
+  const newObj = {};
+  newObj.sku = object.id;
+  newObj.name = object.title;
+  newObj.image = object.thumbnail;
+  return newObj;
+};
+
+const removeLoadMessage = () => {
+  const container = document.querySelector('.items');
+  const p = document.querySelector('.loading');
+  container.removeChild(p);
+};
+
+const fetchApiShopping = (product) => {
+  const endPoint = `https://api.mercadolibre.com/sites/MLB/search?q=${product}`;
+  fetch(endPoint)
+    .then((response) => {
+      removeLoadMessage();
+      return response.json();
+    })
+    .then(data =>
+      data.results.forEach((object) => {
+        // console.log(object);
+        createNewSectionItems(newObjectItems(object));
+      }),
+    );
 };
 
 // LIMPANDO TODA LISTA
