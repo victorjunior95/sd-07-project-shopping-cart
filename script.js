@@ -44,19 +44,20 @@ const converteObjetosDesejados = (objetosDoResult) => {
 };
 
 let total = 0;
-const sumPrice = (price) => {
+const sumPrice = async (price) => {
   total += Number(price.toFixed(2));
   document.querySelector('.total-price').innerHTML = total;
 };
 
 const subtractPrice = async () => {
+  console.log(document.querySelector('.cart__items').innerHTML)
   const totalPrice = document.querySelector('.cart__item').innerHTML.split('$');
   total -= Number(totalPrice[1]).toFixed(2);
-  if (total.toFixed(2) < 0 || document.querySelector('.cart__item').innerHTML === '') {
+  if (total < 0 || document.querySelector('.cart__items').innerHTML === '') {
     // se o cart__item estiver sem item tambem zera
     total = 0;
   }
-  document.querySelector('.total-price').innerHTML = Number(total.toFixed(2));
+   document.querySelector('.total-price').innerHTML = Number(total.toFixed(2));
 };
 
 // requisto 3 , somente esse retorno
@@ -78,12 +79,10 @@ function createCartItemElement({ sku, name, salePrice }) {
 // terceira func criada (segundo requisito)
 const trataID = (id) => {
   const umItem = `https://api.mercadolibre.com/items/${id}`;
-  console.log(umItem);
   fetch(umItem)
   .then(res => res.json())
   .then((objeto) => {
     const listaOl = document.querySelector('.cart__items');
-    console.log(objeto);
     produto = {
       sku: objeto.id,
       name: objeto.title,
