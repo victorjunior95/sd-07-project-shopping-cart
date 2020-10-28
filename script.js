@@ -74,10 +74,10 @@ function createProductItemElement({ sku, name, image }) {
 const loadProducts = (search) => {
   const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${search}`;
   const list = document.querySelector('.items');
+  addLoading();
   fetch(endpoint)
     .then(response => response.json())
     .then((object) => {
-      addLoading();
       object.results.forEach((product) => {
         const { id: sku, title: name, thumbnail: image } = product;
         const item = createProductItemElement({ sku, name, image });
