@@ -52,7 +52,7 @@ function calcularPreco(price, type) {
 
 async function cartItemClickListener(evento) {
   const valorUmPorduto = document.querySelector('.cart__item').innerHTML.split('$');
-  const price =+ valorUmPorduto[1];
+  const price = + valorUmPorduto[1];
   // cada vez que eu aperto o bota do adcionar carrinho eu ativo e evento do bota
   // que busca o elemento desejado que foi definido na funcao createCartItemElement
   calcularPreco(price, 'remove');
@@ -81,8 +81,8 @@ const trataID = (id) => {
       salePrice: objeto.price,
     };
     listaOl.appendChild(createCartItemElement(produto));
-    calcularPreco(produto.salePrice, 'add')
-  })
+    calcularPreco(produto.salePrice, 'add');
+  });
 };
 
 function getSkuFromProductItem(item) {
