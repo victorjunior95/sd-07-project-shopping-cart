@@ -37,6 +37,14 @@ function cartItemClickListener(event) {
   const selectedItemsOl = document.querySelector('.cart__items');
   selectedItemsOl.removeChild(event.target);
 }
+// 6
+function clearCart() {
+  const selectedButton = document.querySelector('.empty-cart');
+  const selectedOl = document.querySelector('.cart__items');
+  selectedButton.addEventListener('click', () => {
+    selectedOl.innerHTML = '';
+  });
+}
 
 function createCartItemElement({
   id: sku,
@@ -94,4 +102,5 @@ function addWithClick() {
 window.onload = function onload() {
   fetchCurrency();
   addWithClick();
+  clearCart();
 };
