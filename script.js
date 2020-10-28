@@ -65,7 +65,6 @@ const requestApiAddCart = async (idProduct) => {
   } catch (error) {
     console.log(error);
   }
-   return;
 };
 
 const addCart = (buttons) => {
