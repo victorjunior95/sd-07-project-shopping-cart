@@ -27,7 +27,7 @@ const totalPriceSum = async () => {
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 // Utilizar para remover um item do carrinho
 function cartItemClickListener(event) {
