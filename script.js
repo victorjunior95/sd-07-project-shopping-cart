@@ -55,7 +55,6 @@ const loadProducts = (search) => {
     });
 };
 
-window.onload = function onload() { 
-  
+window.onload = function onload() {
   loadProducts('computador');
 };
