@@ -79,3 +79,8 @@
   color: blue;
   font-size: 30px;
 }
+
+.total {
+  display: flex;
+  flex-direction: row;
+}
