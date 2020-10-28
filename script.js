@@ -75,6 +75,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 const addItensInHTML = async () => {
   const loading = document.createElement('p');
   loading.innerText = 'loading...';
+  loading.classList.add('loading');
   const cart = document.querySelector('.items');
   cart.appendChild(loading);
   try {
