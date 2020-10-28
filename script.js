@@ -51,7 +51,7 @@ const load = () => {
 function getSkuFromProductItem(item, index) {
   return item.querySelectorAll('span.item__sku')[index].innerText;
 }
-let resultPrice = 0;
+
 function cartItemClickListener(event) {
   event.target.parentNode.removeChild(event.target);
   save();
@@ -91,37 +91,12 @@ const createList = async (search) => {
   }
 };
 
-const sumPrice = (price) => {
-  const totalSum = [];
-  totalSum.push(price);
-  const sum = (numbers) => {
-    const totalPrice = numbers.reduce((result, number) => result + number);
-    return totalPrice;
-  };
-  return sum(totalSum);
-};
-
 const addCart = (product) => {
-  const priceProducts = document.querySelector('.total-price');
   const { id, title, price } = product;
   const cart = document.querySelector('.cart__items');
   const obj = { sku: id, name: title, salePrice: price };
   cart.appendChild(createCartItemElement(obj));
-  resultPrice += sumPrice(price);
-  priceProducts.innerText = resultPrice.toFixed(2);
   save();
-};
-
-const total = () => {
-  const price = document.createElement('strong');
-  price.innerText = 0;
-  price.className = 'total-price';
-  const sectionCart = document.querySelector('.cart');
-  const totalPrice = document.createElement('p');
-  totalPrice.className = 'price';
-  totalPrice.innerText = 'Preço total: $ ';
-  sectionCart.appendChild(totalPrice);
-  totalPrice.appendChild(price);
 };
 
 const addProduct = async (sku) => {
@@ -156,6 +131,5 @@ window.onload = function onload() {
   };
   createList('computador');
   clearCart.addEventListener('click', clear);
-  total();
   load();
 };
