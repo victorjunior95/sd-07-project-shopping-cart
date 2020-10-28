@@ -25,7 +25,6 @@ function createCustomElement(element, className, innerText) {
   e.innerText = innerText;
   return e;
 }
-
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
@@ -37,6 +36,7 @@ function createProductItemElement({ sku, name, image }) {
 
   return section;
 }
+
 
 const save = () => {
   const cart = document.querySelector('.cart__items');
@@ -66,8 +66,8 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 const everyList = (items) => {
-  const sectionList = document.querySelector('.items');
   items.forEach((item) => {
+    const sectionList = document.querySelector('.items');
     const { id, title, thumbnail } = item;
     const obj = { sku: id, name: title, image: thumbnail };
     sectionList.appendChild(createProductItemElement(obj));
@@ -80,11 +80,11 @@ const createList = async (search) => {
     const response = await fetch(endPoint);
     const object = await response.json();
 
-    if (object.error) {
-      throw new Error(object.error);
+    if (object.results.length === 0) {
+      throw new Error('Produto não encontrado');
     } else {
-      wait(false);
       everyList(object.results);
+      wait(false);
     }
   } catch (err) {
     window.alert(err);
@@ -93,20 +93,17 @@ const createList = async (search) => {
 
 const addCart = (product) => {
   const { id, title, price } = product;
-  const cart = document.querySelector('.cart__items');
   const obj = { sku: id, name: title, salePrice: price };
-  cart.appendChild(createCartItemElement(obj));
+  document.querySelector('.cart__items').appendChild(createCartItemElement(obj));
   save();
 };
-
 const addProduct = async (sku) => {
   const endPoint = `https://api.mercadolibre.com/items/${sku}`;
-
   try {
     const response = await fetch(endPoint);
     const object = await response.json();
     if (!object) {
-      throw new Error(object.error);
+      throw new Error('Erro');
     } else {
       addCart(object);
     }
@@ -121,7 +118,8 @@ setTimeout(() => {
       addProduct(getSkuFromProductItem(document, [index]));
     });
   });
-}, 500);
+}, 100);
+
 
 window.onload = function onload() {
   const clearCart = document.querySelector('.empty-cart');
