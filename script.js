@@ -37,10 +37,7 @@ function cartItemClickListener(event) {
   // coloque seu código aqui
 }
 
-const listnerButton =  () => {
-  const buttonAddCart = document.querySelectorAll('.item__add');
-  addCart(buttonAddCart);
-}
+
 
 const handleResult = (object) => {
   const results = {};
@@ -52,16 +49,24 @@ const handleResult = (object) => {
   });
 };
 
+function createCartItemElement({ sku, name, salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
+};
+
 const addCart = (buttons) => {
   buttons.forEach((button) => {
     button.addEventListener('click', async (event) => {
-      if(button === event.currentTarget) {
-        const idProduct = getSkuFromProductItem(button.parentNode)
+      if (button === event.currentTarget) {
+        const idProduct = getSkuFromProductItem(button.parentNode);
         const requestEndPoint = await fetch(`https://api.mercadolibre.com/items/${idProduct}`);
         try {
           const objectResponse = await requestEndPoint.json();
-          const {id, title, price} = objectResponse;
-          const item = {sku:id, name: title, salePrice: price};
+          const { id, title, price } = objectResponse;
+          const item = { sku: id, name: title, salePrice: price };
           const cart = document.querySelector('.cart__items');
           cart.appendChild(createCartItemElement(item));
         } catch (error) {
@@ -84,17 +89,14 @@ const getListItems = async () => {
   listnerButton();
 };
 
-function createCartItemElement({ sku, name, salePrice }) {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
-  return li;
+const listnerButton = () => {
+  const buttonAddCart = document.querySelectorAll('.item__add');
+  addCart(buttonAddCart);
 }
 
 window.onload = function onload() {
   getListItems();
- };
+};
 
 
 
