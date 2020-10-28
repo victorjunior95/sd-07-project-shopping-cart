@@ -3,7 +3,6 @@ const container = document.createElement('div');
 const loading = document.createElement('h1');
 loading.className = 'loading';
 loading.innerText = 'loading...';
-
 const wait = (event) => {
   if (event) {
     document.querySelector('.items').appendChild(container);
