@@ -77,5 +77,6 @@ window.onload = function onload() {
   createListItems('computadores');
 };
 
-// Os requisitos 1 e 2 foram feitos após as apresentações sobre cada um feitas por @vitor-rc1 e @ThiagoEsdras, por isso as lógicas
+// Os requisitos 1 e 2 foram feitos após as apresentações sobre cada um
+// feitas por @vitor-rc1 e @ThiagoEsdras, por isso as lógicas
 // podem estar bastante parecidas.
