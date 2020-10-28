@@ -1,6 +1,12 @@
 // ------ CONST SETUP -------
 const cartKey = 'cartListLS';
 const itemQuery = 'computador';
+
+const loaderDiv = document.createElement('div');
+loaderDiv.className = 'loader';
+const loadSection = document.createElement('section');
+loadSection.className = 'loading';
+loadSection.innerText = 'loading...';
 // --------------------------
 
 function createProductImageElement(imageSource) {
@@ -91,10 +97,12 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 function loadAPI(isVisible) {
-  const loading = document.querySelector('.loading');
   if (isVisible) {
-    loading.style.visibility = 'visible';
-  } else loading.style.visibility = 'hidden';
+    document.querySelector('.items').appendChild(loadSection);
+    document.querySelector('.loading').appendChild(loaderDiv);
+  } else {
+    document.querySelector('.loading').remove();
+  }
 }
 
 const fectchItem = (endpoint) => {
