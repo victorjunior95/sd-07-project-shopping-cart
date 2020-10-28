@@ -58,6 +58,7 @@ async function cartItemClickListener(evento) {
   // que busca o elemento desejado que foi definido na funcao createCartItemElement
   calcularPreco(valorUmPorduto, 'remove');
   evento.target.remove();
+  salvar()
   // o prorpio li selecionado vai ser apagado
 }
 
@@ -66,6 +67,8 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  // cada vez que eu clicar em algum elemento na lista esse evento ocorre
+  
   return li;
 }
 
@@ -83,12 +86,16 @@ const trataID = (id) => {
     };
     listaOl.appendChild(createCartItemElement(produto));
     calcularPreco(produto.salePrice, 'add');
+    salvar()
+    // chamo essa funçao aqui para ela poder ser um promisse
   });
 };
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
   // vou selecionar do parentNode esse elemento e trazero texto dele
+  // dentro de evento.target.parentNode como se fosse um documento eu vou buscar o
+  // span.item_sku
 }
 
 // segunda func criada ( segundo requisito)
@@ -101,7 +108,7 @@ const pegarIdComputadorClicando = (evento) => {
 
 // primeira func criada ( segundo requisito)
 function addButtonsEvent() {
-  const addButtons = document.querySelectorAll('.item__add');
+  const addButtons = document.querySelectorAll('.item__add');// todos os items desta classe
   addButtons.forEach(button => button.addEventListener('click', pegarIdComputadorClicando));
   // para cada botao que eu apertar eu vou gerar um evento que vai chamar a função e
   // vou criar um evento que vai buscar o no desejado dentro daquele item que eu apertei o botao
@@ -123,11 +130,15 @@ const CarregaProdutos = () => {
 window.onload = function onload() {
   CarregaProdutos();
   // primeira função a ser feita,vai buscar os dados
+  pegarSalvo()
 };
 
-/*
-const saveLocalStorage = () => {
-  const shoppingCart = document.querySelector('.cart__items');
-  localStorage.setItem('List_Shopping_Cart', shoppingCart.innerHTML);
+const salvar = () => {
+  const carrinho = document.querySelector('.cart__items');
+  localStorage.setItem('Carrinho_de_compras', carrinho.innerHTML);
 };
-*/
+
+const pegarSalvo = () => {
+  document.querySelector('.cart__items').innerHTML = localStorage.getItem('Carrinho_de_compras')
+ 
+}
