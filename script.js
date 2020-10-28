@@ -19,7 +19,6 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-
   return section;
 }
 
@@ -33,7 +32,7 @@ async function updateTotalCart() {
   if (cartItems.length > 0) {
     let total = 0;
     cartItems.forEach((item) => {
-      total += parseFloat(item.innerText.split('$')[1]);
+      total += parseFloat(item.innerHTML.split('$')[1]);
     });
     document.querySelector('.total-price').innerText = total;
   } else {
