@@ -43,7 +43,7 @@ const addCartItem = async (id) => {
     }
   } catch (error) {
     showAlert(error);
-  };
+  }
 };
 
 function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
