@@ -12,14 +12,45 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+function cartItemClickListener(event) {
+  // remove elemento que foi clicado
+  event.target.remove();
+}
+
+function createCartItemElement({ sku, name, salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
+}
+
+const selectedItem = (event) => {
+  const idItem = event.target.parentNode.firstChild.innerText;
+  const endpoint = `https://api.mercadolibre.com/items/${idItem}`;
+  fetch(endpoint)
+    .then(response => response.json())
+    .then((object) => {
+      const cartItems = document.querySelector('.cart__items');
+      const objectProduct = {
+        sku: object.id,
+        name: object.title,
+        salePrice: object.price,
+      };
+      cartItems.appendChild(createCartItemElement(objectProduct));
+      // console.log(objectProduct);
+    });
+};
+
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
-
+  const addToCartButton = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
+  addToCartButton.addEventListener('click', selectedItem);
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
-  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
+  section.appendChild(addToCartButton);
 
   return section;
 }
@@ -28,17 +59,7 @@ function createProductItemElement({ sku, name, image }) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
 
-// function cartItemClickListener(event) {
-//   // coloque seu código aqui
-// }
 
-// function createCartItemElement({ sku, name, salePrice }) {
-//   const li = document.createElement('li');
-//   li.className = 'cart__item';
-//   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-//   li.addEventListener('click', cartItemClickListener);
-//   return li;
-// }
 const fetchItems = () => {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   fetch(endpoint)
