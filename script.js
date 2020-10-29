@@ -85,7 +85,7 @@ const fetchApi = (product) => {
     .then(response => response.json())
     .then(data => data.results.forEach(result => products
       .appendChild(createProductItemElement(result))))
-    .catch(error => console.log(error))
+    .catch(error => console.log(error));
   // )
 };
 
