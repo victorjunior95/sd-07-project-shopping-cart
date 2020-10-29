@@ -104,7 +104,7 @@ const handleResults = (results) => {
 
 function removeToLoad() {
   spanLoad = document.querySelector('.loading');
-  spanLoad.innerText = ' ';
+  spanLoad.innerHTML = ' ';
 }
 
 const fetchProductsAwaitAsync = async () => {
