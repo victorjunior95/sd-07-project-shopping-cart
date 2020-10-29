@@ -22,14 +22,20 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-function sumTotalCart() {
+function separateFunction(newList) {
+  return new Promise((resolve) => {
+    const newArray = [];
+    newList.forEach(item => newArray.push(item.salePrice));
+    const value = newArray.reduce((acc, nextValue) => acc + nextValue, 0);
+    resolve(value);
+  });
+}
+
+async function sumTotalCart() {
   const newList = JSON.parse(localStorage.getItem('Carrinho de Compras'));
   const divPrice = document.querySelector('.total-price');
   const divPriceChild = document.querySelector('.total-price-child');
-  const newArray = [];
-  newList.forEach(item => newArray.push(item.salePrice));
-  const value = newArray.reduce((acc, nextValue) => acc + nextValue, 0);
-  console.log(value);
+  const value = await separateFunction(newList);
   if (!divPriceChild) {
     const totalPriceInCart = createCustomElement('div', 'total-price-child bg-dark text-light', value);
     divPrice.appendChild(totalPriceInCart);
