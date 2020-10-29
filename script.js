@@ -24,18 +24,6 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-// busca o JSON e chama função pra adaptar o objeto.
-
-const functionFetchJSON = async (endpoint, adaptFunction) => {
-  try {
-    const responseURL = await fetch(endpoint);
-    const object = await responseURL.json();
-    adaptFunction(object);
-  } catch (Error) {
-    alert(Error);
-  }
-};
-
 const emptyCartButton = () => {
   const clearButton = document.querySelector('.empty-cart');
   clearButton.addEventListener('click', () => {
@@ -73,12 +61,25 @@ function createCartItemElement({ sku, name, salePrice }) {
   sumOfItems(salePrice);
   return li;
 }
+
 // adapta JSON para item do carrinho
 const adaptJSONItem = (object) => {
   const cartItems = document.querySelector('.cart__items');
   const { id: sku, title: name, price: salePrice } = object;
   cartItems.appendChild(createCartItemElement({ sku, name, salePrice }));
   // cartItems.appendChild(item);
+};
+
+// busca o JSON e chama função pra adaptar o objeto.
+
+const functionFetchJSON = async (endpoint, adaptFunction) => {
+  try {
+    const responseURL = await fetch(endpoint);
+    const object = await responseURL.json();
+    adaptFunction(object);
+  } catch (Error) {
+    alert(Error);
+  }
 };
 
 const addToCart = async (itemID) => {
