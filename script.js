@@ -45,23 +45,13 @@ function createTotalPrice(value) {
   addLoading.appendChild(divLoad);
 }
 
-function identificaID(remover) {
-  for (let item = 0; item <= localStorage.length; item += 1) {
-    const getlis = localStorage.getItem(localStorage.key(item));
-    const id = getlis.split('|')[0].split(':')[1];
-    if (id === remover) {
-      localStorage.removeItem(localStorage.key(item));
-    }
-  }
-}
-
 function cartItemClickListener(event) {
   const removeItem = document.querySelector('.cart__items');
   removeItem.removeChild(event.target);
   const valueItem = event.toElement.innerText.split('$');
   updateTotal(valueItem[1], '-');
-  const remover = event.toElement.innerText.split('|')[0].split(':')[1];
-  identificaID(remover);
+  console.log(event.toElement.innerText.split('|')[0].split(':')[1]);
+  localStorage.removeItem(event.toElement.innerText.split('|')[0].split(':')[1]);
 }
 
 function createCartItemElement({ id, title, price }) {
@@ -80,7 +70,7 @@ function emptyCart() {
     itensLista.removeChild(itens[item]);
   }
   localStorage.clear();
-  removeTotal.innerText = 0;
+  removeTotal.innerText = '';
 }
 
 let index = 1;
@@ -126,18 +116,6 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__id').innerText;
 }
 
-function openLoading() {
-  const loading = document.querySelector('.cart');
-  divLoad = document.createElement('div');
-  divLoad.className = 'loading';
-  divLoad.innerText = 'loading...';
-  loading.appendChild(divLoad);
-  setTimeout(() => {
-    const loadingfilho = document.querySelector('.loading');
-    loading.removeChild(loadingfilho);
-  }, 3000);
-}
-
 function responseForID(id) {
   const endpointID = `https://api.mercadolibre.com/items/${id}`;
   fetch(endpointID)
@@ -162,6 +140,18 @@ function createItemElement(event) {
       responseForID(id);
     });
   }
+}
+
+function openLoading() {
+  const loading = document.querySelector('.cart');
+  divLoad = document.createElement('div');
+  divLoad.className = 'loading';
+  divLoad.innerText = 'loading...';
+  loading.appendChild(divLoad);
+  setTimeout(() => {
+    const loadingfilho = document.querySelector('.loading');
+    loading.removeChild(loadingfilho);
+  }, 3000);
 }
 
 function responseDate(query) {
