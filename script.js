@@ -111,9 +111,8 @@ const fetchApi = (product) => {
     .then(data => data.results.forEach((result) => {
       products
       .appendChild(createProductItemElement(result));
-    }))
+    }), removeLoading())
     .catch(error => console.log(error));
-  removeLoading();
 };
 
 // Lógica com o while na linha 90 adaptada da solução do site qastack:
