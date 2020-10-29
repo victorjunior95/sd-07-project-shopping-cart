@@ -79,7 +79,7 @@ const clearLocalStorage = () => localStorage.clear();
 function pageLoad() {
   const msg = 'loading...';
   const span = document.createElement('span');
-  span.className = 'loading'
+  span.className = 'loading';
   span.innerText = msg;
   itemsSection.appendChild(span);
 }
@@ -96,7 +96,7 @@ async function consultProduct(supply) {
       addProducts(item, itemsSection);
     }))
     .catch(err => err);
-    clearLoadindMessage();
+  clearLoadindMessage();
 }
 
 function loadShoppingCart() {
