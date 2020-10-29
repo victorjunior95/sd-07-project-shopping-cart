@@ -31,10 +31,10 @@ const totalize = () => {
   const spamTotal = document.querySelector('.total-price');
   let cartTotal = 0;
   cartList.childNodes.forEach((element) => {
-    cartTotal += parseInt(element.dataset.salePrice, 10);
+    cartTotal += parseFloat(element.dataset.salePrice, 10);
   });
   if (cartTotal !== 0) {
-    spamTotal.innerHTML = cartTotal;
+    spamTotal.innerHTML = cartTotal.toFixed(2);
   } else {
     spamTotal.innerHTML = '';
     localStorage.clear();
