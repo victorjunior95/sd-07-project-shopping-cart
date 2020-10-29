@@ -12,8 +12,12 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-// Cria elementos que vão receber os valores totais
+const setLocalStorage = () => {
+  const cart = document.querySelector('ol.cart__items');
+  localStorage.setItem('Shop Cart', cart.innerHTML);
+}
 
+// Cria elementos que vão receber os valores totais
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
@@ -38,6 +42,7 @@ const sumOfItems = async () => {
 function cartItemClickListener(event) {
   event.target.remove();
   sumOfItems();
+  setLocalStorage();
 }
 
 const emptyCartButton = () => {
@@ -46,6 +51,7 @@ const emptyCartButton = () => {
     const cartItems = document.querySelector('.cart__items');
     cartItems.innerHTML = '';
     sumOfItems();
+    setLocalStorage();
   });
 };
 
@@ -62,7 +68,9 @@ const adaptJSONItem = (object) => {
   const cartItems = document.querySelector('.cart__items');
   const { id: sku, title: name, price: salePrice } = object;
   cartItems.appendChild(createCartItemElement({ sku, name, salePrice }));
+
   sumOfItems();
+  setLocalStorage();
 };
 
 // busca o JSON e chama função pra adaptar o objeto.
@@ -134,8 +142,18 @@ const elementsHTMLSumOfItems = () => {
   containerHTML.appendChild(elementSumHTML);
 };
 
+const getLocalStorage = () => {
+  const cart = document.querySelector('ol.cart__items');
+  cart.innerHTML = localStorage.getItem('Shop Cart');
+  cart.childNodes.forEach((item) => {
+    item.addEventListener('click', cartItemClickListener);
+  });
+  sumOfItems();
+};
+
 window.onload = function onload() {
   fetchProducts();
   elementsHTMLSumOfItems();
   emptyCartButton();
+  getLocalStorage();
 };
