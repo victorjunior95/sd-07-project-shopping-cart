@@ -50,7 +50,7 @@ function identificaID(remover) {
     const getlis = localStorage.getItem(localStorage.key(item));
     const id = getlis.split('|')[0].split(':')[1];
     if (id === remover) {
-      return localStorage.removeItem(localStorage.key(item));
+      localStorage.removeItem(localStorage.key(item));
     }
   }
 }
@@ -61,7 +61,7 @@ function cartItemClickListener(event) {
   const valueItem = event.toElement.innerText.split('$');
   updateTotal(valueItem[1], '-');
   const remover = event.toElement.innerText.split('|')[0].split(':')[1];
-  identificaID(remover)
+  identificaID(remover);
 }
 
 function createCartItemElement({ id, title, price }) {
