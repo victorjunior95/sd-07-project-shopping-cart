@@ -5,10 +5,15 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+const saveLocalStorage = () => {
+  const savedCartList = document.querySelector('.cart__items').innerHTML;
+  localStorage.setItem('Saved Cart List', savedCartList);
+};
+
 function cartItemClickListener(event) {
   const cartSingleItem = event.target;
-  const cartList = document.querySelector('.cart__items');
-  cartList.removeChild(cartSingleItem);
+  cartSingleItem.remove();
+  saveLocalStorage();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -36,6 +41,7 @@ const fetchCartItemList = (event) => {
       const cartItemProduct = createCartItemElement(cartItemObject);
       const cartItemList = document.querySelector('.cart__items');
       cartItemList.appendChild(cartItemProduct);
+      saveLocalStorage();
     });
 };
 
@@ -43,7 +49,7 @@ function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
   e.className = className;
   e.innerText = innerText;
-  if (element === 'button') {
+  if (element === 'button') { // linha baseada no projeto de NicoleTeisen
     e.addEventListener('click', fetchCartItemList);
   }
   return e;
@@ -98,10 +104,20 @@ const fetchProductList = (product) => {
 const clearCart = () => {
   const allCartList = document.querySelector('.cart__items');
   allCartList.innerHTML = '';
+  saveLocalStorage();
+};
+
+const recoverLocalStorage = () => {
+  const cartProductsList = document.querySelector('.cart__items');
+  cartProductsList.innerHTML = localStorage.getItem('Saved Cart List');
+
+  const cartProduct = cartProductsList.querySelectorAll('li');
+  cartProduct.forEach(item => item.addEventListener('click', cartItemClickListener));
 };
 
 window.onload = () => {
   fetchProductList('computador');
   const clearButton = document.querySelector('.empty-cart');
   clearButton.addEventListener('click', clearCart);
+  recoverLocalStorage();
 };

@@ -83,6 +83,7 @@
 .cart__items li {
   cursor: pointer;
   margin: 8px;
+  transition: color 0.5s;
 }
 
 .cart__item:hover {
