@@ -57,7 +57,7 @@ function createCartItemElement(parameter) {
   return li;
 }
 
-async function fetchAPI(api) {
+function fetchAPI(api) {
   return fetch(api).then(response => response.json());
 }
 
@@ -76,8 +76,19 @@ function addLocalStorage(string) {
 
 const clearLocalStorage = () => localStorage.clear();
 
+function pageLoad() {
+  const msg = 'loading...';
+  const span = document.createElement('span');
+  span.className = 'loading'
+  span.innerText = msg;
+  itemsSection.appendChild(span);
+}
+
+const clearLoadindMessage = () => itemsSection.removeChild(itemsSection.firstChild);
+
 async function consultProduct(supply) {
   const API = `${API_URL}${supply}`;
+  pageLoad();
   await fetchAPI(API)
     .then(data => data.results.forEach((product) => {
       const { id: sku, title: name, thumbnail: image } = product;
@@ -85,6 +96,7 @@ async function consultProduct(supply) {
       addProducts(item, itemsSection);
     }))
     .catch(err => err);
+    clearLoadindMessage();
 }
 
 function loadShoppingCart() {
@@ -116,13 +128,12 @@ itemsSection.addEventListener('click', function (event) {
   }
 });
 
-
 document.querySelector('.empty-cart').addEventListener('click', function () {
   ol.innerText = '';
   clearLocalStorage();
 });
 
 window.onload = function onload() {
-  consultProduct('computador');
+  consultProduct('teclado');
   loadShoppingCart();
 };
