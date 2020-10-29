@@ -13,26 +13,22 @@ const clearCart = () => {
   });
 };
 
-const loadingMsg = () => {
-  const sectionContainer = document.querySelector('.cart');
-  // sectionContainer.innerHTML = '';
-  const showLoadingMsg = document.createElement('p');
-  showLoadingMsg.className = 'loading';
-  showLoadingMsg.innerText = 'loading...';
-  sectionContainer.appendChild(showLoadingMsg);
-};
-
-const removeLoadingMsg = () => {
-  const elementLoadingMsg = document.querySelector('.loading');
-  elementLoadingMsg.remove();
-};
-
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
   e.className = className;
   e.innerText = innerText;
   return e;
 }
+
+const loadingMsg = () => {
+  const sectionContainer = document.querySelector('.cart');
+  sectionContainer.appendChild(createCustomElement('p', 'loading', 'loading...'));
+};
+
+const removeLoadingMsg = () => {
+  const elementLoadingMsg = document.querySelector('.loading');
+  elementLoadingMsg.remove();
+};
 
 const savingList = () => {
   const cartOl = document.querySelector('.cart__items');
