@@ -27,7 +27,8 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   return item.querySelector('span.item__sku').innerText;
 } */
 
-function cartItemClickListener() {
+function cartItemClickListener(event) {
+  event.target.remove()
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
