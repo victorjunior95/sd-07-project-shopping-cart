@@ -20,7 +20,7 @@ function totalPrice() {
     const itemPrice = parseFloat(element.getAttribute('price'));
     sumPrices += itemPrice;
   });
-  total.innerHTML = `Total: ${sumPrices}`;
+  total.innerHTML = `${sumPrices}`;
 }
 
 function cartItemClickListener(event) {
