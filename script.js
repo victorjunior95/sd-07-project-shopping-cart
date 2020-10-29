@@ -1,5 +1,6 @@
 const allItems = document.querySelector('.items');
 const shoppingCart = document.querySelector('.cart__items');
+const ClearShoppingCartBtn = document.querySelector('.empty-cart');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -17,6 +18,7 @@ function createCustomElement(element, className, innerText) {
 
 function cartItemClickListener(event) {
   shoppingCart.removeChild(event.target);
+  saveShoppingCart()
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -39,6 +41,7 @@ function createProductItemElement({ sku, name, image, salePrice }) {
   .addEventListener('click', () => {
     const addCart = createCartItemElement({ sku, name, salePrice });
     shoppingCart.appendChild(addCart);
+    saveShoppingCart()
     /* .addEventListener('click', () => {
       //shoppingCart.removeChild(addCart);
       // (bem mais facil dessa forma doke com o event.target na minha opiniao)
@@ -73,6 +76,47 @@ const loadProducts = () => {
   .catch(error => console.error('ERROR! Link invalido.'));
 };
 
+
+function ClearShoppingCart() {
+  ClearShoppingCartBtn.addEventListener('click', function () {
+    /* while (tarefaList.firstChild) { !! Alternativa !!
+      tarefaList.removeChild(tarefaList.firstChild);
+    } */
+    shoppingCart.innerHTML = '';
+    saveShoppingCart();
+  });
+}
+
+
+function saveShoppingCart() {
+  localStorage.clear();
+  const savedLi = [{ texto: '', classe: '' }];
+  const items = [];
+  for (let i = 0; i < shoppingCart.childElementCount; i += 1) {
+    savedLi.text = shoppingCart.children[i].innerText;
+    savedLi.class = shoppingCart.children[i].className;
+    items.push(Object.assign({}, savedLi));
+  }
+  localStorage.setItem('shoppingCartList', JSON.stringify(items));
+}
+
+function loadSavedShoppingCart(shoppingCartList) {
+  const savedShoppingCartList = JSON.parse(shoppingCartList);
+  savedShoppingCartList.forEach((item) => {
+    const savedItem = document.createElement('li');
+    savedItem.className = item.class;
+    savedItem.innerText = item.text;
+    shoppingCart.appendChild(savedItem);
+    savedItem.addEventListener('click', cartItemClickListener);
+  })
+}
+
 window.onload = function onload() {
+  const shoppingCartList = localStorage.getItem('shoppingCartList');
+  if (shoppingCartList !== null) {
+    loadSavedShoppingCart(shoppingCartList);
+  }
   loadProducts();
+  ClearShoppingCart();
 };
+
