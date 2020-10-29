@@ -13,6 +13,20 @@ const clearCart = () => {
   });
 };
 
+const loadingMsg = () => {
+  const sectionContainer = document.querySelector('.cart');
+  // sectionContainer.innerHTML = '';
+  const showLoadingMsg = document.createElement('p');
+  showLoadingMsg.className = 'loading';
+  showLoadingMsg.innerText = 'loading...';
+  sectionContainer.appendChild(showLoadingMsg);
+};
+
+const removeLoadingMsg = () => {
+  const elementLoadingMsg = document.querySelector('.loading');
+  elementLoadingMsg.remove();
+};
+
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
   e.className = className;
@@ -41,6 +55,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 function addingToCart(product) {
   const API_URL = `https://api.mercadolibre.com/items/${product}`;
+  loadingMsg();
   const cartOl = document.querySelector('.cart__items');
   fetch(API_URL)
   .then(response => response.json())
@@ -48,6 +63,7 @@ function addingToCart(product) {
     const { id: sku, title: name, price: salePrice } = element;
     cartOl.appendChild(createCartItemElement({ sku, name, salePrice }));
     savingList();
+    removeLoadingMsg();
   });
 }
 
@@ -75,6 +91,7 @@ function createProductItemElement({ sku, name, image }) {
 const generateProducts = () => {
   // Abstração facilitada pelo colega Vitor Rodrigues
   const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
+  loadingMsg();
   const itemsSection = document.querySelector('.items');
   fetch(API_URL)
   .then(response => response.json())
@@ -84,6 +101,7 @@ const generateProducts = () => {
       const eachItem = createProductItemElement({ sku, name, image });
       itemsSection.appendChild(eachItem);
     });
+    removeLoadingMsg();
   });
 };
 
