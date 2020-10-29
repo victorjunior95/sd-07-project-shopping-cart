@@ -34,7 +34,7 @@ const totalize = () => {
     cartTotal += parseInt(element.dataset.salePrice, 10);
   });
   if (cartTotal !== 0) {
-    spamTotal.innerHTML = `Total ${cartTotal}`;
+    spamTotal.innerHTML = cartTotal;
   } else {
     spamTotal.innerHTML = '';
     localStorage.clear();
@@ -71,7 +71,7 @@ const fetchCart = async (toMyCart) => {
   try {
     const response = await fetch(endpoint);
     const cartList = document.querySelector('.cart__items');
-    const loading = await createCustomElement('spam', 'loading', 'loading...');
+    const loading = createCustomElement('spam', 'loading', 'loading...');
     cartList.appendChild(loading);
     const object = await response.json();
     cartList.removeChild(loading);
