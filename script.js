@@ -28,12 +28,38 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+const totalize = () => {
+  const cartList = document.querySelector('.cart__items');
+  const spamTotal = document.querySelector('.total-price');
+  let cartTotal = 0;
+  cartList.childNodes.forEach((element) => {
+    cartTotal += parseInt(element.dataset.salePrice, 10);
+  });
+  if (cartTotal !== 0) {
+    spamTotal.innerHTML = `Total ${cartTotal.toFixed(2)}`;
+  } else {
+    spamTotal.innerHTML = '';
+    localStorage.clear();
+  }
+};
+
 function cartItemClickListener(event) {
   const cartList = document.querySelector('.cart__items');
   // removeItem([...(event.target).parentNode.children].indexOf(event.target));
   cartList.removeChild(event.target);
   localStorage.setItem('cartContent', cartList.innerHTML);
+  totalize();
 }
+
+const reload = () => {
+  const list = localStorage.getItem('cartContent');
+  const cartList = document.querySelector('.cart__items');
+  cartList.innerHTML = list;
+  cartList.childNodes.forEach((element) => {
+    element.addEventListener('click', cartItemClickListener);
+  });
+  totalize();
+};
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
@@ -43,10 +69,6 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
-
-// const showAlert = (message) => {
-//   window.alert(message);
-// };
 
 const fetchCart = async (toMyCart) => {
   const endpoint = `https://api.mercadolibre.com/items/${toMyCart}`;
@@ -66,6 +88,7 @@ const fetchCart = async (toMyCart) => {
       });
       cartList.appendChild(cartItem);
       localStorage.setItem('cartContent', cartList.innerHTML);
+      totalize();
     }
   } catch (error) {
     console.log(error);
@@ -87,75 +110,44 @@ const handleQuery = (myQueryObject) => {
   });
 };
 
+const emptyCart = () => {
+  const cartList = document.querySelector('.cart__items');
+  const spamTotal = document.querySelector('.total-price');
+  cartList.innerHTML = '';
+  spamTotal.innerHTML = '';
+  localStorage.clear();
+};
+
 const fetchQuery = async (myQuery) => {
   const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${myQuery}`;
 
   try {
     const response = await fetch(endpoint);
+
+    const cartList = document.querySelector('.cart__items');
+    const loading = createCustomElement('spam', 'loading', 'loading...');
+    cartList.appendChild(loading);
+
     const object = await response.json();
+
+    cartList.removeChild(loading);
+
     if (object.error) {
       throw new Error(object.error);
     } else {
       handleQuery(object.results);
+      reload();
+      const emptyCartButton = document.querySelector('.empty-cart');
+      emptyCartButton.addEventListener('click', emptyCart);
     }
   } catch (error) {
     console.log(error);
   }
 };
 
-const reload = () => {
-  const list = localStorage.getItem('cartContent');
-  const cartList = document.querySelector('.cart__items');
-  let cartTotal = 0;
-  cartList.innerHTML = list;
-  cartList.childNodes.forEach(element => {
-    element.addEventListener('click', cartItemClickListener);
-    cartTotal += parseInt(element.dataset.salePrice);
-    console.log(cartTotal.toFixed(2));
-  });
-};
-
-const emptyCart = () => {
-  const cartList = document.querySelector('.cart__items');
-  cartList.innerHTML = '';
-  localStorage.clear();
-};
 
 window.onload = function onload() {
   // Query for computer
   const QUERY = 'computador';
   fetchQuery(QUERY);
-  reload();
-  const emptyCartButton = document.querySelector('.empty-cart');
-  emptyCartButton.addEventListener('click', emptyCart);
 };
-
-// function salvaLista() {
-//   localStorage.clear();
-//   const cartList = document.querySelectorAll('li');
-//   for (let element = 0; element < cartList.length; element += 1) {
-//     const  = {
-//       task: listaTarefas[elemento].innerText,
-//       status: situacao,
-//     };
-//     const starefa = JSON.stringify(tarefa);
-//     localStorage.setItem(elemento, starefa);
-//   }
-// }
-
-// function apagaLista() {
-//   localStorage.clear();
-//   inicioListaTarefas.innerHTML = 'Lista de Tarefas';
-// }
-// function recriaLista() {
-//   for (let elemento = 0; elemento < localStorage.length; elemento += 1) {
-//     const starefa = localStorage.getItem(elemento);
-//     const tarefa = document.createElement('li');
-//     const objetoTarefa = JSON.parse(starefa);
-//     tarefa.innerText = objetoTarefa.task;
-//     if (objetoTarefa.status === 'completed') {
-//       tarefa.classList.toggle('completed');
-//     }
-//     inicioListaTarefas.appendChild(tarefa);
-//   }
-// }
