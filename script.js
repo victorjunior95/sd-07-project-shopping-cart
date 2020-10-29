@@ -47,7 +47,7 @@ function fetchById(id) {
     .then(response => response.json())
     .then((product) => {
       ol.appendChild(createCartItemElement(product));
-      // storageSetItem();
+      storageSetItem();
     })
     .catch(error => console.log(error));
 }
@@ -79,6 +79,7 @@ const fetchApi = (product) => {
   // do {
   //   const textLoading = document.createElement('div.loading');
   //   textLoading.innerHTML = "loading..."
+  //
   // }
   // while (
   fetch(url)
