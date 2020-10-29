@@ -18,7 +18,7 @@ function createCustomElement(element, className, innerText) {
 
 function cartItemClickListener(event) {
   shoppingCart.removeChild(event.target);
-  saveShoppingCart()
+  saveShoppingCart();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -41,7 +41,7 @@ function createProductItemElement({ sku, name, image, salePrice }) {
   .addEventListener('click', () => {
     const addCart = createCartItemElement({ sku, name, salePrice });
     shoppingCart.appendChild(addCart);
-    saveShoppingCart()
+    saveShoppingCart();
     /* .addEventListener('click', () => {
       //shoppingCart.removeChild(addCart);
       // (bem mais facil dessa forma doke com o event.target na minha opiniao)
@@ -119,4 +119,3 @@ window.onload = function onload() {
   loadProducts();
   ClearShoppingCart();
 };
-
