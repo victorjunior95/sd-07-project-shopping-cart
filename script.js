@@ -24,7 +24,7 @@ function createProductItemElement({ sku, name, image }) {
 
 function sumTotalCart() {
   const newList = JSON.parse(localStorage.getItem('Carrinho de Compras'));
-  const divPrice = document.querySelector('#total-price');
+  const divPrice = document.querySelector('.total-price');
   const divPriceChild = document.querySelector('.total-price-child');
   const newArray = [];
   newList.forEach(item => newArray.push(item.salePrice));
