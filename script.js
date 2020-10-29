@@ -47,7 +47,7 @@ function fetchById(id) {
     .then(response => response.json())
     .then((product) => {
       ol.appendChild(createCartItemElement(product));
-      storageSetItem();
+      // storageSetItem();
     })
     .catch(error => console.log(error));
 }
@@ -66,7 +66,7 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
     // Target: faz retornar o elemento onde o evento ocorreu.
     // ParentNode: retorna o pai do nó especificado, como um objeto node.
     fetchById(id);
-    // storageSetItem();
+    storageSetItem();
   });
   section.appendChild(buttonAddProduct);
 
@@ -83,10 +83,14 @@ const fetchApi = (product) => {
     .catch(error => console.log(error));
 };
 
+// Lógica com o while na linha 90 adaptada da solução do site qastack:
 const clearProducts = () => {
   const buttonClear = document.querySelector('button.empty-cart');
   const allLi = document.querySelector('ol');
-  buttonClear.addEventListener('click', () => allLi.remove());
+  buttonClear.addEventListener('click', () => {
+    while (allLi.firstChild) allLi.removeChild(allLi.lastChild);
+    localStorage.clear();
+  });
 };
 
 window.onload = function onload() {
