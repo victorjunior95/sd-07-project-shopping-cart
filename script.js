@@ -46,18 +46,30 @@ const handleProducts = (products) => {
 const showAlert = (message) => {
   window.alert(message);
 };
+const totalCar = async (price) => {
+  const totalPrice = document.querySelector('.total-price').innerHTML;
+  const totalPedido = (parseFloat(totalPrice) + parseFloat(price));
+  document.querySelector('.total-price').innerHTML = totalPedido;
+  localStorage.setItem('updateTotal', totalPedido);
+};
 
-function cartItemClickListener(event) {
+function cartItemClickListener(event, sku, salePrice) {
   // coloque seu código aqui
-  const keyLocalStorage = event.target.innerText.substr(5, 13);
+  console.log(salePrice);
+  const keyLocalStorage = sku;
+  const price = parseFloat(salePrice) * -1;
+  totalCar(price);
   localStorage.removeItem(keyLocalStorage);
   event.target.remove();
 }
+
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
+  li.addEventListener('click', function (event) {
+    cartItemClickListener(event, sku, salePrice);
+  });
   return li;
 }
 /*------------------------------------*/
@@ -70,6 +82,7 @@ const handleProductPerId = (product) => {
   });
   ol.appendChild(addItem);
   localStorage.setItem(product.id, addItem.innerText);
+  totalCar(product.price);
 };
 const fetchProductPerId = async (id) => {
   const endpoint = `https://api.mercadolibre.com/items/${id}`;
@@ -116,12 +129,18 @@ const loadItemsLocalStorage = () => {
   const values = Object.values(localStorage);
   const ol = document.querySelector('.cart__items');
   values.forEach((value) => {
-    const li = document.createElement('li');
-    li.className = 'cart__item';
-    li.innerText = `${value}`;
-    li.addEventListener('click', cartItemClickListener);
-    ol.appendChild(li);
+    if (value.startsWith('SKU')) {
+      const li = document.createElement('li');
+      li.className = 'cart__item';
+      li.innerText = `${value}`;
+      li.addEventListener('click', cartItemClickListener);
+      ol.appendChild(li);
+    }
   });
+  if (values.length >= 1) {
+    const updateTotal = localStorage.getItem('updateTotal');
+    document.querySelector('.total-price').innerHTML = updateTotal;
+  }
 };
 window.onload = function onload() {
   fetchProductsML();
