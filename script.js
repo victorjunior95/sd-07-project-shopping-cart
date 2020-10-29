@@ -60,7 +60,7 @@ const loadProducts = () => {
     .then((data) => {
       if (data.results.length > 0) {
         data.results.forEach((product) => {
-          const { id: sku, title: name, thumbnail: image, price: salePrice} = product;
+          const { id: sku, title: name, thumbnail: image, price: salePrice } = product;
           const item = createProductItemElement({ sku, name, image, salePrice });
           allItems.appendChild(item);
         });
