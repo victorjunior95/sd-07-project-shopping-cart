@@ -12,20 +12,6 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function setLocalStorage() {
-  const allCartItems = document.querySelector('ol.cart__items');
-  localStorage.setItem('Cart', allCartItems.innerHTML);
-}
-
-function getLocalStorage() {
-  const allCartItems = document.querySelector('ol.cart__items');
-  allCartItems.innerHTML = localStorage.getItem('Cart');
-  allCartItems.childNodes.forEach((item) => {
-    item.addEventListener('click', cartItemClickListener);
-  });
-  totalPrice();
-}
-
 function totalPrice() {
   const allCartItems = document.querySelectorAll('.cart__item');
   const total = document.querySelector('.total-price');
@@ -37,11 +23,25 @@ function totalPrice() {
   total.innerHTML = `${sumPrices}`;
 }
 
+function setLocalStorage() {
+  const allCartItems = document.querySelector('ol.cart__items');
+  localStorage.setItem('Cart', allCartItems.innerHTML);
+}
+
 function cartItemClickListener(event) {
   // remove elemento que foi clicado
   event.target.remove();
   totalPrice();
   setLocalStorage();
+}
+
+function getLocalStorage() {
+  const allCartItems = document.querySelector('ol.cart__items');
+  allCartItems.innerHTML = localStorage.getItem('Cart');
+  allCartItems.childNodes.forEach((item) => {
+    item.addEventListener('click', cartItemClickListener);
+  });
+  totalPrice();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -85,10 +85,6 @@ function createProductItemElement({ sku, name, image }) {
 
   return section;
 }
-
-// function getSkuFromProductItem(item) {
-//   return item.querySelector('span.item__sku').innerText;
-// }
 
 // função limpar carrinho de compras
 function emptyShoppingCart() {
