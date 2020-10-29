@@ -24,7 +24,7 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-// busca o JSON e chama função pra adaptar o objeto. 
+// busca o JSON e chama função pra adaptar o objeto.
 
 const functionFetchJSON = async (endpoint, adaptFunction) => {
   try {
