@@ -24,33 +24,29 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
+const sumOfItems = () => {
+  const cart = document.querySelector('.cart__items').childNodes;
+  let totalSum = 0;
+  cart.forEach(item => {
+    const itemValue = item.innerText.split('$');
+    totalSum += parseFloat(itemValue[1]);
+  });
+  const divSumAllItems = document.querySelector('.total-price');
+  divSumAllItems.innerText = totalSum;
+};
+
+function cartItemClickListener(event) {
+  event.target.remove();
+  sumOfItems();
+}
+
 const emptyCartButton = () => {
   const clearButton = document.querySelector('.empty-cart');
   clearButton.addEventListener('click', () => {
     const cartItems = document.querySelector('.cart__items');
     cartItems.innerHTML = '';
-    const divSumAllItems = document.querySelector('.div-sum-prices');
-    divSumAllItems.innerText = '';
+    sumOfItems();
   });
-};
-
-const deleteItemValue = (value) => {
-  const divSumAllItems = document.querySelector('.div-sum-prices');
-  divSumAllItems.innerText -= value;
-};
-
-// event para remover item do carrinho
-function cartItemClickListener(event) {
-  const itemValue = event.target.innerText.split('PRICE: $');
-  deleteItemValue(itemValue[1]);
-  event.target.remove();
-}
-
-let totalSum = 0;
-const sumOfItems = (salePrice) => {
-  totalSum += salePrice;
-  const divSumAllItems = document.querySelector('.div-sum-prices');
-  divSumAllItems.innerText = totalSum;
 };
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -58,7 +54,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
-  sumOfItems(salePrice);
+  sumOfItems();
   return li;
 }
 
@@ -71,7 +67,6 @@ const adaptJSONItem = (object) => {
 };
 
 // busca o JSON e chama função pra adaptar o objeto.
-
 const functionFetchJSON = async (endpoint, adaptFunction) => {
   try {
     const responseURL = await fetch(endpoint);
@@ -119,10 +114,10 @@ function getSkuFromProductItem(item) {
 
 const elementsHTMLSumOfItems = () => {
   const elementSumHTML = document.createElement('div');
-  elementSumHTML.className = 'total-price';
+  elementSumHTML.className = 'div-sum-prices';
   elementSumHTML.innerHTML = 'Valor total:';
   const divSumAllItems = document.createElement('div');
-  divSumAllItems.className = 'div-sum-prices';
+  divSumAllItems.className = 'total-price';
   elementSumHTML.appendChild(divSumAllItems);
   const containerHTML = document.querySelector('.container');
   containerHTML.appendChild(elementSumHTML);
