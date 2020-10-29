@@ -59,7 +59,14 @@ function createProductItemElement({ sku, name, image }) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
 
-
+// função limpar carrinho de compras
+function emptyShoppingCart() {
+  const emptyButton = document.querySelector('.empty-cart');
+  emptyButton.addEventListener('click', () => {
+    const allCartItems = document.querySelector('.cart__items');
+    allCartItems.innerHTML = '';
+  });
+}
 const fetchItems = () => {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   fetch(endpoint)
@@ -80,4 +87,5 @@ const fetchItems = () => {
 
 window.onload = function onload() {
   fetchItems();
+  emptyShoppingCart();
 };
