@@ -24,7 +24,7 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-const sumOfItems = () => {
+const sumOfItems = async () => {
   const cart = document.querySelector('.cart__items').childNodes;
   let totalSum = 0;
   cart.forEach((item) => {
@@ -32,7 +32,7 @@ const sumOfItems = () => {
     totalSum += parseFloat(itemValue[1]);
   });
   const divSumAllItems = document.querySelector('.total-price');
-  divSumAllItems.innerText = totalSum;
+  divSumAllItems.innerHTML = totalSum;
 };
 
 function cartItemClickListener(event) {
@@ -54,7 +54,6 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
-  sumOfItems();
   return li;
 }
 
@@ -63,7 +62,7 @@ const adaptJSONItem = (object) => {
   const cartItems = document.querySelector('.cart__items');
   const { id: sku, title: name, price: salePrice } = object;
   cartItems.appendChild(createCartItemElement({ sku, name, salePrice }));
-  // cartItems.appendChild(item);
+  sumOfItems();
 };
 
 // busca o JSON e chama função pra adaptar o objeto.
