@@ -122,7 +122,6 @@ function totalCartPrice(data) {
   spanPrice.innerText = `Preço total R$${totalPrice}`;
 
   addProducts(spanPrice, sectionCart);
-
 }
 
 async function addProductToCart(id) {
