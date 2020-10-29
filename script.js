@@ -21,15 +21,30 @@ function storageSetItem() {
   localStorage.setItem('item', allLi.innerHTML);
 }
 
-function storageGetItem() {
-  const allLi = document.querySelector('ol');
-  allLi.innerHTML = localStorage.getItem('item');
+function sumItens() {
+  let count = 0;
+  const getLi = document.querySelectorAll('li');
+  getLi.forEach((li) => {
+    const resultString = li.innerText.split('$')[1];
+    count += parseFloat(resultString);
+  });
+  const getPrice = document.querySelector('.total-price');
+  getPrice.innerHTML = count;
 }
 
 function cartItemClickListener(event) {
   const ol = document.querySelector('.cart__items');
   ol.removeChild(event.target);
   storageSetItem();
+  sumItens();
+}
+
+function storageGetItem() {
+  const allLi = document.querySelector('ol');
+  allLi.innerHTML = localStorage.getItem('item');
+  allLi.childNodes.forEach((item) => {
+    item.addEventListener('click', cartItemClickListener);
+  });
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -40,14 +55,27 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   return li;
 }
 
+function insertLoading() {
+  const sectionContainer = document.querySelector('.cart');
+  sectionContainer.appendChild(createCustomElement('p', 'loading', 'loading...'));
+}
+
+function removeLoading() {
+  const getLoading = document.querySelector('.loading');
+  getLoading.remove();
+}
+
 function fetchById(id) {
   const ol = document.querySelector('.cart__items');
   const url = `https://api.mercadolibre.com/items/${id}`;
+  insertLoading();
   fetch(url)
     .then(response => response.json())
     .then((product) => {
       ol.appendChild(createCartItemElement(product));
       storageSetItem();
+      removeLoading();
+      sumItens();
     })
     .catch(error => console.log(error));
 }
@@ -67,6 +95,7 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
     // ParentNode: retorna o pai do nó especificado, como um objeto node.
     fetchById(id);
     storageSetItem();
+    sumItens();
   });
   section.appendChild(buttonAddProduct);
 
@@ -76,18 +105,15 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 const fetchApi = (product) => {
   const products = document.querySelector('.items');
   const url = `https://api.mercadolibre.com/sites/MLB/search?q=${product}`;
-  // do {
-  //   const textLoading = document.createElement('div.loading');
-  //   textLoading.innerHTML = "loading..."
-  //
-  // }
-  // while (
+  insertLoading();
   fetch(url)
     .then(response => response.json())
-    .then(data => data.results.forEach(result => products
-      .appendChild(createProductItemElement(result))))
+    .then(data => data.results.forEach((result) => {
+      products
+      .appendChild(createProductItemElement(result));
+    }))
     .catch(error => console.log(error));
-  // )
+  removeLoading();
 };
 
 // Lógica com o while na linha 90 adaptada da solução do site qastack:
@@ -97,6 +123,7 @@ const clearProducts = () => {
   buttonClear.addEventListener('click', () => {
     while (allLi.firstChild) allLi.removeChild(allLi.lastChild);
     // localStorage.clear();
+    sumItens();
   });
 };
 
@@ -104,4 +131,5 @@ window.onload = function onload() {
   fetchApi('computador');
   storageGetItem();
   clearProducts();
+  sumItens();
 };
