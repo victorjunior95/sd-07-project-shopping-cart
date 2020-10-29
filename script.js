@@ -22,7 +22,7 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-function separateFunction(newList) {
+function calculateValue(newList) {
   return new Promise((resolve) => {
     const newArray = [];
     newList.forEach(item => newArray.push(item.salePrice));
@@ -35,7 +35,7 @@ async function sumTotalCart() {
   const newList = JSON.parse(localStorage.getItem('Carrinho de Compras'));
   const divPrice = document.querySelector('.total-price');
   const divPriceChild = document.querySelector('.total-price-child');
-  const value = await separateFunction(newList);
+  const value = await calculateValue(newList);
   if (!divPriceChild) {
     const totalPriceInCart = createCustomElement('div', 'total-price-child bg-dark text-light', value);
     divPrice.appendChild(totalPriceInCart);
