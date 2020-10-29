@@ -12,6 +12,8 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+// Cria elementos que vão receber os valores totais
+
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
@@ -21,6 +23,8 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
   return section;
 }
+
+// busca o JSON e chama função pra adaptar o objeto. 
 
 const functionFetchJSON = async (endpoint, adaptFunction) => {
   try {
@@ -32,11 +36,22 @@ const functionFetchJSON = async (endpoint, adaptFunction) => {
   }
 };
 
+const emptyCartButton = () => {
+  const clearButton = document.querySelector('.empty-cart');
+  clearButton.addEventListener('click', () => {
+    const cartItems = document.querySelector('.cart__items');
+    cartItems.innerHTML = '';
+    const divSumAllItems = document.querySelector('.div-sum-prices');
+    divSumAllItems.innerText = '';
+  });
+};
+
 const deleteItemValue = (value) => {
   const divSumAllItems = document.querySelector('.div-sum-prices');
   divSumAllItems.innerText -= value;
 };
 
+// event para remover item do carrinho
 function cartItemClickListener(event) {
   const itemValue = event.target.innerText.split('PRICE: $');
   deleteItemValue(itemValue[1]);
@@ -58,7 +73,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   sumOfItems(salePrice);
   return li;
 }
-
+// adapta JSON para item do carrinho
 const adaptJSONItem = (object) => {
   const cartItems = document.querySelector('.cart__items');
   const { id: sku, title: name, price: salePrice } = object;
@@ -115,4 +130,5 @@ const elementsHTMLSumOfItems = () => {
 window.onload = function onload() {
   fetchProducts();
   elementsHTMLSumOfItems();
+  emptyCartButton();
 };
