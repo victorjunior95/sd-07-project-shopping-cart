@@ -91,6 +91,12 @@ const buttonAddToCart = () => {
   });
 };
 
+const loading = () => {
+  const container = document.querySelector('.container');
+  const loadingElement = createCustomElement('div', 'loading', 'loading...');
+  container.appendChild(loadingElement);
+};
+
 const removeLoading = () => {
   document.querySelector('.loading').remove();
 };
@@ -126,12 +132,6 @@ const elementsHTMLSumOfItems = () => {
   elementSumHTML.appendChild(divSumAllItems);
   const containerHTML = document.querySelector('.container');
   containerHTML.appendChild(elementSumHTML);
-};
-
-const loading = () => {
-  const container = document.querySelector('.container');
-  const loadingElement = createCustomElement('div', 'loading', 'loading...');
-  container.appendChild(loadingElement);
 };
 
 window.onload = function onload() {
