@@ -131,6 +131,6 @@ window.onload = function onload() {
   addWithClick();
   clearCart();
   getLStorage();
-  loadingPage()
-  removeLoadingPage()
+  loadingPage();
+  removeLoadingPage();
 };
