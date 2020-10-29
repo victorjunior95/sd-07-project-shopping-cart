@@ -41,6 +41,7 @@ const updatePrice = (className, value, signal) => {
       .split(' ');
 
     splitedPrice[signal] = '₱';
+
     ratePHP.then((x) => {
       splitedPrice[value] = (x * splitedPrice[value]).toFixed(2);
       copyItem.innerText = splitedPrice.join(' ');
@@ -76,14 +77,14 @@ function createProductItemElement({ sku, name, image, price }) {
 //   // coloque seu código aqui
 // }
 
-// const getSearchItem = () => {
-//   const searchInput = document.querySelector('#search-input').value;
-//   return searchInput;
-// };
+const getSearchItem = () => {
+  const searchInput = document.querySelector('#search-input').value;
+  return searchInput;
+};
 
 // Baseado na aula do Vitor
 const createProductList = (searchFor) => {
-  const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=computador`;
+  const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${searchFor}`;
   fetch(endpoint)
   .then(response => response.json())
   .then((data) => {
@@ -102,11 +103,9 @@ const executeSearch = (input) => {
     const items = document.querySelector('#items');
     if (items !== '') {
       items.innerHTML = '';
-      createProductList();
-      // createProductList(getSearchItem());
+      createProductList(getSearchItem());
     } else {
-      createProductList();
-      // createProductList(getSearchItem());
+      createProductList(getSearchItem());
     }
   }
 };
