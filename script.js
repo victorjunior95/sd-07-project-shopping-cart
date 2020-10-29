@@ -123,11 +123,11 @@ const loadCart = (array) => {
 const onloadCart = () => {
   const cart = [];
   for (let index = 0; index < localStorage.length; index += 1) {
-     cart.push(JSON.parse(localStorage.getItem(localStorage.key(index))));
+    cart.push(JSON.parse(localStorage.getItem(localStorage.key(index))));
   }
   loadCart(cart);
- };
- 
+};
+
 window.onload = function onload() {
   getListItems();
   onloadCart();
