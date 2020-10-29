@@ -48,6 +48,8 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  li.dataset.price = salePrice;
+  console.log(li.dataset.price);
   // console.log(li.innerText);
   // console.log(sku);
   // console.log(salePrice);
@@ -102,15 +104,15 @@ const handleResults = (results) => {
   btItemAdd.forEach(btn => btn.addEventListener('click', findId));
 };
 
-// function createToLoad() {
-//   spanParent = document.querySelector('.cart');
-//   spanLoad = createCustomElement('span', 'loading', 'loading...');
-//   spanParent = appendChild(spanLoad);
-// }
+function createToLoad() {
+  spanParent = document.querySelector('.cart');
+  spanLoad = createCustomElement('span', 'loading', 'loading...');
+  spanParent.appendChild(spanLoad);
+}
 
 function removeToLoad() {
   spanLoad = document.querySelector('.loading');
-  spanLoad.innerHTML = ' ';
+  spanLoad.remove();
 }
 
 const fetchProductsAwaitAsync = async () => {
@@ -138,6 +140,6 @@ btClearCart.addEventListener('click', () => {
 });
 
 window.onload = function onload() {
-  // createToLoad();
+  createToLoad();
   fetchProductsAwaitAsync();
 };
