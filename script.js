@@ -1,20 +1,11 @@
 const saveCartToLocalStorage = (object) => {
-  localStorage.setItem(object.sku,JSON.stringify(object));
-}
+  localStorage.setItem(object.sku, JSON.stringify(object));
+};
 
 const removeLocalStorage = (itemCart) => {
-  const idProductSelected = itemCart.split(' ')
+  const idProductSelected = itemCart.split(' ');
   localStorage.removeItem(idProductSelected[1]);
-}
-
-const onloadCart = () => {
- const cart = [];
- for (let index = 0; index < localStorage.length; index += 1){
-    cart.push(JSON.parse(localStorage.getItem(localStorage.key(index))))
- }
- loadCart(cart);
-}
-
+};
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -56,7 +47,7 @@ function cartItemClickListener(event) {
   const currentItem = event.currentTarget;
   const getElementFather = currentItem.parentNode;
   getElementFather.removeChild(currentItem);
-  const itemText = currentItem.innerText
+  const itemText = currentItem.innerText;
   removeLocalStorage(itemText);
 }
 
@@ -127,8 +118,16 @@ const loadCart = (array) => {
   array.forEach((product) => {
     containerCart.appendChild(createCartItemElement(product));
   });
-}
+};
 
+const onloadCart = () => {
+  const cart = [];
+  for (let index = 0; index < localStorage.length; index += 1) {
+     cart.push(JSON.parse(localStorage.getItem(localStorage.key(index))));
+  }
+  loadCart(cart);
+ };
+ 
 window.onload = function onload() {
   getListItems();
   onloadCart();
