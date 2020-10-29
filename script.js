@@ -15,12 +15,12 @@ function createCustomElement(element, className, innerText) {
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
-
+  
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-
+  
   return section;
 }
 
@@ -34,7 +34,15 @@ const functionFetchJSON = async (endpoint, adaptFunction) => {
   }
 };
 
+const deleteItemValue = (value) => {
+  totalSum -= value;
+  let divSumAllItems = document.querySelector('.div-sum-prices');
+  divSumAllItems.innerText -= value;
+}
+
 function cartItemClickListener(event) {
+  let itemValue = event.target.innerText.split('PRICE: $');
+  deleteItemValue(itemValue[1]);
   event.target.remove();
 }
 
@@ -43,6 +51,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  sumOfItems(salePrice);
   return li;
 }
 
@@ -88,6 +97,26 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+const elementsHTMLSumOfItems = () => {
+  
+  const elementSumHTML = document.createElement('div');
+  elementSumHTML.className = 'total-price';
+  elementSumHTML.innerHTML = 'Valor total:'
+  const divSumAllItems = document.createElement('div');
+  divSumAllItems.className = 'div-sum-prices';
+  elementSumHTML.appendChild(divSumAllItems);
+  const containerHTML = document.querySelector('.container');
+  containerHTML.appendChild(elementSumHTML);
+}
+
+let totalSum = 0;
+const sumOfItems = (salePrice) => {
+  totalSum += salePrice;
+  let divSumAllItems = document.querySelector('.div-sum-prices');
+  divSumAllItems.innerText = totalSum;
+}
+
 window.onload = function onload() {
   fetchProducts();
+  elementsHTMLSumOfItems();
 };
