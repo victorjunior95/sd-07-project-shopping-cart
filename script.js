@@ -34,6 +34,7 @@ function saveLocalStorage() {
 function cartItemClickListener(event) {
   event.target.remove(); // https://www.w3schools.com/jsref/met_element_remove.asp
   saveLocalStorage();
+  sumPrice();
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -81,7 +82,9 @@ function productList() {
 function cleanCart() {
   document.querySelector('.empty-cart').addEventListener('click', () => {
     document.querySelector('.cart__items').innerText = '';
+    cart = []; // limpar carrinho
     saveLocalStorage();
+    sumPrice();
   });
 }
 
@@ -93,6 +96,12 @@ function loadLocalStorage() {
     searchItems.forEach(item => item.addEventListener('click', cartItemClickListener));
   }
 }
+
+function sumPrice() {
+  const total = document.querySelector('.total-price');
+  total.innerText = cart.reduce((acc, curr) => acc + curr.salePrice, 0);
+  return total;
+};
 
 window.onload = function onload() {
   productList();
