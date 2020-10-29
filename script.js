@@ -24,7 +24,7 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 }
 
 // source https://www.devmedia.com.br/javascript-substring-selecionando-parte-de-uma-string/39232
-const sumItems = async () => {
+const sumItems = () => {
   const arrayOfItems = [];
   const sumPrice = document.querySelector('.total-price');
   const cartItems = document.querySelectorAll('.cart__item');
