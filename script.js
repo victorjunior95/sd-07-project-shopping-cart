@@ -101,7 +101,11 @@ const handleResults = (results) => {
   const btItemAdd = document.querySelectorAll('.item__add');
   btItemAdd.forEach(btn => btn.addEventListener('click', findId));
 };
-
+function createToLoad() {
+  spanParent = document.querySelector('.cart');
+  spanLoad = createCustomElement('span', 'loading', 'loading...');
+  spanParent = appendChild(spanLoad);
+}
 function removeToLoad() {
   spanLoad = document.querySelector('.loading');
   spanLoad.innerHTML = ' ';
@@ -132,5 +136,6 @@ btClearCart.addEventListener('click', () => {
 });
 
 window.onload = function onload() {
+  createToLoad();
   fetchProductsAwaitAsync();
 };
