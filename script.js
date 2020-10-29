@@ -4,8 +4,8 @@ const showAlert = (message) => {
 
 function handleLocalStorage(sku, li, action) {
   if (action === 'set') localStorage.setItem(JSON.stringify(sku, li));
-  if (action === 'get') localStorage.getItem(JSON.parse(li));
-  if (action === 'remove') localStorage.removeItem(li);
+  if (action === 'get') localStorage.getItem(JSON.parse(sku, li));
+  if (action === 'remove') localStorage.removeItem(sku, li);
   if (action === 'clear') localStorage.clear();
 }
 
@@ -39,6 +39,8 @@ function createProductItemElement({ sku, name, image }) {
 
 function cartItemClickListener(event) {
   event.target.parentNode.removeChild(event.target);
+  // console.log(event.target);
+  // handleLocalStorage(sku, li, 'remove');
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -46,10 +48,10 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
-  console.log(li.innerText);
-  console.log(sku);
-  console.log(salePrice);
-  handleLocalStorage(li, 'set');
+  // console.log(li.innerText);
+  // console.log(sku);
+  // console.log(salePrice);
+  // handleLocalStorage(sku, li, 'set');
   return li;
 }
 // function sumPrice(saleprice) {
@@ -96,11 +98,8 @@ const handleResults = (results) => {
     const item = createProductItemElement({ sku, name, image });
     items.appendChild(item);
   });
-  const btItemAdd = document.querySelector('.item__add');
-// console.log(btItemAdd)
-/* existe um erro no bt se corrijo apaga tudo - aqui são vários bts
-com a mesma classe, da forma q fiz abaixo so capturo o primeiro bt*/
-  btItemAdd.addEventListener('click', findId);
+  const btItemAdd = document.querySelectorAll('.item__add');
+  btItemAdd.forEach(btn => btn.addEventListener('click', findId));
 };
 
 function removeToLoad() {
@@ -127,9 +126,9 @@ const fetchProductsAwaitAsync = async () => {
 const btClearCart = document.querySelector('.empty-cart');
 btClearCart.addEventListener('click', () => {
   const cartItemsOl = document.querySelector('.cart__items');
-  console.log(cartItemsOl);
+  // console.log(cartItemsOl);
   cartItemsOl.innerHTML = ' ';
-  handleLocalStorage('', 'clear');
+  handleLocalStorage('', '', 'clear');
 });
 
 window.onload = function onload() {
