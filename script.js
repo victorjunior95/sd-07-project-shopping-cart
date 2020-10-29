@@ -76,14 +76,14 @@ function createProductItemElement({ sku, name, image, price }) {
 //   // coloque seu código aqui
 // }
 
-const getSearchItem = () => {
-  const searchInput = document.querySelector('#search-input').value;
-  return searchInput;
-};
+// const getSearchItem = () => {
+//   const searchInput = document.querySelector('#search-input').value;
+//   return searchInput;
+// };
 
 // Baseado na aula do Vitor
 const createProductList = (searchFor) => {
-  const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${searchFor}`;
+  const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=computador`;
   fetch(endpoint)
   .then(response => response.json())
   .then((data) => {
@@ -102,9 +102,11 @@ const executeSearch = (input) => {
     const items = document.querySelector('#items');
     if (items !== '') {
       items.innerHTML = '';
-      createProductList(getSearchItem());
+      createProductList();
+      // createProductList(getSearchItem());
     } else {
-      createProductList(getSearchItem());
+      createProductList();
+      // createProductList(getSearchItem());
     }
   }
 };
