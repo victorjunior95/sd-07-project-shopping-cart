@@ -35,6 +35,8 @@ function getSkuFromProductItem(item) {
 function cartItemClickListener(event) {
   const item = event.currentTarget;
   item.remove();
+  // console.log(item.textContent);
+  console.log(item.classList);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -70,6 +72,7 @@ async function addToCart(id) {
   const { id: sku, title: name, price: salePrice } = response;
   const itemToCart = createCartItemElement({ sku, name, salePrice });
   cart.appendChild(itemToCart);
+  localStorage.setItem([id], [name]);
 }
 
 function addButton() {
@@ -91,8 +94,20 @@ function removeItemFromCart() {
   }));
 }
 
+async function loadCartFromStorage() {
+  try {
+    // const storage = await Array.from(localStorage.);
+    const storage = await Object.entries(localStorage);
+    storage.forEach(item => addToCart(item[0]));
+  } catch (error) {
+    return error
+  }
+  
+}
+
 window.onload = async function onload() {
   await productList();
   addButton();
   removeItemFromCart();
+  loadCartFromStorage();
 };
