@@ -69,10 +69,10 @@ function createCartItemElement({ sku, name, salePrice }) {
 const fetchCart = async (toMyCart) => {
   const endpoint = `https://api.mercadolibre.com/items/${toMyCart}`;
   try {
-    const response = await fetch(endpoint);
     const cartList = document.querySelector('.cart__items');
     const loading = createCustomElement('spam', 'loading', 'loading...');
     cartList.appendChild(loading);
+    const response = await fetch(endpoint);
     const object = await response.json();
     cartList.removeChild(loading);
     if (object.error) {
@@ -119,10 +119,10 @@ const emptyCart = () => {
 const fetchQuery = async (myQuery) => {
   const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${myQuery}`;
   try {
-    const response = await fetch(endpoint);
     const cartList = document.querySelector('.cart__items');
-    const loading = await createCustomElement('spam', 'loading', 'loading...');
+    const loading = createCustomElement('spam', 'loading', 'loading...');
     cartList.appendChild(loading);
+    const response = await fetch(endpoint);
     const object = await response.json();
     cartList.removeChild(loading);
     if (object.error) {
