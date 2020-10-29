@@ -12,9 +12,6 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-const loading = createCustomElement('h1', 'loading', 'loading...');
-// console.log(loading);
-
 function cartItemClickListener(event) {
   // remove elemento que foi clicado
   event.target.remove();
@@ -76,6 +73,7 @@ const fetchItems = () => {
     .then(response => response.json())
     .then((object) => {
       const items = document.querySelector('.items');
+      const loading = document.querySelector('.loading');
       loading.remove();
       // console.log("removeu");
       const arrayResults = object.results;
