@@ -18,7 +18,7 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
-  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
+  section.appendChild(createCustomElement('button', 'item__add btn btn-success', 'Adicionar ao carrinho!'));
   return section;
 }
 
@@ -31,11 +31,11 @@ function sumTotalCart() {
   const value = newArray.reduce((acc, nextValue) => acc + nextValue, 0);
   console.log(value);
   if (!divPriceChild) {
-    const totalPriceInCart = createCustomElement('span', 'total-price-child', value);
+    const totalPriceInCart = createCustomElement('div', 'total-price-child bg-dark text-light', value);
     divPrice.appendChild(totalPriceInCart);
   } else {
     divPrice.removeChild(divPriceChild);
-    const totalPriceInCart = createCustomElement('span', 'total-price-child', value);
+    const totalPriceInCart = createCustomElement('div', 'total-price-child bg-dark text-light', value);
     divPrice.appendChild(totalPriceInCart);
   }
 }
@@ -48,7 +48,7 @@ function saveCart(newItemCart) {
 }
 
 function cartItemClickListener(event) {
-  const arrayOfData = JSON.parse(localStorage.getItem('Carrinho de Compras'));
+  const arrayOfData = JSON.parse(localStorage.getItem('Carrinho de Compras')) || [];
   const itemParent = document.querySelector('.cart__items');
   const itemSelected = event.target;
   const newArrayAfterDeleted = [];
