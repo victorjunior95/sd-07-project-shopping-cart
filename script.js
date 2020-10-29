@@ -76,11 +76,17 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 const fetchApi = (product) => {
   const products = document.querySelector('.items');
   const url = `https://api.mercadolibre.com/sites/MLB/search?q=${product}`;
+  // do {
+  //   const textLoading = document.createElement('div.loading');
+  //   textLoading.innerHTML = "loading..."
+  // }
+  // while (
   fetch(url)
     .then(response => response.json())
     .then(data => data.results.forEach(result => products
       .appendChild(createProductItemElement(result))))
-    .catch(error => console.log(error));
+    .catch(error => console.log(error))
+  // )
 };
 
 // Lógica com o while na linha 90 adaptada da solução do site qastack:
@@ -89,7 +95,7 @@ const clearProducts = () => {
   const allLi = document.querySelector('ol');
   buttonClear.addEventListener('click', () => {
     while (allLi.firstChild) allLi.removeChild(allLi.lastChild);
-    localStorage.clear();
+    // localStorage.clear();
   });
 };
 
