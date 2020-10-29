@@ -76,7 +76,7 @@ const functionFetchJSON = async (endpoint, adaptFunction) => {
   }
 };
 
-const addToCart = async (itemID) => {
+const addToCart = (itemID) => {
   const endpointByID = `https://api.mercadolibre.com/items/${itemID}`;
   functionFetchJSON(endpointByID, adaptJSONItem);
 };
@@ -91,6 +91,10 @@ const buttonAddToCart = () => {
   });
 };
 
+const removeLoading = () => {
+  document.querySelector('.loading').remove();
+};
+
 // forEach feito com a ajuda da resolução realizada pelo Vitor no fechamento do dia 26/10
 const adaptJSONResponses = (object) => {
   const itemsElementHTML = document.querySelector('.items');
@@ -100,9 +104,11 @@ const adaptJSONResponses = (object) => {
     itemsElementHTML.appendChild(item);
   });
   buttonAddToCart();
+  removeLoading();
 };
 
-const fetchProducts = async () => {
+const fetchProducts = () => {
+  loading();
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   functionFetchJSON(endpoint, adaptJSONResponses);
 };
@@ -120,6 +126,12 @@ const elementsHTMLSumOfItems = () => {
   elementSumHTML.appendChild(divSumAllItems);
   const containerHTML = document.querySelector('.container');
   containerHTML.appendChild(elementSumHTML);
+};
+
+const loading = () => {
+  const container = document.querySelector('.container');
+  const loadingElement = createCustomElement('div', 'loading', 'loading...');
+  container.appendChild(loadingElement);
 };
 
 window.onload = function onload() {
