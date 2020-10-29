@@ -108,10 +108,13 @@ const fetchApi = (product) => {
   insertLoading();
   fetch(url)
     .then(response => response.json())
-    .then(data => data.results.forEach((result) => {
-      products
-      .appendChild(createProductItemElement(result));
-    }), removeLoading())
+    .then((data) => {
+      data.results.forEach((result) => {
+        products
+        .appendChild(createProductItemElement(result));
+      });
+      removeLoading();
+    })
     .catch(error => console.log(error));
 };
 
