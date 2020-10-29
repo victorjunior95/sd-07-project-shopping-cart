@@ -59,3 +59,17 @@ function createCartItemElement({ sku, name, salePrice }) {
 window.onload = function onload() {
   consulta();
 };
+
+
+// ao clicar no botao ... add event listener
+const add = document.querySelector('.item__add');
+add.addEventListener('click', addInShopCar());
+// 'ao clicar no botao' faça a requisição da api em que $ItemID deve ser o valor id
+const addInShopCar = () => {
+  const ItemID = add.id;
+  const endpoint = `https://api.mercadolibre.com/items/${ItemID}`
+}
+// receber apenas 1 item para passar nojson
+// desestruturar o produto para { sku, name, salePrice }
+// passar o produto desestruturado no createCartItemElement
+// retornar o prudoto como filho de <ol class="cart__items">
