@@ -35,6 +35,7 @@ const updatePrice = (className, value, signal) => {
   const ratePHP = currencyPHP();
 
   items.forEach((item) => {
+    const copyItem = item;
     const splitedPrice = item
       .innerText
       .split(' ');
@@ -42,7 +43,7 @@ const updatePrice = (className, value, signal) => {
     splitedPrice[signal] = '₱';
     ratePHP.then((x) => {
       splitedPrice[value] = (x * splitedPrice[value]).toFixed(2);
-      item.innerText = splitedPrice.join(' ');
+      copyItem.innerText = splitedPrice.join(' ');
     });
   });
 };
@@ -160,10 +161,16 @@ const selectCurrency = () => {
   });
 };
 
+// const addToCart = () => {
+//   const addBtn = document.querySelectorAll('.item__add');
+
+// }
+
 window.onload = function onload() {
   settingsCartBtn();
   settingsSearchBtn();
   selectCurrency();
   const logoBtn = document.querySelector('#logo-svg');
   logoBtn.addEventListener('click', () => location.reload());
+  // addToCart();
 };
