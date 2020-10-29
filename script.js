@@ -2,6 +2,13 @@ const showAlert = (message) => {
   window.alert(message);
 };
 
+function handleLocalStorage(sku, li, action) {
+  if (action === 'set') localStorage.setItem(JSON.stringify(sku, li));
+  if (action === 'get') localStorage.getItem(JSON.parse(li));
+  if (action === 'remove') localStorage.removeItem(li);
+  if (action === 'clear') localStorage.clear();
+}
+
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
   e.className = className;
@@ -10,7 +17,7 @@ function createCustomElement(element, className, innerText) {
 }
 
 // function getSkuFromProductItem(item) {
-//   return item.querySelector('span.item__sku').innerText;
+//   console.log(item.querySelector('span.item__sku').innerText);
 // }
 
 function createProductImageElement(imageSource) {
@@ -39,6 +46,10 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  console.log(li.innerText);
+  console.log(sku);
+  console.log(salePrice);
+  handleLocalStorage(li, 'set');
   return li;
 }
 // function sumPrice(saleprice) {
@@ -85,9 +96,11 @@ const handleResults = (results) => {
     const item = createProductItemElement({ sku, name, image });
     items.appendChild(item);
   });
-  let btItemAdd = document.querySelector('.item__add'); /* existe um erro no bt mas se corrijo apaga tudo*/
-  console.log(btItemAdd);
-  btItemAdd = document.addEventListener('click', findId);
+  const btItemAdd = document.querySelector('.item__add');
+// console.log(btItemAdd)
+/* existe um erro no bt se corrijo apaga tudo - aqui são vários bts
+com a mesma classe, da forma q fiz abaixo so capturo o primeiro bt*/
+  btItemAdd.addEventListener('click', findId);
 };
 
 function removeToLoad() {
@@ -99,6 +112,7 @@ const fetchProductsAwaitAsync = async () => {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   try {
     const response = await fetch(endpoint);
+    removeToLoad();
     const object = await response.json();
     if (object.error) {
       throw new Error(object.error);
@@ -115,9 +129,9 @@ btClearCart.addEventListener('click', () => {
   const cartItemsOl = document.querySelector('.cart__items');
   console.log(cartItemsOl);
   cartItemsOl.innerHTML = ' ';
+  handleLocalStorage('', 'clear');
 });
 
 window.onload = function onload() {
-  setTimeout(fetchProductsAwaitAsync(), 5000);
-  removeToLoad();
+  fetchProductsAwaitAsync();
 };
