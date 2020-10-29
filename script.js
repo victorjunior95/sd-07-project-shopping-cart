@@ -9,19 +9,19 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
-const fetchComputer = search => {
+const fetchComputer = (search) => {
   const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${search}`;
 
   fetch(endpoint)
     .then(response => response.json())
-    .then(object => {
+    .then((object) => {
       if (object.error) {
         throw new Error(object.error);
       } else {
         // Abstração facilitada pelo colega Vitor Rodrigues
         const itemsSection = document.querySelector('.items');
         const resultProduct = object.results;
-        resultProduct.forEach(product => {
+        resultProduct.forEach((product) => {
           const { id: sku, title: name, thumbnail: image } = product;
           const eachItem = createProductItemElement({ sku, name, image });
           itemsSection.appendChild(eachItem);
