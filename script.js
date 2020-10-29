@@ -27,7 +27,7 @@ function createProductItemElement({ sku, name, image }) {
 const sumOfItems = () => {
   const cart = document.querySelector('.cart__items').childNodes;
   let totalSum = 0;
-  cart.forEach(item => {
+  cart.forEach((item) => {
     const itemValue = item.innerText.split('$');
     totalSum += parseFloat(itemValue[1]);
   });
