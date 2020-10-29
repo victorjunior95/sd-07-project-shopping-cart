@@ -34,7 +34,7 @@ const totalize = () => {
     cartTotal += parseFloat(element.dataset.salePrice, 10);
   });
   if (cartTotal !== 0) {
-    spamTotal.innerHTML = cartTotal.toFixed(2);
+    spamTotal.innerHTML = cartTotal;
   } else {
     spamTotal.innerHTML = '';
     localStorage.clear();
