@@ -21,6 +21,11 @@ function storageSetItem() {
   localStorage.setItem('item', allLi.innerHTML);
 }
 
+function storageGetItem() {
+  const allLi = document.querySelector('ol');
+  allLi.innerHTML = localStorage.getItem('item');
+}
+
 function cartItemClickListener(event) {
   const ol = document.querySelector('.cart__items');
   ol.removeChild(event.target);
@@ -78,9 +83,14 @@ const fetchApi = (product) => {
     .catch(error => console.log(error));
 };
 
-window.onload = function onload() {
+const clearProducts = () => {
+  const buttonClear = document.querySelector('button.empty-cart');
   const allLi = document.querySelector('ol');
-  allLi.innerHTML = localStorage.getItem('item');
+  buttonClear.addEventListener('click', () => allLi.remove());
+};
 
+window.onload = function onload() {
   fetchApi('computador');
+  storageGetItem();
+  clearProducts();
 };
