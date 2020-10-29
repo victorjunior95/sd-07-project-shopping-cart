@@ -19,9 +19,16 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
-  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
+  const buttonAddItem = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
+  buttonAddItem.addEventListener('click', function (event) {
+    const item = event.target.parentElement;
+    addItemCart(getSkuFromProductItem(item));
+  });
 
+  section.appendChild(buttonAddItem);
   return section;
+
+  // aqui segui a mesma lógica do Tiago Esdras, no dia do fechamento (último dia do projeto).
 }
 
 function getSkuFromProductItem(item) {
@@ -32,12 +39,30 @@ function cartItemClickListener(event) {
   //
 }
 
-function createCartItemElement({ sku, name, salePrice }) {
+function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
+}
+
+async function addItemCart(itemId) {
+  const urlItemEndpoint = `https://api.mercadolibre.com/items/${itemId}`;
+
+  try {
+    const response = await fetch(urlItemEndpoint);
+    const objectDataItem = await response.json();
+    const listOl = document.querySelector('.cart__items');
+
+    if (objectDataItem.error) {
+      throw new Error(objectDataItem.error);
+    } else {
+      listOl.appendChild(createCartItemElement(objectDataItem));
+    }
+  } catch (error) {
+    alert(error);
+  }
 }
 
 async function loadProducts() {
