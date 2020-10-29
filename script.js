@@ -41,10 +41,19 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
+// function sumPrice(saleprice) {
+  // const totalSum = document.querySelector('.total-price');
+  // totalSum.innerHTML = sumPrice;
+  // let sum = sum.push(saleprice);
+  // let totalPrice = (acc, saleprice) => acc + saleprice;
+  // console.log(sum.reduce(totalPrice));
+  // return sum;
+  // }
 
 function addItemInOl({ id: sku, title: name, price: salePrice }) {
   const cartItemsOl = document.querySelector('.cart__items');
   const item = createCartItemElement({ id: sku, title: name, price: salePrice });
+  // sumPrice(salePrice);
   cartItemsOl.appendChild(item);
 }
 
@@ -76,7 +85,7 @@ const handleResults = (results) => {
     const item = createProductItemElement({ sku, name, image });
     items.appendChild(item);
   });
-  let btItemAdd = document.querySelector('.item__add');
+  let btItemAdd = document.querySelector('.item__add'); /* existe um erro no bt mas se corrijo apaga tudo*/
   console.log(btItemAdd);
   btItemAdd = document.addEventListener('click', findId);
 };
@@ -95,6 +104,14 @@ const fetchProductsAwaitAsync = async () => {
     showAlert(error);
   }
 };
+
+const btClearCart = document.querySelector('.empty-cart');
+btClearCart.addEventListener('click', () => {
+  const cartItemsOl = document.querySelector('.cart__items');
+  console.log(cartItemsOl);
+  cartItemsOl.innerHTML = ' ';
+});
+
 
 window.onload = function onload() {
   fetchProductsAwaitAsync();
