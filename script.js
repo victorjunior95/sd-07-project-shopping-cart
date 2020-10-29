@@ -91,6 +91,7 @@ function createItems(item) {
   const selected = document.querySelector('.cart__items');
   const createItem = createCartItemElement(item);
   selected.appendChild(createItem);
+  setLStorage();
 }
 // 2.1
 function searchItems(ItemID) {
