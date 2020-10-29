@@ -15,7 +15,7 @@ function createCustomElement(element, className, innerText) {
 const setLocalStorage = () => {
   const cart = document.querySelector('ol.cart__items');
   localStorage.setItem('Shop Cart', cart.innerHTML);
-}
+};
 
 // Cria elementos que vão receber os valores totais
 function createProductItemElement({ sku, name, image }) {
