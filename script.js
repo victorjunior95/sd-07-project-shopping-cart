@@ -5,6 +5,13 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+function createCustomElement(element, className, innerText) {
+  const e = document.createElement(element);
+  e.className = className;
+  e.innerText = innerText;
+  return e;
+}
+
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
@@ -15,32 +22,6 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
 
   return section;
-}
-const fetchComputer = search => {
-  const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${search}`;
-
-  fetch(endpoint)
-    .then(response => response.json())
-    .then(object => {
-      if (object.error) {
-        throw new Error(object.error);
-      } else {
-        // Abstração facilitada pelo colega Vitor Rodrigues
-        const itemsSection = document.querySelector('.items');
-        const resultProduct = object.results;
-        resultProduct.forEach(product => {
-          const { id: sku, title: name, thumbnail: image } = product;
-          const eachItem = createProductItemElement({ sku, name, image });
-          itemsSection.appendChild(eachItem);
-        });
-      }
-    });
-};
-function createCustomElement(element, className, innerText) {
-  const e = document.createElement(element);
-  e.className = className;
-  e.innerText = innerText;
-  return e;
 }
 
 function getSkuFromProductItem(item) {
@@ -58,6 +39,26 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
+const fetchComputer = (search) => {
+  const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${search}`;
+
+  fetch(endpoint)
+    .then((response) => response.json())
+    .then((object) => {
+      if (object.error) {
+        throw new Error(object.error);
+      } else {
+        // Abstração facilitada pelo colega Vitor Rodrigues
+        const itemsSection = document.querySelector('.items');
+        const resultProduct = object.results;
+        resultProduct.forEach(product => {
+          const { id: sku, title: name, thumbnail: image } = product;
+          const eachItem = createProductItemElement({ sku, name, image });
+          itemsSection.appendChild(eachItem);
+        });
+      }
+    });
+};
 
 window.onload = function onload() {
   fetchComputer('computador');
