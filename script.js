@@ -52,7 +52,7 @@ function cartItemClickListener(event) {
 }
 
 const loadLocalStorage = () => {
-  if (localStorage.length !== 0) {
+  if (localStorage.getItem('cart-items') !== null) {
     document.querySelector('.cart__items').outerHTML = localStorage.getItem('cart-items');
     document.querySelectorAll('.cart__item')
     .forEach((item) => {
