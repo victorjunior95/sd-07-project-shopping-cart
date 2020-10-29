@@ -111,8 +111,8 @@ const fetchProductsAwaitAsync = async () => {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   try {
     const response = await fetch(endpoint);
-    removeToLoad();
     const object = await response.json();
+    removeToLoad();
     if (object.error) {
       throw new Error(object.error);
     } else {
