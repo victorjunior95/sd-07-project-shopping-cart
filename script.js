@@ -1,4 +1,5 @@
 const allItems = document.querySelector('.items');
+const shoppingCart = document.querySelector('.cart__items');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -14,14 +15,21 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function createProductItemElement({ sku, name, image }) {
+function createProductItemElement({ sku, name, image, salePrice }) {
   const section = document.createElement('section');
   section.className = 'item';
 
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
-  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
+  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'))
+  .addEventListener('click', () => {
+    const addCart = createCartItemElement({ sku, name, salePrice});
+    shoppingCart.appendChild(addCart); /* .addEventListener('click', () => {
+      //shoppingCart.removeChild(addCart);
+      // (bem mais facil dessa forma doke com o event.target na minha opiniao)
+    }); */
+  });
 
   return section;
 }
@@ -31,7 +39,7 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  shoppingCart.removeChild(event.target);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -50,8 +58,8 @@ const loadProducts = () => {
     .then((data) => {
       if (data.results.length > 0) {
         data.results.forEach((product) => {
-          const { id: sku, title: name, thumbnail: image } = product;
-          const item = createProductItemElement({ sku, name, image });
+          const { id: sku, title: name, thumbnail: image, price: salePrice} = product;
+          const item = createProductItemElement({ sku, name, image, salePrice});
           allItems.appendChild(item);
         });
       } else {
