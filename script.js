@@ -18,6 +18,10 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+function cartItemClickListener(event) {
+  return event;
+}
+
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -51,14 +55,10 @@ function createProductItemElement({ sku, name, image }) {
   addCartButton.addEventListener('click', (event) => {
     const id = getSkuFromProductItem(event.target.parentElement);
     fetchProductByID(id);
-    console.log(id);
+    // console.log(id);
   });
   return section;
 }
-
-// function cartItemClickListener(event) {
-//   //escrava
-// }
 
 // Atividade 1 - Função implementada com a ajuda da excelente explicação do Victor Junior.
 const loadProducts = () => {
@@ -75,6 +75,14 @@ const loadProducts = () => {
     });
 };
 
+// Atividade 6 - Botão para limpar carrinho de compras
+const eraseCartItems = () => {
+  const cartItems = document.querySelector('ol', '.cart__items');
+  cartItems.innerHTML = ' ';
+  return cartItems;
+};
+
 window.onload = function onload() {
   loadProducts();
+  eraseCartItems();
 };
