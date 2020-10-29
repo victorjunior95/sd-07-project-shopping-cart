@@ -15,12 +15,10 @@ function createCustomElement(element, className, innerText) {
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
-
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-  
   return section;
 }
 
@@ -48,9 +46,9 @@ function cartItemClickListener(event) {
 let totalSum = 0;
 const sumOfItems = (salePrice) => {
   totalSum += salePrice;
-  let divSumAllItems = document.querySelector('.div-sum-prices');
+  const divSumAllItems = document.querySelector('.div-sum-prices');
   divSumAllItems.innerText = totalSum;
-}
+};
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
@@ -101,7 +99,7 @@ const fetchProducts = async () => {
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
-};
+}
 
 const elementsHTMLSumOfItems = () => {
   const elementSumHTML = document.createElement('div');
