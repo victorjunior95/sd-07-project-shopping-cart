@@ -48,8 +48,7 @@ function loading() {
 }
 
 function removeloading() {
-  const loadremove = document.querySelector('.loading').remove();
-  return loadremove;
+  document.querySelector('.loading').remove();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -71,9 +70,9 @@ const fetchProductList = () => {
         const { id: sku, title: name, thumbnail: image } = product;
         const item = createProductItemElement({ sku, name, image });
         items.appendChild(item);
-      })
-      .then(removeloading);
-    });
+      });
+    })
+    .then(removeloading);
 };
 
 const addItemInCart = (object) => {
