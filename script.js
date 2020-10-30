@@ -29,6 +29,8 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   // My code bellow
+  const item = event.target;
+  item.parentNode.removeChild(item);
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -40,24 +42,28 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 }
 
 // My code bellow ----------------------------------------------------------------------------
-function cartPlacer(data) {
-  const shoppingCart = document.querySelector('.cart__items');
-  item = createCartItemElement(data);
-  shoppingCart.appendChild(item);
-}
-
 function addToCart(event) {
   const url = 'https://api.mercadolibre.com/items/';
   const parentEvent = event.target.parentNode;
   const sku = getSkuFromProductItem(parentEvent);
   const endpoint = `${url}${sku}`;
-  const method = 'cartPlacer';
-  fetchSearch(endpoint, method);
+  fetch(endpoint)
+  .then(response => response.json())
+  .then(data => {
+    cartPlacer(data);
+  });
+}
+
+function cartPlacer(data) {
+  const shoppingCart = document.querySelector('.cart__items');
+  let item = createCartItemElement(data);
+  shoppingCart.appendChild(item);
+  item = item.innerHTML;
 }
 
 function storePlacer(data) {
   const store = document.querySelector('.items');
-  items = data.results;
+  const items = data.results;
   items.forEach((item) => {
     const product = createProductItemElement(item);
     const btnAddCart = product.querySelector('button');
@@ -66,31 +72,16 @@ function storePlacer(data) {
   });
 }
 
-function methodCatcher(data, method) {
-  if (method === 'cartPlacer') {
-    cartPlacer(data);
-  }
-  if (method === 'storePlacer') {
-    storePlacer(data);
-  }
-}
-
-function fetchSearch(endpoint, method) {
-  fetch(endpoint)
-    .then((response) => {
-      response.json()
-        .then((data) => {
-          methodCatcher(data, method);
-        });
-    }).catch(error => console.log(error));
-}
-
-function defaultSearch(term, method) {
+function defaultSearch(term) {
   const url = 'https://api.mercadolibre.com/sites/MLB/search?q=';
   const endpoint = `${url}${term}`;
-  fetchSearch(endpoint, method);
+  fetch(endpoint)
+    .then(response => response.json())
+    .then(data => {
+      storePlacer(data);
+    });
 }
 
 window.onload = function onload() {
-  defaultSearch('COMPUTADOR', 'storePlacer');
+  defaultSearch('COMPUTADOR');
 };
