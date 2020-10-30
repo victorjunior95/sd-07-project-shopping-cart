@@ -81,10 +81,10 @@ const fetchProductToCart = async (id) => {
       throw new Error(object.error);
     } else {
       const cartProductPlace = document.querySelector('ol.cart__items');
-      const { id: sku, title: name, thumbnail: image, price: salePrice } = object;
+      const { id: sku, title: name, price: salePrice } = object;
       const itemList = createCartItemElement({ sku, name, salePrice });
       cartProductPlace.appendChild(itemList);
-      itemList.appendChild(createProductImageElement(image));
+      // itemList.appendChild(createProductImageElement(image));
       itemList.addEventListener('click', cartItemClickListener());
       return itemList;
     }
