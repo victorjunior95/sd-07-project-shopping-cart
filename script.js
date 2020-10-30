@@ -114,10 +114,10 @@ const settingsSearchBtn = () => {
   // const searchBtn = document.querySelector('#search-btn');
   const searchInput = document.querySelector('#search-input').value;
   executeSearch(searchInput);
-  searchBtn.addEventListener('click', () => {
-    // const searchInput = document.querySelector('#search-input').value;
-    // executeSearch(searchInput);
-  });
+  // searchBtn.addEventListener('click', () => {
+  //   // const searchInput = document.querySelector('#search-input').value;
+  //   // executeSearch(searchInput);
+  // });
 };
 
 // function createCartItemElement({ sku, name, salePrice }) {
