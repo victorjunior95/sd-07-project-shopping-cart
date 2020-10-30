@@ -129,7 +129,7 @@ const fetchQuery = async (myQuery) => {
       throw new Error(object.error);
     } else {
       handleQuery(object.results);
-      
+
       const emptyCartButton = document.querySelector('.empty-cart');
       emptyCartButton.addEventListener('click', emptyCart);
     }
