@@ -34,10 +34,6 @@ function cartItemClickListener(event) {
   cartItems.removeChild(selectedItem);
 }
 
-// function cartItemClickListener(event) {
-//   return event;
-// }
-
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -91,8 +87,8 @@ const loadProducts = () => {
         const item = createProductItemElement({ sku, name, image });
         items.appendChild(item);
       });
+      removeLoadingPage();
     });
-  removeLoadingPage();
 };
 
 // Atividade 6 - Botão para limpar carrinho de compras
