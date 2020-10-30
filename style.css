@@ -106,3 +106,10 @@
 .total-price {
   color: green;
 }
+
+.loading {
+  position: fixed;
+  background-color: red;
+  padding: 10px;
+  font-size: 20px;
+}

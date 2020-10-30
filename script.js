@@ -7,10 +7,6 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
-
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
   e.className = className;
@@ -18,14 +14,29 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-const sumPrices = () => {
+const addLoading = () => {
+  const loading = createCustomElement('section', 'loading', 'Loading...');
+  const container = document.querySelector('.container');
+  container.appendChild(loading);
+};
+
+const removeLoading = () => {
+  const container = document.querySelector('.container');
+  const loading = document.querySelector('.loading');
+  container.removeChild(loading);
+};
+
+function getSkuFromProductItem(item) {
+  return item.querySelector('span.item__sku').innerText;
+}
+
+const sumPrices = async () => {
   const allItemCart = document.querySelectorAll('.cart__item');
   let sum = 0;
   allItemCart.forEach((li) => {
     sum += parseFloat(li.innerText.split('$')[1]);
   });
   document.querySelector('.total-price').innerText = sum;
-  console.log(sum);
 };
 
 const updateCart = () => {
@@ -61,6 +72,7 @@ const loadLocalStorage = () => {
 
 const addToCart = async (id) => {
   const endpoint = `https://api.mercadolibre.com/items/${id}`;
+  await addLoading();
   fetch(endpoint).then(response => response.json().then((object) => {
     const { id: sku, title: name, price: salePrice } = object;
     console.log(object);
@@ -68,7 +80,9 @@ const addToCart = async (id) => {
     ol.appendChild(createCartItemElement({ sku, name, salePrice }));
     sumPrices();
     updateCart();
-  }));
+    removeLoading();
+  })
+  );
 };
 
 function createProductItemElement({ sku, name, image }) {
@@ -90,6 +104,7 @@ function createProductItemElement({ sku, name, image }) {
 window.onload = () => {
   const searchItem = async () => {
     const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
+    addLoading();
     fetch(endpoint).then(response => response.json().then((dataItem) => {
       const items = document.querySelector('.items');
       dataItem.results.forEach((product) => {
@@ -97,10 +112,12 @@ window.onload = () => {
         const item = createProductItemElement({ sku, name, image });
         items.appendChild(item);
       });
-    }));
+    })
+    );
   };
   searchItem();
   loadLocalStorage();
+  removeLoading();
 };
 
 const wipeButton = document.querySelector('.empty-cart');
