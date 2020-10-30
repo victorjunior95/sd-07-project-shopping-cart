@@ -129,8 +129,7 @@ const fetchQuery = async (myQuery) => {
       throw new Error(object.error);
     } else {
       handleQuery(object.results);
-      reload();
-      totalize();
+      
       const emptyCartButton = document.querySelector('.empty-cart');
       emptyCartButton.addEventListener('click', emptyCart);
     }
@@ -141,6 +140,8 @@ const fetchQuery = async (myQuery) => {
 
 window.onload = function onload() {
   // Query for computer
+  reload();
+  totalize();
   const QUERY = 'computador';
   fetchQuery(QUERY);
 };
