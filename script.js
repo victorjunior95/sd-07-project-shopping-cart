@@ -24,9 +24,10 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-// function cartItemClickListener(event) {
-//   // coloque seu código aqui
-// }
+function cartItemClickListener(event) {
+  // coloque seu código aqui
+  console.log(event)
+}
 
 function createCartItemElement({ id, title, price }) {
   const li = document.createElement('li');
