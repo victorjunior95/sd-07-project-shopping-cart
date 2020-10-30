@@ -66,7 +66,8 @@ function cartItemClickListener(event) {
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
-  li.innerHTML = `<b>R$ ${salePrice}</b> <span>${name}<br><i>${sku}</i></span>`;
+  li.innerHTML = `SKU: ${sku} | NAME: ${name} | PRICE: ${salePrice}`;
+  // li.innerHTML = `<b>R$ ${salePrice}</b> <span>${name}<br><i>${sku}</i></span>`;
   return li;
 }
 
@@ -159,7 +160,7 @@ const settingsSearchBtn = () => {
 };
 
 const settingsCartBtn = () => {
-  let cartIsShown = false;
+  let cartIsShown = true;
   const btnCart = document.querySelector('#btn-cart');
   btnCart.addEventListener('click', () => {
     const cart = document.querySelector('#cart');
