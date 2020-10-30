@@ -17,12 +17,15 @@ function createCustomElement(element, className, innerText) {
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
-
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
-  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-
+  const addItemButton = (createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
+  addItemButton.addEventListener('click', function(event){
+    const productItem = event.target.parentNode;
+    addToCart(getSkuFromProductItem(productItem));
+  });
+  section.appendChild(addItemButton);
   return section;
 }
 
@@ -31,7 +34,7 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -42,13 +45,23 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-//  codigo aqui
+const sumPrices = () => {
+  const allItemCart = document.querySelectorAll('.cart__item');
+  let sum = 0;
+  allItemCart.forEach((li) => {
+    sum += parseFloat(li.innerText.split('$')[1]);
+  });
+  document.querySelector('.total-price').innerText = sum;
+  console.log(sum);
+};
+
+//  Requisito 1. Listar itens
 window.onload = () => {
   const searchItem = async () => {
     const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
-    fetch(endpoint).then(response => response.json().then((data) => {
+    fetch(endpoint).then(response => response.json().then((dataItem) => {
       const items = document.querySelector('.items');
-      data.results.forEach((product) => {
+      dataItem.results.forEach((product) => {
         const { id: sku, title: name, thumbnail: image } = product;
         const item = createProductItemElement({ sku, name, image });
         items.appendChild(item);
@@ -56,4 +69,15 @@ window.onload = () => {
     }));
   };
   searchItem();
+};
+
+const addToCart = async (id) => {
+  const endpoint = `https://api.mercadolibre.com/items/${id}`;
+  fetch(endpoint).then(response => response.json().then((object) => {
+    const { id: sku, title: name, price: salePrice } = object;
+    console.log(object);
+    const ol = document.querySelector('.cart__items');
+    ol.appendChild(createCartItemElement({sku, name, salePrice}));
+    sumPrices();
+  }));
 };

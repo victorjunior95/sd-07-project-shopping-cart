@@ -102,3 +102,8 @@
   width: 40%;
   padding-top: 10px;
 }
+
+.total-price {
+  color: green;
+  font-weight: bolder;
+}
