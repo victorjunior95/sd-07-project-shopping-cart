@@ -26,7 +26,7 @@ function calculateValue(newList) {
   return new Promise((resolve) => {
     const newArray = [];
     newList.forEach(item => newArray.push(item.salePrice));
-    const value = (newArray.reduce((acc, nextValue) => acc + nextValue, 0)).toFixed(2);
+    const value = (newArray.reduce((acc, nextValue) => acc + nextValue, 0));
     resolve(value);
   });
 }
