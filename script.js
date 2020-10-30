@@ -41,7 +41,7 @@ function cartItemClickListener(event) {
   event.target.parentNode.removeChild(event.target);
   const totalSum = document.querySelector('.total-price');
   totalSum.innerText = parseFloat(totalSum.innerText) - parseFloat(event.target.dataset.price);
-  console.log(event.target.dataset.price);
+  // console.log(event.target.dataset.price);
   // handleLocalStorage(sku, li, 'remove');
 }
 
@@ -53,7 +53,7 @@ function sumPrice(li) {
     let totalPrice = totalSum.innerText;
     const dataPrice = parseFloat(li.dataset.price);
     totalPrice = parseFloat(dataPrice) + parseFloat(totalPrice);
-    totalSum.innerText = parseFloat(totalPrice).toFixed();
+    totalSum.innerText = parseFloat(totalPrice);
   } else {
     totalSum.innerText = parseFloat(li.dataset.price);
   }
