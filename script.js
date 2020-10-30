@@ -47,6 +47,7 @@ function setLStorage() {
   const cartItems = document.querySelector('ol');
   localStorage.setItem('cart', cartItems.innerHTML);
 }
+
 function getLStorage() {
   const cartItems = document.querySelector('ol');
   if (localStorage.getItem('cart')) {
@@ -110,9 +111,12 @@ function searchItems(ItemID) {
   loadingPage();
   fetch(endPoint)
     .then(response => response.json())
-    .then(item => createItems(item));
-  removeLoadingPage();
-}
+    .then((item) => {
+      createItems(item);
+      removeLoadingPage();
+    });
+} // Ajuste na função realizada com a ajude de Isaac no plantão.
+
 // 2.2
 function addItems(event) {
   if (event.target.className === 'item__add') {
@@ -131,6 +135,4 @@ window.onload = function onload() {
   addWithClick();
   clearCart();
   getLStorage();
-  loadingPage();
-  removeLoadingPage();
 };
