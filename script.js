@@ -29,7 +29,7 @@ function saveLocalStorage() {
   localStorage.setItem('cart', searchOl);
 }
 
-function sumPrice() {
+async function sumPrice() {
   let sum = 0;
   const itemsPrice = document.querySelectorAll('.cart__item');
   const showPrice = document.querySelector('.total-price');
@@ -59,9 +59,9 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText; // retorna o id do produto
 }
 
-function showItemCart(id) {
+async function showItemCart(id) {
   const endpoint = `https://api.mercadolibre.com/items/${id}`;
-  fetch(endpoint)
+  await fetch(endpoint)
   .then(response => response.json())
   .then((object) => {
     document.querySelector('ol').appendChild(createCartItemElement(object));
@@ -83,9 +83,9 @@ function showProductList(array) {
   items.forEach(entry => document.querySelector('.items').appendChild(createProductItemElement(entry[1])));
 }
 
-function productList() {
+async function productList() {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
-  fetch(endpoint)
+  await fetch(endpoint)
     .then(response => response.json())
     .then(object => showProductList(object.results))
     .then(object => clickButton(object));
