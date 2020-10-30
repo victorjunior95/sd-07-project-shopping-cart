@@ -235,7 +235,7 @@ body {
 }
 
 .cart {
-  display: none;
+  display: flex;
   flex-basis: 30%;
   flex-flow: column wrap;
   transition: margin 4s;

@@ -59,8 +59,8 @@ const createPriceElement = (prices) => {
   return `R$ ${prices}`;
 };
 
-function cartItemClickListener() {
-  this.remove();
+function cartItemClickListener(event) {
+  this.remove(event);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -156,7 +156,7 @@ const settingsSearchBtn = () => {
 };
 
 const settingsCartBtn = () => {
-  let cartIsShown = false;
+  let cartIsShown = true;
   const btnCart = document.querySelector('#btn-cart');
   btnCart.addEventListener('click', () => {
     const cart = document.querySelector('#cart');
