@@ -14,6 +14,16 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+function loadingPage() {
+  const getContainer = document.querySelector('.container');
+  getContainer.appendChild(createCustomElement('p', 'loading', 'loading...'));
+}
+
+function removeLoadingPage() {
+  const getLoading = document.querySelector('.loading');
+  getLoading.remove();
+}
+
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
@@ -39,6 +49,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 // atividade 2
 const fetchProductByID = (ItemID) => {
   const apiProductByID = `https://api.mercadolibre.com/items/${ItemID}`;
+  loadingPage();
   fetch(apiProductByID)
     .then(response => response.json())
     .then((product) => {
@@ -46,6 +57,7 @@ const fetchProductByID = (ItemID) => {
       const { id: sku, title: name, price: salePrice } = product;
       const item = createCartItemElement({ sku, name, salePrice });
       items.appendChild(item);
+      removeLoadingPage();
     });
 };
 
@@ -69,6 +81,7 @@ function createProductItemElement({ sku, name, image }) {
 // Atividade 1 - Função implementada com a ajuda da excelente explicação do Victor Junior.
 const loadProducts = () => {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=$computador';
+  loadingPage();
   fetch(endpoint)
     .then(response => response.json())
     .then((data) => {
@@ -79,6 +92,7 @@ const loadProducts = () => {
         items.appendChild(item);
       });
     });
+  removeLoadingPage();
 };
 
 // Atividade 6 - Botão para limpar carrinho de compras
