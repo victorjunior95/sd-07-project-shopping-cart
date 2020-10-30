@@ -26,7 +26,7 @@ function calculateValue(newList) {
   return new Promise((resolve) => {
     const newArray = [];
     newList.forEach(item => newArray.push(item.salePrice));
-    const value = newArray.reduce((acc, nextValue) => acc + nextValue, 0);
+    const value = (newArray.reduce((acc, nextValue) => acc + nextValue, 0)).toFixed(2);
     resolve(value);
   });
 }
@@ -54,18 +54,15 @@ function saveCart(newItemCart) {
 }
 
 function cartItemClickListener(event) {
-  const arrayOfData = JSON.parse(localStorage.getItem('Carrinho de Compras')) || [];
+  const arrayLocalStorage = JSON.parse(localStorage.getItem('Carrinho de Compras')) || [];
   const itemParent = document.querySelector('.cart__items');
+  const arrayOfData = arrayLocalStorage.map((item) => item.sku);
   const itemSelected = event.target;
-  const newArrayAfterDeleted = [];
-  arrayOfData.forEach((element) => {
-    if (element.sku !== itemSelected.dataset.sku) {
-      newArrayAfterDeleted.push(element);
-    }
-  });
+  const correspondentIndex = arrayOfData.indexOf(itemSelected.dataset.sku);
+  arrayLocalStorage.splice(correspondentIndex, 1);
   itemParent.removeChild(itemSelected);
   localStorage.clear();
-  localStorage.setItem('Carrinho de Compras', JSON.stringify(newArrayAfterDeleted));
+  localStorage.setItem('Carrinho de Compras', JSON.stringify(arrayLocalStorage));
   sumTotalCart();
 }
 
