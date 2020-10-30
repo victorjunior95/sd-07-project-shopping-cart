@@ -65,10 +65,10 @@ function createProductItemElement({ sku, name, image, price }) {
   section.appendChild(createCustomElement('span', 'item__price', createPriceElement(price)));
   section.appendChild(createCustomElement('span', 'item__price__credit', `12x de R$ ${((price) / 12).toFixed(2)} sem juros`));
 
+  section.appendChild(createProductImageElement(image));
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
-  section.appendChild(createProductImageElement(image));
-  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
+  section.appendChild(createCustomElement('button', 'item__add', '+'));
 
   return section;
 }
@@ -91,8 +91,8 @@ const createProductList = (searchFor) => {
     const items = document.querySelector('.items');
 
     data.results.forEach((product) => {
-      const { id: sku, title: name, thumbnail: image, price } = product;
-      const item = createProductItemElement({ sku, name, image, price });
+      const { id: sku, title: name, thumbnail: image } = product;
+      const item = createProductItemElement({ sku, name, image });
       items.appendChild(item);
     });
   });
