@@ -6,12 +6,11 @@ function createProductImageElement(imageSource) {
 }
 
 const clearAll = () => {
+
   const btn = document.querySelector('.empty-cart');
   btn.addEventListener('click', () => {
-    const li = document.querySelector('.cart__item');
-    if (li.parentNode) {
-      li.parentNode.removeChild(li);
-    }
+    const ol = document.querySelector('.cart__items');
+    ol.innerHTML = '';
   });
 };
 // function getSkuFromProductItem(item) {
