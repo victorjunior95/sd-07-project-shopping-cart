@@ -59,6 +59,10 @@ const createPriceElement = (prices) => {
   return `R$ ${prices}`;
 };
 
+function cartItemClickListener(event) {
+  alert(event);
+}
+
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -76,7 +80,7 @@ const fetchProductToCart = async (id) => {
     if (object.error) {
       throw new Error(object.error);
     } else {
-      const cartProductPlace = document.querySelector('.cart__items');
+      const cartProductPlace = document.querySelector('ol.cart__items');
       const { id: sku, title: name, price: salePrice } = object;
       return cartProductPlace.appendChild(createCartItemElement({ sku, name, salePrice }));
     }
@@ -107,10 +111,6 @@ function createProductItemElement({ sku, name, image, price }) {
   section.appendChild(button);
   return section;
 }
-
-// function cartItemClickListener(event) {
-//   // coloque seu código aqui
-// }
 
 const getSearchItem = () => {
   const searchInput = document.querySelector('#search-input').value;
