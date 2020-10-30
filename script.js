@@ -32,6 +32,17 @@ function setLocalStorage() {
   localStorage.setItem('shoppingCart', cartItems);
 }
 
+function addPrices() {
+  const totalPrice = document.querySelector('.total-price');
+  const cartItems = document.querySelectorAll('.cart__item');
+  let sum = 0;
+  cartItems.forEach((item) => {
+    price = parseFloat(item.innerText.split('$')[1]);
+    sum += price;
+  });
+  totalPrice.innerText = `$${sum}`;
+}
+
 async function cartItemClickListener(event) {
   await event.target.remove();
   setLocalStorage();
@@ -44,17 +55,6 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
-}
-
-function addPrices() {
-  const totalPrice = document.querySelector('.total-price')
-  const cartItems = document.querySelectorAll('.cart__item');
-  let sum = 0;
-  const values = cartItems.forEach(item => {
-    price = parseFloat(item.innerText.split('$')[1])
-    sum += price
-  })
-  return totalPrice.innerText = `$${sum}`
 }
 
 async function productAPI(itemId) {
