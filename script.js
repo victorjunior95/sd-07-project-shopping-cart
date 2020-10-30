@@ -56,7 +56,7 @@ function saveCart(newItemCart) {
 function cartItemClickListener(event) {
   const arrayLocalStorage = JSON.parse(localStorage.getItem('Carrinho de Compras')) || [];
   const itemParent = document.querySelector('.cart__items');
-  const arrayOfData = arrayLocalStorage.map((item) => item.sku);
+  const arrayOfData = arrayLocalStorage.map(item => item.sku);
   const itemSelected = event.target;
   const correspondentIndex = arrayOfData.indexOf(itemSelected.dataset.sku);
   arrayLocalStorage.splice(correspondentIndex, 1);
