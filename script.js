@@ -104,6 +104,7 @@ function createItems(item) {
   const selected = document.querySelector('.cart__items');
   const createItem = createCartItemElement(item);
   selected.appendChild(createItem);
+  setLStorage(); // Adição de setLocalStorage com a ajuda de Filipe Nascimento via Slack
 }
 // 2.1
 function searchItems(ItemID) {
