@@ -129,7 +129,7 @@ const onloadCart = () => {
 };
 
 const removeAllItemsCart = async () => {
-  const buttonRemoveAllItems = await document.querySelector('.empty-cart'); 
+  const buttonRemoveAllItems = await document.querySelector('.empty-cart');
   buttonRemoveAllItems.addEventListener('click', () => {
     const itemInCart = document.querySelectorAll('.cart__item');
     const activeCart = document.querySelector('.cart__items');
@@ -138,11 +138,7 @@ const removeAllItemsCart = async () => {
       activeCart.removeChild(activeItem);
     });
   });
-}
-
-// Criar função assincrona para capturar button;
-
-
+};
 
 window.onload = function onload() {
   getListItems();
