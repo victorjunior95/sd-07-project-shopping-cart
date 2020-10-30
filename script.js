@@ -118,13 +118,12 @@ const fetchProductsML = async () => {
   try {
     const response = await fetch(endpoint);
     const object = await response.json();
-
+    hideLoading();
     if (response.error) {
       throw new Error(response.error);
     } else {
       handleProducts(object.results);
       getButtonProduct();
-      hideLoading();
     }
   } catch (error) {
     showAlert(`Houve um erro ${error} - Entre em contato com o suporte`);
