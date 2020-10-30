@@ -1,5 +1,3 @@
-// node_modules/.bin/cypress run
-
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -80,6 +78,7 @@ function clickButton() {
 }
 
 function showProductList(array) {
+  document.querySelector('.loading').remove();
   const items = Object.entries(array);
   items.forEach(entry => document.querySelector('.items').appendChild(createProductItemElement(entry[1])));
 }
