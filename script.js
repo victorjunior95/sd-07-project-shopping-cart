@@ -62,6 +62,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 const fetchProductList = () => {
   const computadorUrl = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
+  loading();
   return fetch(computadorUrl)
     .then(response => response.json())
     .then((data) => {
@@ -70,7 +71,8 @@ const fetchProductList = () => {
         const { id: sku, title: name, thumbnail: image } = product;
         const item = createProductItemElement({ sku, name, image });
         items.appendChild(item);
-      });
+      })
+      .then(removeloading);
     });
 };
 
