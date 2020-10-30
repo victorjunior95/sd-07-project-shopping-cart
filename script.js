@@ -42,13 +42,13 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 }
 
 // My code bellow ----------------------------------------------------------------------------
-async function sumCartPrices({price}) {
+async function sumCartPrices({ price }) {
   try {
-    const spanPrice = await document.querySelector('span.total-price');
-    let totalPrice = await parseFloat(spanPrice.innerText);
-    totalPrice += price;
-    spanPrice.innerText = totalPrice;
-  } catch(error) {
+    const spanPrice = document.querySelector('span.total-price');
+    let totalPrice = parseFloat(spanPrice.innerText);
+    console.log(spanPrice);
+    console.log(totalPrice);
+  } catch (error) {
     console.log(error);
   }
 }
