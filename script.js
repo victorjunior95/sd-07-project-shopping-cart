@@ -6,7 +6,6 @@ function createProductImageElement(imageSource) {
 }
 
 const clearAll = () => {
-
   const btn = document.querySelector('.empty-cart');
   btn.addEventListener('click', () => {
     const ol = document.querySelector('.cart__items');
