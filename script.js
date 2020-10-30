@@ -15,7 +15,7 @@ function createCustomElement(element, className, innerText) {
 }
 
 const addLoading = () => {
-  const loading = createCustomElement('section', 'loading', 'Loading...');
+  const loading = createCustomElement('section', 'loading', 'loading...');
   const container = document.querySelector('.container');
   container.appendChild(loading);
 };
@@ -99,7 +99,6 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-//  Requisito 1. Listar itens
 window.onload = () => {
   const searchItem = async () => {
     const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
