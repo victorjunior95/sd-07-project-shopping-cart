@@ -15,19 +15,20 @@ function createCustomElement(element, className, innerText) {
 const showAlert = message => window.alert(message);
 
 // Baseado no projeto Casa de Câmbio do Oliva
-const currencyPHP = () => {
+const currencyPHP = async () => {
   const endpoint = 'https://api.ratesapi.io/api/latest?base=BRL';
 
-  return fetch(endpoint)
-    .then(response => response.json())
-    .then((object) => {
-      if (object.error) {
-        throw new Error(object.error);
-      } else {
-        return object.rates.PHP;
-      }
-    })
-    .catch(error => showAlert(error));
+  try {
+    const response = await fetch(endpoint);
+    const object = await response.json();
+    if (object.error) {
+      throw new Error(object.error);
+    } else {
+      return object.rates.PHP;
+    }
+  } catch (error) {
+    return showAlert(error);
+  }
 };
 
 const updatePrice = (className, value, signal) => {
@@ -58,6 +59,35 @@ const createPriceElement = (prices) => {
   return `R$ ${prices}`;
 };
 
+function createCartItemElement({ sku, name, salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
+}
+
+const fetchProductToCart = async (id) => {
+  const endpoint = `https://api.mercadolibre.com/items/${id}`;
+
+  try {
+    const response = await fetch(endpoint);
+    const object = await response.json();
+    if (object.error) {
+      throw new Error(object.error);
+    } else {
+      const cartProductPlace = document.querySelector('.cart__items');
+      const { id: sku, title: name, price: salePrice } = object;
+      return cartProductPlace.appendChild(createCartItemElement({ sku, name, salePrice }));
+    }
+  } catch (error) {
+    return showAlert(error);
+  }
+};
+
+const getSkuFromProductItem = item => item.querySelector('span.item__sku').innerText;
+
+// Baseado na aula do Tiago Esdras
 function createProductItemElement({ sku, name, image, price }) {
   const section = document.createElement('section');
   section.className = 'item';
@@ -68,8 +98,13 @@ function createProductItemElement({ sku, name, image, price }) {
   section.appendChild(createProductImageElement(image));
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
-  section.appendChild(createCustomElement('button', 'item__add', '+'));
-
+  const button = createCustomElement('button', 'item__add', '+');
+  button.addEventListener('click', async function (event) {
+    const parentElement = await event.target.parentElement;
+    await fetchProductToCart(getSkuFromProductItem(parentElement));
+    // updateCart();
+  });
+  section.appendChild(button);
   return section;
 }
 
@@ -115,18 +150,10 @@ const settingsSearchBtn = () => {
   const searchInput = document.querySelector('#search-input').value;
   executeSearch(searchInput);
   // searchBtn.addEventListener('click', () => {
-  //   // const searchInput = document.querySelector('#search-input').value;
-  //   // executeSearch(searchInput);
+    // const searchInput = document.querySelector('#search-input').value;
+    // executeSearch(searchInput);
   // });
 };
-
-// function createCartItemElement({ sku, name, salePrice }) {
-//   const li = document.createElement('li');
-//   li.className = 'cart__item';
-//   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-//   li.addEventListener('click', cartItemClickListener);
-//   return li;
-// }
 
 const settingsCartBtn = () => {
   let cartIsShown = false;
@@ -164,16 +191,10 @@ const selectCurrency = () => {
   });
 };
 
-// const addToCart = () => {
-//   const addBtn = document.querySelectorAll('.item__add');
-
-// }
-
 window.onload = function onload() {
   settingsCartBtn();
   settingsSearchBtn();
   selectCurrency();
   const logoBtn = document.querySelector('#logo-svg');
   logoBtn.addEventListener('click', () => location.reload());
-  // addToCart();
 };
