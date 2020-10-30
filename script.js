@@ -9,9 +9,6 @@ function createCustomElement(element, className, innerText, id) {
   const e = document.createElement(element);
   e.className = className;
   e.innerText = innerText;
-  if (element === 'button') {
-    e.id = id;
-  }
   return e;
 }
 
@@ -21,6 +18,9 @@ function cartLocalStorage() {
 }
 
 function cartItemClickListener(event) {
+  const texto = event.target.innerText;
+  valor = -parseInt(texto.substring(texto.indexOf("$") + 1));
+  getPriceCart(valor);
   event.target.remove();
   cartLocalStorage();
 }
@@ -30,6 +30,7 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  getPriceCart(salePrice);
   return li;
 }
 
@@ -40,7 +41,8 @@ function addListElement(item) {
 }
 
 function idButtonEvent() {
-  fetch(`https://api.mercadolibre.com/items/${event.target.id}`)
+  const id = getSkuFromProductItem(event.target.parentNode);
+  fetch(`https://api.mercadolibre.com/items/${id}`)
     .then(response => response.json())
       .then((object) => {
         addListElement(object);
@@ -75,15 +77,30 @@ function getItemsShopping() {
         });
       });
 }
-/*
+
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
-*/
+
 function loadCartStorage() {
   document.querySelector('.cart__items').innerHTML = localStorage.getItem('carrinho');
   const items = document.querySelectorAll('.cart__item');
+  getPriceCart(localStorage.totalPrice);
   items.forEach(item => item.addEventListener('click', cartItemClickListener));
+}
+
+async function getPriceCart(price = 0){
+  let section = document.querySelector(".total-price");
+  if (section === null) {
+    section = await createCustomElement('section', 'total-price', 'Total: ');
+    section.appendChild(await createCustomElement('span', 'money', price));
+    document.querySelector('.cart').appendChild(section);
+    localStorage.totalPrice = price;
+  } else {
+    const elementPrice = section.firstElementChild;
+    elementPrice.innerText = parseInt(elementPrice.innerText) + price;
+    localStorage.totalPrice = elementPrice.innerText;
+  }
 }
 
 window.onload = function onload() {
