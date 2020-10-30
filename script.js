@@ -5,6 +5,12 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+const destruct = (obj) => {
+  const { id: sku, title: name, price: salePrice, thumbnail: image } = obj;
+  const itemSelected = { sku, name, salePrice, image };
+  return itemSelected;
+};
+
 const clearAll = () => {
   const btn = document.querySelector('.empty-cart');
   btn.addEventListener('click', () => {
@@ -12,9 +18,11 @@ const clearAll = () => {
     ol.innerHTML = '';
   });
 };
+
 // function getSkuFromProductItem(item) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
+
 function cartItemClickListener(event) {
   const ol = document.querySelector('.cart__items');
   ol.removeChild(event.target);
@@ -45,9 +53,7 @@ const addElementToChart = () => {
     const endPoint = `https://api.mercadolibre.com/items/${elementId}`;
     const resultEndPoint = await fetch(endPoint);
     const jasonItem = await resultEndPoint.json();
-    const { id: sku, title: name, price: salePrice } = jasonItem;
-    const itemSelected = { sku, name, salePrice };
-    const li = createCartItemElement(itemSelected);
+    const li = createCartItemElement(destruct(jasonItem));
     li.classList.add('selected');
     const ol = document.querySelector('.cart__items');
     ol.appendChild(li);
@@ -67,19 +73,18 @@ function createProductItemElement({ sku, name, image }) {
 }
 
 const getImageItems = () => {
-  const loadPage = document.createElement('p');
-  loadPage.innerHTML = 'Loading...';
-  loadPage.classList.add('loading');
-  const section = document.querySelector('.items');
-  section.appendChild(loadPage);
+  const buildElement = document.createElement('p');
+  buildElement.innerHTML = 'Loading...';
+  buildElement.classList.add('loading');
+  const getSection = document.querySelector('.items');
+  getSection.appendChild(buildElement);
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=$computador';
   fetch(endpoint)
     .then(response => response.json()).then((object) => {
       const items = document.querySelector('.items');
-      section.removeChild(loadPage);
+      getSection.removeChild(buildElement);
       object.results.forEach((productList) => {
-        const { id: sku, title: name, thumbnail: image } = productList;
-        const item = createProductItemElement({ sku, name, image });
+        const item = createProductItemElement(destruct(productList));
         items.appendChild(item);
       });
     });
