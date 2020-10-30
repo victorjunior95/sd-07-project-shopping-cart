@@ -117,6 +117,6 @@ window.onload = async function onload() {
   await productsAPI();
   setButtonEvent();
   loadLocalStorage();
-  addPrices();
+  await addPrices();
   clearAll();
 };
