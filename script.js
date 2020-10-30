@@ -5,26 +5,76 @@ const fecthAndParse = (link, toSearch) => {
   return response;
 };
 
-function loadOrderedList() {
-
+function defaultSearch() {
+  fecthAndParse('https://api.mercadolibre.com/sites/MLB/search?q=$', 'COMPUTADOR')
+  .then((element) => {
+    element.results.forEach((product) => {
+      const sectionItems = document.querySelector('.items');
+      const newProduct = createProductItemElement(product);
+      sectionItems.appendChild(newProduct);
+    });
+  });
 }
 
-function saveOnLocalStorage(listOfProducts) {
-  console.log(listOfProducts);
+function emptyButtonListener() {
+  const btnEmptyCart = document.querySelector('.empty-cart');
+  const cartItems = document.querySelector('.cart__items');
+  btnEmptyCart.addEventListener('click', () => {
+    cartItems.innerHTML = '';
+    localStorage.mlDeoriProductIds = '';
+  });
 }
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
+async function loadShoppingCart() {
+  if (localStorage.mlDeoriProductIds){
+    const ids = localStorage.mlDeoriProductIds.split(' ');
+    const link = 'https://api.mercadolibre.com/items/';
+    for (const id of ids) {
+      await fecthAndParse(link, id).then(async (productDetails) => {
+        const cartItem = createCartItemElement(productDetails);
+        const listOfItems = document.querySelector('.cart__items');
+        listOfItems.appendChild(cartItem);
+      })
+    };
+  }
+}
+
+function saveOnLocalStorage(id) {
+  if (localStorage.mlDeoriProductIds) {
+    localStorage.mlDeoriProductIds += ` ${id}`;
+  } else {
+    localStorage.setItem('mlDeoriProductIds', id);
+  }
+}
+
+function removeFromLocalStorage(id) {
+  const idsLocalStorage = localStorage.mlDeoriProductIds.split(' ');
+  console.log(id);
+  console.log(idsLocalStorage);
+  idsLocalStorage.forEach((idLocal, index) => {
+    if (idLocal === id) {
+      idsLocalStorage.splice(index, 1);
+    }
+  })
+  let response = '';
+  idsLocalStorage.forEach((idLocal, index) => {
+    if (index !== 0) {
+      response += ' ';
+    }
+    response += `${idLocal}`;
+  });
+  localStorage.mlDeoriProductIds = response;
 }
 
 function cartItemClickListener(event) {
   selected = event.currentTarget;
+  id = selected.innerText.split(' ')[1];
   parentNodeElement = selected.parentNode;
   parentNodeElement.removeChild(selected);
+  removeFromLocalStorage(id);
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
-  console.log(salePrice);
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
@@ -32,11 +82,8 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   return li;
 }
 
-function createProductImageElement(imageSource) {
-  const img = document.createElement('img');
-  img.className = 'item__image';
-  img.src = imageSource;
-  return img;
+function getSkuFromProductItem(item) {
+  return item.querySelector('span.item__sku').innerText;
 }
 
 function buttonEventClick(event) {
@@ -46,8 +93,15 @@ function buttonEventClick(event) {
     const cartItem = createCartItemElement(productDetails);
     const listOfItems = document.getElementsByClassName('cart__items')[0];
     listOfItems.appendChild(cartItem);
-    saveOnLocalStorage(listOfItems);
+    saveOnLocalStorage(id);
   });
+}
+
+function createProductImageElement(imageSource) {
+  const img = document.createElement('img');
+  img.className = 'item__image';
+  img.src = imageSource;
+  return img;
 }
 
 function createCustomElement(element, className, innerText) {
@@ -72,18 +126,8 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   return section;
 }
 
-function defaultSearch() {
-  fecthAndParse('https://api.mercadolibre.com/sites/MLB/search?q=$', 'COMPUTADOR')
-  .then((element) => {
-    element.results.forEach((product) => {
-      const sectionItems = document.getElementsByClassName('items')[0];
-      const newProduct = createProductItemElement(product);
-      sectionItems.appendChild(newProduct);
-    });
-  });
-}
-
 window.onload = function onload() {
   defaultSearch();
-  loadOrderedList();
+  loadShoppingCart();
+  emptyButtonListener();
 };
