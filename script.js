@@ -81,8 +81,7 @@ const addToCart = async (id) => {
     sumPrices();
     updateCart();
     removeLoading();
-  })
-  );
+  }));
 };
 
 function createProductItemElement({ sku, name, image }) {
@@ -112,8 +111,7 @@ window.onload = () => {
         const item = createProductItemElement({ sku, name, image });
         items.appendChild(item);
       });
-    })
-    );
+    }));
   };
   searchItem();
   loadLocalStorage();
