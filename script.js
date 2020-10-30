@@ -142,7 +142,21 @@ const loadItemsLocalStorage = () => {
     document.querySelector('.total-price').innerHTML = updateTotal;
   }
 };
+const emptyCarHandle = () => {
+  const ol = document.querySelector('.cart__items');
+  while (ol.hasChildNodes()) {
+    ol.removeChild(ol.firstChild);
+  }
+  document.querySelector('.total-price').innerHTML = '0.00';
+  localStorage.clear();
+};
+const getButtonEmptyCart = () => {
+  const emptyCar = document.querySelector('.empty-cart');
+  emptyCar.addEventListener('click', emptyCarHandle);
+};
+
 window.onload = function onload() {
   fetchProductsML();
   loadItemsLocalStorage();
+  getButtonEmptyCart();
 };
