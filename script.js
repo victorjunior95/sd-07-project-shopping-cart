@@ -42,23 +42,21 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 }
 
 // My code bellow ----------------------------------------------------------------------------
+function cartPlacer(data) {
+  const shoppingCart = document.querySelector('.cart__items');
+  let item = createCartItemElement(data);
+  shoppingCart.appendChild(item);
+  item = item.innerHTML;
+}
+
 function addToCart(event) {
   const url = 'https://api.mercadolibre.com/items/';
   const parentEvent = event.target.parentNode;
   const sku = getSkuFromProductItem(parentEvent);
   const endpoint = `${url}${sku}`;
   fetch(endpoint)
-  .then(response => response.json())
-  .then(data => {
-    cartPlacer(data);
-  });
-}
-
-function cartPlacer(data) {
-  const shoppingCart = document.querySelector('.cart__items');
-  let item = createCartItemElement(data);
-  shoppingCart.appendChild(item);
-  item = item.innerHTML;
+    .then(response => response.json())
+    .then(data => cartPlacer(data));
 }
 
 function storePlacer(data) {
@@ -77,9 +75,7 @@ function defaultSearch(term) {
   const endpoint = `${url}${term}`;
   fetch(endpoint)
     .then(response => response.json())
-    .then(data => {
-      storePlacer(data);
-    });
+    .then(data => storePlacer(data));
 }
 
 window.onload = function onload() {
