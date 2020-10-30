@@ -20,7 +20,6 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-
   return section;
 }
 
@@ -29,7 +28,7 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  // My code bellow
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -40,14 +39,40 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   return li;
 }
 
-// ---------------------------------------------------------------------
+// My code bellow ----------------------------------------------------------------------------
+function cartPlacer(data) {
+  const shoppingCart = document.querySelector('.cart__items');
+  item = createCartItemElement(data);
+  shoppingCart.appendChild(item);
+}
+
+function addToCart(event) {
+  const url = 'https://api.mercadolibre.com/items/';
+  const parentEvent = event.target.parentNode;
+  const sku = getSkuFromProductItem(parentEvent);
+  const endpoint = `${url}${sku}`;
+  const method = 'cartPlacer';
+  fetchSearch(endpoint, method);
+}
+
 function storePlacer(data) {
   const store = document.querySelector('.items');
   items = data.results;
   items.forEach((item) => {
     const product = createProductItemElement(item);
+    const btnAddCart = product.querySelector('button');
+    btnAddCart.addEventListener('click', addToCart);
     store.appendChild(product);
   });
+}
+
+function methodCatcher(data, method) {
+  if (method === 'cartPlacer') {
+    cartPlacer(data);
+  }
+  if (method === 'storePlacer') {
+    storePlacer(data);
+  }
 }
 
 function fetchSearch(endpoint, method) {
@@ -55,9 +80,7 @@ function fetchSearch(endpoint, method) {
     .then((response) => {
       response.json()
         .then((data) => {
-          if (method === 'storePlacer') {
-            storePlacer(data);
-          }
+          methodCatcher(data, method);
         });
     }).catch(error => console.log(error));
 }
