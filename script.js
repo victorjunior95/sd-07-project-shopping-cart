@@ -71,8 +71,8 @@ const loadLocalStorage = () => {
 };
 
 const addToCart = async (id) => {
-  const endpoint = `https://api.mercadolibre.com/items/${id}`;
   await addLoading();
+  const endpoint = `https://api.mercadolibre.com/items/${id}`;
   fetch(endpoint).then(response => response.json().then((object) => {
     const { id: sku, title: name, price: salePrice } = object;
     console.log(object);
@@ -101,8 +101,8 @@ function createProductItemElement({ sku, name, image }) {
 
 window.onload = () => {
   const searchItem = async () => {
-    const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
     addLoading();
+    const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
     fetch(endpoint).then(response => response.json().then((dataItem) => {
       const items = document.querySelector('.items');
       dataItem.results.forEach((product) => {

@@ -108,6 +108,7 @@
 }
 
 .loading {
+  margin-top: 300px;
   position: fixed;
   background-color: red;
   padding: 10px;
