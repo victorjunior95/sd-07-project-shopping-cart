@@ -87,9 +87,9 @@ const fetchCart = async (toMyCart) => {
       const cartList = document.querySelector('.cart__items');
       cartList.appendChild(cartItem);
       localStorage.setItem('cartContent', cartList.innerHTML);
+      totalize();
     }
     cart.removeChild(loading);
-    totalize();
   } catch (error) {
     console.log(error);
   }
@@ -123,7 +123,7 @@ const fetchQuery = async (myQuery) => {
   try {
     const cart = document.querySelector('.cart');
     const loading = createCustomElement('span', 'loading', 'loading...');
-    cartList.appendChild(loading);
+    cart.appendChild(loading);
     const response = await fetch(endpoint);
     const object = await response.json();
 
