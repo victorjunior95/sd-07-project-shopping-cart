@@ -80,7 +80,6 @@ function createProductItemElement({ sku, name, image }) {
 
   section.appendChild(buttonAddItem);
   return section;
-
   // aqui segui a mesma lógica do Tiago Esdras, no dia do fechamento (último dia do projeto).
 }
 
