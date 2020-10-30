@@ -70,7 +70,7 @@ const fetchCart = async (toMyCart) => {
   const endpoint = `https://api.mercadolibre.com/items/${toMyCart}`;
   try {
     const cartList = document.querySelector('.cart__items');
-    const loading = createCustomElement('spam', 'loading', 'loading...');
+    const loading = createCustomElement('span', 'loading', 'loading...');
     cartList.appendChild(loading);
     const response = await fetch(endpoint);
     const object = await response.json();
@@ -120,7 +120,7 @@ const fetchQuery = async (myQuery) => {
   const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${myQuery}`;
   try {
     const cartList = document.querySelector('.cart__items');
-    const loading = createCustomElement('spam', 'loading', 'loading...');
+    const loading = createCustomElement('span', 'loading', 'loading...');
     cartList.appendChild(loading);
     const response = await fetch(endpoint);
     const object = await response.json();
