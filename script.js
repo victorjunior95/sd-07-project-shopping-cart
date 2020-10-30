@@ -35,6 +35,7 @@ function setLocalStorage() {
 async function cartItemClickListener(event) {
   await event.target.remove();
   setLocalStorage();
+  addPrices();
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -43,6 +44,17 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
+}
+
+function addPrices() {
+  const totalPrice = document.querySelector('.total-price')
+  const cartItems = document.querySelectorAll('.cart__item');
+  let sum = 0;
+  const values = cartItems.forEach(item => {
+    price = parseFloat(item.innerText.split('$')[1])
+    sum += price
+  })
+  return totalPrice.innerText = `$${sum}`
 }
 
 async function productAPI(itemId) {
@@ -60,6 +72,7 @@ function addProductToCart(event) {
 async function addAndLoad() {
   await addProductToCart(event);
   setLocalStorage();
+  addPrices();
 }
 
 function setButtonEvent() {
@@ -92,4 +105,5 @@ window.onload = async function onload() {
   await productsAPI();
   setButtonEvent();
   loadLocalStorage();
+  addPrices();
 };
