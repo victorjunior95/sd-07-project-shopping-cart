@@ -53,7 +53,7 @@ function sumPrice(li) {
     let totalPrice = totalSum.innerText;
     const dataPrice = parseFloat(li.dataset.price);
     totalPrice = parseFloat(dataPrice) + parseFloat(totalPrice);
-    totalSum.innerText = parseFloat(totalPrice).toFixed(2);
+    totalSum.innerText = parseFloat(totalPrice).toFixed();
   } else {
     totalSum.innerText = parseFloat(li.dataset.price);
   }
