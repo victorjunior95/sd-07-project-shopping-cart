@@ -5,6 +5,15 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+const clearAll = () => {
+  const btn = document.querySelector('.empty-cart');
+  btn.addEventListener('click', () => {
+    const li = document.querySelector('.cart__item');
+    if (li.parentNode) {
+      li.parentNode.removeChild(li);
+    }
+  });
+};
 // function getSkuFromProductItem(item) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
@@ -75,4 +84,5 @@ const getImageItems = () => {
 window.onload = function onload() {
   getImageItems();
   addElementToChart();
+  clearAll();
 };
