@@ -7,42 +7,15 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+function getSkuFromProductItem(item) {
+  return item.querySelector('span.item__sku').innerText;
+}
+
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
   e.className = className;
   e.innerText = innerText;
   return e;
-}
-
-function createProductItemElement({ sku, name, image }) {
-  const section = document.createElement('section');
-  section.className = 'item';
-  section.appendChild(createCustomElement('span', 'item__sku', sku));
-  section.appendChild(createCustomElement('span', 'item__title', name));
-  section.appendChild(createProductImageElement(image));
-  const addItemButton = (createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-  addItemButton.addEventListener('click', function(event){
-    const productItem = event.target.parentNode;
-    addToCart(getSkuFromProductItem(productItem));
-  });
-  section.appendChild(addItemButton);
-  return section;
-}
-
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
-
-function cartItemClickListener(event) {
-  
-}
-
-function createCartItemElement({ sku, name, salePrice }) {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
-  return li;
 }
 
 const sumPrices = () => {
@@ -54,6 +27,44 @@ const sumPrices = () => {
   document.querySelector('.total-price').innerText = sum;
   console.log(sum);
 };
+
+function cartItemClickListener() {
+  // Código Aqui
+}
+
+function createCartItemElement({ sku, name, salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
+}
+
+const addToCart = async (id) => {
+  const endpoint = `https://api.mercadolibre.com/items/${id}`;
+  fetch(endpoint).then(response => response.json().then((object) => {
+    const { id: sku, title: name, price: salePrice } = object;
+    console.log(object);
+    const ol = document.querySelector('.cart__items');
+    ol.appendChild(createCartItemElement({ sku, name, salePrice }));
+    sumPrices();
+  }));
+};
+
+function createProductItemElement({ sku, name, image }) {
+  const section = document.createElement('section');
+  section.className = 'item';
+  section.appendChild(createCustomElement('span', 'item__sku', sku));
+  section.appendChild(createCustomElement('span', 'item__title', name));
+  section.appendChild(createProductImageElement(image));
+  const addItemButton = (createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
+  addItemButton.addEventListener('click', function (event) {
+    const productItem = event.target.parentNode;
+    addToCart(getSkuFromProductItem(productItem));
+  });
+  section.appendChild(addItemButton);
+  return section;
+}
 
 //  Requisito 1. Listar itens
 window.onload = () => {
@@ -71,13 +82,11 @@ window.onload = () => {
   searchItem();
 };
 
-const addToCart = async (id) => {
-  const endpoint = `https://api.mercadolibre.com/items/${id}`;
-  fetch(endpoint).then(response => response.json().then((object) => {
-    const { id: sku, title: name, price: salePrice } = object;
-    console.log(object);
-    const ol = document.querySelector('.cart__items');
-    ol.appendChild(createCartItemElement({sku, name, salePrice}));
-    sumPrices();
-  }));
-};
+const wipeButton = document.querySelector('.empty-cart');
+wipeButton.addEventListener('click', () => {
+  const ol = document.querySelector('.cart__items');
+  ol.innerText = '';
+  const totalPrice = document.querySelector('.total-price');
+  totalPrice.innerText = '';
+  sum = 0;
+});
