@@ -1,4 +1,3 @@
-
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -62,13 +61,13 @@ window.onload = function onload() {
 
 
 // ao clicar no botao ... add event listener
-const add = document.querySelector('.item__add');
-add.addEventListener('click', addInShopCar());
+// const add = document.querySelector('.item__add');
+// add.addEventListener('click', addInShopCar());
 // 'ao clicar no botao' faça a requisição da api em que $ItemID deve ser o valor id
-const addInShopCar = () => {
-  const ItemID = add.id;
-  const endpoint = `https://api.mercadolibre.com/items/${ItemID}`
-}
+// const addInShopCar = () => {
+//   const ItemID = add.id;
+//   const endpoint = `https://api.mercadolibre.com/items/${ItemID}`
+// }
 // receber apenas 1 item para passar nojson
 // desestruturar o produto para { sku, name, salePrice }
 // passar o produto desestruturado no createCartItemElement
