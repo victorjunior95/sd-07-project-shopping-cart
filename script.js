@@ -40,7 +40,7 @@ function createProductItemElement({ sku, name, image }) {
 function cartItemClickListener(event) {
   event.target.parentNode.removeChild(event.target);
   const totalSum = document.querySelector('.total-price');
-  totalSum.innerText = parseFloat(totalSum.innerText) - parseFloat(event.target.dataset.price);
+  totalSum.innerText -= parseFloat(event.target.dataset.price);
   // console.log(event.target.dataset.price);
   // handleLocalStorage(sku, li, 'remove');
 }
