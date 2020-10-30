@@ -101,16 +101,16 @@ function loadLocalStorage() {
   }
 }
 
-function clearAll() {
-  const clearCart = document.querySelector('.empty-cart');
-  clearCart.addEventListener('click', removeItens)
-}
-
 function removeItens() {
-  const cartItems = document.querySelector('.cart__items')
+  const cartItems = document.querySelector('.cart__items');
   cartItems.innerHTML = '';
   addPrices();
   localStorage.clear();
+}
+
+function clearAll() {
+  const clearCart = document.querySelector('.empty-cart');
+  clearCart.addEventListener('click', removeItens);
 }
 
 window.onload = async function onload() {
