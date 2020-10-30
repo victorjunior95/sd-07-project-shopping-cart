@@ -31,6 +31,17 @@ function saveLocalStorage() {
   localStorage.setItem('cart', searchOl);
 }
 
+function sumPrice() {
+  let sum = 0;
+  const itemsPrice = document.querySelectorAll('.cart__item');
+  const showPrice = document.querySelector('.total-price');
+  itemsPrice.forEach((item) => {
+    sum += parseFloat(item.innerText.split('$')[1]); // http://devfuria.com.br/javascript/split/
+  });
+  showPrice.innerText = sum;
+  return showPrice;
+}
+
 function cartItemClickListener(event) {
   event.target.remove(); // https://www.w3schools.com/jsref/met_element_remove.asp
   saveLocalStorage();
@@ -42,6 +53,7 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  sumPrice(salePrice);
   return li;
 }
 
@@ -56,6 +68,7 @@ function showItemCart(id) {
   .then((object) => {
     document.querySelector('ol').appendChild(createCartItemElement(object));
     saveLocalStorage(); // chamar função após resposta
+    sumPrice();
   });
 }
 
@@ -82,7 +95,6 @@ function productList() {
 function cleanCart() {
   document.querySelector('.empty-cart').addEventListener('click', () => {
     document.querySelector('.cart__items').innerText = '';
-    cart = []; // limpar carrinho
     saveLocalStorage();
     sumPrice();
   });
@@ -97,14 +109,10 @@ function loadLocalStorage() {
   }
 }
 
-function sumPrice() {
-  const total = document.querySelector('.total-price');
-  total.innerText = cart.reduce((acc, curr) => acc + curr.salePrice, 0);
-  return total;
-};
 
 window.onload = function onload() {
   productList();
   cleanCart();
   loadLocalStorage();
+  sumPrice();
 };
