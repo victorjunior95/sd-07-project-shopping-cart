@@ -40,8 +40,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-function fetchSearch() {
-  const endpoint = 
+function fetchSearch(endpoint) {
   fetch(endpoint)
     .then((response) => {
       response.json()
