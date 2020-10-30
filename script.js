@@ -59,8 +59,8 @@ const createPriceElement = (prices) => {
   return `R$ ${prices}`;
 };
 
-function cartItemClickListener(event) {
-  alert(event);
+function cartItemClickListener() {
+  this.remove();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
