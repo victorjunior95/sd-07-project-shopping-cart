@@ -40,7 +40,7 @@ async function addPrices() {
     price = parseFloat(item.innerText.split('$')[1]);
     sum += price;
   });
-  totalPrice.innerText = `Total: $${sum}`;
+  totalPrice.innerText = sum;
 }
 
 async function cartItemClickListener(event) {
