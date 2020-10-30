@@ -74,7 +74,7 @@ const fetchCart = async (toMyCart) => {
     cartList.appendChild(loading);
     const response = await fetch(endpoint);
     const object = await response.json();
-    cartList.removeChild(loading);
+
     if (object.error) {
       throw new Error(object.error);
     } else {
@@ -88,6 +88,7 @@ const fetchCart = async (toMyCart) => {
       localStorage.setItem('cartContent', cartList.innerHTML);
       totalize();
     }
+    cartList.removeChild(loading);
   } catch (error) {
     console.log(error);
   }
@@ -124,7 +125,7 @@ const fetchQuery = async (myQuery) => {
     cartList.appendChild(loading);
     const response = await fetch(endpoint);
     const object = await response.json();
-    cartList.removeChild(loading);
+
     if (object.error) {
       throw new Error(object.error);
     } else {
@@ -133,6 +134,7 @@ const fetchQuery = async (myQuery) => {
       const emptyCartButton = document.querySelector('.empty-cart');
       emptyCartButton.addEventListener('click', emptyCart);
     }
+    cartList.removeChild(loading);
   } catch (error) {
     console.log(error);
   }
