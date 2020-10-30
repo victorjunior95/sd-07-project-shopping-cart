@@ -60,14 +60,13 @@ const createPriceElement = (prices) => {
 };
 
 function cartItemClickListener(event) {
-  alert(event);
+  console.log(event);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
+  li.innerHTML = `<b>R$ ${salePrice}</b> <span>${name}<br><i>${sku}</i></span>`;
   return li;
 }
 
@@ -81,8 +80,12 @@ const fetchProductToCart = async (id) => {
       throw new Error(object.error);
     } else {
       const cartProductPlace = document.querySelector('ol.cart__items');
-      const { id: sku, title: name, price: salePrice } = object;
-      return cartProductPlace.appendChild(createCartItemElement({ sku, name, salePrice }));
+      const { id: sku, title: name, thumbnail: image, price: salePrice } = object;
+      const itemList = createCartItemElement({ sku, name, salePrice });
+      cartProductPlace.appendChild(itemList);
+      itemList.appendChild(createProductImageElement(image));
+      itemList.addEventListener('click', cartItemClickListener());
+      return itemList;
     }
   } catch (error) {
     return showAlert(error);
