@@ -93,11 +93,9 @@ const createProductItemElement = ({ sku, name, image }) => {
   return section;
 };
 
-const loadingMsg = () => {
-  const container = document.createElement('span');
-  container.className = 'loading';
-  container.innerText = 'loading...';
-  document.querySelector('.items').appendChild(container);
+const loadingMsg = () => { 
+  const msg = createCustomElement('span', 'loading', 'loading...');
+  document.querySelector('.items').appendChild(msg);
 };
 
 const loadProducts = async () => {
