@@ -234,38 +234,11 @@ body {
   padding: 5px;
 }
 
-.empty-cart {
-  margin: 1rem;
-}
-
 .cart {
-  align-items: center;
-  display: flex;
+  display: none;
   flex-basis: 30%;
   flex-flow: column wrap;
   transition: margin 4s;
-}
-
-.cart__item {
-  align-items: center;
-  display: flex;
-}
-
-.cart__item b {
-  border-right: 2px solid black;
-  text-align: center;
-  margin: 0.5rem;
-  padding-right: 5px;
-}
-
-.cart__item i {
-  color: rgb( 15, 163, 107 );
-}
-
-.cart__item img {
-  border: 2px solid rgb( 15, 163, 107 );
-  border-radius: 50%;
-  margin: 0.5rem;
 }
 
 .cart .cart__title {

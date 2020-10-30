@@ -60,14 +60,14 @@ const createPriceElement = (prices) => {
 };
 
 function cartItemClickListener(event) {
-  console.log(event);
+  alert(event);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
-  li.innerHTML = `SKU: ${sku} | NAME: ${name} | PRICE: ${salePrice}`;
-  // li.innerHTML = `<b>R$ ${salePrice}</b> <span>${name}<br><i>${sku}</i></span>`;
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
   return li;
 }
 
@@ -82,11 +82,7 @@ const fetchProductToCart = async (id) => {
     } else {
       const cartProductPlace = document.querySelector('ol.cart__items');
       const { id: sku, title: name, price: salePrice } = object;
-      const itemList = createCartItemElement({ sku, name, salePrice });
-      cartProductPlace.appendChild(itemList);
-      // itemList.appendChild(createProductImageElement(image));
-      itemList.addEventListener('click', cartItemClickListener());
-      return itemList;
+      return cartProductPlace.appendChild(createCartItemElement({ sku, name, salePrice }));
     }
   } catch (error) {
     return showAlert(error);
@@ -160,7 +156,7 @@ const settingsSearchBtn = () => {
 };
 
 const settingsCartBtn = () => {
-  let cartIsShown = true;
+  let cartIsShown = false;
   const btnCart = document.querySelector('#btn-cart');
   btnCart.addEventListener('click', () => {
     const cart = document.querySelector('#cart');
