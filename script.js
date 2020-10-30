@@ -42,11 +42,23 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 }
 
 // My code bellow ----------------------------------------------------------------------------
+async function sumCartPrices({price}) {
+  try {
+    const spanPrice = await document.querySelector('span.total-price');
+    let totalPrice = await parseFloat(spanPrice.innerText);
+    totalPrice += price;
+    spanPrice.innerText = totalPrice;
+  } catch(error) {
+    console.log(error);
+  }
+}
+
 function cartPlacer(data) {
   const shoppingCart = document.querySelector('.cart__items');
   let item = createCartItemElement(data);
   shoppingCart.appendChild(item);
   item = item.innerHTML;
+  sumCartPrices(data);
 }
 
 function addToCart(event) {
