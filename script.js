@@ -39,8 +39,24 @@ function createProductItemElement({ sku, name, image }) {
 
 function cartItemClickListener(event) {
   event.target.parentNode.removeChild(event.target);
-  // console.log(event.target);
+  const totalSum = document.querySelector('.total-price');
+  totalSum.innerText = parseFloat(totalSum.innerText) - parseFloat(event.target.dataset.price);
+  console.log(event.target.dataset.price);
   // handleLocalStorage(sku, li, 'remove');
+}
+
+function sumPrice(li) {
+  const totalSum = document.querySelector('.total-price');
+  if (!li) {
+    totalSum.innerText = parseFloat(0);
+  } else if (totalSum.innerText !== 0) {
+    let totalPrice = totalSum.innerText;
+    const dataPrice = parseFloat(li.dataset.price);
+    totalPrice = parseFloat(dataPrice) + parseFloat(totalPrice);
+    totalSum.innerText = parseFloat(totalPrice).toFixed(2);
+  } else {
+    totalSum.innerText = parseFloat(li.dataset.price);
+  }
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -49,21 +65,14 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   li.dataset.price = salePrice;
-  console.log(li.dataset.price);
+  sumPrice(li);
+  // console.log(li.dataset.price);
   // console.log(li.innerText);
   // console.log(sku);
   // console.log(salePrice);
   // handleLocalStorage(sku, li, 'set');
   return li;
 }
-// function sumPrice(saleprice) {
-  // const totalSum = document.querySelector('.total-price');
-  // totalSum.innerHTML = sumPrice;
-  // let sum = sum.push(saleprice);
-  // let totalPrice = (acc, saleprice) => acc + saleprice;
-  // console.log(sum.reduce(totalPrice));
-  // return sum;
-  // }
 
 function addItemInOl({ id: sku, title: name, price: salePrice }) {
   const cartItemsOl = document.querySelector('.cart__items');
@@ -134,12 +143,16 @@ const fetchProductsAwaitAsync = async () => {
 const btClearCart = document.querySelector('.empty-cart');
 btClearCart.addEventListener('click', () => {
   const cartItemsOl = document.querySelector('.cart__items');
+  const totalSum = document.querySelector('.total-price');
+  sumPrice('');
   // console.log(cartItemsOl);
   cartItemsOl.innerHTML = ' ';
+  totalSum.innerText = 0;
   handleLocalStorage('', '', 'clear');
 });
 
 window.onload = function onload() {
   createToLoad();
   fetchProductsAwaitAsync();
+  sumPrice();
 };
