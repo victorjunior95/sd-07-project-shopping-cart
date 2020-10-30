@@ -26,7 +26,7 @@ function createProductItemElement({ sku, name, image }) {
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
-  console.log(event);
+  event.target.remove();
 }
 
 function createCartItemElement({ id, title, price }) {
@@ -37,7 +37,6 @@ function createCartItemElement({ id, title, price }) {
   const cartItensSection = document.querySelector('.cart__items');
   cartItensSection.appendChild(li);
 }
-
 
 const addItemCart = (itemId) => {
   const endpoint = `https://api.mercadolibre.com/items/${itemId}`;
