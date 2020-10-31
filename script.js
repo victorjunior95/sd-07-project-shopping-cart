@@ -59,7 +59,19 @@ const createPriceElement = (prices) => {
   return `R$ ${prices}`;
 };
 
+const setLocalStorage = (cartProductPlace) => {
+  localStorage.setItem('cart', cartProductPlace.innerHTML);
+};
+
+const getLocalStorage = () => {
+  const cartItems = document.querySelector('ol');
+  if (localStorage.getItem('cart')) {
+    cartItems.innerHTML = localStorage.getItem('cart');
+  }
+};
+
 function cartItemClickListener(event) {
+  localStorage.removeItem('cart');
   this.remove(event);
 }
 
@@ -67,14 +79,11 @@ function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  // window.localStorage.setItem(`Item${countItems}`, {sku: sku, name: name, salePrice: salePrice});
+
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
-
-const loadProducts = () => {
-  const { sku, name, price } = items;
-  createCartItemElement({ sku, name, price });
-};
 
 const fetchProductToCart = async (id) => {
   const endpoint = `https://api.mercadolibre.com/items/${id}`;
@@ -87,7 +96,10 @@ const fetchProductToCart = async (id) => {
     } else {
       const cartProductPlace = document.querySelector('ol.cart__items');
       const { id: sku, title: name, price: salePrice } = object;
-      return cartProductPlace.appendChild(createCartItemElement({ sku, name, salePrice }));
+      cartProductPlace.appendChild(createCartItemElement({ sku, name, salePrice }));
+
+      setLocalStorage(cartProductPlace);
+      return cartProductPlace;
     }
   } catch (error) {
     return showAlert(error);
@@ -116,11 +128,6 @@ function createProductItemElement({ sku, name, image, price }) {
   return section;
 }
 
-const getSearchItem = () => {
-  const searchInput = document.querySelector('#search-input').value;
-  return searchInput;
-};
-
 // Baseado na aula do Vitor
 const createProductList = (searchFor) => {
   const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${searchFor}`;
@@ -137,6 +144,11 @@ const createProductList = (searchFor) => {
   });
 };
 
+const getSearchItem = () => {
+  const searchInput = document.querySelector('#search-input').value;
+  return searchInput;
+};
+
 const executeSearch = (input) => {
   if (input !== '') {
     const items = document.querySelector('#items');
@@ -149,7 +161,7 @@ const executeSearch = (input) => {
   }
 };
 
-const settingsSearchBtn = () => {
+const searchBtn = () => {
   // const searchBtn = document.querySelector('#search-btn');
   const searchInput = document.querySelector('#search-input').value;
   executeSearch(searchInput);
@@ -181,8 +193,8 @@ const selectCurrency = () => {
 };
 
 window.onload = function onload() {
-  loadProducts();
-  settingsSearchBtn();
+  getLocalStorage();
+  searchBtn();
   selectCurrency();
   const logoBtn = document.querySelector('#logo-svg');
   logoBtn.addEventListener('click', () => location.reload());

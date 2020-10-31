@@ -234,6 +234,7 @@ body {
 }
 
 .cart {
+  cursor: pointer;
   display: flex;
   flex-basis: 30%;
   flex-flow: column wrap;
