@@ -42,7 +42,6 @@ function createCartItemElement({ sku, name, salePrice }) {
 const getFilteredProducts = () => {
     const endPoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
     const itemsSection = document.querySelector('.items');
-    console.log(itemsSection);
     fetch(endPoint)
         .then(response => response.json())
         .then(data => data.results.forEach((product) => {
@@ -54,7 +53,11 @@ const getFilteredProducts = () => {
             itemsSection.appendChild(itemToBeInserted);
         }));
 };
-
+// Uso de Fetch
+// https://developer.mozilla.org/pt-BR/docs/Web/API/Fetch_API/Using_Fetch
+// https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch
+// Consultei o repositório de Jéssica de Paula para criação desta função.
+// https://github.com/tryber/sd-07-project-shopping-cart/pull/93
 window.onload = function onload() {
     getFilteredProducts();
 };
