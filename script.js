@@ -1,3 +1,22 @@
+const getProductItemInfos = (productItem) => {
+  const productObject = {
+    sku: productItem.id,
+    name: productItem.title,
+    image: productItem.thumbnail,
+    salePrice: productItem.price,
+  };
+  return productObject;
+};
+
+const getProductItemInfosFromSaved = (product) => {
+  const productObject = {
+    sku: product.substring(product.indexOf('MLB'), product.indexOf(' | ')),
+    name: product.substring(product.indexOf('NAME:') + 6, product.indexOf(' | PRICE')),
+    salePrice: product.substring(product.indexOf('$') + 1, product.indexOf('</')),
+  };
+  return productObject;
+};
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -28,24 +47,27 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-function cartItemClickListener(event) {
-  // coloque seu código aqui
-}
-
-const consulta = () => {
-  const QUERY = 'computador';
-  const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${QUERY}`;
-  fetch(endpoint)
-    .then(response => response.json())
-    .then((data) => {
-      const items = document.querySelector('.items');
-      data.results.forEach((product) => {
-        const { id: sku, title: name, thumbnail: image } = product;
-        const item = createProductItemElement({ sku, name, image });
-        items.appendChild(item);
-      });
-    });
+const saveCartToLocalStorage = () => {
+  const cartItens = (document.querySelector('.cart__items').innerHTML).split('><');
+  localStorage.setItem('cart', cartItens);
 };
+
+const sumTotalCart = async () => {
+  const totalElement = document.querySelector('.total-price');
+  let result = 0;
+  const productItensCart = await (document.querySelector('.cart__items').innerText).split('SKU: ');
+  await productItensCart.forEach((product) => {
+    const productPrice = (product.substring(product.indexOf('$') + 1, product.length));
+    result = (productPrice !== '') ? result + parseFloat(productPrice) : result + 0;
+  });
+  totalElement.innerText = result;
+};
+
+function cartItemClickListener(event) {
+  event.target.remove();
+  saveCartToLocalStorage();
+  sumTotalCart();
+}
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
@@ -55,20 +77,100 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-window.onload = function onload() {
-  consulta();
+const addCartProductItens = (object, from) => {
+  let productInfo = null;
+  if (from === 'load') {
+    productInfo = getProductItemInfosFromSaved(object);
+  } else {
+    productInfo = getProductItemInfos(object);
+  }
+  const cartElement = document.querySelector('.cart__items');
+  const productElement = createCartItemElement(productInfo);
+  cartElement.appendChild(productElement);
+  sumTotalCart();
+  saveCartToLocalStorage();
 };
 
+const renderProductItensList = (element) => {
+  const itensSection = document.querySelector('.items');
+  itensSection.appendChild(element);
+};
 
-// ao clicar no botao ... add event listener
-// const add = document.querySelector('.item__add');
-// add.addEventListener('click', addInShopCar());
-// 'ao clicar no botao' faça a requisição da api em que $ItemID deve ser o valor id
-// const addInShopCar = () => {
-//   const ItemID = add.id;
-//   const endpoint = `https://api.mercadolibre.com/items/${ItemID}`
-// }
-// receber apenas 1 item para passar nojson
-// desestruturar o produto para { sku, name, salePrice }
-// passar o produto desestruturado no createCartItemElement
-// retornar o prudoto como filho de <ol class="cart__items">
+const createProductItensList = (object) => {
+  object.forEach((product) => {
+    const productInfos = getProductItemInfos(product);
+    const itemElement = createProductItemElement(productInfos);
+    renderProductItensList(itemElement);
+  });
+};
+
+const loadingTextOnScreen = (isLoading) => {
+  const itensSection = document.querySelector('.items');
+  if (isLoading) {
+    const loadingElement = document.createElement('p');
+    loadingElement.className = 'empty-cart';
+    loadingElement.innerText = 'loading...';
+    itensSection.appendChild(loadingElement);
+  } else {
+    itensSection.innerHTML = '';
+  }
+};
+
+const fetchProductItens = async (term) => {
+  loadingTextOnScreen(true);
+  const query = term;
+  const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${query}`;
+  try {
+    const response = await fetch(endpoint);
+    const object = await response.json();
+    loadingTextOnScreen(false);
+    createProductItensList(object.results);
+  } catch (error) {
+    alert(error);
+  }
+};
+
+const fetchProductItemId = async (itemId) => {
+  const endpoint = `https://api.mercadolibre.com/items/${itemId}`;
+  try {
+    const response = await fetch(endpoint);
+    const object = await response.json();
+    addCartProductItens(object, 'api');
+  } catch (error) {
+    alert(error);
+  }
+};
+
+const loadCartFromLocalStorage = () => {
+  const cartSkuItensSaved = localStorage.getItem('cart');
+  if (cartSkuItensSaved !== null && cartSkuItensSaved !== '') {
+    const cartSkuItensSavedList = cartSkuItensSaved.split(',');
+    cartSkuItensSavedList.forEach((product) => {
+      addCartProductItens(product, 'load');
+    });
+  }
+};
+
+const listItemClickListener = (event) => {
+  if (event.target.className === 'item__add') {
+    const itemId = getSkuFromProductItem(event.target.parentElement);
+    fetchProductItemId(itemId);
+  }
+};
+
+const removeAllProductsCartListener = (event) => {
+  const cartElement = document.querySelector('.cart__items');
+  cartElement.innerText = '';
+  sumTotalCart();
+  saveCartToLocalStorage();
+};
+
+window.onload = function onload() {
+  const itensSection = document.querySelector('.items');
+  const buttonEmptyCart = document.querySelector('.empty-cart');
+  fetchProductItens('computador');
+  itensSection.addEventListener('click', listItemClickListener);
+  buttonEmptyCart.addEventListener('click', removeAllProductsCartListener);
+  loadCartFromLocalStorage();
+  sumTotalCart();
+};
