@@ -104,7 +104,7 @@ const getListOfProducts = async () => {
     .then(object => object.results);
 
   products(arrayProducts);
-  loading.innerHTML = '';
+  loading.remove();
 };
 
 window.onload = function onload() {
