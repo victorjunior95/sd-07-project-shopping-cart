@@ -52,7 +52,7 @@ const sumPrice = async () => {
   });
   let totalCart;
   if (sumTotal.length === 0) {
-    totalCart = 0;
+    totalCart = `R${0}`;
   } else {
     totalCart = `R$${sumTotal.reduce((acc, current) => acc + current)}`;
   }
@@ -137,7 +137,7 @@ const getListItems = async () => {
 const loadCart = (array) => {
   const containerCart = document.querySelector('.cart__items');
   array.forEach((product) => {
-    if (product !== 0) {
+    if (typeOf(product) !== Number) {
       containerCart.appendChild(createCartItemElement(product));
     }
   });
