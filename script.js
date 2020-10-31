@@ -20,7 +20,7 @@ function cartLocalStorage() {
 async function getPriceCart(price = 0) {
   let section = document.querySelector('.total-price');
   if (section === null) {
-    section = await createCustomElement('section', 'total-price', 'Total: ');
+    section = await createCustomElement('section', 'total-price', '');
     section.appendChild(await createCustomElement('span', 'money', price));
     document.querySelector('.cart').appendChild(section);
     localStorage.totalPrice = price;
