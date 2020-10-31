@@ -56,7 +56,7 @@ const sumPrice = async () => {
     totalCart = 0;
     totalView.innerHTML = totalCart;
   } else {
-    totalCart = `sumTotal.reduce((acc, current) => acc + current)`;
+    totalCart = sumTotal.reduce((acc, current) => acc + current);
     totalView.innerHTML = totalCart;
   }
 };
