@@ -47,13 +47,10 @@ const itemsApi = (search) => {
         .then((data) => {
           const sectionItems = document.getElementsByClassName('items')[0];
           const product = data.results;
-          product.forEach(item => {
-            sectionItems.appendChild(createProductItemElement(item));
-          });
+          product.forEach(item => sectionItems.appendChild(createProductItemElement(item))
+          );
         });
-      });
- };
+    });
+ }
 
-
-
-window.onload = function onload() { itemsApi("computador") };
+window.onload = function onload() { itemsApi('computador') }
