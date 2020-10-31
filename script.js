@@ -65,7 +65,7 @@ const checkProdutct = () => {
 const addLoading = () => {
   const items = document.querySelector('.items');
   items.innerHTML = '<h1>Loading...</h1>';
-}
+};
 
 const removeLoading = () => {
   setTimeout(() => {
