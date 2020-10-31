@@ -59,7 +59,7 @@ const sumPrice = async () => {
   const totalView = await document.querySelector('.total');
   totalView.innerHTML = `R$${totalCart}`;
   localStorage.setItem('total', totalCart);
-}
+};
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
