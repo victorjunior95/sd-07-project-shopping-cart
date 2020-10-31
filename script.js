@@ -71,6 +71,11 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
+const loadProducts = () => {
+  const { sku, name, price } = items;
+  createCartItemElement({ sku, name, price });
+};
+
 const fetchProductToCart = async (id) => {
   const endpoint = `https://api.mercadolibre.com/items/${id}`;
 
@@ -106,7 +111,6 @@ function createProductItemElement({ sku, name, image, price }) {
   button.addEventListener('click', async function (event) {
     const parentElement = await event.target.parentElement;
     await fetchProductToCart(getSkuFromProductItem(parentElement));
-    // updateCart();
   });
   section.appendChild(button);
   return section;
@@ -155,21 +159,6 @@ const settingsSearchBtn = () => {
   // });
 };
 
-const settingsCartBtn = () => {
-  let cartIsShown = true;
-  const btnCart = document.querySelector('#btn-cart');
-  btnCart.addEventListener('click', () => {
-    const cart = document.querySelector('#cart');
-    if (cartIsShown) {
-      cart.style.display = 'none';
-      cartIsShown = false;
-    } else {
-      cart.style.display = 'flex';
-      cartIsShown = true;
-    }
-  });
-};
-
 const selectCurrency = () => {
   const inputCurrency = document.querySelector('#input-currency');
   const firstCurrency = document.querySelector('#first-currency');
@@ -192,7 +181,7 @@ const selectCurrency = () => {
 };
 
 window.onload = function onload() {
-  settingsCartBtn();
+  loadProducts();
   settingsSearchBtn();
   selectCurrency();
   const logoBtn = document.querySelector('#logo-svg');
