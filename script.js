@@ -1,5 +1,3 @@
-window.onload = function onload() { };
-
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -30,8 +28,13 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-function cartItemClickListener(event) {
-  // coloque seu código aqui
+function getElementItems(product) {
+  const section = document.querySelector('.items');
+  section.appendChild(createProductItemElement(product));
+}
+
+function cartItemClickListener() {
+  // carrinho
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -41,3 +44,53 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
+
+function getItem(produto) {
+  const item = document.querySelector('.cart__items');
+  item.appendChild(createCartItemElement(produto));
+}
+
+function convertId(id) {
+  const idList = `https://api.mercadolibre.com/items/${id}`;
+  fetch(idList)
+  .then(respond => (respond.json()))
+  .then((objeto) => {
+    const product = {
+      sku: objeto.id,
+      name: objeto.title,
+      salePrice: objeto.price,
+    };
+    getItem(product);
+  });
+}
+
+function getId(event) { // 2 - segunda funcao
+  const id = getSkuFromProductItem(event.target.parentNode);
+  convertId(id);
+}
+
+function callButton() { // 2 - primeira funcao
+  const getButton = document.querySelectorAll('.item__add');
+  getButton.forEach((botao) => {
+    botao.addEventListener('click', getId);
+  });
+}
+
+function getApiList() {
+  const endPoint = 'https://api.mercadolibre.com/sites/MLB/search?q=$computador';
+  fetch(endPoint)
+  .then(respond => respond.json())
+  .then(objeto => Object.entries(objeto.results).forEach((element) => {
+    const product = {
+      sku: element[1].id,
+      name: element[1].title,
+      image: element[1].thumbnail,
+    };
+    getElementItems(product);
+    callButton();
+  }));
+}
+
+window.onload = function onload() {
+  getApiList();
+};
