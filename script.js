@@ -88,9 +88,16 @@ function loadProducts(products) {
 }
 
 async function productsAPI() {
+  const load = document.querySelector('.loading');
+  load.innerText = 'loading...';
   const response = await fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador');
   const data = await response.json();
   return loadProducts(data.results);
+}
+
+function loadedPage() {
+  const load = document.querySelector('.loading');
+  load.innerText = '';
 }
 
 function loadLocalStorage() {
@@ -115,6 +122,7 @@ function clearAll() {
 
 window.onload = async function onload() {
   await productsAPI();
+  loadedPage();
   setButtonEvent();
   loadLocalStorage();
   await addPrices();
