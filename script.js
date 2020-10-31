@@ -15,13 +15,17 @@ function createCustomElement(element, className, innerText) {
 const showAlert = message => window.alert(message);
 
 const startLoading = () => {
-  const loading = document.querySelector('.loading');
-  loading.innerHTML = 'Carregando...';
+  const container = document.querySelector('.container');
+  const loading = document.createElement('span');
+  loading.className = 'loading';
+  container.appendChild(loading);
+  loading.innerHTML = 'Xablau';
 };
 
 const stopLoading = () => {
+  const container = document.querySelector('.container');
   const loading = document.querySelector('.loading');
-  loading.innerHTML = '';
+  container.removeChild(loading);
 };
 
 // Baseado no projeto Casa de Câmbio do Oliva
