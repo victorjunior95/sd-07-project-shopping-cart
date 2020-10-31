@@ -2,9 +2,16 @@ function showError(message) {
   return window.alert(message);
 }
 
-async function sumPrices(price) {
-  const preco = document.querySelector('.total-price');
-  preco.innerHTML = await ((Math.round(preco.innerHTML * 100) / 100) + price);
+// Solução sugerida pelo colega Stefano Branz da turma 6
+async function cartItemsTotalPrice() {
+  const cartItems = document.querySelectorAll('.cart__item');
+  const cartItemsTotalPrices = document.querySelector('.total-price');
+  let sumOfCartItemsPrice = 0;
+  cartItems.forEach((item) => {
+    const itemPrice = parseFloat(item.innerHTML.split('$')[1]);
+    sumOfCartItemsPrice += itemPrice;
+  });
+  cartItemsTotalPrices.innerHTML = sumOfCartItemsPrice;
 }
 
 function emptyCart() {
@@ -45,9 +52,8 @@ function getSkuFromProductItem(item) {
 function cartItemClickListener(event) {
   // coloque seu código aqui
   const cartItem = event.target.parentNode;
-  const price = parseFloat(event.target.innerHTML.substr(event.target.innerHTML.indexOf('PRICE: $') + 8));
   cartItem.removeChild(event.target);
-  sumPrices(-price);
+  cartItemsTotalPrice();
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -55,7 +61,6 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
-  sumPrices(+salePrice);
   return li;
 }
 
@@ -66,6 +71,7 @@ function addToCart(sku) {
       pageLoading();
       const cartItems = document.querySelector('.cart__items');
       cartItems.appendChild(createCartItemElement(object));
+      cartItemsTotalPrice();
     })
     .catch(erro => showError(erro));
 }
