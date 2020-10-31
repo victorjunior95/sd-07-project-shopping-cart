@@ -199,10 +199,20 @@ const selectCurrency = () => {
   });
 };
 
+const emptyCart = () => {
+  const emptyCartBtn = document.querySelector('.empty-cart');
+  emptyCartBtn.addEventListener('click', () => {
+    const cartItems = document.querySelector('ol.cart__items');
+    localStorage.removeItem('cart');
+    cartItems.innerHTML = '';
+  });
+};
+
 window.onload = function onload() {
   getLocalStorage();
   searchBtn();
   selectCurrency();
   const logoBtn = document.querySelector('#logo-svg');
   logoBtn.addEventListener('click', () => location.reload());
+  emptyCart();
 };
