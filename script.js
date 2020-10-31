@@ -1,7 +1,3 @@
-// window.onload = function onload() {
-//   productList();
-// };
-
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -34,9 +30,12 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   const item = event.currentTarget;
+  if (item.classList.contains('cart__item')) {
+    const splitItem = item.innerText.split(' ');
+    localStorage.removeItem(splitItem[1]);
+  }
   item.remove();
-  // console.log(item.textContent);
-  console.log(item.classList);
+
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -96,13 +95,12 @@ function removeItemFromCart() {
 
 async function loadCartFromStorage() {
   try {
-    // const storage = await Array.from(localStorage.);
     const storage = await Object.entries(localStorage);
     storage.forEach(item => addToCart(item[0]));
   } catch (error) {
     return error
   }
-  
+
 }
 
 window.onload = async function onload() {
