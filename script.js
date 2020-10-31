@@ -2,6 +2,11 @@ function showError(message) {
   return window.alert(message);
 }
 
+async function sumPrices(price) {
+  const preco = document.querySelector('.total-price');
+  preco.innerHTML = ((Math.round(preco.innerHTML * 100) / 100) + price);
+}
+
 function emptyCart() {
   const emptyShopingCart = document.querySelector('.empty-cart');
   const cartItems = document.querySelector('.cart__items');
@@ -41,6 +46,8 @@ function cartItemClickListener(event) {
   // coloque seu código aqui
   const cartItem = event.target.parentNode;
   cartItem.removeChild(event.target);
+  const price = parseFloat(event.target.innerHTML.substr(event.target.innerHTML.indexOf('PRICE: $') + 8));
+  sumPrices(-price);
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -48,7 +55,7 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
-  console.log(li);
+  sumPrices(+salePrice);
   return li;
 }
 
