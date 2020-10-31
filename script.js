@@ -35,7 +35,6 @@ function cartItemClickListener(event) {
     localStorage.removeItem(splitItem[1]);
   }
   item.remove();
-
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -96,11 +95,10 @@ function removeItemFromCart() {
 async function loadCartFromStorage() {
   try {
     const storage = await Object.entries(localStorage);
-    storage.forEach(item => addToCart(item[0]));
+    return storage.forEach(item => addToCart(item[0]));
   } catch (error) {
-    return error
+    return error;
   }
-
 }
 
 window.onload = async function onload() {
