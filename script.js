@@ -137,11 +137,9 @@ const getListItems = async () => {
 const loadCart = (array) => {
   const containerCart = document.querySelector('.cart__items');
   array.forEach((product) => {
-    if(product === 0) {
-      return null;
-    } else {
+    if (product !== 0) {
       containerCart.appendChild(createCartItemElement(product));
-    }
+    } 
   });
 };
 
