@@ -14,17 +14,13 @@ function createCustomElement(element, className, innerText) {
 
 const showAlert = message => window.alert(message);
 
-const startLoading = () => {
-  if (!document.querySelector('.loading')) {
-    const container = document.querySelector('.container');
-    const loading = document.createElement('span');
-    loading.className = 'loading';
-    container.appendChild(loading);
-    loading.innerHTML = 'Xablau';
-  }
+const createLoading = () => {
+  const loading = createCustomElement('h1', 'loading', 'loading...');
+  const container = document.querySelector('.container');
+  container.appendChild(loading);
 };
 
-const stopLoading = () => {
+const removeLoading = () => {
   const container = document.querySelector('.container');
   const loading = document.querySelector('.loading');
   container.removeChild(loading);
@@ -32,7 +28,7 @@ const stopLoading = () => {
 
 // Baseado no projeto Casa de Câmbio do Oliva
 const currencyPHP = async () => {
-  startLoading();
+  createLoading();
   const endpoint = 'https://api.ratesapi.io/api/latest?base=BRL';
 
   try {
@@ -41,17 +37,18 @@ const currencyPHP = async () => {
     if (object.error) {
       throw new Error(object.error);
     } else {
+      removeLoading();
       return object.rates.PHP;
     }
   } catch (error) {
+    removeLoading();
     return showAlert(error);
   }
 };
 
 const updatePrice = (className, value, signal) => {
   const items = document.querySelectorAll(className);
-  const ratePHP = currencyPHP()
-  .then(stopLoading());
+  const ratePHP = currencyPHP();
 
   items.forEach((item) => {
     const copyItem = item;
@@ -96,9 +93,10 @@ const getLocalStorage = () => {
 };
 
 const someTotalPrices = async (price) => {
-  startLoading();
+  createLoading();
   const inputPrice = document.querySelector('.total-price');
   inputPrice.innerHTML = Number(inputPrice.innerHTML) + price;
+  removeLoading();
 };
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -106,14 +104,13 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   // window.localStorage.setItem(`Item${countItems}`, {sku: sku, name: name, salePrice: salePrice});
-  someTotalPrices(salePrice)
-    .then(stopLoading());
+  someTotalPrices(salePrice);
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
 
 const fetchProductToCart = async (id) => {
-  startLoading();
+  createLoading();
   const endpoint = `https://api.mercadolibre.com/items/${id}`;
 
   try {
@@ -127,9 +124,11 @@ const fetchProductToCart = async (id) => {
       cartProductPlace.appendChild(createCartItemElement({ sku, name, salePrice }));
 
       setLocalStorage(cartProductPlace);
+      removeLoading();
       return cartProductPlace;
     }
   } catch (error) {
+    removeLoading();
     return showAlert(error);
   }
 };
@@ -150,8 +149,7 @@ function createProductItemElement({ sku, name, image, price }) {
   const button = createCustomElement('button', 'item__add', '+');
   button.addEventListener('click', async function (event) {
     const parentElement = await event.target.parentElement;
-    await fetchProductToCart(getSkuFromProductItem(parentElement))
-    .then(stopLoading());
+    await fetchProductToCart(getSkuFromProductItem(parentElement));
   });
   section.appendChild(button);
   return section;
@@ -159,6 +157,7 @@ function createProductItemElement({ sku, name, image, price }) {
 
 // Baseado na aula do Vitor
 const createProductList = (searchFor) => {
+  createLoading();
   const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${searchFor}`;
   fetch(endpoint)
   .then(response => response.json())
@@ -171,6 +170,7 @@ const createProductList = (searchFor) => {
       items.appendChild(item);
     });
   });
+  removeLoading();
 };
 
 const getSearchItem = () => {
