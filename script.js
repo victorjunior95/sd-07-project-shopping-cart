@@ -51,11 +51,15 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 
 // My code bellow ----------------------------------------------------------------------------
 function loadingText(param) {
-  const loading = document.querySelector('.loading');
   if (param) {
+    const loading = document.createElement('section');
+    loading.className = 'loading';
     loading.innerText = 'loading...';
+    const container = document.querySelector('.container');
+    container.appendChild(loading);
   } else {
-    loading.innerText = '';
+    const loading = document.querySelector('.loading');
+    loading.parentNode.removeChild(loading);
   }
 }
 
@@ -98,6 +102,7 @@ function addToCart(event) {
     .then(response => response.json())
     .then((data) => {
       cartPlacer(data);
+      console.log('ok');
       loadingText(false);
     });
 }
