@@ -77,12 +77,17 @@ const getLocalStorage = () => {
   }
 };
 
+const someTotalPrices = async (price) => {
+  const inputPrice = document.querySelector('.total-price');
+  inputPrice.innerHTML = Number(inputPrice.innerHTML) + price;
+};
+
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   // window.localStorage.setItem(`Item${countItems}`, {sku: sku, name: name, salePrice: salePrice});
-
+  someTotalPrices(salePrice);
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
