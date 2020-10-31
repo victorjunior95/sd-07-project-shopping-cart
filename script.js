@@ -50,6 +50,15 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 }
 
 // My code bellow ----------------------------------------------------------------------------
+function loadingText(param) {
+  const loading = document.querySelector('.loading');
+  if (param) {
+    loading.innerText = 'loading...';
+  } else {
+    loading.innerText = '';
+  }
+}
+
 function clearShoppingCartListener() {
   const btnEmptyCart = document.querySelector('.empty-cart');
   btnEmptyCart.addEventListener('click', () => {
@@ -80,13 +89,17 @@ function cartPlacer(data) {
 }
 
 function addToCart(event) {
+  loadingText(true);
   const url = 'https://api.mercadolibre.com/items/';
   const parentEvent = event.target.parentNode;
   const sku = getSkuFromProductItem(parentEvent);
   const endpoint = `${url}${sku}`;
   fetch(endpoint)
     .then(response => response.json())
-    .then(data => cartPlacer(data));
+    .then((data) => {
+      cartPlacer(data);
+      loadingText(false);
+    });
 }
 
 function storePlacer(data) {
@@ -101,11 +114,15 @@ function storePlacer(data) {
 }
 
 function defaultSearch(term) {
+  loadingText(true);
   const url = 'https://api.mercadolibre.com/sites/MLB/search?q=';
   const endpoint = `${url}${term}`;
   fetch(endpoint)
     .then(response => response.json())
-    .then(data => storePlacer(data));
+    .then((data) => {
+      storePlacer(data);
+      loadingText(false);
+    });
 }
 
 window.onload = function onload() {
