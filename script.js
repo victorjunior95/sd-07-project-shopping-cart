@@ -14,8 +14,19 @@ function createCustomElement(element, className, innerText) {
 
 const showAlert = message => window.alert(message);
 
+const startLoading = () => {
+  const loading = document.querySelector('.loading');
+  loading.innerHTML = 'Carregando...';
+};
+
+const stopLoading = () => {
+  const loading = document.querySelector('.loading');
+  loading.innerHTML = '';
+};
+
 // Baseado no projeto Casa de Câmbio do Oliva
 const currencyPHP = async () => {
+  startLoading();
   const endpoint = 'https://api.ratesapi.io/api/latest?base=BRL';
 
   try {
@@ -33,7 +44,8 @@ const currencyPHP = async () => {
 
 const updatePrice = (className, value, signal) => {
   const items = document.querySelectorAll(className);
-  const ratePHP = currencyPHP();
+  const ratePHP = currencyPHP()
+  .then(stopLoading());
 
   items.forEach((item) => {
     const copyItem = item;
@@ -78,6 +90,7 @@ const getLocalStorage = () => {
 };
 
 const someTotalPrices = async (price) => {
+  startLoading();
   const inputPrice = document.querySelector('.total-price');
   inputPrice.innerHTML = Number(inputPrice.innerHTML) + price;
 };
@@ -87,12 +100,14 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   // window.localStorage.setItem(`Item${countItems}`, {sku: sku, name: name, salePrice: salePrice});
-  someTotalPrices(salePrice);
+  someTotalPrices(salePrice)
+    .then(stopLoading());
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
 
 const fetchProductToCart = async (id) => {
+  startLoading();
   const endpoint = `https://api.mercadolibre.com/items/${id}`;
 
   try {
@@ -129,7 +144,8 @@ function createProductItemElement({ sku, name, image, price }) {
   const button = createCustomElement('button', 'item__add', '+');
   button.addEventListener('click', async function (event) {
     const parentElement = await event.target.parentElement;
-    await fetchProductToCart(getSkuFromProductItem(parentElement));
+    await fetchProductToCart(getSkuFromProductItem(parentElement))
+    .then(stopLoading());
   });
   section.appendChild(button);
   return section;
