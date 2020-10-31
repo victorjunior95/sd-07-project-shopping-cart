@@ -54,10 +54,10 @@ const sumPrice = async () => {
   if (sumTotal.length === 0) {
     totalCart = 0;
   } else {
-    totalCart = sumTotal.reduce((acc, current) => acc + current);
+    totalCart = `R$${sumTotal.reduce((acc, current) => acc + current)}`;
   }
   const totalView = await document.querySelector('.total-price');
-  totalView.innerHTML = `R$${totalCart}`;
+  totalView.innerHTML = totalCart;
   localStorage.setItem('total', totalCart);
 };
 
