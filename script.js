@@ -42,6 +42,25 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+const sumPrice = async () => {
+  const sumTotal = [];
+  const itemsInCart = await document.querySelectorAll('.cart__item')
+  itemsInCart.forEach((actual) => {
+    let productName = actual.innerText.split(' ');
+    let currentPrice = productName[productName.length - 1];
+    sumTotal.push(parseInt(currentPrice.replace('$','0')));
+  })
+  let totalCart;
+  if(sumTotal.length === 0) {
+    totalCart = 0;
+  } else {
+    totalCart = sumTotal.reduce((acc, current) => acc + current);
+  }
+  const totalView = await document.querySelector('.total');
+  totalView.innerHTML = `R$${totalCart}`;
+  localStorage.setItem('total',totalCart);
+}
+
 function cartItemClickListener(event) {
   // coloque seu código aqui
   const currentItem = event.currentTarget;
@@ -49,6 +68,7 @@ function cartItemClickListener(event) {
   getElementFather.removeChild(currentItem);
   const itemText = currentItem.innerText;
   removeLocalStorage(itemText);
+  sumPrice();
 }
 
 const handleResult = (object) => {
@@ -91,6 +111,7 @@ const addCart = (buttons) => {
         const cart = document.querySelector('.cart__items');
         cart.appendChild(createCartItemElement(item));
         saveCartToLocalStorage(item);
+        sumPrice();
       }
     });
   });
@@ -137,8 +158,12 @@ const removeAllItemsCart = async () => {
       removeLocalStorage(activeItem.innerText);
       activeCart.removeChild(activeItem);
     });
+    sumPrice();
   });
+  
 };
+
+
 
 window.onload = function onload() {
   getListItems();
