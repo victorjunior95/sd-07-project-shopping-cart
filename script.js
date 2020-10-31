@@ -44,10 +44,10 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 // My code bellow ----------------------------------------------------------------------------
 async function sumCartPrices({ price }) {
   try {
-    const spanPrice = document.querySelector('span.total-price');
-    let totalPrice = parseFloat(spanPrice.innerText);
-    console.log(spanPrice);
-    console.log(totalPrice);
+    const span = document.querySelector('span.total-price');
+    let totalPrice = parseFloat(span.innerText);
+    totalPrice += price;
+    span.innerText = totalPrice;
   } catch (error) {
     console.log(error);
   }
