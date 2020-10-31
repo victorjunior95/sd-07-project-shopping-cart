@@ -97,12 +97,14 @@ function products(arrayProducts) {
     .addEventListener('click', addProductToShoppingCar));
 }
 const getListOfProducts = async () => {
+  const loading = document.querySelector('.loading');
   const url = 'https://api.mercadolibre.com/sites/MLB/search?q=$computador';
   const arrayProducts = await fetch(url)
     .then(response => response.json())
     .then(object => object.results);
 
   products(arrayProducts);
+  loading.innerHTML = '';
 };
 
 window.onload = function onload() {
