@@ -14,10 +14,10 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-//salva os dados di carrinho no localStorage
-function localCartStorage () {
+// salva os dados di carrinho no localStorage
+function localCartStorage() {
   const cartItems = document.querySelector('.cart__items').innerText;
-   localStorage.setItem('item', cartItems);
+  localStorage.setItem('item', cartItems);
 }
 
 function getSkuFromProductItem(item) {
@@ -31,24 +31,11 @@ function cartItemClickListener(event) {
   localCartStorage();
 }
 
-// função cria cada elemento e renderiza na pagina
-function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
-  const section = document.createElement('section');
-  section.className = 'item';
-
-  section.appendChild(createCustomElement('span', 'item__sku', sku));
-  section.appendChild(createCustomElement('span', 'item__title', name));
-  section.appendChild(createProductImageElement(image));
-  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'))
-    .addEventListener('click', () => fetchItemToCart(sku));
-  return section;
-}
-
 // cria lista com elementos do carrinho
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`; 
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', () => cartItemClickListener(li));
   return li;
 }
@@ -65,6 +52,20 @@ function fetchItemToCart(sku) {
         localCartStorage();
       });
 }
+
+// função cria cada elemento e renderiza na pagina
+function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
+  const section = document.createElement('section');
+  section.className = 'item';
+
+  section.appendChild(createCustomElement('span', 'item__sku', sku));
+  section.appendChild(createCustomElement('span', 'item__title', name));
+  section.appendChild(createProductImageElement(image));
+  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'))
+    .addEventListener('click', () => fetchItemToCart(sku));
+  return section;
+}
+
 
 // função que busca na API e renderiza na tela
 function fetchApi() {
