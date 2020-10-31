@@ -63,6 +63,9 @@ const checkProdutct = () => {
   });
 };
 const addLoading = () => {
+  const createSpan = document.createElement('span');
+  createSpan.className = 'loading';
+  const item2 = document.querySelector('.items').appendChild(createSpan);
   const items = document.querySelector('.loading');
   items.innerHTML = '<h1>Loading...</h1>';
 };
