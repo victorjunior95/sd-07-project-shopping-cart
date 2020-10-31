@@ -24,8 +24,6 @@ function createProductItemElement({ id, title, thumbnail }) {
   return section;
 }
 
-
-
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
@@ -64,7 +62,7 @@ const itemsApi = (search) => {
             sectionItems.appendChild(createProductItemElement(item)),
           );
           const buttonAddCart = document.querySelectorAll('.item__add');
-          buttonAddCart.forEach(button => {
+          buttonAddCart.forEach((button) => {
             button.addEventListener('click', (event) => {
               const ID = event.target.parentNode.firstChild.innerHTML;
               buttonAddApi(ID);
@@ -73,7 +71,5 @@ const itemsApi = (search) => {
         });
     });
 };
-
-
 
 window.onload = function onload() { itemsApi('computador'); };
