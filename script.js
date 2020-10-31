@@ -32,7 +32,7 @@ function cartItemClickListener(event) {
   const item = event.target;
   let price = item.innerText.split(' ');
   price = price[price.length - 1];
-  price = price.split('').filter(c => c != '$').join('');
+  price = price.split('').filter(c => c !== '$').join('');
   price = parseFloat(price);
   const span = document.querySelector('span.total-price');
   let totalPrice = parseFloat(span.innerText);
@@ -110,5 +110,5 @@ function defaultSearch(term) {
 
 window.onload = function onload() {
   defaultSearch('COMPUTADOR');
-  clearShoppingCartListener()
+  clearShoppingCartListener();
 };
