@@ -48,7 +48,7 @@ const sumPrice = async () => {
   itemsInCart.forEach((actual) => {
     const productName = actual.innerText.split(' ');
     const currentPrice = productName[productName.length - 1];
-    sumTotal.push(parseInt(currentPrice.replace('$', '0'), 10));
+    sumTotal.push(parseFloat(currentPrice.replace('$', '0'), 10));
   });
   let totalCart;
   const totalView = await document.querySelector('.total-price');
