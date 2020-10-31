@@ -44,21 +44,21 @@ function getSkuFromProductItem(item) {
 
 const sumPrice = async () => {
   const sumTotal = [];
-  const itemsInCart = await document.querySelectorAll('.cart__item')
+  const itemsInCart = await document.querySelectorAll('.cart__item');
   itemsInCart.forEach((actual) => {
-    let productName = actual.innerText.split(' ');
-    let currentPrice = productName[productName.length - 1];
-    sumTotal.push(parseInt(currentPrice.replace('$','0')));
-  })
+    const productName = actual.innerText.split(' ');
+    const currentPrice = productName[productName.length - 1];
+    sumTotal.push(parseInt(currentPrice.replace('$', '0'), 10));
+  });
   let totalCart;
-  if(sumTotal.length === 0) {
+  if (sumTotal.length === 0) {
     totalCart = 0;
   } else {
     totalCart = sumTotal.reduce((acc, current) => acc + current);
   }
   const totalView = await document.querySelector('.total');
   totalView.innerHTML = `R$${totalCart}`;
-  localStorage.setItem('total',totalCart);
+  localStorage.setItem('total', totalCart);
 }
 
 function cartItemClickListener(event) {
@@ -160,10 +160,7 @@ const removeAllItemsCart = async () => {
     });
     sumPrice();
   });
-  
 };
-
-
 
 window.onload = function onload() {
   getListItems();
