@@ -4,7 +4,7 @@ function showError(message) {
 
 async function sumPrices(price) {
   const preco = document.querySelector('.total-price');
-  preco.innerHTML = ((Math.round(preco.innerHTML * 100) / 100) + price);
+  preco.innerHTML = await ((Math.round(preco.innerHTML * 100) / 100) + price);
 }
 
 function emptyCart() {
@@ -45,8 +45,8 @@ function getSkuFromProductItem(item) {
 function cartItemClickListener(event) {
   // coloque seu código aqui
   const cartItem = event.target.parentNode;
-  cartItem.removeChild(event.target);
   const price = parseFloat(event.target.innerHTML.substr(event.target.innerHTML.indexOf('PRICE: $') + 8));
+  cartItem.removeChild(event.target);
   sumPrices(-price);
 }
 
