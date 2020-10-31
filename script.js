@@ -30,7 +30,15 @@ function getSkuFromProductItem(item) {
 function cartItemClickListener(event) {
   // My code bellow
   const item = event.target;
+  let price = item.innerText.split(' ');
+  price = price[price.length - 1];
+  price = price.split('').filter(c => c != '$').join('');
+  price = parseFloat(price);
+  const span = document.querySelector('span.total-price');
+  let totalPrice = parseFloat(span.innerText);
   item.parentNode.removeChild(item);
+  totalPrice -= price;
+  span.innerText = totalPrice;
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -42,6 +50,16 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 }
 
 // My code bellow ----------------------------------------------------------------------------
+function clearShoppingCartListener() {
+  const btnEmptyCart = document.querySelector('.empty-cart');
+  btnEmptyCart.addEventListener('click', () => {
+    const shoppingCart = document.querySelector('.cart__items');
+    const span = document.querySelector('span.total-price');
+    shoppingCart.innerHTML = '';
+    span.innerText = 0;
+  });
+}
+
 async function sumCartPrices({ price }) {
   try {
     const span = document.querySelector('span.total-price');
@@ -92,4 +110,5 @@ function defaultSearch(term) {
 
 window.onload = function onload() {
   defaultSearch('COMPUTADOR');
+  clearShoppingCartListener()
 };
