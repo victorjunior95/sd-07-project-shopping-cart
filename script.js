@@ -48,10 +48,10 @@ const itemsApi = (search) => {
           const sectionItems = document.getElementsByClassName('items')[0];
           const product = data.results;
           product.forEach(item =>
-            sectionItems.appendChild(createProductItemElement(item))
+            sectionItems.appendChild(createProductItemElement(item)),
           );
         });
     });
-  };
+};
 
 window.onload = function onload() { itemsApi('computador'); };
