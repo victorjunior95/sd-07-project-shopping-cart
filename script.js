@@ -139,7 +139,7 @@ const loadCart = (array) => {
   array.forEach((product) => {
     if (product !== 0) {
       containerCart.appendChild(createCartItemElement(product));
-    } 
+    }
   });
 };
 
