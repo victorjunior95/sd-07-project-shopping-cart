@@ -63,7 +63,7 @@ const checkProdutct = () => {
   });
 };
 const addLoading = () => {
-  const items = document.querySelector('.items');
+  const items = document.querySelector('.loading');
   items.innerHTML = '<h1>Loading...</h1>';
 };
 
