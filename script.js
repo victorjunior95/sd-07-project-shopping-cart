@@ -15,11 +15,13 @@ function createCustomElement(element, className, innerText) {
 const showAlert = message => window.alert(message);
 
 const startLoading = () => {
-  const container = document.querySelector('.container');
-  const loading = document.createElement('span');
-  loading.className = 'loading';
-  container.appendChild(loading);
-  loading.innerHTML = 'Xablau';
+  if (!document.querySelector('.loading')) {
+    const container = document.querySelector('.container');
+    const loading = document.createElement('span');
+    loading.className = 'loading';
+    container.appendChild(loading);
+    loading.innerHTML = 'Xablau';
+  }
 };
 
 const stopLoading = () => {
