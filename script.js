@@ -63,17 +63,19 @@ const setLocalStorage = (cartProductPlace) => {
   localStorage.setItem('cart', cartProductPlace.innerHTML);
 };
 
-const getLocalStorage = () => {
-  const cartItems = document.querySelector('ol');
-  if (localStorage.getItem('cart')) {
-    cartItems.innerHTML = localStorage.getItem('cart');
-  }
-};
-
 function cartItemClickListener(event) {
   localStorage.removeItem('cart');
   this.remove(event);
 }
+
+const getLocalStorage = () => {
+  const cartItems = document.querySelector('ol');
+  if (localStorage.getItem('cart')) {
+    cartItems.innerHTML = localStorage.getItem('cart');
+    const eachItem = cartItems.querySelectorAll('li');
+    eachItem.forEach(item => item.addEventListener('click', cartItemClickListener));
+  }
+};
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
