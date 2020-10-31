@@ -62,8 +62,24 @@ const checkProdutct = () => {
     item.addEventListener('click', addProductInCart);
   });
 };
-//  Requisito 1 feito com a juda da logica do Vitor em aula
+
+const addLoading = () => {
+  const message = document.createElement('span');
+  message.className = 'loading';
+  message.innerText = 'Loading...';
+  const items = document.querySelector('.items');
+  items.appendChild(message);
+};
+
+const removeLoading = () => {
+  setTimeout(() => {
+    const items = document.querySelector('.items');
+    const message = document.querySelector('.loading');
+    items.removeChild(message);
+  }, 3000);
+};
 async function itemsFounded() {
+  addLoading();
   const itemsBox = document.querySelector('.items');
   return fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
     .then(response => response.json())
@@ -71,6 +87,7 @@ async function itemsFounded() {
       data.results.forEach(({ id: sku, title: name, thumbnail: image }) => {
         const changedParam = createProductItemElement({ sku, name, image });
         itemsBox.appendChild(changedParam);
+        removeLoading();
       }),
     );
 }
