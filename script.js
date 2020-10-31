@@ -63,23 +63,13 @@ const checkProdutct = () => {
   });
 };
 
-const addLoading = () => {
-  const message = document.createElement('span');
-  message.className = 'loading';
-  message.innerText = 'Loading...';
-  const items = document.querySelector('.items');
-  items.appendChild(message);
-};
-
 const removeLoading = () => {
   setTimeout(() => {
-    const items = document.querySelector('.items');
-    const message = document.querySelector('.loading');
-    items.removeChild(message);
-  }, 3000);
+    const items = document.querySelector('h1');
+    items.innerText = '';
+  }, 2500);
 };
 async function itemsFounded() {
-  addLoading();
   const itemsBox = document.querySelector('.items');
   return fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
     .then(response => response.json())
