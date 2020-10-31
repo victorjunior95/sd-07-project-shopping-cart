@@ -51,14 +51,14 @@ const sumPrice = async () => {
     sumTotal.push(parseInt(currentPrice.replace('$', '0'), 10));
   });
   let totalCart;
+  const totalView = await document.querySelector('.total-price');
   if (sumTotal.length === 0) {
-    totalCart = `R${0}`;
+    totalCart = `R$${0}`;
+    totalView.innerHTML = totalCart;
   } else {
     totalCart = `R$${sumTotal.reduce((acc, current) => acc + current)}`;
+    totalView.innerHTML = totalCart;
   }
-  const totalView = await document.querySelector('.total-price');
-  totalView.innerHTML = totalCart;
-  localStorage.setItem('total', totalCart);
 };
 
 function cartItemClickListener(event) {
@@ -137,7 +137,7 @@ const getListItems = async () => {
 const loadCart = (array) => {
   const containerCart = document.querySelector('.cart__items');
   array.forEach((product) => {
-    if (typeOf(product) !== Number) {
+    if (typeof product !== 'Number') {
       containerCart.appendChild(createCartItemElement(product));
     }
   });
