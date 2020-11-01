@@ -48,8 +48,7 @@ const currencyPHP = async () => {
 const updatePrice = (className, value, signal) => {
   const items = document.querySelectorAll(className);
   const ratePHP = currencyPHP()
-    .then (removeLoading());
-
+    .then(removeLoading());
   items.forEach((item) => {
     const copyItem = item;
     const splitedPrice = item
@@ -148,7 +147,7 @@ function createProductItemElement({ sku, name, image, price }) {
   button.addEventListener('click', async function (event) {
     const parentElement = await event.target.parentElement;
     await fetchProductToCart(getSkuFromProductItem(parentElement))
-    .then (removeLoading());
+    .then(removeLoading());
   });
   section.appendChild(button);
   return section;
