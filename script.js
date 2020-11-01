@@ -31,7 +31,7 @@ function getSkuFromProductItem(item) {
 function sumTotalPrice() {
   let sum = 0;
   document.querySelectorAll('.cart__item').forEach((item) => {
-    sum += parseFloat(item.getAttribute('item-price'))
+    sum += parseFloat(item.getAttribute('item-price'));
   });
   document.querySelector('.total-price').innerHTML = sum;
 }
