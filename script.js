@@ -87,4 +87,4 @@ const itemsApi = (search) => {
 window.onload = function onload() {
   itemsApi('computador');
   buttonRemoveCart();
- };
+};
