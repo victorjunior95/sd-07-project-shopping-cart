@@ -4,13 +4,12 @@ localStorageCart = () => {
 };
 
 const buttonEmptyCart = document.getElementsByClassName('empty-cart')[0];
-console.log(buttonEmptyCart)
 
 buttonEmptyCart.addEventListener('click', (event) => {
   const cartItensSection = document.querySelector('.cart__items');
-  cartItensSection.innerHTML = ''
-  localStorage.cartItems = ''
-})
+  cartItensSection.innerHTML = '';
+  localStorage.cartItems = '';
+});
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
