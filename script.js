@@ -100,12 +100,23 @@ const addToCart = async () =>
       fetchProductItemCart(url);
     }));
 
+const loadingItem = () => {
+  const loading = document.createElement('span');
+  loading.className = 'loading';
+  loading.innerHTML = 'loading';
+  document.querySelector('.items').appendChild(loading);
+};
+
 const fetchProductsApi = () => {
   const apiUrl = searchProduct('computador', 40);
-  fetch(apiUrl)
+  loadingItem();
+  setTimeout(() => {
+    fetch(apiUrl)
+    .then(document.querySelector('.items').innerHTML = '')
     .then(product => product.json())
     .then(object => productHandler(object.results))
     .then(() => addToCart());
+  }, 300);
 };
 
 const emptyCart = () => {
