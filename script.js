@@ -1,10 +1,8 @@
 const buttonClearList = document.querySelector('.empty-cart');
 
-
-
 buttonClearList.addEventListener('click', function () {
-const ol = document.querySelector('.cart__items');
-ol.innerText = '';
+  const ol = document.querySelector('.cart__items');
+  ol.innerText = '';
 });
 
 
