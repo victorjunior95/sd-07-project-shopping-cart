@@ -78,6 +78,13 @@ const findProducts = () => {
     });
 };
 
+function cleanCart() {
+  const cartItemsList = document.querySelector('.cart__items');
+  cartItemsList.innerHTML = '';
+}
+
 window.onload = function onload() {
   findProducts();
+  const cleanCartButton = document.querySelector('.empty-cart');
+  cleanCartButton.addEventListener('click', cleanCart);
 };
