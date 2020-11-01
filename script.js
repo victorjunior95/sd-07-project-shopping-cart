@@ -58,8 +58,8 @@ const addProductInCart = (event) => {
       };
       const itemToCart = createCartItemElement(destructionAll);
       cart.appendChild(itemToCart);
+      savedLocalStorage();
     });
-  savedLocalStorage();
 };
 
 const checkProdutct = () => {
