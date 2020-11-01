@@ -37,7 +37,6 @@ function cartItemClickListener(event) {
   const array = retrievesLastItemsInTheCart();
   const result = array.filter(product => product.sku !== id);
   localStorage.setItem('cartItens', JSON.stringify(result));
-  
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
