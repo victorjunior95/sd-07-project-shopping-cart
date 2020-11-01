@@ -82,15 +82,14 @@ const verifyIfHasSomethingInTheWebStorage = () => {
   }
 
   if (localStorage) {
-    let oldCartItens = retrievesLastItemsInTheCart();
-    console.log(oldCartItens.length)
+    const oldCartItens = retrievesLastItemsInTheCart();
     if (oldCartItens.length > 0) {
       const cartItens = document.querySelector('.cart__items');
       console.log(oldCartItens);
       oldCartItens.forEach((item) => {
-        let { sku, name, salePrice } = item;
+        const { sku, name, salePrice } = item;
         cartItens.appendChild(createCartItemElement({ sku, name, salePrice }));
-      })
+      });
     }
   }
 };
