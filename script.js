@@ -81,6 +81,20 @@ const emptyItens = () => {
   totalPrice();
 };
 
+const addItemCart = async ({ sku }) => {
+  const item = await fetch(`https://api.mercadolibre.com/items/${sku}`)
+  .then(data => data.json())
+  .then(obj =>
+    createCartItemElement({
+      sku: obj.id,
+      name: obj.title,
+      salePrice: obj.price }),
+  );
+  await document.querySelector('.cart__items').appendChild(item);
+  await saveCarItens();
+  await totalPrice();
+};
+
 
 window.onload = async () => {
   loadProducts();
