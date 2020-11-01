@@ -32,6 +32,16 @@ function cartItemClickListener(event) {
   event.path[1].removeChild(event.path[0]);
 }
 
+function removeCart() {
+  const cartList = document.getElementsByClassName('cart__items')[0];
+  cartList.innerHTML = '';
+}
+
+function buttonRemoveCart() {
+  const removeButton = document.getElementsByClassName('empty-cart')[0];
+  removeButton.addEventListener('click', removeCart);
+}
+
 function createCartItemElement({ id, title, price }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -72,4 +82,9 @@ const itemsApi = (search) => {
     });
 };
 
-window.onload = function onload() { itemsApi('computador'); };
+// Projeto com ajuda de Lugh Walle e Emanuelle Brasil.
+
+window.onload = function onload() {
+  itemsApi('computador');
+  buttonRemoveCart();
+ };
