@@ -3,20 +3,33 @@ localStorageCart = () => {
   localStorage.cartItems = listCart;
 };
 
-const buttonEmptyCart = document.getElementsByClassName('empty-cart')[0];
+const somarValor = () => {
+  const li = document.querySelectorAll('.cart__item');
+  console.log(li.innerHTML);
+  let totalValue = 0;
+  li.forEach((element) => {
+    const liPrice = element.innerHTML.split('$');
+    totalValue += parseFloat(liPrice[1]);
+  });
+  const totalPrice = document.querySelector('.total-price');
+  totalPrice.innerHTML = totalValue;
+};
 
-buttonEmptyCart.addEventListener('click', (event) => {
-  const cartItensSection = document.querySelector('.cart__items');
-  cartItensSection.innerHTML = '';
-  localStorage.cartItems = '';
-});
+const emptyCart = () => {
+  const buttonEmptyCart = document.getElementsByClassName('empty-cart')[0];
+
+  buttonEmptyCart.addEventListener('click', (event) => {
+    const cartItensSection = document.querySelector('.cart__items');
+    cartItensSection.innerHTML = '';
+    localStorage.cartItems = '';
+  });
+};
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
   event.target.remove();
   localStorageCart();
+  somarValor();
 }
-
 
 loadLocalstorageCart = () => {
   if (localStorage.cartItems) {
@@ -25,6 +38,7 @@ loadLocalstorageCart = () => {
     li.forEach((elementList) => {
       elementList.addEventListener('click', cartItemClickListener);
     });
+    somarValor();
   }
 };
 
@@ -61,6 +75,8 @@ function createCartItemElement({ id, title, price }) {
   li.addEventListener('click', cartItemClickListener);
   const cartItensSection = document.querySelector('.cart__items');
   cartItensSection.appendChild(li);
+  somarValor();
+
 }
 
 const addItemCart = (itemId) => {
@@ -107,4 +123,5 @@ const fetchComputer = (search) => {
 window.onload = function onload() {
   fetchComputer('computador');
   loadLocalstorageCart();
+  emptyCart()
 };
