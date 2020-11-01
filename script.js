@@ -2,6 +2,10 @@ function showError(message) {
   return window.alert(message);
 }
 
+function autoSave() {
+  const cartItems = document.querySelector('.cart__items');
+  localStorage.setItem('saved-cart', cartItems.innerHTML);
+}
 // Solução sugerida pelo colega Stefano Branz da turma 6
 async function cartItemsTotalPrice() {
   const cartItems = document.querySelectorAll('.cart__item');
@@ -19,6 +23,7 @@ function emptyCart() {
   const cartItems = document.querySelector('.cart__items');
   emptyShopingCart.addEventListener('click', () => {
     cartItems.innerHTML = '';
+    localStorage.clear();
   });
 }
 
@@ -54,6 +59,17 @@ function cartItemClickListener(event) {
   const cartItem = event.target.parentNode;
   cartItem.removeChild(event.target);
   cartItemsTotalPrice();
+  autoSave();
+}
+
+function savedCart() {
+  const cartItems = document.querySelector('.cart__items');
+  cartItems.innerHTML = localStorage.getItem('saved-cart');
+  const li = document.querySelectorAll('li');
+  li.forEach((element) => {
+    element.addEventListener('click', cartItemClickListener);
+  });
+  cartItemsTotalPrice();
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -72,6 +88,7 @@ function addToCart(sku) {
       const cartItems = document.querySelector('.cart__items');
       cartItems.appendChild(createCartItemElement(object));
       cartItemsTotalPrice();
+      autoSave();
     })
     .catch(erro => showError(erro));
 }
@@ -107,4 +124,5 @@ window.onload = function onload() {
   const prdoduct = 'computador';
   searchProducts(prdoduct);
   emptyCart();
+  savedCart();
 };
