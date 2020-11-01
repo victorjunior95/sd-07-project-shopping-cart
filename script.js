@@ -55,11 +55,11 @@ const loadItemsToLocalStorage = (id, title, price) => {
   if (Storage) {
     const getItemSaved = JSON.parse(localStorage.getItem('cart'));
     const values = (getItemSaved === null ? [] : getItemSaved);
-    values.push({id, title, price});
+    values.push({ id, title, price });
     localStorage.setItem('cart', JSON.stringify(values));
   }
   getSumTotalBill();
-}
+};
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
@@ -153,8 +153,8 @@ function cleanToChart() {
 }
 
 window.onload = function onload() {
-  getSumTotalBill()  
-  retrieveItemsSavedBeforeFromLocalStorage()
+  getSumTotalBill();
+  retrieveItemsSavedBeforeFromLocalStorage();
   setTimeout(fetchProducts, 2000);
   cleanToChart();
 };
