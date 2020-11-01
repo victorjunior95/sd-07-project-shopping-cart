@@ -41,14 +41,14 @@ const currencyPHP = async () => {
       return object.rates.PHP;
     }
   } catch (error) {
-    removeLoading();
     return showAlert(error);
   }
 };
 
 const updatePrice = (className, value, signal) => {
   const items = document.querySelectorAll(className);
-  const ratePHP = currencyPHP();
+  const ratePHP = currencyPHP()
+    .then (removeLoading());
 
   items.forEach((item) => {
     const copyItem = item;
@@ -96,7 +96,6 @@ const someTotalPrices = async (price) => {
   createLoading();
   const inputPrice = document.querySelector('.total-price');
   inputPrice.innerHTML = Number(inputPrice.innerHTML) + price;
-  removeLoading();
 };
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -104,7 +103,8 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   // window.localStorage.setItem(`Item${countItems}`, {sku: sku, name: name, salePrice: salePrice});
-  someTotalPrices(salePrice);
+  someTotalPrices(salePrice)
+    .then(removeLoading());
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
@@ -124,11 +124,9 @@ const fetchProductToCart = async (id) => {
       cartProductPlace.appendChild(createCartItemElement({ sku, name, salePrice }));
 
       setLocalStorage(cartProductPlace);
-      removeLoading();
       return cartProductPlace;
     }
   } catch (error) {
-    removeLoading();
     return showAlert(error);
   }
 };
@@ -149,7 +147,8 @@ function createProductItemElement({ sku, name, image, price }) {
   const button = createCustomElement('button', 'item__add', '+');
   button.addEventListener('click', async function (event) {
     const parentElement = await event.target.parentElement;
-    await fetchProductToCart(getSkuFromProductItem(parentElement));
+    await fetchProductToCart(getSkuFromProductItem(parentElement))
+    .then (removeLoading());
   });
   section.appendChild(button);
   return section;
@@ -169,8 +168,8 @@ const createProductList = (searchFor) => {
       const item = createProductItemElement({ sku, name, image, price });
       items.appendChild(item);
     });
-  });
-  removeLoading();
+  })
+  .then(removeLoading());
 };
 
 const getSearchItem = () => {
