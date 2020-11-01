@@ -33,7 +33,8 @@ const retrievesLastItemsInTheCart = () => JSON.parse(localStorage.getItem('cartI
 function cartItemClickListener(event) {
   // coloque seu código aqui
   const id = event.target.id;
-  event.currentTarget.remove('');
+  const cartList = document.querySelector('.cart__items');
+  cartList.removeChild(event.target);
   const array = retrievesLastItemsInTheCart();
   const result = array.filter(product => product.sku !== id);
   localStorage.setItem('cartItens', JSON.stringify(result));
