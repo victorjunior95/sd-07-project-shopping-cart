@@ -53,11 +53,11 @@ function createCartItemElement({ id, title, price }) {
 const loadingProduct = () => {
   document.getElementsByClassName('items')[0].appendChild(
   createCustomElement('h1', 'loading', 'Loading...'));
-}
+};
 
 const loadingComplete = () => {
-  document.getElementsByClassName('loading')[0].remove()
-}
+  document.getElementsByClassName('loading')[0].remove();
+};
 
 const buttonAddApi = (productID) => {
   fetch(`https://api.mercadolibre.com/items/${productID}`)
