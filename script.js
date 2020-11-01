@@ -47,7 +47,7 @@ function loadItems() {
     const itemsPannel = document.querySelector('.items');
     data.results.forEach((result) => {
       const item = createProductItemElement(
-        { sku: result.id, name: result.title, image: result.thumbnail }
+        { sku: result.id, name: result.title, image: result.thumbnail, }
         );
       itemsPannel.appendChild(item);
     });
