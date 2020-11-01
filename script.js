@@ -76,9 +76,7 @@ function createCartItemElement({ id, title, price }) {
   const cartItensSection = document.querySelector('.cart__items');
   cartItensSection.appendChild(li);
   somarValor();
-
 }
-
 const addItemCart = (itemId) => {
   const endpoint = `https://api.mercadolibre.com/items/${itemId}`;
 
@@ -123,5 +121,5 @@ const fetchComputer = (search) => {
 window.onload = function onload() {
   fetchComputer('computador');
   loadLocalstorageCart();
-  emptyCart()
+  emptyCart();
 };
