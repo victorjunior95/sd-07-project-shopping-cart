@@ -78,7 +78,7 @@ const removeLoading = () => {
     const box = document.querySelector('.container');
     const containerChilds = box.children;
     box.removeChild(containerChilds[0]);
-  }, 3000);
+  }, 2500);
 };
 async function itemsFounded() {
   const itemsBox = document.querySelector('.items');
