@@ -96,7 +96,7 @@ const sumTotalPrices = async (price, clear) => {
   if (clear) {
     inputPrice.innerHTML = price;
   } else {
-    inputPrice.innerHTML = Number(inputPrice.innerHTML) + price;
+    inputPrice.innerHTML = Number(inputPrice.innerText) + price;
   }
 };
 
