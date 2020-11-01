@@ -29,7 +29,8 @@ function cartItemClickListener(event) {
   cart.removeChild(event.target);
 }
 
-function createCartItemElement({ sku, name, salePrice }) {
+function createCartItemElement(object) {
+  const { id: sku, title: name, price: salePrice } = object;
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
@@ -43,8 +44,7 @@ function addToCart(product) {
   fetch(endpoint)
   .then(response => response.json())
   .then((object) => {
-    const { id: sku, title: name, price: salePrice } = object;
-    cart.appendChild(createCartItemElement({ sku, name, salePrice }));
+    cart.appendChild(createCartItemElement(object));
   });
 }
 
