@@ -30,22 +30,38 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   event.target.parentNode.removeChild(event.target);
+  sumTotalPrice();
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  // next line from vanessaberbidi PR
+  li.setAttribute('item-price', salePrice);
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
 
-async function getItemApiById(id) {
+// fetches enpoint by clicked product id and and appends it to the cart section by
+// calling a function that creates the cart items list
+// if there's one item in the cart, it creates a paragraph by the end where we will write
+// the total price of cart items
+function getItemApiById(id) {
   const endpoint = `https://api.mercadolibre.com/items/${id}`;
   return fetch(endpoint)
   .then(r => r.json())
-  .then(item =>
-    document.querySelector('.cart__items').appendChild(createCartItemElement(item)));
+  .then((item) => {
+    const cart = document.querySelector('.cart__items');
+    cart.appendChild(createCartItemElement(item));
+    sumTotalPrice();
+  });
+}
+
+function sumTotalPrice() {
+  let sum = 0;
+  document.querySelectorAll('.cart__item').forEach(item => sum = sum + parseInt(item.getAttribute('item-price')));
+  document.querySelector('.total-price').innerHTML = sum;
 }
 
 function addToCartClickListener() {
@@ -62,12 +78,22 @@ function showOnScreen(array) {
   addToCartClickListener();
 }
 
-async function getAPI() {
+function getAPI() {
   return fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
   .then(r => r.json())
   .then(item => showOnScreen(item.results));
 }
 
+function clearCart() {
+  document.querySelector('.cart__items').innerHTML = '';
+}
+
+function emptyCartButton() {
+  const emptyButton = document.querySelector('.empty-cart');
+  emptyButton.addEventListener('click', clearCart);
+}
+
 window.onload = function onload() {
   getAPI();
+  emptyCartButton();
 };
