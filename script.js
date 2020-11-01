@@ -91,8 +91,8 @@ const findProducts = () => {
         const item = createProductItemElement({ sku, name, image });
         items.appendChild(item);
       });
-    });
-  removeLoadingMessage();
+    })
+    .then(removeLoadingMessage);
 };
 
 function cleanCart() {
