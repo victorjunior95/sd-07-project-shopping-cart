@@ -28,10 +28,6 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-// function getSkuFromProductItem(item) {
-//   return item.querySelector('span.item__sku').innerText;
-// }
-
 function cartItemClickListener(event) {
   event.currentTarget.remove('');
 }
@@ -68,23 +64,11 @@ const checkProdutct = () => {
     item.addEventListener('click', addProductInCart);
   });
 };
-// const addLoading = () => {
-//   const items = document.querySelector('.loading');
-//   items.innerHTML = '<h1>Loading...</h1>';
-// };
 
-// const removeLoading = () => {
-//   setTimeout(() => {
-//     const items = document.querySeleoctor('h1');
-//     items.innerText = '';
-//   }, 3000);
-// };
 const removeLoading = () => {
-  setTimeout(() => {
-    const box = document.querySelector('.container');
-    const containerChilds = box.children;
-    box.removeChild(containerChilds[0]);
-  }, 2500);
+  const box = document.querySelector('.container');
+  const containerChilds = box.children;
+  box.removeChild(containerChilds[0]);
 };
 async function itemsFounded() {
   const itemsBox = document.querySelector('.items');
