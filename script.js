@@ -25,7 +25,6 @@ function cartItemClickListener(event) {
   const cart = document.querySelector('.cart__items');
   cart.removeChild(event.target);
   saveCart();
-
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
