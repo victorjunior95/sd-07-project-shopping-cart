@@ -68,7 +68,9 @@ function createProductItemElement({ sku, name, image }) {
 async function fetchProdutcs() {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=$cama';
   const paragraph = document.createElement('p');
+  paragraph.className = 'loading';
   paragraph.innerText = 'loading...';
+
   const items = document.querySelector('.items');
   items.appendChild(paragraph);
 
