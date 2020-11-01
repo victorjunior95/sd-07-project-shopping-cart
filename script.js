@@ -31,6 +31,7 @@ const totalCartPrice = async (price, type) => {
   const total = Number(itemPrice.innerText);
   if (type === 'sum') itemPrice.innerText = Number(parseFloat(total + price).toFixed(2));
   if (type === 'sub') itemPrice.innerText = Number(parseFloat(total - price).toFixed(2));
+  if (itemPrice.innerText <= 0) itemPrice.innerText = '';
 };
 
 function getSkuFromProductItem(item) {
@@ -64,6 +65,7 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 const localCartItems = () => {
   document.querySelector('.cart__items').innerHTML = localStorage.getItem('cartItems');
   document.querySelector('.total-price').innerText = localStorage.getItem('totalPrice');
+  document.querySelectorAll('.cart__item').forEach(item => item.addEventListener('click', cartItemClickListener));
 };
 
 const fetchProductItemCart = (item) => {
