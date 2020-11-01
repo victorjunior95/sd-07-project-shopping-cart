@@ -1,3 +1,8 @@
+const savedLocalStorage = () => {
+  const dadList = document.querySelector('ol');
+  localStorage.setItem('Cart_Shooping', dadList.innerHTML);
+};
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -54,6 +59,7 @@ const addProductInCart = (event) => {
       const itemToCart = createCartItemElement(destructionAll);
       cart.appendChild(itemToCart);
     });
+  savedLocalStorage();
 };
 
 const checkProdutct = () => {
@@ -95,6 +101,7 @@ async function itemsFounded() {
 const btnClear = () => {
   document.querySelector('.empty-cart').addEventListener('click', () => {
     document.querySelector('.cart__items').innerHTML = '';
+    localStorage.clear();
   });
 };
 
@@ -103,4 +110,5 @@ window.onload = async function onload() {
   checkProdutct();
   btnClear();
   removeLoading();
+  document.querySelector('ol').innerHTML = localStorage.getItem('Cart_Shooping');
 };
