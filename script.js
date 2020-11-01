@@ -77,11 +77,10 @@ async function fetchProdutcs() {
     .then((object) => {
       object.results.forEach((element) => {
         const { id: sku, thumbnail: image, title: name } = element;
-        const items = document.querySelector('.items');
         items.appendChild(createProductItemElement({ sku, name, image }));
       });
     });
-    items.removeChild(paragraph);
+  items.removeChild(paragraph);
 }
 
 window.onload = function onload() {
