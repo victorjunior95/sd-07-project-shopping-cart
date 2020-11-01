@@ -28,8 +28,8 @@ const removeLoading = () => {
 
 // Baseado no projeto Casa de Câmbio do Oliva
 const currencyPHP = async () => {
-  createLoading();
   const endpoint = 'https://api.ratesapi.io/api/latest?base=BRL';
+  createLoading();
 
   try {
     const response = await fetch(endpoint);
@@ -109,8 +109,8 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 const fetchProductToCart = async (id) => {
-  createLoading();
   const endpoint = `https://api.mercadolibre.com/items/${id}`;
+  createLoading();
 
   try {
     const response = await fetch(endpoint);
@@ -155,8 +155,8 @@ function createProductItemElement({ sku, name, image, price }) {
 
 // Baseado na aula do Vitor
 const createProductList = (searchFor) => {
-  createLoading();
   const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${searchFor}`;
+  createLoading();
   fetch(endpoint)
   .then(response => response.json())
   .then((data) => {
