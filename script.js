@@ -69,14 +69,14 @@ const addLoading = () => {
 
 const removeLoading = () => {
   setTimeout(() => {
-    const items = document.querySelector('h1');
+    const items = document.querySeleoctor('h1');
     items.innerText = '';
-  }, 2500);
+  }, 3000);
 };
 async function itemsFounded() {
   addLoading();
   const itemsBox = document.querySelector('.items');
-  return fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
+  await fetch('https://api.mercadolibre.com/sites/MLB/search?q=computador')
     .then(response => response.json())
     .then(data =>
       data.results.forEach(({ id: sku, title: name, thumbnail: image }) => {
