@@ -40,11 +40,11 @@ function addToCart(product) {
   const endpoint = `https://api.mercadolibre.com/items/${product}`;
   const cart = document.querySelector('.cart__items');
   fetch(endpoint)
-  .then(response => response.json())
-  .then((object) => {
-    const { id: sku, title: name, price: salePrice } = object;
-    cart.appendChild(createCartItemElement({ sku, name, salePrice }));
-  });
+    .then(response => response.json())
+    .then((object) => {
+      const { id: sku, title: name, price: salePrice } = object;
+      cart.appendChild(createCartItemElement({ sku, name, salePrice }));
+    });
 }
 
 function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
