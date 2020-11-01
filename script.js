@@ -50,6 +50,15 @@ function createCartItemElement({ id, title, price }) {
   return li;
 }
 
+const loadingProduct = () => {
+  document.getElementsByClassName('items')[0].appendChild(
+  createCustomElement('h1', 'loading', 'Loading...'));
+}
+
+const loadingComplete = () => {
+  document.getElementsByClassName('loading')[0].remove()
+}
+
 const buttonAddApi = (productID) => {
   fetch(`https://api.mercadolibre.com/items/${productID}`)
     .then((response) => {
@@ -62,10 +71,12 @@ const buttonAddApi = (productID) => {
 };
 
 const itemsApi = (search) => {
+  loadingProduct();
   fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${search}`)
     .then((response) => {
       response.json()
         .then((data) => {
+          loadingComplete();
           const sectionItems = document.getElementsByClassName('items')[0];
           const product = data.results;
           product.forEach(item =>
@@ -82,7 +93,7 @@ const itemsApi = (search) => {
     });
 };
 
-// Projeto com ajuda de Lugh Walle e Emanuelle Brasil.
+// Projeto com ajuda de Lugh Walle e Emanuelle Brasil nos requisitos 1, 2 e 3.
 
 window.onload = function onload() {
   itemsApi('computador');
