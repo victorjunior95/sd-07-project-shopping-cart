@@ -90,10 +90,14 @@ const getLocalStorage = () => {
   }
 };
 
-const someTotalPrices = async (price) => {
+const sumTotalPrices = async (price, clear) => {
   createLoading(true);
   const inputPrice = document.querySelector('.total-price');
-  inputPrice.innerHTML = Number(inputPrice.innerHTML) + price;
+  if (clear) {
+    inputPrice.innerHTML = price;
+  } else {
+    inputPrice.innerHTML = Number(inputPrice.innerHTML) + price;
+  }
 };
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -101,7 +105,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   // window.localStorage.setItem(`Item${countItems}`, {sku: sku, name: name, salePrice: salePrice});
-  someTotalPrices(salePrice)
+  sumTotalPrices(salePrice, false)
   .then(setTimeout(() => createLoading(false), 100));
   li.addEventListener('click', cartItemClickListener);
   return li;
@@ -225,6 +229,8 @@ const emptyCart = () => {
     const cartItems = document.querySelector('ol.cart__items');
     localStorage.removeItem('cart');
     cartItems.innerHTML = '';
+    sumTotalPrices(0, true)
+    .then(setTimeout(() => createLoading(false), 100));
   });
 };
 
