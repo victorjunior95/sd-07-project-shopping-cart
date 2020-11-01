@@ -5,15 +5,6 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
-
-function createCartItemElement({ sku, name, salePrice }) {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
-  return li;
-}
-
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
   e.className = className;
@@ -54,7 +45,7 @@ const loadProducts = () => {
     });
   });
 };
-//
+
 const saveCarItens = () => localStorage.setItem('cart', document.querySelector('.cart__items').innerHTML);
 
 const filterNumber = value => value.match(/([0-9.]){1,}$/);
@@ -72,7 +63,6 @@ const cartItemClickListener = (event) => {
   saveCarItens();
   totalPrice();
 };
-
 
 const emptyItens = () => {
   const cart = document.querySelector('.cart__items');
@@ -95,6 +85,13 @@ const addItemCart = async ({ sku }) => {
   await totalPrice();
 };
 
+function createCartItemElement({ sku, name, salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
+}
 
 window.onload = async () => {
   loadProducts();
@@ -107,36 +104,3 @@ window.onload = async () => {
   document.querySelectorAll('li')
   .forEach(product => product.addEventListener('click', cartItemClickListener));
 };
-
-/*const consulta = () => {
-  const QUERY = 'computador';
-  const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${QUERY}`;
-  fetch(endpoint)
-    .then(response => response.json())
-    .then((data) => {
-      const items = document.querySelector('.items');
-      data.results.forEach((product) => {
-        const { id: sku, title: name, thumbnail: image } = product;
-        const item = createProductItemElement({ sku, name, image });
-        items.appendChild(item);
-      });
-    });
-};*/
-
-/*window.onload = function onload() {
-  consulta();
-};*/
-
-
-// ao clicar no botao ... add event listener
-// const add = document.querySelector('.item__add');
-// add.addEventListener('click', addInShopCar());
-// 'ao clicar no botao' faça a requisição da api em que $ItemID deve ser o valor id
-// const addInShopCar = () => {
-//   const ItemID = add.id;
-//   const endpoint = `https://api.mercadolibre.com/items/${ItemID}`
-// }
-// receber apenas 1 item para passar nojson
-// desestruturar o produto para { sku, name, salePrice }
-// passar o produto desestruturado no createCartItemElement
-// retornar o prudoto como filho de <ol class="cart__items">
