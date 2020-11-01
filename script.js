@@ -47,7 +47,7 @@ const currencyPHP = async () => {
 const updatePrice = (className, value, signal) => {
   const items = document.querySelectorAll(className);
   const ratePHP = currencyPHP()
-    .then(createLoading(false));
+    .then(setTimeout(() => setTimeout(() => createLoading(false), 100)));
   items.forEach((item) => {
     const copyItem = item;
     const splitedPrice = item
@@ -102,7 +102,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   // window.localStorage.setItem(`Item${countItems}`, {sku: sku, name: name, salePrice: salePrice});
   someTotalPrices(salePrice)
-  .then(createLoading(false));
+  .then(setTimeout(() => createLoading(false), 100));
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
@@ -146,7 +146,7 @@ function createProductItemElement({ sku, name, image, price }) {
   button.addEventListener('click', async function (event) {
     const parentElement = await event.target.parentElement;
     await fetchProductToCart(getSkuFromProductItem(parentElement))
-    .then(createLoading(false));
+    .then(setTimeout(() => createLoading(false), 100));
   });
   section.appendChild(button);
   return section;
@@ -167,12 +167,12 @@ const createProductList = (searchFor) => {
       items.appendChild(item);
     });
   })
-  .then(createLoading(false));
+  .then(setTimeout(() => createLoading(false), 100));
 };
 
 const getSearchItem = () => {
   const searchInput = document.querySelector('#search-input').value;
-  createLoading(false);
+  setTimeout(() => createLoading(false), 100);
   return searchInput;
 };
 
