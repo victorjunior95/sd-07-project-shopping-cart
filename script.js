@@ -43,8 +43,9 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-const fetchMercadoLivre = async () => {
+const fetchMercadoLivre = () => {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
+  loading('initial');
   fetch(endpoint)
   .then(response => response.json())// transforme o resultaod e json
   .then((object) => {
@@ -56,10 +57,5 @@ const fetchMercadoLivre = async () => {
       sectionItens.appendChild(createProductItemElement(sku, name, image));
     });
   })
-  .catch((erro) => {
-    loading('final');
-    return window.alert(erro);
-  });
-
+  loading('final');
 };
-
