@@ -32,12 +32,12 @@ const currencyPHP = async () => {
   createLoading();
 
   try {
+    removeLoading();
     const response = await fetch(endpoint);
     const object = await response.json();
     if (object.error) {
       throw new Error(object.error);
     } else {
-      removeLoading();
       return object.rates.PHP;
     }
   } catch (error) {
@@ -47,8 +47,7 @@ const currencyPHP = async () => {
 
 const updatePrice = (className, value, signal) => {
   const items = document.querySelectorAll(className);
-  const ratePHP = currencyPHP()
-    .then(removeLoading());
+  const ratePHP = currencyPHP();
   items.forEach((item) => {
     const copyItem = item;
     const splitedPrice = item
@@ -95,6 +94,7 @@ const someTotalPrices = async (price) => {
   createLoading();
   const inputPrice = document.querySelector('.total-price');
   inputPrice.innerHTML = Number(inputPrice.innerHTML) + price;
+  removeLoading();
 };
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -102,8 +102,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   // window.localStorage.setItem(`Item${countItems}`, {sku: sku, name: name, salePrice: salePrice});
-  someTotalPrices(salePrice)
-    .then(removeLoading());
+  someTotalPrices(salePrice);
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
@@ -113,6 +112,7 @@ const fetchProductToCart = async (id) => {
   createLoading();
 
   try {
+    removeLoading();
     const response = await fetch(endpoint);
     const object = await response.json();
     if (object.error) {
@@ -146,8 +146,7 @@ function createProductItemElement({ sku, name, image, price }) {
   const button = createCustomElement('button', 'item__add', '+');
   button.addEventListener('click', async function (event) {
     const parentElement = await event.target.parentElement;
-    await fetchProductToCart(getSkuFromProductItem(parentElement))
-    .then(removeLoading());
+    await fetchProductToCart(getSkuFromProductItem(parentElement));
   });
   section.appendChild(button);
   return section;
@@ -158,6 +157,7 @@ const createProductList = (searchFor) => {
   const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${searchFor}`;
   createLoading();
   fetch(endpoint)
+  .then(removeLoading())
   .then(response => response.json())
   .then((data) => {
     const items = document.querySelector('.items');
@@ -167,8 +167,7 @@ const createProductList = (searchFor) => {
       const item = createProductItemElement({ sku, name, image, price });
       items.appendChild(item);
     });
-  })
-  .then(removeLoading());
+  });
 };
 
 const getSearchItem = () => {
