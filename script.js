@@ -100,8 +100,12 @@ function cleanCart() {
   cartItemsList.innerHTML = '';
 }
 
+const cleanCartButton = () => {
+  const cleanButton = document.querySelector('.empty-cart');
+  cleanButton.addEventListener('click', cleanCart);
+};
+
 window.onload = function onload() {
   findProducts();
-  const cleanCartButton = document.querySelector('.empty-cart');
-  cleanCartButton.addEventListener('click', cleanCart);
+  cleanCartButton();
 };
