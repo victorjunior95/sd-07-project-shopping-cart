@@ -55,7 +55,44 @@ const loadProducts = () => {
   });
 };
 //
+const saveCarItens = () => localStorage.setItem('cart', document.querySelector('.cart__items').innerHTML);
 
+const filterNumber = value => value.match(/([0-9.]){1,}$/);
+
+const totalPrice = () => {
+  const products = document.querySelectorAll('.cart__item');
+  const totalPrice = document.querySelector('.total-price');
+  const total = [...products].map(product => filterNumber(product.textContent))
+    .reduce((acc, curr) => (acc + parseFloat(curr)), 0);
+  totalPrice.innerText = total;
+};
+
+const cartItemClickListener = (event) => {
+  event.target.remove();
+  saveCarItens();
+  totalPrice();
+};
+
+
+const emptyItens = () => {
+  const cart = document.querySelector('.cart__items');
+  cart.innerHTML = '';
+  saveCarItens();
+  totalPrice();
+};
+
+
+window.onload = async () => {
+  loadProducts();
+  const empty = document.querySelector('.empty-cart');
+  empty.addEventListener('click', function () {
+    emptyItens();
+  });
+  const cart = document.querySelector('.cart__items');
+  cart.innerHTML = localStorage.getItem('cart');
+  document.querySelectorAll('li')
+  .forEach(product => product.addEventListener('click', cartItemClickListener));
+};
 
 /*const consulta = () => {
   const QUERY = 'computador';
