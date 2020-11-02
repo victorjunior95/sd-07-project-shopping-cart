@@ -12,31 +12,13 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-// function createProductItemElement({ sku, name, image }) {
-//   const section = document.createElement('section');
-//   section.className = 'item';
-
-//   section.appendChild(createCustomElement('span', 'item__sku', sku));
-//   section.appendChild(createCustomElement('span', 'item__title', name));
-//   section.appendChild(createProductImageElement(image));
-//   const buttonAddItem = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
-//   buttonAddItem.addEventListener('click', function (event) {
-//     const item = event.target.parentElement;
-//     addItemCart(getSkuFromProductItem(item));
-//   });
-
-//   section.appendChild(buttonAddItem);
-//   return section;
-
-//   // aqui segui a mesma lógica do Tiago Esdras, no dia do fechamento (último dia do projeto).
-// }
-
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
 function cartItemClickListener(event) {
   event.target.remove();
+  localStorage.setItem('cart', document.querySelector('.cart__items').innerHTML);
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -59,6 +41,7 @@ async function addItemCart(itemId) {
       throw new Error(objectDataItem.error);
     } else {
       listOl.appendChild(createCartItemElement(objectDataItem));
+      localStorage.setItem('cart', listOl.innerHTML);
     }
   } catch (error) {
     alert(error);
@@ -105,6 +88,13 @@ async function loadProducts() {
   }
 }
 
+function loadCartItems() {
+  const listOl = document.querySelector('.cart__items');
+  const cartItems = localStorage.getItem('cart');
+  if (cartItems) listOl.innerHTML = cartItems;
+}
+
 window.onload = function onload() {
   loadProducts();
+  loadCartItems();
 };
