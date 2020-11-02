@@ -93,8 +93,7 @@ function fetchProdutcs() {
     .then(response => response.json())
     .then((object) => {
       const items = Object.entries(object.results);
-      items.forEach(entry => document.querySelector('.items')
-           .appendChild(createProductItemElement(entry[1])));
+      items.forEach(entry => document.querySelector('.items').appendChild(createProductItemElement(entry[1])));
       ol.removeChild(loading);
     });
 }
