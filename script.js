@@ -24,7 +24,7 @@ const subPrice = (price) => {
   const lastString = textItem.substring(textItem.lastIndexOf('$') + 1);
   // ref: https://pt.stackoverflow.com/questions/314079/pegar-a-ultima-ocorr%C3%AAncia-num-string-javascript#:~:text=Basta%20usar%20lastIndexOf%20que%20retorna,substring(texto.
   const priceItem = parseInt(lastString, 10);
-  const total = document.querySelector('.price');
+  const total = document.querySelector('.total-price');
   const numberTotal = parseInt(total.innerText, 10);
   const totalPrice = numberTotal - priceItem;
   total.innerHTML = totalPrice;
@@ -62,7 +62,7 @@ const fetchAPIByID = (itemID) => {
 };
 
 const sumPrice = async (price) => {
-  const total = document.querySelector('.price');
+  const total = document.querySelector('.total-price');
   const numberTotal = parseInt(total.innerText, 10);
   const totalPrice = numberTotal + price;
   total.innerHTML = totalPrice;
@@ -143,7 +143,7 @@ const fetchProducts = (product) => {
 
 const removeAllItems = () => {
   const ol = document.querySelector('.cart__items');
-  const total = document.querySelector('.price');
+  const total = document.querySelector('.total-price');
 
   while (ol.firstChild) {
     ol.removeChild(ol.firstChild);
