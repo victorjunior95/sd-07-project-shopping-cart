@@ -27,8 +27,6 @@ function cartItemClickListener(event) {
   saveCart();
 }
 
-const capturingID = id => `https://api.mercadolibre.com/items/${id}`;
-
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -37,23 +35,23 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   return li;
 }
 
-const fetchCart = (addCart) => {
+const fetchCart = (url) => {
   const ol = document.querySelector('.cart__items');
   const loading = document.createElement('h1');
   loading.classList.add('loading');
-  ol.appendChild(loading);
   loading.innerText = 'loading...';
-  fetch(addCart)
+  ol.appendChild(loading);
+  fetch(url)
     .then(response => response.json())
-    .then((teste) => {
-      document.querySelector('.cart__items').appendChild(createCartItemElement(teste));
+    .then((product) => {
+      document.querySelector('.cart__items').appendChild(createCartItemElement(product));
       ol.removeChild(loading);
       saveCart();
     });
 };
 
 const addToCart = (id) => {
-  const url = capturingID(id);
+  const url = `https://api.mercadolibre.com/items/${id}`;
   fetchCart(url);
 };
 
@@ -79,15 +77,10 @@ function removeAll() {
   localStorage.clear();
 }
 
-function cleanCart() {
+function cleanCartButton() {
   const btnClean = document.querySelector('.empty-cart');
   btnClean.addEventListener('click', removeAll);
 }
-
-const addItems = (itemFromArray) => {
-  const items = Object.entries(itemFromArray);
-  items.forEach(entry => document.querySelector('.items').appendChild(createProductItemElement(entry[1])));
-};
 
 function fetchProdutcs() {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=$computador';
@@ -99,7 +92,9 @@ function fetchProdutcs() {
   fetch(endpoint)
     .then(response => response.json())
     .then((object) => {
-      addItems(object.results);
+      const items = Object.entries(object.results);
+      items.forEach(entry => document.querySelector('.items')
+           .appendChild(createProductItemElement(entry[1])));
       ol.removeChild(loading);
     });
 }
@@ -117,5 +112,5 @@ function loadCart() {
 window.onload = function onload() {
   fetchProdutcs();
   loadCart();
-  cleanCart();
+  cleanCartButton();
 };
