@@ -83,11 +83,11 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 }
 
 function innerLoading() {
-  const loading = document.createElement('span');
-  loading.className = 'loading';
-  loading.innerText = 'Loanding...';
+  const span = document.createElement('span');
+  span.className = 'loading';
+  span.innerText = 'Loanding...'; 
   const items = document.querySelector('.items');
-  items.appendChild(loading);
+  items.appendChild(span);
 }
 
 function removeLoading() {
