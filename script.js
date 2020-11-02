@@ -51,13 +51,13 @@ const totalPrice = async () => {
     const itemPrice = itemSplit.join('');
     totalresult += parseInt(itemPrice, 10);
   });
-  priceSection.innerHTML = `Preço total: ${totalresult}`;
+  priceSection.innerHTML = totalresult;
 };
 
 const removeAll = () => {
   const priceSection = document.querySelector('.total-price');
   const listCart = document.querySelector('ol.cart__items');
-  priceSection.innerHTML = `Preço total: ${0}`;
+  priceSection.innerHTML = 0;
   while (listCart.lastChild) listCart.removeChild(listCart.lastChild);
 };
 
