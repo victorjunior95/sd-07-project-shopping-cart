@@ -59,23 +59,6 @@ const emptyCart = () => {
   });
 };
 
-const clickButton = (event) => {
-  const selectedItemParent = event.target.parentElement;
-  convertId(getSkuFromProductItem(selectedItemParent));
-};
-
-function createProductItemElement({ sku, name, image }) {
-  const section = document.createElement('section');
-  section.className = 'item';
-  section.appendChild(createCustomElement('span', 'item__sku', sku));
-  section.appendChild(createCustomElement('span', 'item__title', name));
-  section.appendChild(createProductImageElement(image));
-  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'))
-  .addEventListener('click', clickButton);
-
-  return section;
-}
-
 const loading = () => {
   const container = document.querySelector('.container');
   container.appendChild(createCustomElement('div', 'loading', 'loading...'));
@@ -98,6 +81,23 @@ const convertId = (itemId) => {
     removeLoading();
   });
 };
+
+const clickButton = (event) => {
+  const selectedItemParent = event.target.parentElement;
+  convertId(getSkuFromProductItem(selectedItemParent));
+};
+
+function createProductItemElement({ sku, name, image }) {
+  const section = document.createElement('section');
+  section.className = 'item';
+  section.appendChild(createCustomElement('span', 'item__sku', sku));
+  section.appendChild(createCustomElement('span', 'item__title', name));
+  section.appendChild(createProductImageElement(image));
+  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'))
+  .addEventListener('click', clickButton);
+
+  return section;
+}
 
 const getList = () => {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
