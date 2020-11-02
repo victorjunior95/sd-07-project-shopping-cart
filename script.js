@@ -23,10 +23,10 @@ const createElementDiv = () => {
 
 const totalPrice = () => {
   const li = document.querySelectorAll('.cart__item');
-  const divResultTotal = document.querySelector('.total-price'); 
+  const divResultTotal = document.querySelector('.total-price');
   let sum = 0;
   for (let index = 0; index < li.length; index += 1) {
-    sum = sum + parseFloat(li[index].innerText.split('$')[1]);
+    sum += (parseFloat(li[index].innerText.split('$')[1]));
   }
   divResultTotal.innerText = sum;
 };
