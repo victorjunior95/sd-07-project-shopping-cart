@@ -97,7 +97,7 @@ const returnObject = async (url) => {
   const result = await fetch(url).then(itemResult =>
     itemResult.json().then(jsonResult => jsonResult));
   loading = false;
-  verifiedLoading(loading);
+  await verifiedLoading(loading);
   return result;
 };
 
@@ -137,9 +137,9 @@ const getItemsAPI = async () => {
   });
   addEvents('item__add', getItemID);
 };
-window.onload = function onload() {
+window.onload = async function onload() {
+  await pickStorageItems();
   getItemsAPI();
-  pickStorageItems();
   totalPrice();
   addEvents('cart__item', cartItemClickListener);
 };
