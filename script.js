@@ -30,8 +30,8 @@ const storageList = () => {
 };
 const verifiedLoading = (loading) => {
   if (loading) {
-    const cart = document.querySelector('.cart__items');
-    const priceSection = document.createElement('li');
+    const cart = document.querySelector('.cart');
+    const priceSection = document.createElement('section');
     priceSection.className = 'loading';
     priceSection.innerHTML = 'loading...';
     cart.appendChild(priceSection);
