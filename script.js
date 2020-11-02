@@ -41,19 +41,19 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
-//Aula 9.4 requisito 1
+// Aula 9.4 requisito 1
 const loadProducts = () => {
-  const endpoint = "https://api.mercadolibre.com/sites/MLB/search?q=computador";
-  fetch(endpoint).then(Response => Response.json()).then(data => {
-    const items = document.querySelector('.items')
-    data.results.forEach(produto => {
+  const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
+  fetch(endpoint).then(Response => Response.json()).then((data) => {
+    const items = document.querySelector('.items');
+    data.results.forEach((produto) => {
       const { id: sku, title: name, thumbnail: image } = produto;
       const item = createProductItemElement({ sku, name, image });
-      items.appendChild(item)
-    })
-  })
-}
+      items.appendChild(item);
+    });
+  });
+};
 
 window.onload = function onload() {
-  loadProducts()
-}
+  loadProducts();
+};
