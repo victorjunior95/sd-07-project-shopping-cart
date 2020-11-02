@@ -85,7 +85,7 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 function innerLoading() {
   const span = document.createElement('span');
   span.className = 'loading';
-  span.innerText = 'Loanding...'; 
+  span.innerText = 'Loanding...';
   const items = document.querySelector('.items');
   items.appendChild(span);
 }
