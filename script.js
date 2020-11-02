@@ -37,11 +37,10 @@ function priceAndSignal(price, signal) {
   const totalHtml = (document.querySelector('.total-price'));
   const total = Number(totalHtml.innerText);
   if (signal === 'positive') {
-    totalHtml.innerText = (total + price).toFixed(2);
+    totalHtml.innerText = (total + price).toFixed(0);
   } if (signal === 'negative') {
-    totalHtml.innerText = (total - price).toFixed(2);
+    totalHtml.innerText = (total - price).toFixed(0);
   }
-  console.log(totalHtml);
 }
 
 function storage() {
