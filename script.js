@@ -7,11 +7,12 @@ function createProductImageElement(imageSource) {
 
 const pickPriceInString = (item) => {
   const itemElement = item.innerHTML.split(' ');
-    const itemSplit = itemElement[itemElement.length - 1].split('');
-    itemSplit.splice(0, 1);
-    const itemPrice = itemSplit.join('');
-    return parseInt(itemPrice * 100, 10);
-}
+  const itemSplit = itemElement[itemElement.length - 1].split('');
+  itemSplit.splice(0, 1);
+  const itemPrice = itemSplit.join('');
+  return parseInt(itemPrice * 100, 10);
+};
+
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
   e.className = className;
@@ -34,11 +35,11 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  const item = event.currentTarget
+  const item = event.currentTarget;
   const priceSection = document.querySelector('.total-price');
   priceSection.innerHTML -= pickPriceInString(item) / 100;
   priceSection.innerHTML = Math.round(priceSection.innerHTML * 1000);
-  priceSection.innerHTML = priceSection.innerHTML / 1000;
+  priceSection.innerHTML /= 1000;
   event.currentTarget.remove();
 }
 
@@ -56,7 +57,7 @@ const totalPrice = async () => {
   const listPrice = list.querySelectorAll('.cart__item');
   let totalresult = 0;
   await listPrice.forEach((item) => {
-    totalresult += pickPriceInString(item)
+    totalresult += pickPriceInString(item);
   });
   priceSection.innerHTML = totalresult / 100;
 };
