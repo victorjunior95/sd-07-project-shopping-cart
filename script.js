@@ -3,17 +3,52 @@ const saveList = () => {
   localStorage.setItem('listaComputers', document.querySelector('.cart__items').innerHTML);
 };
 
+const sum = function (array) {
+  let acc = 0;
+  array.forEach((item) => {
+    const string = item.innerHTML;
+    const value = string.substring(string.indexOf('$') + 1);
+    acc += parseFloat(value);
+  });
+  return acc;
+};
+
+// Consulta: https://stackoverflow.com/questions/14779878/how-to-iterate-through-a-nodelist-functional-style
+const totalPriceSum = async () => {
+  try {
+    const items = await [...document.getElementsByClassName('cart__item')];
+    const totalPrices = await document.querySelector('.total-price');
+
+    if (items.error) {
+      throw new Error(items.error);
+    } else {
+      totalPrices.innerText = Math.round(sum(items) * 100) / 100;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // Utilizar para remover um item do carrinho
 function cartItemClickListener(event) {
   if (event.target.className === 'cart__item') {
     event.target.parentElement.removeChild(event.target);
   }
   saveList();
+  totalPriceSum();
 }
 
 const loadList = () => {
   document.querySelector('.cart__items').innerHTML = localStorage.getItem('listaComputers');
   document.querySelectorAll('.cart__item').forEach(li => li.addEventListener('click', cartItemClickListener));
+  totalPriceSum();
+};
+
+const loading = () => {
+  setTimeout(() => {
+    document.getElementById('loading').remove();
+    loadList();
+  }, 1000);
 };
 
 function createProductImageElement(imageSource) {
@@ -52,13 +87,6 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-/*  const totalPriceSum = async () => {
-  const totalPrices = document.querySelector('.total-price');
-  const items = document.querySelectorAll('.cart__item');
-  const object = await response.json();
-  console.log(object);
-} */
-
 // Utilizar para criar os componentes HTML referentes a um item do carrinho
 function createCartItemElement({
   id: sku,
@@ -75,6 +103,7 @@ function createCartItemElement({
   tagFather.appendChild(li);
   totalPrices.innerText = parseInt(totalPrices.innerText, 10) + parseInt(salePrice, 10);
   saveList();
+  totalPriceSum();
 }
 
 const handleResultes = (results) => {
@@ -117,11 +146,13 @@ const computerSearch = async (id) => {
 
 const clearList = function () {
   document.querySelector('.cart__items').innerHTML = '';
+  totalPriceSum();
 };
 
 
 window.onload = function onload() {
-  loadList();
+  loading();
+
   document.addEventListener('click', (event) => {
     if (event.target.className === 'item__add') {
       computerSearch(event.target.parentElement.firstChild.innerText);
