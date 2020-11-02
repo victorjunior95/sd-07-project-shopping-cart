@@ -108,7 +108,7 @@ function clearCart() {
 
   clearButton.addEventListener('click', () => {
     for (let index = cartItems.length - 1; index >= 0; index -= 1) {
-        cart.lastElementChild.remove();
+      cart.lastElementChild.remove();
     }
     localStorage.clear();
   });
@@ -120,5 +120,4 @@ window.onload = async function onload() {
   clearCart();
   addButton();
   removeItemFromCart();
-
 };
