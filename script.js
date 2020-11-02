@@ -1,24 +1,3 @@
-window.onload = function onload() { 
-  fetchProductsFromApi();
-  setupEventHandlers();
-};
-
-const setupEventHandlers = () => {
-  const searchButton = document.querySelector('.search_button');
-  searchButton.addEventListener('click', handlerSearchEvent);
-}
-
-const handlerSearchEvent = () => {
-  const currency = document.querySelector('#search_item').value;
-  cleanList();
-  return fetchProductsFromApi(currency);
-}
-
-const cleanList = () => {
-  const sectionList = document.querySelector('.items');
-  sectionList.innerHTML = '';
-}
- 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -31,6 +10,11 @@ function createCustomElement(element, className, innerText) {
   e.className = className;
   e.innerText = innerText;
   return e;
+}
+
+function cleanList() {
+  const sectionList = document.querySelector('.items');
+  sectionList.innerHTML = '';
 }
 
 function createProductItemElement({ sku, name, image }) {
@@ -61,14 +45,6 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-async function fetchProductsFromApi(currency = 'computador') {
-  const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${currency}`;
-  const response = await fetch(endpoint);
-  const object = await response.json();
-  const itens = await object.results;
-  return loadItems(itens);
-}
-
 function iterateProduct(product) {
   const { id: sku, title: name, thumbnail: image, price: salePrice } = product;
   const avalibleProduct = { sku, name, image, salePrice };
@@ -77,9 +53,33 @@ function iterateProduct(product) {
 
 function loadItems(itens) {
   const itensList = itens;
-  itensList.forEach(product => {
+  itensList.forEach((product) => {
     const item = iterateProduct(product);
     const listItens = document.querySelector('.items');
     listItens.appendChild(createProductItemElement(item));
   });
 }
+
+async function fetchProductsFromApi(currency = 'computador') {
+  const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${currency}`;
+  const response = await fetch(endpoint);
+  const object = await response.json();
+  const itens = await object.results;
+  return loadItems(itens);
+}
+
+function handlerSearchEvent() {
+  const currency = document.querySelector('#search_item').value;
+  cleanList();
+  return fetchProductsFromApi(currency);
+}
+
+function setupEventHandlers() {
+  const searchButton = document.querySelector('.search_button');
+  searchButton.addEventListener('click', handlerSearchEvent);
+}
+
+window.onload = function onload() {
+  fetchProductsFromApi();
+  setupEventHandlers();
+};
