@@ -46,7 +46,7 @@
 // carregar itens
   const loading = () => {
     setTimeout(() => {
-      document.querySelector('.loading');
+      document.querySelector('.loading').remove();
     /* eslint no-use-before-define: ["error", { "variables": false }]*/
       return loadProducts();
     }, 3000);
@@ -108,7 +108,6 @@
     const items = document.querySelector('.items');
     const products = await getListApi();
     products.forEach(product => items.appendChild(createProductItemElement(product)));
-    document.querySelector('.loading').remove();
   };
 
   const createList = async (id) => {
