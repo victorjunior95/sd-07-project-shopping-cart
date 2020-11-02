@@ -5,7 +5,7 @@ async function cartTotalPrice() {
   cartPrices.forEach((price) => {
     const sumPrice = parseInt(price, 10);
     totalPrice += sumPrice;
-  })
+  });
   priceText.innerHTML = `Total Price: ${totalPrice}`;
 }
 
