@@ -30,6 +30,37 @@ function createProductItemElement({ sku, name, image }) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
 
+function createCartItemElement({ sku, name, salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
+}
+
+function addItemToCart(buttons) {
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const item = button.parentNode.querySelector('.item__sku');
+      const param = { headers: { Accept: 'application/json' } };
+      fetch(
+        `https://api.mercadolibre.com/items/${item.innerText}`,
+        param,
+      ).then((response) => {
+        response.json().then((data) => {
+          const cartItems = document.getElementById('cart__items');
+          const infoProduct = {
+            sku: data.id,
+            name: data.title,
+            salePrice: data.price,
+          };
+          cartItems.appendChild(createCartItemElement(infoProduct));
+        });
+      });
+    });
+  });
+}
+
 function addItemsGotFromQuery(data) {
   const itemsSection = document.getElementById('items');
   const item = data.forEach(({ id, title, thumbnail }) => {
@@ -42,9 +73,9 @@ function addItemsGotFromQuery(data) {
   return item;
 }
 
-function cartItemClickListener(event) {
-  
-}
+// function cartItemClickListener(event) {
+
+// }
 
 function getAllItemsFromApi() {
   const param = { headers: { Accept: 'application/json' } };
@@ -60,34 +91,6 @@ function getAllItemsFromApi() {
 }
 
 
-function addItemToCart(buttons) {
-  buttons.forEach(button => {
-    button.addEventListener('click', () => {
-      const item = button.parentNode.querySelector('.item__sku');
-      const param = { headers: { Accept: 'application/json' } };
-      fetch(
-        `https://api.mercadolibre.com/items/${item.innerText}`,
-        param,
-      ).then(response => {
-        response.json().then(data => {
-          const cartItems = document.getElementById('cart__items');
-          const infoProduct = {sku: data.id, name: data.title, salePrice: data.price}
-          const result = createCartItemElement(infoProduct);
-          cartItems.appendChild(result);
-        });
-      })
-    });
-  })
-}
-
 window.onload = function onload() {
   getAllItemsFromApi();
 };
-
-function createCartItemElement({ sku, name, salePrice }) {
-  const li = document.createElement("li");
-  li.className = "cart__item";
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener("click", cartItemClickListener);
-  return li;
-}
