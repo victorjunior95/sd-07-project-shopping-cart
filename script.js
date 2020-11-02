@@ -61,6 +61,14 @@ const convertId = (itemId) => {
   });
 };
 
+const emptyCart = () => {
+  const buttonEmptyCart = document.querySelector('.empty-cart');
+  buttonEmptyCart.addEventListener('click', function() {
+    const ol = document.querySelector('.cart__items');
+    ol.innerHTML = '';
+  })
+};
+
 const clickButton = (event) => {
   const selectedItemParent = event.target.parentElement;
   convertId(getSkuFromProductItem(selectedItemParent));
@@ -94,4 +102,5 @@ window.onload = function onload() {
   getList();
   totalPrice();
   recoverItemLocalStorage();
+  emptyCart();
 };
