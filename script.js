@@ -34,6 +34,7 @@ function cartItemClickListener(event) {
   const selectedItem = event.target;
   const selectedItemParent = event.target.parentElement;
   selectedItemParent.removeChild(selectedItem);
+  return alert('Item removido do carrinho.');
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
