@@ -41,7 +41,7 @@ function priceAndSignal(price, signal) {
   } if (signal === 'negative') {
     totalHtml.innerText = (total - price).toFixed(2);
   }
-  console.log(totalHtml)
+  console.log(totalHtml);
 }
 
 function storage() {
