@@ -32,7 +32,7 @@ async function sumCart() {
   try {
     const arrayStorage = JSON.parse(localStorage.getItem('cart'));
     const totalPriceElement = document.querySelector('.total-price');
-    const sum = arrayStorage.reduce((acc, current) => acc + current.salePrice, 0).toFixed(0);
+    const sum = Math.round(arrayStorage.reduce((acc, current) => acc + current.salePrice, 0));
     totalPriceElement.innerText = sum;
   } catch (error) {
     console.log(error);
