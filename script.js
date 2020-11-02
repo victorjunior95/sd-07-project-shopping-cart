@@ -20,6 +20,17 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+const verifiedLoading = (loading) => {
+  const priceSection = document.querySelector('.total-price');
+  if (loading === false) {
+    priceSection.classList.add('loading');
+    priceSection.innerHTML = 'Loading';
+  } else {
+    priceSection.classList.remove('loading');
+    priceSection.innerHTML = 'Preço total:';
+  }
+};
+
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
@@ -69,8 +80,15 @@ const removeAll = () => {
   while (listCart.lastChild) listCart.removeChild(listCart.lastChild);
 };
 
-const returnObject = url =>
-  fetch(url).then(itemResult => itemResult.json().then(jsonResult => jsonResult));
+const returnObject = async (url) => {
+  let loading = false;
+  verifiedLoading(loading);
+  const result = await fetch(url).then(itemResult =>
+    itemResult.json().then(jsonResult => jsonResult));
+  loading = true;
+  verifiedLoading(loading);
+  return result;
+};
 
 const getItemID = async (ID) => {
   const sectionItem = ID.currentTarget.parentElement;
