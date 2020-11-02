@@ -44,6 +44,13 @@ const loadList = () => {
   totalPriceSum();
 };
 
+const loading = () => {
+  setTimeout(() => {
+    document.getElementById('loading').remove();
+    loadList();
+  }, 1000);
+};
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -144,7 +151,8 @@ const clearList = function () {
 
 
 window.onload = function onload() {
-  loadList();
+  loading();
+
   document.addEventListener('click', (event) => {
     if (event.target.className === 'item__add') {
       computerSearch(event.target.parentElement.firstChild.innerText);
