@@ -63,10 +63,10 @@ const convertId = (itemId) => {
 
 const emptyCart = () => {
   const buttonEmptyCart = document.querySelector('.empty-cart');
-  buttonEmptyCart.addEventListener('click', function() {
+  buttonEmptyCart.addEventListener('click', function () {
     const ol = document.querySelector('.cart__items');
     ol.innerHTML = '';
-  })
+  });
 };
 
 const clickButton = (event) => {
