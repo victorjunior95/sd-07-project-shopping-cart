@@ -68,5 +68,6 @@ addEventListener('click', (event) => {
     const generetadeIl = createCartItemElement(
       { sku: results.id, name: results.title, salePrice: results.price });
     lista.appendChild(generetadeIl);
+    alert('Item adicionado ao carrinho.');
   });
 });
