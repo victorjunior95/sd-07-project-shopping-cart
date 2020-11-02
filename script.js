@@ -9,7 +9,7 @@ const saveLocal = () => {
   localStorage.setItem('cart', cartList);
 };
 
-/*const totalPrice = () => {
+/* const totalPrice = () => {
   const price = document.querySelector('.total-price');
   const items = document.querySelectorAll('.cart__item');
 }*/
@@ -102,17 +102,18 @@ const fetchProductList = async () => {
   addCart();
 };
 
-function loadLocal() {
+const loadLocal = () => {
   if (localStorage.getItem('cart') !== null) {
     document.querySelector('.cart__items').outerHTML = localStorage.getItem('cart');
     const items = document.querySelectorAll('.cart__item');
     items.forEach(item => item.addEventListener('click', cartItemClickListener));
   }
-}
+};
 
 const emptyCart = () => {
   document.querySelector('.empty-cart').addEventListener('click', () => {
     document.querySelector('.cart__items').innerText = '';
+    localStorage.clear();
   });
 };
 
