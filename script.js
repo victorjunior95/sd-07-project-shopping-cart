@@ -36,11 +36,6 @@ const sumTotalBill = async (sum) => {
   totalPrice.innerHTML = sum;
 };
 
-function cartItemClickListener(event) {
-  event.target.parentNode.removeChild(event.target);
-  removeItemFromLocalStorage(event.target.id);
-}
-
 // passo 2 localStorage
 async function getSumTotalBill() {
   let sum = 0;
@@ -64,6 +59,11 @@ const removeItemFromLocalStorage = (sku) => {
   localStorage.setItem('cart', JSON.stringify(getItemsFromLocalStorage));
   getSumTotalBill();
 };
+
+function cartItemClickListener(event) {
+  event.target.parentNode.removeChild(event.target);
+  removeItemFromLocalStorage(event.target.id);
+}
 
 // passo 1.1 localStorage
 const loadItemsToLocalStorage = (id, title, price) => {
@@ -108,6 +108,7 @@ const retrieveItemsSavedBeforeFromLocalStorage = () => {
     }
   }
 };
+
 
 const eraseElement = () => {
   const getContainerElement = document.querySelector('.items');
