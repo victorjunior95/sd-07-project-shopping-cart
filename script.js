@@ -2,7 +2,10 @@ async function cartTotalPrice() {
   const priceText = document.querySelector('.total-price');
   let totalPrice = 0;
   const cartPrices = Object.values(localStorage);
-  cartPrices.forEach(price => totalPrice = totalPrice + parseInt(price, 10));
+  cartPrices.forEach((price) => {
+    const sumPrice = parseInt(price, 10);
+    totalPrice += sumPrice;
+  })
   priceText.innerHTML = `Total Price: ${totalPrice}`;
 }
 
@@ -59,10 +62,10 @@ function createCartItemElement({ sku, name, salePrice }) {
 // ------------------------------------------------------
 function loading() {
   const section = document.querySelector('.items');
-  const loading = document.createElement('h2');
-  loading.innerText = '...Loading Products...';
-  loading.classList.add('loading');
-  section.appendChild(loading);
+  const loadingElement = document.createElement('h2');
+  loadingElement.innerText = '...Loading Products...';
+  loadingElement.classList.add('loading');
+  section.appendChild(loadingElement);
 }
 
 async function productList() {
@@ -72,7 +75,7 @@ async function productList() {
 
   const response = await fetch(endpoint);
   const object = await response.json();
-  itemsList.innerHTML = ''
+  itemsList.innerHTML = '';
   object.results.forEach((item) => {
     const { id: sku, title: name, thumbnail: image } = item;
     itemsList.appendChild(createProductItemElement({ sku, name, image }));
@@ -134,8 +137,6 @@ function clearCart() {
     cartTotalPrice();
   });
 }
-
-
 
 window.onload = async function onload() {
   await loadCartFromStorage();
