@@ -56,7 +56,7 @@ function loadItems() {
         { sku: result.id, name: result.title, image: result.thumbnail });
       itemsPannel.appendChild(item);
     });
-    status.innerText = '';
+    document.querySelector('.loading').remove();
   });
 }
 
