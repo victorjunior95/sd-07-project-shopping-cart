@@ -30,6 +30,10 @@ function createProductItemElement({ sku, name, image }) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
 
+function cartItemClickListener(event) {
+  return event.target.remove();
+}
+
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -72,10 +76,6 @@ function addItemsGotFromQuery(data) {
   addItemToCart(items);
   return item;
 }
-
-// function cartItemClickListener(event) {
-
-// }
 
 function getAllItemsFromApi() {
   const param = { headers: { Accept: 'application/json' } };
