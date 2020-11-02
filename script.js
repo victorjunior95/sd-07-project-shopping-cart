@@ -14,6 +14,12 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+const totalPrice = () => {
+  const ol = document.querySelector('.cart');
+  const div = createCustomElement('div', 'total-price', 'Preço total');
+  return ol.appendChild(div);
+}
+
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
@@ -30,29 +36,28 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   return li;
 }
 
-const addCartItem = async (id) => {
-  const endpoint = `https://api.mercadolibre.com/items/${id}`;
-  try {
-    const response = await fetch(endpoint);
-    const object = await response.json();
-    const ol = document.querySelector('.cart__items');
-    if (object.error) {
-      throw new Error(object.error);
-    } else {
-      ol.appendChild(createCartItemElement(object));
-    }
-  } catch (error) {
-    showAlert(error);
-  }
-};
+const convertId = (itemId) => {
+  const getList = document.querySelector('.cart__items');
+  fetch(`https://api.mercadolibre.com/items/${itemId}`)
+  .then(response => response.json())
+  .then((object) => {
+    getList.appendChild(createCartItemElement(object));
+  });
+}
 
-function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
+const clickButton = (event) => {
+  const selectedItemParent = event.target.parentElement;
+  convertId(getSkuFromProductItem(selectedItemParent));
+}
+ 
+function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
-  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!', sku));
+  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'))
+  .addEventListener('click', clickButton);
 
   return section;
 }
@@ -71,5 +76,5 @@ const getList = async () => {
 
 window.onload = function onload() {
   getList();
-  addCartItem();
+  totalPrice();
 };
