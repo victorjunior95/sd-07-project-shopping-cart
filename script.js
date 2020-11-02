@@ -24,7 +24,7 @@ const verifiedLoading = (loading) => {
   const priceSection = document.querySelector('.total-price');
   if (loading === false) {
     priceSection.classList.add('loading');
-    priceSection.innerHTML = 'Loading';
+    priceSection.innerHTML = 'loading...';
   } else {
     priceSection.classList.remove('loading');
     priceSection.innerHTML = 'Preço total:';
