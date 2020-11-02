@@ -44,16 +44,18 @@ const returnObject = url => fetch(url).then(itemResult =>
   itemResult.json().then(jsonResult => jsonResult));
 
 const getItemID = async (ID) => {
-  const target = getSkuFromProductItem(ID.currentTarget);
+  const sectionItem = ID.currentTarget.parentElement
+  const target = getSkuFromProductItem(sectionItem);
   const object = await returnObject(`https://api.mercadolibre.com/items/${target}`);
   const cartItems = document.querySelector('.cart__items');
   const { id, title, price } = object;
   const obj = { sku: id, name: title, salePrice: price };
-  cartItems.appendChild(createCartItemElement(obj));
+  await cartItems.appendChild(createCartItemElement(obj));
+  totalPrice()
 };
 
 const addToCart = () => {
-  const itemAdd = document.querySelectorAll('.item');
+  const itemAdd = document.querySelectorAll('.item__add');
   itemAdd.forEach((item) => {
     item.addEventListener('click', getItemID);
   });
@@ -69,6 +71,21 @@ const getItemsAPI = async () => {
   });
   addToCart();
 };
+
+const totalPrice = async () => {
+  const priceSection = document.querySelector('.total-price')
+  const list = document.querySelector('ol.cart__items')
+  const listPrice = list.querySelectorAll('.cart__item')
+  let totalresult = 0;
+ await listPrice.forEach((item) => {
+    const itemElement = item.innerHTML.split(' ')
+    const itemSplit = itemElement[(itemElement.length - 1)].split('')
+    itemSplit.splice(0, 1)
+    const itemPrice = itemSplit.join('')
+    totalresult += parseInt(itemPrice)
+  })
+  priceSection.innerHTML = `Preço total: ${totalresult}`
+}
 
 window.onload = function onload() {
   getItemsAPI();
