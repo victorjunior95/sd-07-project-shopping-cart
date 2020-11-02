@@ -28,7 +28,7 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-function addCartItemToLStorage({ sku, name, salePrice}) {
+function addCartItemToLStorage({ sku, name, salePrice }) {
   const arrayStorage = JSON.parse(localStorage.getItem('cart'));
   arrayStorage.push({ sku, name, salePrice });
   localStorage.setItem('cart', JSON.stringify(arrayStorage));
@@ -37,10 +37,10 @@ function addCartItemToLStorage({ sku, name, salePrice}) {
 function cartItemClickListener(event) {
   // coloque seu código aqui
   const arrayStorage = JSON.parse(localStorage.getItem('cart')) || [];
-  const arraySku = arrayStorage.map((itemCart) => itemCart.sku);
+  const arraySku = arrayStorage.map(itemCart => itemCart.sku);
   const elementId = event.target.dataset.sku;
   const indexToRemove = arraySku.indexOf(elementId);
-  arrayStorage.splice(indexToRemove,1);
+  arrayStorage.splice(indexToRemove, 1);
   localStorage.clear();
   localStorage.setItem('cart', JSON.stringify(arrayStorage));
   const ol = document.querySelector('.cart__items');
