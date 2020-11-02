@@ -17,7 +17,7 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  // iniciando o projeto. VAMOS COM TUDO :rocket:
+  console.log(event.target.innerText);
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
