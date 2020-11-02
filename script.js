@@ -90,7 +90,16 @@ function getAllItemsFromApi() {
   });
 }
 
+function cleanItemsFromCart() {
+  const cartItems = document.getElementById('cart__items');
+  const emptyCard = document.querySelector('.empty-cart');
+  emptyCard.addEventListener('click', () => {
+    cartItems.innerHTML = '';
+  });
+}
+
 
 window.onload = function onload() {
   getAllItemsFromApi();
+  cleanItemsFromCart();
 };
