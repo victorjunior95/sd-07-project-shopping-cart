@@ -2,7 +2,9 @@ async function cartTotalPrice() {
   const priceText = document.querySelector('.total-price');
   let totalPrice = 0;
   const cartPrices = Object.values(localStorage);
-  cartPrices.forEach(price => totalPrice += parseInt(price, 10));
+  cartPrices.forEach((price) => {
+    return totalPrice += parseInt(price, 10);
+  });
   priceText.innerHTML = `Total Price: ${totalPrice}`;
 }
 
@@ -45,7 +47,7 @@ function cartItemClickListener(event) {
     localStorage.removeItem(splitItem[1]);
   }
   item.remove();
-  cartTotalPrice()
+  cartTotalPrice();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
