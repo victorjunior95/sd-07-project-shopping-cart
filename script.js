@@ -30,6 +30,12 @@ const cathOl = (element) => {
   chart.appendChild(element);
 };
 
+// paso 3 localStorage
+const sumTotalBill = async (sum) => {
+  const totalPrice = await document.querySelector('.total-price');
+  totalPrice.innerHTML = sum;
+};
+
 const removeItemFromLocalStorage = (sku) => {
   const getItemsFromLocalStorage = JSON.parse(localStorage.getItem('cart'));
   for (let index = 0; index < getItemsFromLocalStorage.length; index += 1) {
@@ -40,18 +46,13 @@ const removeItemFromLocalStorage = (sku) => {
   }
   localStorage.setItem('cart', JSON.stringify(getItemsFromLocalStorage));
   getSumTotalBill();
-}
+};
 
 function cartItemClickListener(event) {
   event.target.parentNode.removeChild(event.target);
-  removeItemFromLocalStorage(event.target.id)
+  removeItemFromLocalStorage(event.target.id);
 }
 
-// paso 3 localStorage
-const sumTotalBill = async (sum) => {
-  const totalPrice = await document.querySelector('.total-price');
-  totalPrice.innerHTML = sum;
-};
 // passo 2 localStorage
 async function getSumTotalBill() {
   let sum = 0;
