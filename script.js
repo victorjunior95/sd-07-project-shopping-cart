@@ -29,11 +29,11 @@ const storageList = () => {
   });
 };
 const verifiedLoading = (loading) => {
-  const cart = document.querySelector('.cart__items');
-  const priceSection = document.createElement('section');
-  priceSection.className = 'loading';
-  priceSection.innerHTML = 'loading...';
   if (loading) {
+    const cart = document.querySelector('.cart__items');
+    const priceSection = document.createElement('li');
+    priceSection.className = 'loading';
+    priceSection.innerHTML = 'loading...';
     cart.appendChild(priceSection);
   } else {
     document.querySelector('.loading').remove();
