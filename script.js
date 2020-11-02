@@ -6,7 +6,7 @@ async function cartTotalPrice() {
     const sumPrice = parseInt(price, 10);
     totalPrice += sumPrice;
   });
-  priceText.innerHTML = `Total Price: ${totalPrice}`;
+  priceText.innerHTML = `${totalPrice}`;
 }
 
 // ------------------------------------------------------
