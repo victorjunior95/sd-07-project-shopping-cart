@@ -5,6 +5,13 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+const pickPriceInString = (item) => {
+  const itemElement = item.innerHTML.split(' ');
+    const itemSplit = itemElement[itemElement.length - 1].split('');
+    itemSplit.splice(0, 1);
+    const itemPrice = itemSplit.join('');
+    return parseInt(itemPrice * 100, 10);
+}
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
   e.className = className;
@@ -15,7 +22,6 @@ function createCustomElement(element, className, innerText) {
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
-
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
@@ -28,6 +34,11 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
+  const item = event.currentTarget
+  const priceSection = document.querySelector('.total-price');
+  priceSection.innerHTML -= pickPriceInString(item) / 100;
+  priceSection.innerHTML = Math.round(priceSection.innerHTML * 1000);
+  priceSection.innerHTML = priceSection.innerHTML / 1000;
   event.currentTarget.remove();
 }
 
@@ -45,13 +56,9 @@ const totalPrice = async () => {
   const listPrice = list.querySelectorAll('.cart__item');
   let totalresult = 0;
   await listPrice.forEach((item) => {
-    const itemElement = item.innerHTML.split(' ');
-    const itemSplit = itemElement[itemElement.length - 1].split('');
-    itemSplit.splice(0, 1);
-    const itemPrice = itemSplit.join('');
-    totalresult += parseInt(itemPrice * 1000, 10);
+    totalresult += pickPriceInString(item)
   });
-  priceSection.innerHTML = totalresult / 1000;
+  priceSection.innerHTML = totalresult / 100;
 };
 
 const removeAll = () => {
