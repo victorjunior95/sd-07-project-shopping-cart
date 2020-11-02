@@ -14,11 +14,23 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-const totalPrice = () => {
+const createElementDiv = () => {
   const ol = document.querySelector('.cart');
-  const div = createCustomElement('div', 'total-price', 'Preço total');
+  const div = createCustomElement('div', 'total-price', '');
   return ol.appendChild(div);
 };
+
+
+const totalPrice = () => {
+  const li = document.querySelectorAll('.cart__item');
+  const divResultTotal = document.querySelector('.total-price'); 
+  let sum = 0;
+  for (let index = 0; index < li.length; index += 1) {
+    sum = sum + parseFloat(li[index].innerText.split('$')[1]);
+  }
+  divResultTotal.innerText = sum;
+};
+
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
@@ -27,12 +39,13 @@ function getSkuFromProductItem(item) {
 const saveItemLocalStorage = () => {
   const ol = document.querySelector('.cart__items');
   localStorage.setItem('saveOl', ol.innerHTML);
+  totalPrice();
 };
 
 function cartItemClickListener(event) {
   const ol = document.querySelector('.cart__items');
   ol.removeChild(event.target);
-
+  totalPrice();
   saveItemLocalStorage();
 }
 
@@ -41,6 +54,7 @@ const recoverItemLocalStorage = () => {
   olItems.innerHTML = localStorage.getItem('saveOl');
   const li = document.querySelectorAll('li');
   li.forEach(element => element.addEventListener('click', cartItemClickListener));
+  totalPrice();
 };
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -53,9 +67,11 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 
 const emptyCart = () => {
   const buttonEmptyCart = document.querySelector('.empty-cart');
+  const ol = document.querySelector('.cart__items');
   buttonEmptyCart.addEventListener('click', function () {
-    const ol = document.querySelector('.cart__items');
     ol.innerHTML = '';
+    totalPrice();
+    saveItemLocalStorage();
   });
 };
 
@@ -79,6 +95,7 @@ const convertId = (itemId) => {
     getList.appendChild(createCartItemElement(object));
     saveItemLocalStorage();
     removeLoading();
+    totalPrice();
   });
 };
 
@@ -117,7 +134,7 @@ const getList = () => {
 
 window.onload = function onload() {
   getList();
-  totalPrice();
+  createElementDiv();
   recoverItemLocalStorage();
   emptyCart();
 };
