@@ -26,7 +26,6 @@ const verifiedLoading = (loading) => {
     priceSection.classList.add('loading');
     priceSection.innerHTML = 'loading...';
   } else {
-    priceSection.classList.remove('loading');
     priceSection.innerHTML = 'Preço total:';
   }
 };
