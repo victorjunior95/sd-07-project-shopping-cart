@@ -21,12 +21,11 @@ function createCustomElement(element, className, innerText) {
 }
 
 const verifiedLoading = (loading) => {
-  const priceSection = document.querySelector('.total-price');
+  const priceSection = document.querySelector('.loading');
   if (loading === false) {
-    priceSection.classList.add('loading');
     priceSection.innerHTML = 'loading...';
   } else {
-    priceSection.innerHTML = 'Preço total:';
+    priceSection.innerHTML = '';
   }
 };
 
@@ -99,6 +98,7 @@ const getItemID = async (ID) => {
   await cartItems.appendChild(createCartItemElement(obj));
   totalPrice();
 };
+
 const addToCart = () => {
   const itemAdd = document.querySelectorAll('.item__add');
   itemAdd.forEach(item => item.addEventListener('click', getItemID));
