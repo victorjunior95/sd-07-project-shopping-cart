@@ -37,9 +37,9 @@ function priceAndSignal(price, signal) {
   const totalHtml = (document.querySelector('.total-price'));
   const total = Number(totalHtml.innerText);
   if (signal === 'positive') {
-    totalHtml.innerText = (total + price).toFixed(0);
+    totalHtml.innerText = parseFloat(total + price).toFixed(2);
   } if (signal === 'negative') {
-    totalHtml.innerText = (total - price).toFixed(0);
+    totalHtml.innerText = parseFloat(total - price).toFixed(2);
   }
 }
 
