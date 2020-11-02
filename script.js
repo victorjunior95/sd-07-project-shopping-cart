@@ -70,7 +70,6 @@ function getCartItems() {
 
 window.onload = function onload() {
   loadItems();
-  getCartItems();
 };
 
 addEventListener('click', (event) => {
