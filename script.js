@@ -29,19 +29,19 @@ const saveItemLocalStorage = () => {
   localStorage.setItem('saveOl', ol.innerHTML);
 };
 
-const recoverItemLocalStorage = () => {
-  const olItems = document.querySelector('.cart__items');
-  olItems.innerHTML = localStorage.getItem('saveOl');
-  const li = document.querySelectorAll('li');
-  li.forEach(element => element.addEventListener('click', cartItemClickListener));
-};
-
 function cartItemClickListener(event) {
   const ol = document.querySelector('.cart__items');
   ol.removeChild(event.target);
 
   saveItemLocalStorage();
 }
+
+const recoverItemLocalStorage = () => {
+  const olItems = document.querySelector('.cart__items');
+  olItems.innerHTML = localStorage.getItem('saveOl');
+  const li = document.querySelectorAll('li');
+  li.forEach(element => element.addEventListener('click', cartItemClickListener));
+};
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
@@ -59,7 +59,6 @@ const convertId = (itemId) => {
     getList.appendChild(createCartItemElement(object));
     saveItemLocalStorage();
   });
-
 };
 
 const clickButton = (event) => {
