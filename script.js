@@ -49,9 +49,9 @@ const totalPrice = async () => {
     const itemSplit = itemElement[itemElement.length - 1].split('');
     itemSplit.splice(0, 1);
     const itemPrice = itemSplit.join('');
-    totalresult += parseInt(itemPrice, 10);
+    totalresult += parseInt(itemPrice * 100, 10);
   });
-  priceSection.innerHTML = totalresult;
+  priceSection.innerHTML = totalresult / 100;
 };
 
 const removeAll = () => {
