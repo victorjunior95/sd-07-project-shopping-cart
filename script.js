@@ -101,9 +101,24 @@ async function loadCartFromStorage() {
   }
 }
 
+function clearCart() {
+  const clearButton = document.querySelector('.empty-cart');
+  const cartItems = document.querySelector('.cart__items').childNodes;
+  const cart = document.querySelector('.cart__items');
+
+  clearButton.addEventListener('click', () => {
+    for (let index = cartItems.length - 1; index >= 0; index -= 1) {
+        cart.lastElementChild.remove();
+    }
+    localStorage.clear();
+  });
+}
+
 window.onload = async function onload() {
   await productList();
+  await loadCartFromStorage();
+  clearCart();
   addButton();
   removeItemFromCart();
-  loadCartFromStorage();
+
 };
