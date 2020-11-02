@@ -78,6 +78,20 @@ const handleProductList = (crudeProductList) => {
   });
 };
 
+const fetchProducts = () => {
+  const api = 'https://api.mercadolibre.com/';
+  const endpoint = 'sites/MLB/search?q=';
+  const searchTerm = 'computador';
+  const requestURL = `${api}${endpoint}${searchTerm}`;
+
+  fetch(requestURL)
+  .then(response => response.json())
+  .then((data) => {
+    handleProductList(data.results);
+  });
+};
+
+
 window.onload = () => {
   loading();
   fetchProducts();
