@@ -36,18 +36,6 @@ const sumTotalBill = async (sum) => {
   totalPrice.innerHTML = sum;
 };
 
-const removeItemFromLocalStorage = (sku) => {
-  const getItemsFromLocalStorage = JSON.parse(localStorage.getItem('cart'));
-  for (let index = 0; index < getItemsFromLocalStorage.length; index += 1) {
-    if (getItemsFromLocalStorage[index].id === sku) {
-      getItemsFromLocalStorage.splice(index, 1);
-      break;
-    }
-  }
-  localStorage.setItem('cart', JSON.stringify(getItemsFromLocalStorage));
-  getSumTotalBill();
-};
-
 function cartItemClickListener(event) {
   event.target.parentNode.removeChild(event.target);
   removeItemFromLocalStorage(event.target.id);
@@ -64,6 +52,18 @@ async function getSumTotalBill() {
   }
   sumTotalBill(sum);
 }
+
+const removeItemFromLocalStorage = (sku) => {
+  const getItemsFromLocalStorage = JSON.parse(localStorage.getItem('cart'));
+  for (let index = 0; index < getItemsFromLocalStorage.length; index += 1) {
+    if (getItemsFromLocalStorage[index].id === sku) {
+      getItemsFromLocalStorage.splice(index, 1);
+      break;
+    }
+  }
+  localStorage.setItem('cart', JSON.stringify(getItemsFromLocalStorage));
+  getSumTotalBill();
+};
 
 // passo 1.1 localStorage
 const loadItemsToLocalStorage = (id, title, price) => {
@@ -108,7 +108,6 @@ const retrieveItemsSavedBeforeFromLocalStorage = () => {
     }
   }
 };
-
 
 const eraseElement = () => {
   const getContainerElement = document.querySelector('.items');
