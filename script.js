@@ -1,3 +1,13 @@
+async function cartTotalPrice() {
+  const priceText = document.querySelector('.total-price');
+  let totalPrice = 0;
+  const cartPrices = Object.values(localStorage);
+  cartPrices.forEach(price => totalPrice += parseInt(price, 10));
+  priceText.innerHTML = `Total Price: ${totalPrice}`;
+}
+
+// ------------------------------------------------------
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -47,13 +57,6 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 // ------------------------------------------------------
-async function cartTotalPrice() {
-  const priceText = document.querySelector('.total-price');
-  let totalPrice = 0;
-  const cartPrices = Object.values(localStorage);
-  cartPrices.forEach(price => totalPrice += parseInt(price));
-  priceText.innerHTML = `Total Price: ${totalPrice}`;
-}
 
 async function productList() {
   const itemsList = document.querySelector('.items');
@@ -79,7 +82,7 @@ async function addToCart(id) {
   const itemToCart = createCartItemElement({ sku, name, salePrice });
   cart.appendChild(itemToCart);
   localStorage.setItem([id], [salePrice]);
-  cartTotalPrice()
+  cartTotalPrice();
 }
 
 function addButton() {
@@ -120,11 +123,9 @@ function clearCart() {
       cart.lastElementChild.remove();
     }
     localStorage.clear();
-    cartTotalPrice()
+    cartTotalPrice();
   });
 }
-
-
 
 window.onload = async function onload() {
   await productList();
