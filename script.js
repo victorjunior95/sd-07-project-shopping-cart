@@ -33,8 +33,7 @@ const clearAll = () => {
 // }
 
 // remove an item individually
-function cartItemClickListener(event) {
-  const ol = document.querySelector('.cart__items');
+const removeFromStorage = (event) => {
   const thisItem = event.target;
   const word = thisItem.innerText;
   const test = word.split('');
@@ -49,16 +48,21 @@ function cartItemClickListener(event) {
   if (thisItem.className === 'cart__item selected') {
     localStorage.removeItem(key);
   }
+};
+
+function cartItemClickListener(event) {
+  const ol = document.querySelector('.cart__items');
   ol.removeChild(event.target);
+  removeFromStorage(event);
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  const myObjetct = {sku, name, salePrice};
+  const myObjetct = { sku, name, salePrice };
   li.addEventListener('click', cartItemClickListener);
-  localStorage.setItem(sku ,JSON.stringify(myObjetct));
+  localStorage.setItem(sku, JSON.stringify(myObjetct));
   return li;
 }
 
@@ -67,7 +71,7 @@ function createCustomElement(element, className, innerText) {
   e.className = className;
   e.innerText = innerText;
   return e;
-};
+}
 
 // const soma = (...obj) => {
 // let {}
@@ -93,6 +97,14 @@ const addElementToChart = () => {
   });
 };
 
+const loadWebStorage = () => {
+  const storedItems = [];
+  for ( let index = 0; index < localStorage.length; index+=1){
+       storedItems.push(JSON.parse(localStorage.getItem(localStorage.key(index))));
+  }
+  return storedItems;
+};
+
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
@@ -107,22 +119,22 @@ function createProductItemElement({ sku, name, image }) {
 
 const getImageItems = () => {
   try {
-    const buildElement = document.createElement('p');
-    buildElement.innerHTML = 'Loading...';
-    buildElement.classList.add('loading');
-    const getSection = document.querySelector('.items');
-    getSection.appendChild(buildElement);
-    const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=$computador';
-    fetch(endpoint)
-      .then(response => response.json())
-      .then((object) => {
-        const items = document.querySelector('.items');
-        getSection.removeChild(buildElement);
-        object.results.forEach((productList) => {
-          const item = createProductItemElement(destruct(productList));
-          items.appendChild(item);
+      const buildElement = document.createElement('p');
+      buildElement.innerHTML = 'Loading...';
+      buildElement.classList.add('loading');
+      const getSection = document.querySelector('.items');
+      getSection.appendChild(buildElement);
+      const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=$computador';
+      fetch(endpoint)
+        .then(response => response.json())
+        .then((object) => {
+          const items = document.querySelector('.items');
+          getSection.removeChild(buildElement);
+          object.results.forEach((productList) => {
+            const item = createProductItemElement(destruct(productList));
+            items.appendChild(item);
+          });
         });
-      });
   } catch (error) {
     console.log(`Sorry, we are facing some problems: ${error}`);
   }
@@ -133,4 +145,5 @@ window.onload = function onload() {
   addElementToChart();
   clearAll();
   // addTotal();
+  loadWebStorage();
 }
