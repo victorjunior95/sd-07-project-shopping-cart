@@ -1,12 +1,12 @@
 async function cartTotalPrice() {
   const priceText = document.querySelector('.total-price');
-  let totalPrice = 0;
+  let totalPrice = parseFloat(0);
   const cartPrices = Object.values(localStorage);
   cartPrices.forEach((price) => {
-    const sumPrice = parseInt(price, 10);
+    const sumPrice = parseFloat(parseInt(price, 10));
     totalPrice += sumPrice;
   });
-  priceText.innerHTML = `${parseFloat(totalPrice).toFixed()}`;
+  priceText.innerHTML = `${parseFloat(totalPrice).toFixed(2)}`;
 }
 
 // ------------------------------------------------------
