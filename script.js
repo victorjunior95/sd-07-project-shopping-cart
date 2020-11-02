@@ -41,6 +41,14 @@ function priceAndSignal(price, signal) {
   } if (signal === 'negative') {
     totalHtml.innerText = (total - price).toFixed(2);
   }
+  console.log(totalHtml)
+}
+
+function storage() {
+  const getList = document.querySelector('.cart__items').innerHTML;
+  const getTotalPrice = document.querySelector('.total-price').innerHTML;
+  localStorage.setItem('list', getList);
+  localStorage.setItem('totalPrice', getTotalPrice);
 }
 
 async function cartItemClickListener(event) {
@@ -48,6 +56,7 @@ async function cartItemClickListener(event) {
   const priceFinal = event.target.innerText.slice(listPrice + 1);
   priceAndSignal(priceFinal, 'negative');
   event.target.remove();
+  storage();
 }
 
 function deleteAll() {
@@ -55,6 +64,7 @@ function deleteAll() {
   eraseAll.addEventListener('click', () => {
     document.querySelector('.cart__items').innerText = '';
     document.querySelector('.total-price').innerText = 0;
+    storage();
   });
 }
 
@@ -69,6 +79,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 function getItem(produto) {
   const item = document.querySelector('.cart__items');
   item.appendChild(createCartItemElement(produto));
+  storage();
 }
 
 function convertId(id) {
@@ -113,8 +124,16 @@ function getApiList() {
   }));
 }
 
+function pageLoaded() {
+  document.querySelector('.cart__items').innerHTML = localStorage.getItem('list');
+  document.querySelector('.total-price').innerHTML = localStorage.getItem('totalPrice');
+  document.querySelectorAll('.cart__items').forEach((loopClick) => {
+    loopClick.addEventListener('click', cartItemClickListener);
+  });
+}
+
 window.onload = function onload() {
   getApiList();
-  priceAndSignal();
   deleteAll();
+  pageLoaded();
 };
