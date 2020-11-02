@@ -46,7 +46,7 @@ const returnObject = url => fetch(url).then(itemResult =>
 const getItemID = async (ID) => {
   const target = getSkuFromProductItem(ID.currentTarget);
   const object = await returnObject(`https://api.mercadolibre.com/items/${target}`);
-  const cartItems = document.querySelector('.cart__title');
+  const cartItems = document.querySelector('.cart__items');
   const { id, title, price } = object;
   const obj = { sku: id, name: title, salePrice: price };
   cartItems.appendChild(createCartItemElement(obj));
