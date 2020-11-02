@@ -30,13 +30,26 @@ const cathOl = (element) => {
   chart.appendChild(element);
 };
 
+const removeItemFromLocalStorage = (sku) => {
+  const getItemsFromLocalStorage = JSON.parse(localStorage.getItem('cart'));
+  for (let index = 0; index < getItemsFromLocalStorage.length; index += 1) {
+    if (getItemsFromLocalStorage[index].id === sku) {
+      getItemsFromLocalStorage.splice(index, 1);
+      break;
+    }
+  }
+  localStorage.setItem('cart', JSON.stringify(getItemsFromLocalStorage));
+  getSumTotalBill();
+}
+
 function cartItemClickListener(event) {
   event.target.parentNode.removeChild(event.target);
+  removeItemFromLocalStorage(event.target.id)
 }
 
 // paso 3 localStorage
-const sumTotalBill = (sum) => {
-  const totalPrice = document.querySelector('.total-price');
+const sumTotalBill = async (sum) => {
+  const totalPrice = await document.querySelector('.total-price');
   totalPrice.innerHTML = sum;
 };
 // passo 2 localStorage
@@ -155,6 +168,6 @@ function cleanToChart() {
 window.onload = function onload() {
   getSumTotalBill();
   retrieveItemsSavedBeforeFromLocalStorage();
-  setTimeout(fetchProducts, 2000);
+  fetchProducts();
   cleanToChart();
 };
