@@ -28,27 +28,23 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-function addCartItemsToLStorage() {
-  const cartList = document.querySelector('.cart__items');
-  localStorage.setItem('cart', cartList.innerHTML);
+function addCartItemToLStorage({ sku, name, salePrice}) {
+  const arrayStorage = JSON.parse(localStorage.getItem('cart'));
+  arrayStorage.push({ sku, name, salePrice });
+  localStorage.setItem('cart', JSON.stringify(arrayStorage));
 }
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
+  const arrayStorage = JSON.parse(localStorage.getItem('cart')) || [];
+  const arraySku = arrayStorage.map((itemCart) => itemCart.sku);
+  const elementId = event.target.dataset.sku;
+  const indexToRemove = arraySku.indexOf(elementId);
+  arrayStorage.splice(indexToRemove,1);
+  localStorage.clear();
+  localStorage.setItem('cart', JSON.stringify(arrayStorage));
   const ol = document.querySelector('.cart__items');
   ol.removeChild(event.target);
-  addCartItemsToLStorage();
-}
-
-function reloadCartFromLStorage() {
-  const cartList = document.querySelector('.cart__items');
-  if (localStorage.getItem('car') !== 'undefined' || localStorage.getItem('cart') !== 'null') {
-    cartList.innerHTML = localStorage.getItem('cart');
-  }
-
-  cartList.childNodes.forEach((li) => {
-    li.addEventListener('click', cartItemClickListener);
-  });
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -56,7 +52,27 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  li.dataset.sku = sku;
   return li;
+}
+
+function loadAllElementsInCart(arrayOfCartItems) {
+  const cartList = document.querySelector('.cart__items');
+  arrayOfCartItems.forEach((item) => {
+    const li = createCartItemElement(item);
+    cartList.appendChild(li);
+  });
+}
+
+function reloadCartFromLStorage() {
+  const recoveryLStorageArray = JSON.parse(localStorage.getItem('cart'));
+  if (localStorage.getItem('cart')) {
+    loadAllElementsInCart(recoveryLStorageArray);
+  } else {
+    const newArray = [];
+    localStorage.setItem('cart', JSON.stringify(newArray));
+    loadAllElementsInCart(newArray);
+  }
 }
 
 const requestProductToCart = (event) => {
@@ -69,7 +85,7 @@ const requestProductToCart = (event) => {
     const { id: sku, title: name, price: salePrice } = data;
     const itemCart = createCartItemElement({ sku, name, salePrice });
     ordenedList.appendChild(itemCart);
-    addCartItemsToLStorage();
+    addCartItemToLStorage({ sku, name, salePrice });
   }));
 };
 
