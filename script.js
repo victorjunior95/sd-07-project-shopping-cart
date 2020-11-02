@@ -56,4 +56,3 @@ fetch(endpoint)
     sectionItens.appendChild(createProductItemElement(sku, name, image));
   });
 });
-
