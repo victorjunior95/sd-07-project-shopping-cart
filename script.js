@@ -63,9 +63,8 @@ function idButtonEvent() {
   const id = getSkuFromProductItem(event.target.parentNode);
   fetch(`https://api.mercadolibre.com/items/${id}`)
     .then(response => response.json())
-      .then((object) => {
-        addListElement(object);
-      });
+      .then((object) => addListElement(object))
+        .catch((error) => window.alert(error));
 }
 
 function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
@@ -94,7 +93,8 @@ function getItemsShopping() {
         results.forEach((item) => {
           addItemList(item);
         });
-      });
+      })
+        .catch(error => window.alert(error));
 }
 
 function loadCartStorage() {
