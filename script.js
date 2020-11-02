@@ -29,10 +29,14 @@ function getSkuFromProductItem(item) {
 }
 
 async function sumCart() {
-  const arrayStorage = JSON.parse(localStorage.getItem('cart'));
-  const totalPriceElement = document.querySelector('.total-price');
-  const sum = arrayStorage.reduce((acc, current) => acc + current.salePrice, 0).toFixed(2);
-  totalPriceElement.innerText = sum;
+  try {
+    const arrayStorage = JSON.parse(localStorage.getItem('cart'));
+    const totalPriceElement = document.querySelector('.total-price');
+    const sum = arrayStorage.reduce((acc, current) => acc + current.salePrice, 0).toFixed(2);
+    totalPriceElement.innerText = sum;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function addCartItemToLStorage({ sku, name, salePrice }) {
