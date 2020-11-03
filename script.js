@@ -15,11 +15,11 @@ function createCustomElement(element, className, innerText) {
 const addLoading = () => {
   document.querySelector('.cart__items')
     .appendChild(createCustomElement('h1', 'loading', 'loading...'));
-}
+};
 
 const removeLoading = () => {
   document.querySelector('.loading').remove();
-}
+};
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
