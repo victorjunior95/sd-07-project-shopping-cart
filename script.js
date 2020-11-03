@@ -11,7 +11,7 @@ function loadCartPrice() {
     let sum = 0;
     for (let i = 0; i < sumCartItems.length; i += 1) sum += sumCartItems[i];
     resolve(sum);
-  }
+  },
   );
 }
 
