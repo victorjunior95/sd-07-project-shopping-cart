@@ -38,6 +38,14 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+function loadPrice() {
+  if(localStorage.getItem('totalPrice')) {
+    const totalValue = localStorage.getItem('totalPrice');
+    document.querySelector('.total-price').innerText = totalValue;
+    totalPrice = totalValue;
+  }
+}
+
 function updatePrice(itemCar) {
   const arrOfValue = itemCar.innerText.split('$');
   const value = parseFloat(arrOfValue['1']);
@@ -51,6 +59,10 @@ function cartItemClickListener(event) {
   const itemCar = event.target;
   father.removeChild(itemCar);
   updatePrice(itemCar);
+}
+
+function savePriceLocalStorage(salePrice) {
+  localStorage.setItem('totalPrice', totalPrice);
 }
 
 function createCartItemElement(parameter) {
@@ -125,6 +137,7 @@ async function totalCartPrice(data) {
   const { price } = data;
   totalPrice += price;
   spanPrice.innerText = `${totalPrice}`;
+  savePriceLocalStorage();
 }
 
 async function addProductToCart(id) {
@@ -151,9 +164,11 @@ document.querySelector('.empty-cart').addEventListener('click', function () {
   ol.innerText = '';
   clearLocalStorage();
   totalPrice = 0;
+  document.querySelector('.total-price').innerText = `${totalPrice}`;
 });
 
 window.onload = function onload() {
   consultProduct('teclado');
   loadShoppingCart();
+  loadPrice();
 };
