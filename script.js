@@ -120,8 +120,8 @@ const addCart = (buttons) => {
 
 const removeLoading = () => {
   const textLoding = document.getElementById('loading');
-  textLoding.style.display='none';
-}
+  textLoding.style.display = 'none';
+};
 
 const listnerButton = () => {
   const buttonAddCart = document.querySelectorAll('.item__add');
