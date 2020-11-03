@@ -24,6 +24,7 @@ const removeLoading = () => {
 const cleanCart = () => {
   const cleanButton = document.querySelector('.empty-cart');
   const cart = document.querySelector('.cart__items');
+  localStorage.clear();
   cleanButton.addEventListener('click', () => {
     cart.innerHTML = '';
   });
@@ -31,6 +32,7 @@ const cleanCart = () => {
 
 function cartItemClickListener(event) {
   event.target.remove();
+  addLocalStorage();
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
