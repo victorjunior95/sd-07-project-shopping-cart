@@ -1,3 +1,4 @@
+// comentário para o avaliador
 const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=$computador';
 
 const showAlert = (message) => {
