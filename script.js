@@ -111,11 +111,24 @@ function loadShoppingCart() {
   }
 }
 
-function totalCartPrice(data) {
+/*
+async function totalCartPrice(data) {
   const spanPrice = document.querySelector('.total-price');
   const { price } = data;
   totalPrice += price;
   spanPrice.innerText = `${totalPrice}`;
+}
+*/
+
+// referência: Felipe Nascimento - Turma 07
+async function totalCartPrice() {
+  let priceSum = 0;
+  const cartLiItems = Array.from(document.querySelectorAll('.cart__item'));
+  cartLiItems.forEach((item) => {
+    priceSingIndex = item.innerHTML.indexOf('$') + 1;
+    priceSum += parseFloat(item.innerHTML.slice(priceSingIndex));
+  });
+  document.querySelector('.total-price').innerText = `${priceSum}`;
 }
 
 async function addProductToCart(id) {
