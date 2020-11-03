@@ -14,19 +14,33 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function createProductItemElement({ sku, name, image }) {
-  const section = document.createElement('section');
-  section.className = 'item';
-
-  section.appendChild(createCustomElement('span', 'item__sku', sku));
-  section.appendChild(createCustomElement('span', 'item__title', name));
-  section.appendChild(createProductImageElement(image));
-  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-  return section;
-}
+const fetchAddItemCart = async id => {
+  const endpoint = `https://api.mercadolibre.com/items/${id}`;
+  const response = await fetch(endpoint);
+  const object = await response.json();
+  const ol = document.querySelector('.cart_items');
+  ol.appendChild(createCartItemElement(object));
+};
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
+}
+
+function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
+  const section = document.createElement('section');
+  section.className = 'item';
+  section.appendChild(createCustomElement('span', 'item__sku', sku));
+  section.appendChild(createCustomElement('span', 'item__title', name));
+  section.appendChild(createProductImageElement(image));
+  const button = section.appendChild(
+    createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'),
+  );
+  button.addEventListener('click', async function (event) {
+    const parentElement = await event.target.parentElement;
+    await fetchAddItemCart(getSkuFromProductItem(parentElement));
+  });
+  section.appendChild(button);
+  return section;
 }
 
 function cartItemClickListener(event) {
@@ -45,9 +59,9 @@ const fetchComputer = () => {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=$computer';
   fetch(endpoint)
     .then(response => response.json())
-    .then((data) => {
+    .then(object => {
       const items = document.querySelector('.items');
-      data.results.forEach((product) => {
+      object.results.forEach(product => {
         const { id: sku, title: name, thumbnail: image } = product;
         const item = createProductItemElement({ sku, name, image });
         items.appendChild(item);
