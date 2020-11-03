@@ -11,20 +11,25 @@ function clearCartItems() {
       document.querySelector('.cart__items').innerHTML = '';
     });
 }
+
 // function getSkuFromProductItem(item) {
 //   return item.querySelector('span.item__sku').innerText;
-// }
+// }s
 
 function cartItemClickListener(event) {
   event.target.remove();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
+  let cartItemsStorage = JSON.parse(localStorage.getItem("cartItems"));
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   document.querySelector('ol').appendChild(li);
+  cartItemsStorage.push({ sku: sku, name: name, salePrice: salePrice });
+  console.log(cartItemsStorage);
+  localStorage.setItem('cartItems', JSON.stringify(cartItemsStorage));
 }
 
 function createCustomElement(element, className, innerText) {
@@ -75,6 +80,14 @@ const fetchApiShopping = (product) => {
 };
 
 window.onload = function onload() {
+  if (!localStorage.getItem('cartItems')) {
+    let cartItemsStorage = [];
+    localStorage.setItem('cartItems', JSON.stringify(cartItemsStorage));
+  } else {
+    console.log('Storage já existe!')
+  }
+
   fetchApiShopping('computador');
   clearCartItems();
+  //verifyCartItemsStorage();
 };
