@@ -88,6 +88,15 @@ const fetchItens = () => {
     });
 };
 
+function clear() {
+  const buttonClearCart = document.querySelector('.empty-cart');
+  buttonClearCart.addEventListener('click', () => {
+    const listProductsInCart = document.querySelector('.cart__items');
+    listProductsInCart.innerHTML = '';
+  });
+}
+
 window.onload = function onload() {
   fetchItens();
+  clear();
 };
