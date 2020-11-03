@@ -21,8 +21,9 @@ const sumPrices = () => {
   document.querySelector('.total-price').innerText = sum;
 };
 
-function cartItemClickListener(event) {
-  event.target.remove();
+async function cartItemClickListener(event) {
+  await event.target.remove();
+  sumPrices();
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
