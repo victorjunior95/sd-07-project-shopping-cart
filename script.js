@@ -12,16 +12,16 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-const addLocalStorage = () => {
-  const object = [];
+function setLocalStorage() {
+  const arr = [];
   const li = document.querySelectorAll('.cart__item');
-  li.forEach(courrentItem => object.push(courrentItem.innerText));
-  localStorage.setItem('shopping cart', JSON.stringify(object));
-};
+  li.forEach(item => arr.push(item.innerText));
+  localStorage.setItem('carrinho de compras', JSON.stringify(arr));
+}
 
 function cartItemClickListener(event) {
   event.target.remove();
-  addLocalStorage();
+  setLocalStorage();
 }
 
 const addLoading = () => {
@@ -36,9 +36,9 @@ const removeLoading = () => {
 const cleanCart = () => {
   const cleanButton = document.querySelector('.empty-cart');
   const cart = document.querySelector('.cart__items');
-  localStorage.clear();
   cleanButton.addEventListener('click', () => {
     cart.innerHTML = '';
+    localStorage.clear();
   });
 };
 
@@ -58,6 +58,7 @@ const addProductsOnCart = (id) => {
     .then((item) => {
       document.querySelector('.cart__items').appendChild(createCartItemElement(item));
     });
+    setLocalStorage();
 };
 
 function getSkuFromProductItem(item) {
@@ -75,7 +76,6 @@ function createProductItemElement({ sku, name, image }) {
   button.addEventListener('click', ((event) => {
     const parentElement = event.target.parentElement;
     addProductsOnCart(getSkuFromProductItem(parentElement));
-    addLocalStorage();
   }));
   section.appendChild(button);
   return section;
@@ -97,19 +97,19 @@ const loadProducts = (search) => {
     });
 };
 
-const loadLocalStorage = () => {
+function reloadStorage() {
   const ol = document.querySelector('.cart__items');
-  const storageItems = JSON.parse(localStorage.getItem('shopping cart'));
-  if (storageItems) {
-    storageItems.forEach((item) => {
+  const capturedEle = JSON.parse(localStorage.getItem('carrinho de compras'));
+  if (capturedEle) {
+    capturedEle.forEach((item) => {
       const li = createCustomElement('li', 'cart__item', item);
       ol.appendChild(li);
     });
   }
-};
+}
 
 window.onload = function onload() {
   loadProducts('computador');
   cleanCart();
-  loadLocalStorage();
+  reloadStorage();
 };
