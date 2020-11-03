@@ -14,6 +14,10 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+function cartItemClickListener(event) {
+  // coloque seu código aqui
+}
+
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -22,7 +26,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-const fetchAddItemCart = async id => {
+const fetchAddItemCart = async (id) => {
   const endpoint = `https://api.mercadolibre.com/items/${id}`;
   const response = await fetch(endpoint);
   const object = await response.json();
@@ -51,17 +55,13 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   return section;
 }
 
-function cartItemClickListener(event) {
-  // coloque seu código aqui
-}
-
 const fetchComputer = () => {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=$computer';
   fetch(endpoint)
     .then(response => response.json())
-    .then(object => {
+    .then((object) => {
       const items = document.querySelector('.items');
-      object.results.forEach(product => {
+      object.results.forEach((product) => {
         const { id: sku, title: name, thumbnail: image } = product;
         const item = createProductItemElement({ sku, name, image });
         items.appendChild(item);
