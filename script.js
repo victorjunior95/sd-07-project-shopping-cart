@@ -17,10 +17,7 @@ function loadCartPrice() {
 
 async function createPriceElement() {
   const totalPrice = document.querySelector('.total-price');
-  const span = document.createElement('span');
-  totalPrice.innerHTML = '';
-  span.innerHTML = await loadCartPrice();
-  totalPrice.appendChild(span);
+  totalPrice.innerHTML = await loadCartPrice();
 }
 
 function clearCartItems() {
