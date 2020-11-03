@@ -38,7 +38,7 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-function createProductItemElement({ sku, name, image }) {
+function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   const section = document.createElement('section');
   section.className = 'item';
   section.appendChild(createCustomElement('span', 'item__sku', sku));
@@ -62,8 +62,7 @@ const fetchComputer = () => {
     .then((object) => {
       const items = document.querySelector('.items');
       object.results.forEach((product) => {
-        const { id: sku, title: name, thumbnail: image } = product;
-        const item = createProductItemElement({ sku, name, image });
+        const item = createProductItemElement(product);
         items.appendChild(item);
       });
     });
