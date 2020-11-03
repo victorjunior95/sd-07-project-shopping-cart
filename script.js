@@ -58,6 +58,7 @@ const addProductsOnCart = (id) => {
     .then((item) => {
       document.querySelector('.cart__items').appendChild(createCartItemElement(item));
     });
+  addLocalStorage();
 };
 
 function getSkuFromProductItem(item) {
