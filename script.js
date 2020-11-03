@@ -1,16 +1,27 @@
+const totalPrice = () => {
+  const items = document.querySelectorAll('.cart__item');
+  const total = document.querySelector('.total-price');
+  let sumPrices = 0;
+  items.forEach((item) => {
+    const itemPrice = parseFloat(item.getAttribute('value'));
+    sumPrices += itemPrice;
+  });
+  total.innerHTML = `${sumPrices}`;
+};
+
 const createProductImageElement = (imageSource) => {
   const img = document.createElement('img');
   img.className = 'item__image';
   img.src = imageSource;
   return img;
-}
+};
 
 const createCustomElement = (element, className, innerText) => {
   const e = document.createElement(element);
   e.className = className;
   e.innerText = innerText;
   return e;
-}
+};
 
 const createProductItemElement = ({ id, title, thumbnail }) => {
   const section = document.createElement('section');
@@ -22,27 +33,25 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
 
   return section;
-}
+};
 
-const getSkuFromProductItem = (item) => {
-  return item.querySelector('span.item__sku').innerText;
-}
+const getSkuFromProductItem = item => item.querySelector('span.item__sku').innerText;
 
 const cartItemClickListener = (event) => {
   event.path[1].removeChild(event.path[0]);
   totalPrice();
-}
+};
 
 const removeCart = () => {
   const cartList = document.getElementsByClassName('cart__items')[0];
   cartList.innerHTML = '';
   totalPrice();
-}
+};
 
 const buttonRemoveCart = () => {
   const removeButton = document.getElementsByClassName('empty-cart')[0];
   removeButton.addEventListener('click', removeCart);
-}
+};
 
 const createCartItemElement = ({ id, title, price }) => {
   const li = document.createElement('li');
@@ -51,27 +60,14 @@ const createCartItemElement = ({ id, title, price }) => {
   li.addEventListener('click', cartItemClickListener);
   li.setAttribute('value', price);
   return li;
-}
+};
 
 const loadingProduct = () => {
   document.getElementsByClassName('items')[0].appendChild(
   createCustomElement('h1', 'loading', 'Loading...'));
 };
 
-const loadingComplete = () => {
-  document.getElementsByClassName('loading')[0].remove();
-};
-
-const totalPrice = () => {
-  const items = document.querySelectorAll('.cart__item');
-  const total = document.querySelector('.total-price');
-  let sumPrices = 0;
-  items.forEach((item) => {
-    const itemPrice = parseFloat(item.getAttribute('value'));
-    sumPrices += itemPrice;
-  });
-  total.innerHTML = `${sumPrices}`;
-};
+const loadingComplete = () => document.getElementsByClassName('loading')[0].remove();
 
 const buttonAddApi = (productID) => {
   fetch(`https://api.mercadolibre.com/items/${productID}`)
