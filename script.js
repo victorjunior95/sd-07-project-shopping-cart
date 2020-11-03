@@ -28,15 +28,20 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-function calculateSumOfValues(storage) {
-  const totalPriceElement = document.querySelector('.total-price');
-  const sum = Math.round(storage.reduce((acc, current) => acc + current.salePrice, 0));
-  totalPriceElement.innerText = sum;
+function calculateSumOfValues(newList) {
+  return new Promise((resolve) => {
+    const auxArray = [];
+    newList.forEach(item => auxArray.push(item.salePrice));
+    const value = (auxArray.reduce((acc, current) => acc + current, 0));
+    resolve(value);
+  });
 }
 
 async function sumCart() {
+  const totalCartElement = document.querySelector('.total-price');
   const arrayStorage = JSON.parse(localStorage.getItem('cart'));
-  await calculateSumOfValues(arrayStorage);
+  const sum = await calculateSumOfValues(arrayStorage);
+  totalCartElement.innerText = sum;
 }
 
 function addCartItemToLStorage({ sku, name, salePrice }) {
