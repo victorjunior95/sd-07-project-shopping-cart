@@ -34,8 +34,8 @@ function saveItensCartInLocalStorage() {
 }
 
 const sumValueItemsCart = async () => {
-  const itemsInCart = document.querySelectorAll('.cart__item');
-  const total = document.querySelector('.total-price');
+  const itemsInCart = await document.querySelectorAll('.cart__item');
+  const total = await document.querySelector('.total-price');
   let actualValue = 0;
   await itemsInCart.forEach(async (sumText) => {
     const captureText = await sumText.innerText;
