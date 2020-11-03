@@ -30,11 +30,13 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener(event) {
   event.path[1].removeChild(event.path[0]);
+  totalPrice();
 }
 
 function removeCart() {
   const cartList = document.getElementsByClassName('cart__items')[0];
   cartList.innerHTML = '';
+  totalPrice();
 }
 
 function buttonRemoveCart() {
@@ -47,6 +49,7 @@ function createCartItemElement({ id, title, price }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${id} | NAME: ${title} | PRICE: $${price}`;
   li.addEventListener('click', cartItemClickListener);
+  li.setAttribute('value', price);
   return li;
 }
 
@@ -59,6 +62,17 @@ const loadingComplete = () => {
   document.getElementsByClassName('loading')[0].remove();
 };
 
+function totalPrice() {
+  const items = document.querySelectorAll('.cart__item');
+  const totalPrice = document.querySelector('.total-price');
+  let sumPrices = 0;
+  items.forEach((item) => {
+    const itemPrice = parseFloat(item.getAttribute('value'));
+    sumPrices += itemPrice;
+  });
+  totalPrice.innerHTML = `${sumPrices}`;
+}
+
 const buttonAddApi = (productID) => {
   fetch(`https://api.mercadolibre.com/items/${productID}`)
     .then((response) => {
@@ -66,6 +80,7 @@ const buttonAddApi = (productID) => {
         .then((data) => {
           const addProductCart = document.getElementsByClassName('cart__items')[0];
           addProductCart.appendChild(createCartItemElement(data));
+          totalPrice()
         });
     });
 };
@@ -93,7 +108,7 @@ const itemsApi = (search) => {
     });
 };
 
-// Projeto com ajuda de Lugh Walle e Emanuelle Brasil nos requisitos 1, 2 e 3.
+// Projeto com ajuda de Lugh Walle e Emanuelle Brasil.
 
 window.onload = function onload() {
   itemsApi('computador');
