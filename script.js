@@ -21,7 +21,6 @@ function setLocalStorage() {
 
 function cartItemClickListener(event) {
   event.target.remove();
-  setLocalStorage();
 }
 
 const addLoading = () => {
@@ -57,8 +56,8 @@ const addProductsOnCart = (id) => {
     .then(response => response.json())
     .then((item) => {
       document.querySelector('.cart__items').appendChild(createCartItemElement(item));
-    });
-  setLocalStorage();
+    })
+    .then(setLocalStorage());
 };
 
 function getSkuFromProductItem(item) {
