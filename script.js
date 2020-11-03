@@ -119,7 +119,7 @@ const getLocalStorage = () => {
     item.addEventListener('click', cartItemClickListener);
   });
   totalPrice();
-}
+};
 
 window.onload = () => {
   itemsApi('computador');
