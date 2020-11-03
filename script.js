@@ -107,7 +107,7 @@ function reloadCartFromLStorage() {
 
 function loadingMessage(flag) {
   const parent = document.querySelector('.container');
-  if(flag){
+  if (flag) {
     const loadingElement = document.createElement('div');
     loadingElement.className = 'loading';
     loadingElement.innerText = 'loading...';
