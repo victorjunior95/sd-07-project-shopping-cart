@@ -40,7 +40,7 @@ const receiveTotalPrice = async (newprice) => {
 
   const response = await newprice;
   const total = parseFloat(parseFloat(totalEl.innerText) + response)
-    .toFixed(2);
+    .toFixed(0);
   totalEl.innerText = total;
 };
 
