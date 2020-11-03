@@ -12,6 +12,11 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+function cartItemClickListener(event) {
+  event.target.remove();
+  addLocalStorage();
+}
+
 const addLoading = () => {
   document.querySelector('.container').appendChild(
     createCustomElement('h1', 'loading', 'loading...'));
@@ -101,11 +106,6 @@ const loadLocalStorage = () => {
     });
   }
 };
-
-function cartItemClickListener(event) {
-  event.target.remove();
-  addLocalStorage();
-}
 
 window.onload = function onload() {
   loadProducts('computador');
