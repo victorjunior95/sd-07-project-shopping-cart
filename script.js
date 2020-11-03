@@ -95,7 +95,6 @@ const fetchComputer = () => {
         items.appendChild(item);
       });
     });
-  removeLoading();
   // Conforme ajuda do colega Vitor Rodrigues.
 };
 
