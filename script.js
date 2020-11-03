@@ -59,8 +59,8 @@ function createCartItemElementFromStorage(textLi) {
 }
 
 function loadLocalStorage() {
-  const arrayList = JSON.parse(localStorage.getItem('product'));
-  if (arrayList.length > 0) {
+  if (localStorage.getItem('product')) {
+    const arrayList = JSON.parse(localStorage.getItem('product'));
     const cartItems = document.querySelector('.cart__items');
     arrayList.forEach((textLi) => {
       const productLi = createCartItemElementFromStorage(textLi);
