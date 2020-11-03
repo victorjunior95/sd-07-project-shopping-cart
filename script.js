@@ -15,7 +15,7 @@ const totalPrice = async () => {
   document.querySelectorAll('.cart__item').forEach((item) => {
     sum += parseFloat(item.innerText.split('$')[1]);
   });
-  price.innerText = `Total: $${sum}`;
+  price.innerText = sum;
 };
 
 function createProductImageElement(imageSource) {
