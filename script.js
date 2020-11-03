@@ -1,18 +1,18 @@
-function createProductImageElement(imageSource) {
+const createProductImageElement = (imageSource) => {
   const img = document.createElement('img');
   img.className = 'item__image';
   img.src = imageSource;
   return img;
 }
 
-function createCustomElement(element, className, innerText) {
+const createCustomElement = (element, className, innerText) => {
   const e = document.createElement(element);
   e.className = className;
   e.innerText = innerText;
   return e;
 }
 
-function createProductItemElement({ id, title, thumbnail }) {
+const createProductItemElement = ({ id, title, thumbnail }) => {
   const section = document.createElement('section');
   section.className = 'item';
 
@@ -24,27 +24,27 @@ function createProductItemElement({ id, title, thumbnail }) {
   return section;
 }
 
-function getSkuFromProductItem(item) {
+const getSkuFromProductItem = (item) => {
   return item.querySelector('span.item__sku').innerText;
 }
 
-function cartItemClickListener(event) {
+const cartItemClickListener = (event) => {
   event.path[1].removeChild(event.path[0]);
   totalPrice();
 }
 
-function removeCart() {
+const removeCart = () => {
   const cartList = document.getElementsByClassName('cart__items')[0];
   cartList.innerHTML = '';
   totalPrice();
 }
 
-function buttonRemoveCart() {
+const buttonRemoveCart = () => {
   const removeButton = document.getElementsByClassName('empty-cart')[0];
   removeButton.addEventListener('click', removeCart);
 }
 
-function createCartItemElement({ id, title, price }) {
+const createCartItemElement = ({ id, title, price }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${id} | NAME: ${title} | PRICE: $${price}`;
@@ -62,16 +62,16 @@ const loadingComplete = () => {
   document.getElementsByClassName('loading')[0].remove();
 };
 
-function totalPrice() {
+const totalPrice = () => {
   const items = document.querySelectorAll('.cart__item');
-  const totalPrice = document.querySelector('.total-price');
+  const total = document.querySelector('.total-price');
   let sumPrices = 0;
   items.forEach((item) => {
     const itemPrice = parseFloat(item.getAttribute('value'));
     sumPrices += itemPrice;
   });
-  totalPrice.innerHTML = `${sumPrices}`;
-}
+  total.innerHTML = `${sumPrices}`;
+};
 
 const buttonAddApi = (productID) => {
   fetch(`https://api.mercadolibre.com/items/${productID}`)
@@ -80,7 +80,7 @@ const buttonAddApi = (productID) => {
         .then((data) => {
           const addProductCart = document.getElementsByClassName('cart__items')[0];
           addProductCart.appendChild(createCartItemElement(data));
-          totalPrice()
+          totalPrice();
         });
     });
 };
@@ -110,7 +110,7 @@ const itemsApi = (search) => {
 
 // Projeto com ajuda de Lugh Walle e Emanuelle Brasil.
 
-window.onload = function onload() {
+window.onload = () => {
   itemsApi('computador');
   buttonRemoveCart();
 };
