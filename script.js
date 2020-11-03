@@ -101,9 +101,8 @@ const fetchAddItemCart = async (sku) => {
   saveLocalStorage();
   sumPrices();
   removeLoadingCart();
+  // Feito por Vitor.
 };
-
-// 
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
