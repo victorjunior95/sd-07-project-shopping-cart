@@ -5,6 +5,12 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+function clearCartItems() {
+  document.querySelector('.empty-cart')
+    .addEventListener('click', () => {
+      document.querySelector('.cart__items').innerHTML = '';
+    });
+}
 // function getSkuFromProductItem(item) {
 //   return item.querySelector('span.item__sku').innerText;
 // }
@@ -70,4 +76,5 @@ const fetchApiShopping = (product) => {
 
 window.onload = function onload() {
   fetchApiShopping('computador');
+  clearCartItems();
 };
