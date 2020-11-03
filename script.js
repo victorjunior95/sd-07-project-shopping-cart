@@ -111,12 +111,38 @@ function loadShoppingCart() {
   }
 }
 
+// Thiago Pederzolli
+const saveInLocalStorage = () => {
+  const ol = document.querySelector('.cart__items').innerHTML;
+  localStorage.setItem('cartList', JSON.stringify(ol));
+
+  const totalPrice = document.querySelector('.total-price').innerHTML;
+  localStorage.setItem('totalPrice', JSON.stringify(totalPrice));
+};
+
+const sumPrice = async () => {
+  const lis = document.querySelectorAll('.cart__item');
+  const resultElement = document.querySelector('.total-price');
+  const nodeListForArr = Array.from(lis);
+
+  const sum = nodeListForArr.reduce((total, li) => {
+    const liValue = li.innerText;
+    const arrOfValue = liValue.split('$');
+    return total + Number(arrOfValue[1]);
+  }, 0);
+
+  resultElement.innerText = sum;
+  saveInLocalStorage();
+};
+
+/*
 async function totalCartPrice(data) {
   const spanPrice = document.querySelector('.total-price');
   const { price } = data;
   totalPrice += price;
   spanPrice.innerText = `${totalPrice}`;
 }
+*/
 
 async function addProductToCart(id) {
   const endPoint = `https://api.mercadolibre.com/items/${id}`;
@@ -125,7 +151,7 @@ async function addProductToCart(id) {
       const li = createCartItemElement(data);
       addLocalStorage(li.innerText);
       addProducts(li, ol);
-      totalCartPrice(data);
+      // totalCartPrice(data);
     })
     .catch(err => alert(err));
 }
