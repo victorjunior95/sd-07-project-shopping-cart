@@ -73,15 +73,32 @@ const productInCart = (product) => {
   sumValueItemsCart();
 };
 
-const insertProductInCar = (event) => {
+const loadingDuaringFetch = (loading) => {
+  const createH1 = createCustomElement('h1', 'loading', 'loading...');
+  const sectionCart = document.querySelector('.cart');
+
+  if (loading) {
+    sectionCart.appendChild(createH1);
+  } else {
+    document.querySelector('.loading').remove();
+  }
+};
+
+const insertProductInCar = async (event) => {
   const itemSelected = event.target.parentNode;
 
+  let loading = true;
+  await loadingDuaringFetch(loading);
+
   const endpoint = `https://api.mercadolibre.com/items/${getSkuFromProductItem(itemSelected)}`;
-  fetch(endpoint)
+  await fetch(endpoint)
     .then(response => response.json())
     .then((object) => {
       productInCart(object);
     });
+
+  loading = false;
+  await loadingDuaringFetch(loading);
 };
 
 const productButtonsToAddToCart = (buttons) => {
