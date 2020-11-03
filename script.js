@@ -39,7 +39,7 @@ function getSkuFromProductItem(item) {
 }
 
 function loadPrice() {
-  if(localStorage.getItem('totalPrice')) {
+  if (localStorage.getItem('totalPrice')) {
     const totalValue = localStorage.getItem('totalPrice');
     document.querySelector('.total-price').innerText = totalValue;
     totalPrice = totalValue;
@@ -61,7 +61,7 @@ function cartItemClickListener(event) {
   updatePrice(itemCar);
 }
 
-function savePriceLocalStorage(salePrice) {
+function savePriceLocalStorage() {
   localStorage.setItem('totalPrice', totalPrice);
 }
 
