@@ -17,12 +17,6 @@ const createLoading = () => {
   span.appendChild(createCustomElement('span', 'loading', 'loading...'));
 };
 
-const removeLoading = () => {
-  const loading = document.querySelector('.loading');
-  loading.remove();
-};
-
-
 const sumPrices = () => {
   const allItemCart = document.querySelectorAll('.cart__item');
   let sum = 0;
@@ -95,7 +89,7 @@ const fetchComputer = () => {
         items.appendChild(item);
       });
     });
-  // Conforme ajuda do colega Vitor Rodrigues.
+// Conforme ajuda do colega Vitor Rodrigues.
 };
 
 window.onload = function onload() {
