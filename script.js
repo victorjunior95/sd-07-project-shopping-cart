@@ -12,6 +12,17 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+const createLoading = () => {
+  const span = document.querySelector('.items');
+  span.appendChild(createCustomElement('span', 'loading', 'loading...'));
+};
+
+const removeLoading = () => {
+  const loading = document.querySelector('.loading');
+  loading.remove();
+};
+
+
 const sumPrices = () => {
   const allItemCart = document.querySelectorAll('.cart__item');
   let sum = 0;
@@ -42,8 +53,8 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   return li;
 }
 // Conforme orientado pelo colega Tiago Esdra.
-const fetchAddItemCart = async (id) => {
-  const endpoint = `https://api.mercadolibre.com/items/${id}`;
+const fetchAddItemCart = async (sku) => {
+  const endpoint = `https://api.mercadolibre.com/items/${sku}`;
   const response = await fetch(endpoint);
   const object = await response.json();
   const ol = document.querySelector('.cart__items');
@@ -74,6 +85,7 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 
 const fetchComputer = () => {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=$computer';
+  createLoading();
   fetch(endpoint)
     .then(response => response.json())
     .then((object) => {
@@ -83,6 +95,7 @@ const fetchComputer = () => {
         items.appendChild(item);
       });
     });
+  removeLoading();
   // Conforme ajuda do colega Vitor Rodrigues.
 };
 
