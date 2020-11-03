@@ -87,7 +87,26 @@ const loadProducts = (search) => {
     });
 };
 
+const addLocalStorage = () => {
+  const object = [];
+  const li = document.querySelectorAll('.cart__item');
+  li.forEach(courrentItem => object.push(courrentItem.innerText));
+  localStorage.setItem("shopping cart", JSON.stringify(object));
+}
+
+const loadLocalStorage = () => {
+  const ol = document.querySelector('.cart__items');
+  const storageItems = JSON.parse(localStorage.getItem("shopping cart"));
+  if (storageItems) {
+    storageItems.forEach((item) => {
+      const li = createCustomElement('li', 'cart__item', item);
+      ol.appendChild(li);
+    });
+  }
+}
+
 window.onload = function onload() {
   loadProducts('computador');
   cleanCart();
+  loadLocalStorage();
 };
