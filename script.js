@@ -106,8 +106,8 @@ function getAllItemsFromApi() {
         const results = data.results;
         addItemsGotFromQuery(results);
       });
-      loadingRequest(false);
-    });
+    loadingRequest(false);
+  });
 }
 
 function cleanItemsFromCart() {
