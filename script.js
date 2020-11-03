@@ -88,7 +88,7 @@ const insertProductInCar = async (event) => {
   const itemSelected = event.target.parentNode;
 
   let loading = true;
-  await loadingDuaringFetch(loading);
+  loadingDuaringFetch(loading);
 
   const endpoint = `https://api.mercadolibre.com/items/${getSkuFromProductItem(itemSelected)}`;
   await fetch(endpoint)
