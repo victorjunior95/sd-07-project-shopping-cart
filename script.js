@@ -21,7 +21,7 @@ function setLocalStorage() {
 
 function cartItemClickListener(event) {
   event.target.remove();
-  setLocalStorage(); 
+  setLocalStorage();
 }
 
 const addLoading = () => {
