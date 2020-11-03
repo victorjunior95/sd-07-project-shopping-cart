@@ -42,7 +42,7 @@ const sumValueItemsCart = async () => {
     const capturaNumber = parseFloat(captureText.substr(-10).replace(/([^\d])+/gim, '.').substr(1));
     actualValue += capturaNumber;
   });
-  total.innerText = await `O valor total é: ${actualValue}`;
+  total.innerText = await actualValue;
 };
 
 function cartItemClickListener(event) {
