@@ -38,16 +38,19 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-function cartItemClickListener(event) {
-  const father = event.target.parentNode;
-  const children = event.target;
-  const teste = children.innerText;
-  const arrOfValue = teste.split('$');
+function updatePrice(itemCar) {
+  const arrOfValue = itemCar.innerText.split('$');
   const value = parseFloat(arrOfValue['1']);
   totalPrice -= value;
   const price = document.querySelector('.total-price');
   price.innerText = totalPrice;
-  father.removeChild(children);
+}
+
+function cartItemClickListener(event) {
+  const father = event.target.parentNode;
+  const itemCar = event.target;
+  father.removeChild(itemCar);
+  updatePrice(itemCar);
 }
 
 function createCartItemElement(parameter) {
