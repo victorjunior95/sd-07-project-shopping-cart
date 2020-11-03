@@ -21,6 +21,14 @@ const sumPrices = () => {
   document.querySelector('.total-price').innerText = sum;
 };
 
+const emptyCart = () => {
+  const buttonEmptyCart = document.querySelector('.empty-cart');
+  buttonEmptyCart.addEventListener('click', function () {
+    document.querySelector('.cart__items').innerHTML = '';
+    sumPrices();
+  });
+};
+
 async function cartItemClickListener(event) {
   await event.target.remove();
   sumPrices();
@@ -40,7 +48,7 @@ const fetchAddItemCart = async (id) => {
   const object = await response.json();
   const ol = document.querySelector('.cart__items');
   ol.appendChild(createCartItemElement(object));
-  sumPrices();
+  sumPrices(); 
 };
 
 function getSkuFromProductItem(item) {
@@ -80,6 +88,7 @@ const fetchComputer = () => {
 
 window.onload = function onload() {
   fetchComputer();
+  emptyCart();
 };
 
 // const handleComputers = (computers) => {
