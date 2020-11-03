@@ -129,4 +129,5 @@ window.onload = function onload() {
   fetchProductList();
   loadLocal();
   emptyCart();
+  totalPrice();
 };
