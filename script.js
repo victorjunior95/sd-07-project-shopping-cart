@@ -91,11 +91,11 @@ const insertProductInCar = async (event) => {
   loadingDuaringFetch(loading);
 
   const endpoint = `https://api.mercadolibre.com/items/${getSkuFromProductItem(itemSelected)}`;
-  await fetch(endpoint)
+  setTimeout(await fetch(endpoint)
     .then(response => response.json())
     .then((object) => {
       productInCart(object);
-    });
+    }), 5000);
 
   loading = false;
   await loadingDuaringFetch(loading);
