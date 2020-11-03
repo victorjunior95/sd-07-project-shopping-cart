@@ -101,8 +101,8 @@ function convertId(id) {
       name: objeto.title,
       salePrice: objeto.price,
     };
-    getItem(product);
     priceAndSignal(objeto.price, 'positive');
+    getItem(product);
   });
 }
 
