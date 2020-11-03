@@ -88,17 +88,17 @@ const insertProductInCar = async (event) => {
   const itemSelected = event.target.parentNode;
 
   let loading = true;
-  loadingDuaringFetch(loading);
+  setTimeout(loadingDuaringFetch(loading), 8000);
 
   const endpoint = `https://api.mercadolibre.com/items/${getSkuFromProductItem(itemSelected)}`;
-  setTimeout(await fetch(endpoint)
+  await fetch(endpoint)
     .then(response => response.json())
     .then((object) => {
       productInCart(object);
-    }), 5000);
+    });
 
   loading = false;
-  await loadingDuaringFetch(loading);
+  setTimeout(loadingDuaringFetch(loading), 8000);
 };
 
 const productButtonsToAddToCart = (buttons) => {
