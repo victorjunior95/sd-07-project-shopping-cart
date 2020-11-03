@@ -4,7 +4,7 @@ const itemsSection = document.querySelector('.items');
 
 const ol = document.querySelector('.cart__items');
 
-let totalPrice = 0;
+// let totalPrice = 0;
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -101,6 +101,17 @@ async function consultProduct(supply) {
   clearLoadindMessage();
 }
 
+// referência: Felipe Nascimento - Turma 07
+async function totalCartPrice() {
+  let priceSum = 0;
+  const cartLiItems = Array.from(document.querySelectorAll('.cart__item'));
+  cartLiItems.forEach((item) => {
+    priceSingIndex = item.innerHTML.indexOf('$') + 1;
+    priceSum += parseFloat(item.innerHTML.slice(priceSingIndex));
+  });
+  document.querySelector('.total-price').innerText = `${priceSum}`;
+}
+
 function loadShoppingCart() {
   if (localStorage.getItem('items')) {
     const arrayItems = JSON.parse(localStorage.getItem('items'));
@@ -120,17 +131,6 @@ async function totalCartPrice(data) {
   spanPrice.innerText = `${totalPrice}`;
 }
 */
-
-// referência: Felipe Nascimento - Turma 07
-async function totalCartPrice() {
-  let priceSum = 0;
-  const cartLiItems = Array.from(document.querySelectorAll('.cart__item'));
-  cartLiItems.forEach((item) => {
-    priceSingIndex = item.innerHTML.indexOf('$') + 1;
-    priceSum += parseFloat(item.innerHTML.slice(priceSingIndex));
-  });
-  document.querySelector('.total-price').innerText = `${priceSum}`;
-}
 
 async function addProductToCart(id) {
   const endPoint = `https://api.mercadolibre.com/items/${id}`;
