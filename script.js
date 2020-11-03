@@ -112,7 +112,6 @@ function loadShoppingCart() {
 }
 
 function totalCartPrice(data) {
-  const sectionCart = document.querySelector('.cart');
   const spanPrice = document.querySelector('.total-price');
   const { price } = data;
   totalPrice += price;
