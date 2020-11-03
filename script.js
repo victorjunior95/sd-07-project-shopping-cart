@@ -50,22 +50,22 @@ function saveLocalStorage(li) {
   }
 }
 
-function loadLocalStorage() {
-  const arrayList = JSON.parse(localStorage.getItem('product'));
-  const cartItems = document.querySelector('.cart__items');
-  arrayList.forEach(textLi => {
-    console.log(cartItems);
-    const productLi = createCartItemElementFromStorage(textLi)
-    cartItems.appendChild(productLi);
-  });
-}
-
 function createCartItemElementFromStorage(textLi) {
   const li = document.createElement('li');
   li.className = 'cart_item';
   li.innerText = textLi;
   li.addEventListener('click', cartItemClickListener);
   return li;
+}
+
+function loadLocalStorage() {
+  const arrayList = JSON.parse(localStorage.getItem('product'));
+  const cartItems = document.querySelector('.cart__items');
+  arrayList.forEach((textLi) => {
+    console.log(cartItems);
+    const productLi = createCartItemElementFromStorage(textLi);
+    cartItems.appendChild(productLi);
+  });
 }
 
 async function addToCart(product) {
