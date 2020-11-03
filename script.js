@@ -37,7 +37,6 @@ const removeLoadingCart = () => {
   loading.remove();
 };
 
-
 const sumPrices = async () => {
   const itemsCart = document.querySelectorAll('.cart__item');
   let sum = 0;
@@ -52,11 +51,13 @@ const emptyCart = () => {
   buttonEmptyCart.addEventListener('click', function () {
     document.querySelector('.cart__items').innerHTML = '';
     sumPrices();
+    localStorage.removeItem('products');
   });
 };
 
 function cartItemClickListener(event) {
   event.target.remove();
+  saveLocalStorage();
   sumPrices();
 }
 
@@ -75,6 +76,7 @@ const fetchAddItemCart = async (sku) => {
   const object = await response.json();
   const ol = document.querySelector('.cart__items');
   ol.appendChild(createCartItemElement(object));
+  saveLocalStorage();
   sumPrices();
   removeLoadingCart();
 };
@@ -116,7 +118,31 @@ const fetchComputer = () => {
 // Conforme ajuda do colega Vitor Rodrigues.
 };
 
+const saveLocalStorage = () => {
+  const lis = document.querySelectorAll('.cart__item');
+  const array = [];
+  for (let i = 0; i < lis.length; i += 1) {
+   array.push(lis[i].innerText); 
+   }
+  localStorage.setItem('products', JSON.stringify(array));
+};
+
+const loadLocalStorage = () => {
+  const array = JSON.parse(localStorage.getItem('products'));
+  const ol = document.querySelector('.cart__items');
+  array.forEach((cartText) => {
+    const li = document.createElement('li');
+    li.className = 'cart__item';
+    li.innerText = cartText;
+    li.addEventListener('click', cartItemClickListener);
+    ol.appendChild(li);
+  });
+};
+// Feito pelo colega Rafael Guimarães.
+
 window.onload = function onload() {
   fetchComputer();
   emptyCart();
+  loadLocalStorage();
+  sumPrices();
 };
