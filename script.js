@@ -32,6 +32,14 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+const loadingScreen = (isloading) => {
+  if (isloading){
+    document.body.appendChild(createCustomElement('section', 'loading', 'loading...'));
+  } else {
+    document.body.removeChild(document.querySelector('.loading'));
+  }
+};
+
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
@@ -49,7 +57,6 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
   event.target.remove();
   saveLocal();
   totalPrice();
@@ -95,6 +102,7 @@ const addCart = () => {
 
 const fetchProductList = async () => {
   try {
+    loadingScreen(true);
     const listFetch = await fetch(endpoint);
     const response = await listFetch.json();
     response.results.forEach((item) => {
@@ -105,6 +113,7 @@ const fetchProductList = async () => {
   } catch (error) {
     showAlert(error);
   }
+  loadingScreen(false);
   addCart();
 };
 
