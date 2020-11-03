@@ -24,6 +24,7 @@ const sumOfItems = async () => {
   let totalSum = 0;
   cart.forEach((item) => {
     const itemValue = item.innerText.split('$');
+    console.log(itemValue);
     totalSum += parseFloat(itemValue[1]);
   });
   const divSumAllItems = document.querySelector('.total-price');
