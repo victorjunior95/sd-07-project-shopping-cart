@@ -64,6 +64,12 @@ const saveLocalStorage = () => {
   localStorage.setItem('products', JSON.stringify(array));
 };
 
+function cartItemClickListener(event) {
+  event.target.remove();
+  saveLocalStorage();
+  sumPrices();
+}
+
 const loadLocalStorage = () => {
   const array = JSON.parse(localStorage.getItem('products'));
   const ol = document.querySelector('.cart__items');
@@ -76,12 +82,6 @@ const loadLocalStorage = () => {
   });
 };
 // Feito pelo colega Rafael Guimarães.
-
-function cartItemClickListener(event) {
-  event.target.remove();
-  saveLocalStorage();
-  sumPrices();
-}
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
@@ -102,6 +102,8 @@ const fetchAddItemCart = async (sku) => {
   sumPrices();
   removeLoadingCart();
 };
+
+// 
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
