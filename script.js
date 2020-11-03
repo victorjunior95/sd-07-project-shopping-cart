@@ -33,7 +33,7 @@ function createCustomElement(element, className, innerText) {
 }
 
 const loadingScreen = (isloading) => {
-  if (isloading){
+  if (isloading) {
     document.body.appendChild(createCustomElement('section', 'loading', 'loading...'));
   } else {
     document.body.removeChild(document.querySelector('.loading'));
