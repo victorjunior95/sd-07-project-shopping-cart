@@ -44,7 +44,6 @@ function saveLocalStorage(li) {
     const arrayItems = JSON.parse(localStorage.getItem('product'));
     arrayItems.push(li.innerText);
     localStorage.setItem('product', JSON.stringify(arrayItems));
-    console.log(test);
   } else {
     const arrayProduct = [li.innerText];
     localStorage.setItem('product', JSON.stringify(arrayProduct));
@@ -61,11 +60,13 @@ function createCartItemElementFromStorage(textLi) {
 
 function loadLocalStorage() {
   const arrayList = JSON.parse(localStorage.getItem('product'));
-  const cartItems = document.querySelector('.cart__items');
-  arrayList.forEach((textLi) => {
-    const productLi = createCartItemElementFromStorage(textLi);
-    cartItems.appendChild(productLi);
-  });
+  if (arrayList.length > 0) {
+    const cartItems = document.querySelector('.cart__items');
+    arrayList.forEach((textLi) => {
+      const productLi = createCartItemElementFromStorage(textLi);
+      cartItems.appendChild(productLi);
+    });
+  }
 }
 
 async function addToCart(product) {
