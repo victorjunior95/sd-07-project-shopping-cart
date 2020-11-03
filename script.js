@@ -141,6 +141,7 @@ itemsSection.addEventListener('click', function (event) {
 document.querySelector('.empty-cart').addEventListener('click', function () {
   ol.innerText = '';
   clearLocalStorage();
+  totalPrice = 0;
 });
 
 window.onload = function onload() {
