@@ -1,5 +1,6 @@
 window.onload = function onload() { };
 
+// vou entregar atrasado mas vai ser 100%
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
