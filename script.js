@@ -6,7 +6,7 @@ async function cartTotalPrice() {
     const sumPrice = Number(price);
     totalPrice += sumPrice;
   });
-  priceText.innerHTML = `${totalPrice}`;
+  priceText.innerHTML = `${totalPrice.toFixed(2)}`;
 }
 
 // ------------------------------------------------------
@@ -116,12 +116,14 @@ function removeItemFromCart() {
 }
 
 async function loadCartFromStorage() {
-  try {
-    const storage = await Object.entries(localStorage);
-    return storage.forEach(item => addToCart(item[0]));
-  } catch (error) {
-    return error;
-  }
+  // try {
+  //   const storage = await Object.entries(localStorage);
+  //   return storage.forEach(item => addToCart(item[0]));
+  // } catch (error) {
+  //   return error;
+  // }
+  const storage = Object.entries(localStorage);
+  return storage.forEach(item => addToCart(item[0]));
 }
 
 function clearCart() {
