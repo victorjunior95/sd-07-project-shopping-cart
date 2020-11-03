@@ -6,17 +6,20 @@ function createProductImageElement(imageSource) {
 }
 
 function loadCartPrice() {
-  const sumCartItems = JSON.parse(localStorage.getItem('sumCartItems'));
-  let sum = 0;
-  for (let i = 0; i < sumCartItems.length; i += 1) sum += sumCartItems[i];
-  return sum;
+  return new Promise((resolve) => {
+    const sumCartItems = JSON.parse(localStorage.getItem('sumCartItems'));
+    let sum = 0;
+    for (let i = 0; i < sumCartItems.length; i += 1) sum += sumCartItems[i];
+    resolve(sum);
+  }
+  );
 }
 
-function createPriceElement() {
+async function createPriceElement() {
   const totalPrice = document.querySelector('.total-price');
   const span = document.createElement('span');
   totalPrice.innerHTML = '';
-  span.innerHTML = `Total: $${loadCartPrice()}`;
+  span.innerHTML = `Total: $${await loadCartPrice()}`;
   totalPrice.appendChild(span);
 }
 
