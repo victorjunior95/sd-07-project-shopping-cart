@@ -5,7 +5,7 @@ function createProductImageElement(imageSource) {
   return img;
 }
 function showLoadingDiv() {
-  const sectionContainer = document.querySelector('body')
+  const sectionContainer = document.querySelector('body');
   const loadingDiv = document.createElement('div');
   loadingDiv.classList.add('loading');
   loadingDiv.innerText = 'loading...';
