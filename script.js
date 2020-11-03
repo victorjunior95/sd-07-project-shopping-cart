@@ -10,12 +10,11 @@ const saveLocal = () => {
 };
 
 const totalPrice = async () => {
-  const price = document.querySelector('.total-price');
   let sum = 0;
   document.querySelectorAll('.cart__item').forEach((item) => {
     sum += parseFloat(item.innerText.split('$')[1]);
   });
-  price.innerText = sum;
+  document.querySelector('.total-price').innerText = sum;
 };
 
 function createProductImageElement(imageSource) {
