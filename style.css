@@ -6,7 +6,9 @@
   margin-bottom: 10px;
   width: 100%;
 }
-
+.loading {
+  font-size: 30px;
+}
 .top-bar .input-name-group {
   align-items: flex-start;
   display: flex;
