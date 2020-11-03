@@ -22,19 +22,20 @@ const removeLoading = () => {
   const loading = document.querySelector('.loading');
   // items.removeChild(loading);
   loading.remove();
-}
+};
 
 const createLoadingCart = () => {
   const cartItems = document.querySelector('.cart__items');
   cartItems.appendChild(createCustomElement('li', 'loading', 'loading...'));
 };
+// Conforme ajuda do colega Rafael Guimarães.
 
 const removeLoadingCart = () => {
   // const items = document.querySelector('.items');
   const loading = document.querySelector('.loading');
   // items.removeChild(loading);
   loading.remove();
-}
+};
 
 
 const sumPrices = async () => {
