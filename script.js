@@ -106,7 +106,7 @@ function convertId(id) {
   });
 }
 
-// Função complementar a callButton
+// Função complementar a função callButton
 function getId(event) { // 2 - segunda funcao
   const id = getSkuFromProductItem(event.target.parentNode);
   convertId(id);
