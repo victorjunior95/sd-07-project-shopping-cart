@@ -17,7 +17,7 @@ const attPrice = () => {
       number.forEach((item1) => {
         cont += item1;
       });
-      cost.innerHTML = cont.toFixed(2);
+      cost.innerHTML = cont;
       save();
     });
   });
@@ -29,7 +29,7 @@ const sumPrice = (price) => {
     number.forEach((item) => {
       cont += item;
     });
-    const result = cont.toFixed(2);
+    const result = cont;
     return result;
   }
   return 0;
