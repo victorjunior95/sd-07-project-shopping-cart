@@ -13,14 +13,14 @@ function createCustomElement(element, className, innerText) {
 }
 
 const createLoading = () => {
-  const span = document.querySelector('.items');
-  span.appendChild(createCustomElement('span', 'loading', 'loading...'));
+  const loading = document.querySelector('.items');
+  loading.appendChild(createCustomElement('span', 'loading', 'loading...'));
 };
 
-const sumPrices = () => {
-  const allItemCart = document.querySelectorAll('.cart__item');
+const sumPrices = async () => {
+  const itemsCart = document.querySelectorAll('.cart__item');
   let sum = 0;
-  allItemCart.forEach((li) => {
+  await itemsCart.forEach((li) => {
     sum += parseFloat(li.innerText.split('$')[1]);
   });
   document.querySelector('.total-price').innerText = sum;
@@ -34,8 +34,8 @@ const emptyCart = () => {
   });
 };
 
-async function cartItemClickListener(event) {
-  await event.target.remove();
+function cartItemClickListener(event) {
+  event.target.remove();
   sumPrices();
 }
 
@@ -96,7 +96,3 @@ window.onload = function onload() {
   fetchComputer();
   emptyCart();
 };
-
-// const handleComputers = (computers) => {
-//   console.log(computers);
-// };
