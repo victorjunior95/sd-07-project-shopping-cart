@@ -14,26 +14,6 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function createProductItemElement({ sku, name, image }) {
-  const section = document.createElement('section');
-  section.className = 'item';
-  section.appendChild(createCustomElement('span', 'item__sku', sku));
-  section.appendChild(createCustomElement('span', 'item__title', name));
-  section.appendChild(createProductImageElement(image));
-  const button = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
-  button.addEventListener('click', ItemclickListener);
-  section.appendChild(button);
-  return section;
-}
-
-function renderProducts(arrayProducts) {
-  arrayProducts.forEach((product) => {
-    const section = document.querySelector('.items');
-    const itemProduct = createProductItemElement(product);
-    section.appendChild(itemProduct);
-  });
-}
-
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
@@ -64,6 +44,18 @@ function ItemclickListener(event) {
       const item = createCartItemElement(object);
       includeItemcart(item);
     });
+}
+
+function createProductItemElement({ sku, name, image }) {
+  const section = document.createElement('section');
+  section.className = 'item';
+  section.appendChild(createCustomElement('span', 'item__sku', sku));
+  section.appendChild(createCustomElement('span', 'item__title', name));
+  section.appendChild(createProductImageElement(image));
+  const button = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
+  button.addEventListener('click', ItemclickListener);
+  section.appendChild(button);
+  return section;
 }
 
 // Aula 9.4 requisito 1
