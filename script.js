@@ -121,10 +121,10 @@ const getLocalStorage = () => {
   totalPrice();
 }
 
-// Projeto com ajuda de Lugh Walle e Emanuelle Brasil.
-
 window.onload = () => {
   itemsApi('computador');
   buttonRemoveCart();
   getLocalStorage();
 };
+
+// Projeto com ajuda de Lugh Walle e Emanuelle Brasil.
