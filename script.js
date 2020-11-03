@@ -1,6 +1,4 @@
-window.onload = function onload() {
-  loadProducts();
-};
+window.onload = function onload() {};
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -54,4 +52,8 @@ const loadProducts = () => {
       items.appendChild(item);
     });
   });
+};
+
+window.onload = function onload() {
+  loadProducts();
 };
