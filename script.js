@@ -48,7 +48,7 @@ const fetchAddItemCart = async (id) => {
   const object = await response.json();
   const ol = document.querySelector('.cart__items');
   ol.appendChild(createCartItemElement(object));
-  sumPrices(); 
+  sumPrices();
 };
 
 function getSkuFromProductItem(item) {
