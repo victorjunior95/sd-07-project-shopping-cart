@@ -1,5 +1,3 @@
-window.onload = function onload() {};
-
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -18,7 +16,7 @@ function cartItemClickListener(event) {
   // coloque seu código aqui
 }
 
-function createCartItemElement({ sku, name, salePrice }) {
+function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
@@ -30,7 +28,7 @@ const fetchAddItemCart = async (id) => {
   const endpoint = `https://api.mercadolibre.com/items/${id}`;
   const response = await fetch(endpoint);
   const object = await response.json();
-  const ol = document.querySelector('.cart_items');
+  const ol = document.querySelector('.cart__items');
   ol.appendChild(createCartItemElement(object));
 };
 
