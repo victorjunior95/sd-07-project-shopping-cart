@@ -39,17 +39,33 @@ function createCartItemElement(object) {
 }
 
 function saveLocalStorage(li) {
-  const ol = document.querySelector('.cart__items');
   if (localStorage.getItem('product')) {
-    const test = JSON.parse(localStorage.getItem('product'));
-    test.push(li.innerText);
-    localStorage.setItem('product', JSON.stringify(test));
+    const arrayItems = JSON.parse(localStorage.getItem('product'));
+    arrayItems.push(li.innerText);
+    localStorage.setItem('product', JSON.stringify(arrayItems));
     console.log(test);
-
-  }else {
+  } else {
     const arrayProduct = [li.innerText];
     localStorage.setItem('product', JSON.stringify(arrayProduct));
   }
+}
+
+function loadLocalStorage() {
+  const arrayList = JSON.parse(localStorage.getItem('product'));
+  const cartItems = document.querySelector('.cart__items');
+  arrayList.forEach(textLi => {
+    console.log(cartItems);
+    const productLi = createCartItemElementFromStorage(textLi)
+    cartItems.appendChild(productLi);
+  });
+}
+
+function createCartItemElementFromStorage(textLi) {
+  const li = document.createElement('li');
+  li.className = 'cart_item';
+  li.innerText = textLi;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
 }
 
 async function addToCart(product) {
@@ -103,4 +119,6 @@ async function fetchProdutcs() {
 
 window.onload = function onload() {
   fetchProdutcs();
+  loadLocalStorage();
+
 };
