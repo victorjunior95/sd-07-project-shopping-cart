@@ -58,7 +58,6 @@ const addProductsOnCart = (id) => {
     .then((item) => {
       document.querySelector('.cart__items').appendChild(createCartItemElement(item));
     });
-  addLocalStorage();
 };
 
 function getSkuFromProductItem(item) {
@@ -76,6 +75,7 @@ function createProductItemElement({ sku, name, image }) {
   button.addEventListener('click', ((event) => {
     const parentElement = event.target.parentElement;
     addProductsOnCart(getSkuFromProductItem(parentElement));
+    addLocalStorage();
   }));
   section.appendChild(button);
   return section;
