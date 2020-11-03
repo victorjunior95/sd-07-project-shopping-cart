@@ -120,5 +120,4 @@ async function fetchProdutcs() {
 window.onload = function onload() {
   fetchProdutcs();
   loadLocalStorage();
-
 };
