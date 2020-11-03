@@ -17,6 +17,26 @@ const createLoading = () => {
   loading.appendChild(createCustomElement('span', 'loading', 'loading...'));
 };
 
+const removeLoading = () => {
+  // const items = document.querySelector('.items');
+  const loading = document.querySelector('.loading');
+  // items.removeChild(loading);
+  loading.remove();
+}
+
+const createLoadingCart = () => {
+  const cartItems = document.querySelector('.cart__items');
+  cartItems.appendChild(createCustomElement('li', 'loading', 'loading...'));
+};
+
+const removeLoadingCart = () => {
+  // const items = document.querySelector('.items');
+  const loading = document.querySelector('.loading');
+  // items.removeChild(loading);
+  loading.remove();
+}
+
+
 const sumPrices = async () => {
   const itemsCart = document.querySelectorAll('.cart__item');
   let sum = 0;
@@ -49,11 +69,13 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 // Conforme orientado pelo colega Tiago Esdra.
 const fetchAddItemCart = async (sku) => {
   const endpoint = `https://api.mercadolibre.com/items/${sku}`;
+  createLoadingCart();
   const response = await fetch(endpoint);
   const object = await response.json();
   const ol = document.querySelector('.cart__items');
   ol.appendChild(createCartItemElement(object));
   sumPrices();
+  removeLoadingCart();
 };
 
 function getSkuFromProductItem(item) {
@@ -88,6 +110,7 @@ const fetchComputer = () => {
         const item = createProductItemElement(product);
         items.appendChild(item);
       });
+      removeLoading();
     });
 // Conforme ajuda do colega Vitor Rodrigues.
 };
