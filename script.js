@@ -12,6 +12,13 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+const addLocalStorage = () => {
+  const object = [];
+  const li = document.querySelectorAll('.cart__item');
+  li.forEach(courrentItem => object.push(courrentItem.innerText));
+  localStorage.setItem('shopping cart', JSON.stringify(object));
+};
+
 function cartItemClickListener(event) {
   event.target.remove();
   addLocalStorage();
@@ -87,13 +94,6 @@ const loadProducts = (search) => {
       });
       removeLoading();
     });
-};
-
-const addLocalStorage = () => {
-  const object = [];
-  const li = document.querySelectorAll('.cart__item');
-  li.forEach(courrentItem => object.push(courrentItem.innerText));
-  localStorage.setItem('shopping cart', JSON.stringify(object));
 };
 
 const loadLocalStorage = () => {
