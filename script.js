@@ -92,7 +92,7 @@ function addLocalStorage() {
   const li = document.querySelectorAll('.cart__item');
   li.forEach(courrentItem => object.push(courrentItem.innerText));
   localStorage.setItem('shopping cart', JSON.stringify(object));
-};
+}
 
 const loadLocalStorage = () => {
   const ol = document.querySelector('.cart__items');
