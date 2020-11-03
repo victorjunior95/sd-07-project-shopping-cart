@@ -113,15 +113,10 @@ function loadShoppingCart() {
 
 function totalCartPrice(data) {
   const sectionCart = document.querySelector('.cart');
-  const spanPrice = document.createElement('span');
+  const spanPrice = document.querySelector('.total-price');
   const { price } = data;
-
-  spanPrice.className = 'total-price';
   totalPrice += price;
-  spanPrice.innerText = '';
-  spanPrice.innerText = `Preço total R$${totalPrice}`;
-
-  addProducts(spanPrice, sectionCart);
+  spanPrice.innerText += totalPrice;
 }
 
 async function addProductToCart(id) {
