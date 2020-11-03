@@ -9,7 +9,7 @@ async function cartTotalPrice() {
   priceText.innerHTML = `${totalPrice}`;
 }
 
-// ------------------------------------------------------
+// ----------------------------------------------------
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
