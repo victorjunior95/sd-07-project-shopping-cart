@@ -9,6 +9,11 @@ const totalPrice = () => {
   total.innerHTML = `${sumPrices}`;
 };
 
+const addLocalStorage = () => {
+  const cartItems = document.querySelector('ol.cart__items');
+  localStorage.setItem('Cart', cartItems.innerHTML);
+};
+
 const createProductImageElement = (imageSource) => {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -40,12 +45,14 @@ const getSkuFromProductItem = item => item.querySelector('span.item__sku').inner
 const cartItemClickListener = (event) => {
   event.path[1].removeChild(event.path[0]);
   totalPrice();
+  addLocalStorage();
 };
 
 const removeCart = () => {
   const cartList = document.getElementsByClassName('cart__items')[0];
   cartList.innerHTML = '';
   totalPrice();
+  addLocalStorage();
 };
 
 const buttonRemoveCart = () => {
@@ -77,6 +84,7 @@ const buttonAddApi = (productID) => {
           const addProductCart = document.getElementsByClassName('cart__items')[0];
           addProductCart.appendChild(createCartItemElement(data));
           totalPrice();
+          addLocalStorage();
         });
     });
 };
@@ -104,9 +112,19 @@ const itemsApi = (search) => {
     });
 };
 
+const getLocalStorage = () => {
+  const cartItems = document.querySelector('ol.cart__items');
+  cartItems.innerHTML = localStorage.getItem('Cart');
+  cartItems.childNodes.forEach((item) => {
+    item.addEventListener('click', cartItemClickListener);
+  });
+  totalPrice();
+}
+
 // Projeto com ajuda de Lugh Walle e Emanuelle Brasil.
 
 window.onload = () => {
   itemsApi('computador');
   buttonRemoveCart();
+  getLocalStorage();
 };
