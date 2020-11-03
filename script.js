@@ -119,8 +119,8 @@ const addCart = (buttons) => {
 };
 
 const removeLoading = () => {
-  const textLoding = document.getElementById('loading');
-  textLoding.style.display = 'none';
+  const textLoding = document.querySelector('.loading');
+  textLoding.parentNode.removeChild(textLoding);
 };
 
 const listnerButton = () => {
