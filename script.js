@@ -37,11 +37,23 @@ function calculateSumOfValues(newList) {
   });
 }
 
-async function sumCart() {
+async function totalCart() {
   const totalCartElement = document.querySelector('.total-price');
   const arrayStorage = JSON.parse(localStorage.getItem('cart'));
   const sum = await calculateSumOfValues(arrayStorage);
   totalCartElement.innerText = sum;
+}
+
+function addListenerToEmptyButton() {
+  const emptyButton = document.querySelector('.empty-cart');
+  emptyButton.addEventListener('click', () => {
+    const CartList = document.querySelector('.cart__items');
+    const arrayAux = [];
+    CartList.innerHTML = '';
+    localStorage.clear();
+    localStorage.setItem('cart', JSON.stringify(arrayAux));
+    totalCart();
+  });
 }
 
 function addCartItemToLStorage({ sku, name, salePrice }) {
@@ -61,7 +73,7 @@ function cartItemClickListener(event) {
   localStorage.setItem('cart', JSON.stringify(arrayStorage));
   const ol = document.querySelector('.cart__items');
   ol.removeChild(event.target);
-  sumCart();
+  totalCart();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -78,6 +90,7 @@ function loadAllElementsInCart(arrayOfCartItems) {
   arrayOfCartItems.forEach((item) => {
     const li = createCartItemElement(item);
     cartList.appendChild(li);
+    totalCart();
   });
 }
 
@@ -103,7 +116,7 @@ const requestProductToCart = (event) => {
     const itemCart = createCartItemElement({ sku, name, salePrice });
     ordenedList.appendChild(itemCart);
     addCartItemToLStorage({ sku, name, salePrice });
-    sumCart();
+    totalCart();
   }));
 };
 
@@ -124,4 +137,5 @@ const loadProducts = () => {
 window.onload = function onload() {
   loadProducts();
   reloadCartFromLStorage();
+  addListenerToEmptyButton();
 };
