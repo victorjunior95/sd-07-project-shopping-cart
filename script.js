@@ -21,13 +21,13 @@ function cartItemClickListener(event) {
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
-  let cartItemsStorage = JSON.parse(localStorage.getItem("cartItems"));
+  const cartItemsStorage = JSON.parse(localStorage.getItem('cartItems'));
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   document.querySelector('ol').appendChild(li);
-  cartItemsStorage.push({ sku: sku, name: name, salePrice: salePrice });
+  cartItemsStorage.push({ sku, name, salePrice });
   console.log(cartItemsStorage);
   localStorage.setItem('cartItems', JSON.stringify(cartItemsStorage));
 }
@@ -81,13 +81,12 @@ const fetchApiShopping = (product) => {
 
 window.onload = function onload() {
   if (!localStorage.getItem('cartItems')) {
-    let cartItemsStorage = [];
+    const cartItemsStorage = [];
     localStorage.setItem('cartItems', JSON.stringify(cartItemsStorage));
   } else {
-    console.log('Storage já existe!')
+    console.log('Storage já existe!');
   }
 
   fetchApiShopping('computador');
   clearCartItems();
-  //verifyCartItemsStorage();
 };
