@@ -1,4 +1,5 @@
-
+/* eslint no-unused-vars: ["error", { "vars": "local" }]*/
+/* global some_unused_var */
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -42,7 +43,6 @@ function createCustomElement(element, className, innerText) {
   e.innerText = innerText;
   return e;
 }
-/* eslint no-unused-vars: "error"*/
 
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
@@ -56,7 +56,6 @@ function createProductItemElement({ sku, name, image }) {
 
   return section;
 }
-/* eslint no-unused-vars: "error"*/
 
 function gettingSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
@@ -68,7 +67,6 @@ function cartItemClickListener(event) {
   TotalValueOfCartUpdated();
   localStorage.setItem('cartItems', cartItemsOl.innerHTML);
 }
-/* eslint no-unused-vars: "error"*/
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
@@ -79,8 +77,6 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 async function CartItem(product) {
   // showLoadingDiv();
-/* eslint no-unused-vars: "error"*/
-
   const productSku = gettingSkuFromProductItem(product);
   const url = `https://api.mercadolibre.com/items/${productSku}`;
   const response = await fetch(url);
