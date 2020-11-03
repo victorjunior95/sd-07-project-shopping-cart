@@ -10,7 +10,7 @@ function loadCartPrice() {
     const sumCartItems = JSON.parse(localStorage.getItem('sumCartItems'));
     let sum = 0;
     for (let i = 0; i < sumCartItems.length; i += 1) sum += sumCartItems[i];
-    resolve(sum);
+    resolve(`Total: $${sum}`);
   },
   );
 }
@@ -19,7 +19,7 @@ async function createPriceElement() {
   const totalPrice = document.querySelector('.total-price');
   const span = document.createElement('span');
   totalPrice.innerHTML = '';
-  span.innerHTML = `Total: $${await loadCartPrice()}`;
+  span.innerHTML = await loadCartPrice();
   totalPrice.appendChild(span);
 }
 
