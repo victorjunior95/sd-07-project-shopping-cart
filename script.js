@@ -47,6 +47,23 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+const fetchWithProductID = async (productID) => {
+  const endPoint = `https://api.mercadolibre.com/items/${productID}`;
+  try {
+    const response = await fetch(endPoint);
+    const object = await response.json();
+    console.log(object);
+    if (object.error) {
+      throw new Error(object.error);
+    } else {
+      return object.results;
+    }
+  } catch (error) {
+    return alert(error);
+  }
+};
+
+
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
@@ -74,6 +91,7 @@ const loadProducts = () => {
 
 window.onload = async function onload() {
   loadProducts();
+  fetchWithProductID('MLB1532299476');
   const arrayOfProducts = await findItemAndReturnArrayObject();
   console.log(arrayOfProducts);
 };
