@@ -108,6 +108,7 @@ function loadShoppingCart() {
       const itemList = createCartItemElement(item);
       addProducts(itemList, ol);
     });
+    totalCartPrice();
   }
 }
 
