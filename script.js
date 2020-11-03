@@ -9,6 +9,8 @@ function clearCartItems() {
   document.querySelector('.empty-cart')
     .addEventListener('click', () => {
       document.querySelector('.cart__items').innerHTML = '';
+      const cartItemsStorage = [];
+      localStorage.setItem('cartItems', JSON.stringify(cartItemsStorage));
     });
 }
 
@@ -30,6 +32,17 @@ function createCartItemElement({ sku, name, salePrice }) {
   cartItemsStorage.push({ sku, name, salePrice });
   console.log(cartItemsStorage);
   localStorage.setItem('cartItems', JSON.stringify(cartItemsStorage));
+}
+
+function loadCartFromStorage() {
+  const itemsStorage = JSON.parse(localStorage.getItem('cartItems'));
+  for (let i = 0; i < itemsStorage.length; i += 1) {
+    const li = document.createElement('li');
+    li.className = 'cart__item';
+    li.innerText = `SKU: ${itemsStorage[i].sku} | NAME: ${itemsStorage[i].name} | PRICE: $${itemsStorage[i].salePrice}`;
+    li.addEventListener('click', cartItemClickListener);
+    document.querySelector('ol').appendChild(li);
+  }
 }
 
 function createCustomElement(element, className, innerText) {
@@ -85,6 +98,7 @@ window.onload = function onload() {
     localStorage.setItem('cartItems', JSON.stringify(cartItemsStorage));
   } else {
     console.log('Storage já existe!');
+    loadCartFromStorage();
   }
 
   fetchApiShopping('computador');
