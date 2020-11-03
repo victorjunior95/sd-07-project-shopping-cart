@@ -5,12 +5,31 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+function loadCartPrice() {
+  const sumCartItems = JSON.parse(localStorage.getItem('sumCartItems'));
+  let sum = 0;
+  for (let i = 0; i < sumCartItems.length; i += 1) sum += sumCartItems[i];
+  return sum;
+}
+
+function createPriceElement() {
+  const totalPrice = document.querySelector('.total-price');
+  const span = document.createElement('span');
+  totalPrice.innerHTML = '';
+  span.innerHTML = `Total: $${loadCartPrice()}`;
+  totalPrice.appendChild(span);
+}
+
 function clearCartItems() {
   document.querySelector('.empty-cart')
     .addEventListener('click', () => {
       document.querySelector('.cart__items').innerHTML = '';
       const cartItemsStorage = [];
+      const sumCartItems = [];
       localStorage.setItem('cartItems', JSON.stringify(cartItemsStorage));
+      localStorage.setItem('sumCartItems', JSON.stringify(sumCartItems));
+      loadCartPrice();
+      createPriceElement();
     });
 }
 
@@ -24,14 +43,17 @@ function cartItemClickListener(event) {
 
 function createCartItemElement({ sku, name, salePrice }) {
   const cartItemsStorage = JSON.parse(localStorage.getItem('cartItems'));
+  const sumCartItems = JSON.parse(localStorage.getItem('sumCartItems'));
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   document.querySelector('ol').appendChild(li);
   cartItemsStorage.push({ sku, name, salePrice });
-  console.log(cartItemsStorage);
+  sumCartItems.push(salePrice);
   localStorage.setItem('cartItems', JSON.stringify(cartItemsStorage));
+  localStorage.setItem('sumCartItems', JSON.stringify(sumCartItems));
+  createPriceElement();
 }
 
 function loadCartFromStorage() {
@@ -95,12 +117,14 @@ const fetchApiShopping = (product) => {
 window.onload = function onload() {
   if (!localStorage.getItem('cartItems')) {
     const cartItemsStorage = [];
+    const sumCartItems = [];
     localStorage.setItem('cartItems', JSON.stringify(cartItemsStorage));
+    localStorage.setItem('sumCartItems', JSON.stringify(sumCartItems));
   } else {
     console.log('Storage já existe!');
     loadCartFromStorage();
   }
-
   fetchApiShopping('computador');
   clearCartItems();
+  createPriceElement();
 };
