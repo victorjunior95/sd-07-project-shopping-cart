@@ -51,8 +51,7 @@ const receiveTotalPrice = async (newprice) => {
   const totalEl = document.querySelector('.total-price');
 
   const response = await newprice;
-  const total = parseFloat(parseFloat(totalEl.innerText) + response)
-    .toFixed(0);
+  const total = Math.round(parseFloat(totalEl.innerText) + (response * 100)) / 100;
   totalEl.innerText = total;
 };
 
