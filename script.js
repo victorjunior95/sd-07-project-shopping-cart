@@ -1,4 +1,3 @@
-/*eslint no-unused-vars: "error"*/
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -43,6 +42,7 @@ function createCustomElement(element, className, innerText) {
   e.innerText = innerText;
   return e;
 }
+/*eslint no-unused-vars: "error"*/
 
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
@@ -60,6 +60,7 @@ function createProductItemElement({ sku, name, image }) {
 function gettingSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
+/*eslint no-unused-vars: "error"*/
 
 function cartItemClickListener(event) {
   event.target.remove();
@@ -67,6 +68,7 @@ function cartItemClickListener(event) {
   TotalValueOfCartUpdated();
   localStorage.setItem('cartItems', cartItemsOl.innerHTML);
 }
+/*eslint no-unused-vars: "error"*/
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
@@ -145,7 +147,6 @@ function clearCart() {
 }
 
 function listeningClearCart() {
-  // Empty cart
   const emptyCartButton = document.querySelector('.empty-cart');
   emptyCartButton.addEventListener('click', clearCart);
 }
