@@ -3,6 +3,7 @@ const buttonClearList = document.querySelector('.empty-cart');
 buttonClearList.addEventListener('click', function () {
   const ol = document.querySelector('.cart__items');
   ol.innerText = '';
+  localStorage.clear();
 });
 
 
@@ -62,7 +63,6 @@ function loadLocalStorage() {
   const arrayList = JSON.parse(localStorage.getItem('product'));
   const cartItems = document.querySelector('.cart__items');
   arrayList.forEach((textLi) => {
-    console.log(cartItems);
     const productLi = createCartItemElementFromStorage(textLi);
     cartItems.appendChild(productLi);
   });
