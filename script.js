@@ -110,7 +110,17 @@ function loadCartItems() {
   if (cartItems) listOl.innerHTML = cartItems;
 }
 
+function emptyCartItems() {
+  const buttonEmptyCartItems = document.querySelector('.empty-cart');
+  buttonEmptyCartItems.addEventListener('click', function () {
+    document.querySelector('.cart__items').innerHTML = '';
+    localStorage.clear();
+    prices();
+  });
+}
+
 window.onload = function onload() {
   loadProducts();
   loadCartItems();
+  emptyCartItems();
 };
