@@ -24,8 +24,8 @@ function createCustomElement(element, className, innerText) {
 const storageList = () => {
   localStorage.clear();
   const cartItems = document.querySelectorAll('.cart__item');
-  cartItems.forEach((element, index) => {
-    localStorage.setItem(index, element.outerHTML);
+  cartItems.forEach((element, indexer) => {
+    localStorage.setItem(indexer, element.outerHTML);
   });
 };
 const verifiedLoading = (loading) => {
