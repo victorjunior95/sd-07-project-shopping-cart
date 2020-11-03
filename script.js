@@ -12,6 +12,15 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+const sumPrices = () => {
+  const allItemCart = document.querySelectorAll('.cart__item');
+  let sum = 0;
+  allItemCart.forEach((li) => {
+    sum += parseFloat(li.innerText.split('$')[1]);
+  });
+  document.querySelector('.total-price').innerText = sum;
+};
+
 function cartItemClickListener(event) {
   event.target.remove();
 }
@@ -23,13 +32,14 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
-
+// Conforme orientado pelo colega Tiago Esdra.
 const fetchAddItemCart = async (id) => {
   const endpoint = `https://api.mercadolibre.com/items/${id}`;
   const response = await fetch(endpoint);
   const object = await response.json();
   const ol = document.querySelector('.cart__items');
   ol.appendChild(createCartItemElement(object));
+  sumPrices();
 };
 
 function getSkuFromProductItem(item) {
