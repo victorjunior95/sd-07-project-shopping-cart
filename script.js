@@ -73,13 +73,15 @@ function cartItemClickListener(event) {
 const loadLocalStorage = () => {
   const array = JSON.parse(localStorage.getItem('products'));
   const ol = document.querySelector('.cart__items');
-  array.forEach((cartText) => {
-    const li = document.createElement('li');
-    li.className = 'cart__item';
-    li.innerText = cartText;
-    li.addEventListener('click', cartItemClickListener);
-    ol.appendChild(li);
-  });
+  if (array) {
+    array.forEach((cartText) => {
+      const li = document.createElement('li');
+      li.className = 'cart__item';
+      li.innerText = cartText;
+      li.addEventListener('click', cartItemClickListener);
+      ol.appendChild(li);
+    });
+  };
 };
 // Feito pelo colega Rafael Guimarães.
 
