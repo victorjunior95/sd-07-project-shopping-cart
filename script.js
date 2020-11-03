@@ -115,7 +115,7 @@ function totalCartPrice(data) {
   const spanPrice = document.querySelector('.total-price');
   const { price } = data;
   totalPrice += price;
-  spanPrice.innerText += totalPrice;
+  spanPrice.innerText = totalPrice;
 }
 
 async function addProductToCart(id) {
