@@ -55,6 +55,28 @@ const emptyCart = () => {
   });
 };
 
+const saveLocalStorage = () => {
+  const lis = document.querySelectorAll('.cart__item');
+  const array = [];
+  for (let i = 0; i < lis.length; i += 1) {
+    array.push(lis[i].innerText);
+  }
+  localStorage.setItem('products', JSON.stringify(array));
+};
+
+const loadLocalStorage = () => {
+  const array = JSON.parse(localStorage.getItem('products'));
+  const ol = document.querySelector('.cart__items');
+  array.forEach((cartText) => {
+    const li = document.createElement('li');
+    li.className = 'cart__item';
+    li.innerText = cartText;
+    li.addEventListener('click', cartItemClickListener);
+    ol.appendChild(li);
+  });
+};
+// Feito pelo colega Rafael Guimarães.
+
 function cartItemClickListener(event) {
   event.target.remove();
   saveLocalStorage();
@@ -117,28 +139,6 @@ const fetchComputer = () => {
     });
 // Conforme ajuda do colega Vitor Rodrigues.
 };
-
-const saveLocalStorage = () => {
-  const lis = document.querySelectorAll('.cart__item');
-  const array = [];
-  for (let i = 0; i < lis.length; i += 1) {
-   array.push(lis[i].innerText); 
-   }
-  localStorage.setItem('products', JSON.stringify(array));
-};
-
-const loadLocalStorage = () => {
-  const array = JSON.parse(localStorage.getItem('products'));
-  const ol = document.querySelector('.cart__items');
-  array.forEach((cartText) => {
-    const li = document.createElement('li');
-    li.className = 'cart__item';
-    li.innerText = cartText;
-    li.addEventListener('click', cartItemClickListener);
-    ol.appendChild(li);
-  });
-};
-// Feito pelo colega Rafael Guimarães.
 
 window.onload = function onload() {
   fetchComputer();
