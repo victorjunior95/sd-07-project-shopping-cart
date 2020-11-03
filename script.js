@@ -81,7 +81,7 @@ const loadLocalStorage = () => {
       li.addEventListener('click', cartItemClickListener);
       ol.appendChild(li);
     });
-  };
+  }
 };
 // Feito pelo colega Rafael Guimarães.
 
