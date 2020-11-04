@@ -131,11 +131,9 @@ const fetchApiShopping = (product) => {
               name: result.title,
               image: result.thumbnail }),
           ))
-          
         )
       ));
       });
-  
 };
 
 window.onload = function onload() {
