@@ -9,7 +9,7 @@ function createProductImageElement(imageSource) {
 
 function loadCartPrice() {
   return new Promise((resolve) => {
-    resolve(`Total: $${Math.abs(cartSum.toFixed(2))}`);
+    resolve(Math.abs(cartSum.toFixed(2)));
   },
   );
 }
