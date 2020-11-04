@@ -96,7 +96,7 @@ function createCustomElement(element, className, innerText) {
       .then(async (responseItem) => {
         secCartItems.removeChild(loading);
         const { id, title, price } = await responseItem.json();
-        createCartItemElement({ sku: id, name: title, salePrice: price })
+        createCartItemElement({ sku: id, name: title, salePrice: price });
       },
       );
     });
