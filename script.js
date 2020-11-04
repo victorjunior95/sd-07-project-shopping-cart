@@ -54,11 +54,18 @@ function updatePrice(itemCar) {
   price.innerText = totalPrice;
 }
 
+function removeItemsLocalStorage(string) {
+  const array = JSON.parse(localStorage.getItem('items'));
+  array.splice(array.indexOf(string),1);
+  localStorage.setItem('items', JSON.stringify(array));
+}
+
 function cartItemClickListener(event) {
   const father = event.target.parentNode;
   const itemCar = event.target;
   father.removeChild(itemCar);
   updatePrice(itemCar);
+  removeItemsLocalStorage(itemCar.innerText);
 }
 
 function savePriceLocalStorage() {
