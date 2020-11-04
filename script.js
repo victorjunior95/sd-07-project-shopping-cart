@@ -9,9 +9,6 @@ function createProductImageElement(imageSource) {
 
 function loadCartPrice() {
   return new Promise((resolve) => {
-    //const sumCartItems = JSON.parse(localStorage.getItem('sumCartItems'));
-    // let sum = 0;
-    // for (let i = 0; i < sumCartItems.length; i += 1) sum += sumCartItems[i];
     resolve(`Total: $${Math.abs(cartSum.toFixed(2))}`);
   },
   );
@@ -32,30 +29,25 @@ function clearCartItems() {
       cartSum = 0;
       loadCartPrice();
       createPriceElement();
-      
       console.log(cartSum);
     });
 }
 
-// function getSkuFromProductItem(item) {
-//   return item.querySelector('span.item__sku').innerText;
-// }s
-
 function cartItemClickListener(event) {
   console.log(cartSum);
-  cartSum = cartSum - event.target.getAttribute('data-sale-price');
+  cartSum -= event.target.getAttribute('data-sale-price');
   console.log(cartSum);
   event.target.remove();
   createPriceElement();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
-  let cartItemsStorage = JSON.parse(localStorage.getItem('cartItems'));
+  const cartItemsStorage = JSON.parse(localStorage.getItem('cartItems'));
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.dataset.sku = sku;
   li.dataset.salePrice = salePrice;
-  cartSum = cartSum + salePrice;
+  cartSum += salePrice;
   console.log(cartSum.toFixed(2));
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
@@ -72,8 +64,8 @@ function loadCartFromStorage() {
     li.className = 'cart__item';
     li.dataset.sku = itemsStorage[i].sku;
     li.dataset.salePrice = itemsStorage[i].salePrice;
-    cartSum = cartSum + itemsStorage[i].salePrice;
-    console.log(cartSum)
+    cartSum += itemsStorage[i].salePrice;
+    console.log(cartSum);
     li.innerText = `SKU: ${itemsStorage[i].sku} | NAME: ${itemsStorage[i].name} | PRICE: $${itemsStorage[i].salePrice}`;
     li.addEventListener('click', cartItemClickListener);
     document.querySelector('ol').appendChild(li);
@@ -131,12 +123,12 @@ const fetchApiShopping = (product) => {
 
 window.onload = function onload() {
   if (!localStorage.getItem('cartItems')) {
-      let cartItemsStorage = [];
-      localStorage.setItem('cartItems', JSON.stringify(cartItemsStorage));
-    } else {
-      console.log('Storage já existe!');
-      loadCartFromStorage();
-    }
+    const cartItemsStorage = [];
+    localStorage.setItem('cartItems', JSON.stringify(cartItemsStorage));
+  } else {
+    console.log('Storage já existe!');
+    loadCartFromStorage();
+  }
   fetchApiShopping('computador');
   clearCartItems();
-}
+};
