@@ -93,7 +93,7 @@ const emptyCart = () => {
 emptyCart();
 
 window.onload = async () => {
-  setTimeout(function () {  
+  setTimeout(function () {
     fetchProducts();
     const loadingSite = document.querySelector('.loading');
     loadingSite.remove();
