@@ -89,14 +89,14 @@ function createCustomElement(element, className, innerText) {
   e.innerText = innerText;
   if (e.className === 'item__add') {
     e.addEventListener('click', () => {
+      secCartItems.appendChild(loading);
       const item = (e.parentNode.childNodes[0].textContent);
       const endPointItem = `https://api.mercadolibre.com/items/${item}`;
-      secCartItems.appendChild(loading);
       fetch(endPointItem)
       .then(async (responseItem) => {
-        const { id, title, price } = await responseItem.json();
-        createCartItemElement({ sku: id, name: title, salePrice: price });
         secCartItems.removeChild(loading);
+        const { id, title, price } = await responseItem.json();
+        createCartItemElement({ sku: id, name: title, salePrice: price })
       },
       );
     });
