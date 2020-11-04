@@ -7,6 +7,13 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+function createLoadingElement() {
+  const loading = document.createElement('p');
+  loading.className = 'loading';
+  loading.innerText = 'loading...';
+  return loading;
+}
+
 function loadCartPrice() {
   return new Promise((resolve) => {
     resolve(Math.abs(cartSum.toFixed(2)));
@@ -82,10 +89,14 @@ function createCustomElement(element, className, innerText) {
     e.addEventListener('click', () => {
       const item = (e.parentNode.childNodes[0].textContent);
       const endPointItem = `https://api.mercadolibre.com/items/${item}`;
+      const secCartItems = document.querySelector('.cart__items');
+      const loading = createLoadingElement();
+      secCartItems.appendChild(loading);
       fetch(endPointItem)
       .then(async (responseItem) => {
         const { id, title, price } = await responseItem.json();
         createCartItemElement({ sku: id, name: title, salePrice: price });
+        secCartItems.removeChild(loading);
       },
       );
     });
@@ -105,10 +116,14 @@ function createProductItemElement({ sku, name, image }) {
 
 const fetchApiShopping = (product) => {
   const endPoint = `https://api.mercadolibre.com/sites/MLB/search?q=${product}`;
+  const sectionItems = document.querySelector('.container');
+  const loading = createLoadingElement();
+  sectionItems.appendChild(loading);
   fetch(endPoint)
     .then(response => response.json())
       .then(({ results }) => {
         const items = document.querySelector('.items');
+        sectionItems.removeChild(loading);
         results.forEach((result => (
           (items.appendChild(
             createProductItemElement({
@@ -116,9 +131,11 @@ const fetchApiShopping = (product) => {
               name: result.title,
               image: result.thumbnail }),
           ))
+          
         )
       ));
       });
+  
 };
 
 window.onload = function onload() {
