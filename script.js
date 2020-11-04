@@ -56,7 +56,7 @@ function updatePrice(itemCar) {
 
 function removeItemsLocalStorage(string) {
   const array = JSON.parse(localStorage.getItem('items'));
-  array.splice(array.indexOf(string),1);
+  array.splice(array.indexOf(string), 1);
   localStorage.setItem('items', JSON.stringify(array));
 }
 
