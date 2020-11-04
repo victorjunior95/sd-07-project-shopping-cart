@@ -17,33 +17,7 @@
         <button class="empty-cart">Esvaziar carrinho</button>
         <ol class="cart__items"></ol>
         <p><span>Total: $</span><span class="total-price"></span></p>
-        
-        
       </section>
     </section>
   </body>
 </html>
-<!--
-    //const sumCartItems = JSON.parse(localStorage.getItem('sumCartItems'));
-    // let sum = 0;
-    // for (let i = 0; i < sumCartItems.length; i += 1) sum += sumCartItems[i];
-    //resolve(`Total: $${sum}`);
-
-    /*
-function createCartItemElement({ sku, name, salePrice }) {
-  const cartItemsStorage = JSON.parse(localStorage.getItem('cartItems'));
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.dataset.sku = sku;
-  li.dataset.salePrice = salePrice;
-  cartSum += salePrice;
-  console.log(cartSum.toFixed(2));
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
-  cartItemsStorage.push({ sku, name, salePrice });
-  localStorage.setItem('cartItems', JSON.stringify(cartItemsStorage));
-  document.querySelector('ol').appendChild(li);
-  createPriceElement();
-}
-*/
--->
