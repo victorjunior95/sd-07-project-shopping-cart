@@ -63,6 +63,11 @@ const fetchWithProductID = async (productID) => {
   }
 };
 
+const getProductId = (event) => {
+  const clickedParent = event.target.parentNode;
+  const idElement = getSkuFromProductItem(clickedParent);
+  console.log(idElement);
+}
 
 
 function cartItemClickListener(event) {
