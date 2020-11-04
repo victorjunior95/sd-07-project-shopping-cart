@@ -83,14 +83,14 @@ function loadCartFromStorage() {
 
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
+  const secCartItems = document.querySelector('.cart__items');
+  const loading = createLoadingElement();
   e.className = className;
   e.innerText = innerText;
   if (e.className === 'item__add') {
     e.addEventListener('click', () => {
       const item = (e.parentNode.childNodes[0].textContent);
       const endPointItem = `https://api.mercadolibre.com/items/${item}`;
-      const secCartItems = document.querySelector('.cart__items');
-      const loading = createLoadingElement();
       secCartItems.appendChild(loading);
       fetch(endPointItem)
       .then(async (responseItem) => {
