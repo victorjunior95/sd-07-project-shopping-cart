@@ -9,7 +9,7 @@ function createProductImageElement(imageSource) {
 
 function loadCartPrice() {
   return new Promise((resolve) => {
-    resolve(Math.abs(cartSum.toFixed(2)));
+    resolve(`Total: $${Math.abs(cartSum.toFixed(2))}`);
   },
   );
 }
@@ -51,9 +51,9 @@ function createCartItemElement({ sku, name, salePrice }) {
   console.log(cartSum.toFixed(2));
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  document.querySelector('ol').appendChild(li);
   cartItemsStorage.push({ sku, name, salePrice });
   localStorage.setItem('cartItems', JSON.stringify(cartItemsStorage));
-  document.querySelector('ol').appendChild(li);
   createPriceElement();
 }
 
