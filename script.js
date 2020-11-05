@@ -21,13 +21,24 @@ function cartItemClickListener(event) {
   saveShoppingCart();
 }
 
+function sumItems() {
+  let totalPrice = 0;
+  const allCartItems = shoppingCart.querySelectorAll('li');
+  allCartItems.forEach((item) => {
+    pricesArr.push(Number(item.innerText.split('$')[1]));
+    totalPrice += Number(item.innerText.split('$')[1]);
+  });
+  console.log(pricesArr);
+  totalPriceTxt.innerText = `R$${totalPrice}`;
+}
+
 function totalPrice(salePrice = false) {
   let total = 0;
   if (salePrice) pricesArr.push(salePrice);
   pricesArr.forEach((price) => {
     total += price;
   });
-  totalPriceTxt.innerText = `$${total}`;
+  totalPriceTxt.innerText = `R$${total}`;
 }
 
 function loadSavedShoppingCart(shoppingCartList) {
@@ -39,6 +50,7 @@ function loadSavedShoppingCart(shoppingCartList) {
     shoppingCart.appendChild(savedItem);
     savedItem.addEventListener('click', cartItemClickListener);
   });
+  sumItems();
 }
 
 function createProductImageElement(imageSource) {
@@ -74,7 +86,7 @@ function removePrice(salePrice) {
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: R$${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
