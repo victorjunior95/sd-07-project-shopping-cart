@@ -22,7 +22,7 @@ function cartItemClickListener(event) {
 }
 
 function totalPrice(salePrice = false) {
-  let total = 0
+  let total = 0;
   if (salePrice) pricesArr.push(salePrice);
   pricesArr.forEach((price) => {
     total += price;
