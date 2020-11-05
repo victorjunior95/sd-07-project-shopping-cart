@@ -15,19 +15,20 @@ function saveShoppingCart() {
   localStorage.setItem('shoppingCartList', JSON.stringify(items));
 }
 
+async function sumItems() {
+  let totalPrice = 0;
+  const allCartItems = shoppingCart.querySelectorAll('li');
+  allCartItems.forEach((item) => {
+    totalPrice += Number(item.innerText.split('$')[1]);
+  });
+  totalPriceTxt.innerText = `R$${totalPrice}`;
+}
+
+
 function cartItemClickListener(event) {
   shoppingCart.removeChild(event.target);
   sumItems();
   saveShoppingCart();
-}
-
-async function sumItems() {
-  let totalPrice = 0;
-  const allCartItems = shoppingCart.querySelectorAll('li');
-    allCartItems.forEach((item) => {
-    totalPrice += Number(item.innerText.split('$')[1]);
-  });
-  totalPriceTxt.innerText = `R$${totalPrice}`;
 }
 
 function loadSavedShoppingCart(shoppingCartList) {
@@ -83,7 +84,7 @@ function createProductItemElement({ sku, name, image, salePrice }) {
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'))
   .addEventListener('click', () => {
     const addCart = createCartItemElement({ sku, name, salePrice });
-    shoppingCart.appendChild(addCart)
+    shoppingCart.appendChild(addCart);
     /* .addEventListener('click', () => {
       // shoppingCart.removeChild(addCart);
       // (bem mais facil dessa forma doke com o event.target na minha opiniao)
