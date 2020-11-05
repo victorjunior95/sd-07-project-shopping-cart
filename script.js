@@ -1,6 +1,7 @@
 const allItems = document.querySelector('.items');
 const shoppingCart = document.querySelector('.cart__items');
 const ClearShoppingCartBtn = document.querySelector('.empty-cart');
+const totalPriceTxt = document.querySelector('.total-price');
 
 function saveShoppingCart() {
   localStorage.clear();
@@ -45,6 +46,21 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+const loadingTxt = () => {
+  allItems.appendChild(createCustomElement('p', 'loading', 'loading...'));
+};
+
+function removeLoadingTxt() {
+  const loadingTxt = document.querySelector('.loading');
+  loadingTxt.remove();
+};
+
+function removePrice(salePrice) {
+  const test = pricesArr.find(price => price === salePrice);
+  const testIndex = pricesArr.findIndex(indexPrice => indexPrice === test);
+  pricesArr.splice(testIndex, 1);
+  totalPrice();
+}
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
@@ -65,12 +81,14 @@ function createProductItemElement({ sku, name, image, salePrice }) {
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'))
   .addEventListener('click', () => {
     const addCart = createCartItemElement({ sku, name, salePrice });
-    shoppingCart.appendChild(addCart);
-    saveShoppingCart();
-    /* .addEventListener('click', () => {
+    shoppingCart.appendChild(addCart)
+    .addEventListener('click', () => {
       //shoppingCart.removeChild(addCart);
       // (bem mais facil dessa forma doke com o event.target na minha opiniao)
-    }); */
+      removePrice(salePrice);
+    });
+    saveShoppingCart();
+    totalPrice(salePrice)
   });
 
   return section;
@@ -82,10 +100,12 @@ function getSkuFromProductItem(item) {
 
 const loadProducts = () => {
   const term = 'computador';
+  loadingTxt();
   fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${term}`)
   .then((response) => {
     response.json()
     .then((data) => {
+      removeLoadingTxt();
       if (data.results.length > 0) {
         data.results.forEach((product) => {
           const { id: sku, title: name, thumbnail: image, price: salePrice } = product;
@@ -111,7 +131,15 @@ function ClearShoppingCart() {
     saveShoppingCart();
   });
 }
-
+const pricesArr = []
+function totalPrice(salePrice = false) {
+  let total = 0
+  if (salePrice) pricesArr.push(salePrice);
+  pricesArr.forEach((price) => {
+    total += price;
+  });
+  totalPriceTxt.innerText = `$${total}`;
+}
 
 window.onload = function onload() {
   const shoppingCartList = localStorage.getItem('shoppingCartList');
