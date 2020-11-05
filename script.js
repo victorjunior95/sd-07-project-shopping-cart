@@ -2,6 +2,7 @@ const allItems = document.querySelector('.items');
 const shoppingCart = document.querySelector('.cart__items');
 const ClearShoppingCartBtn = document.querySelector('.empty-cart');
 const totalPriceTxt = document.querySelector('.total-price');
+const pricesArr = [];
 
 function saveShoppingCart() {
   localStorage.clear();
@@ -20,6 +21,14 @@ function cartItemClickListener(event) {
   saveShoppingCart();
 }
 
+function totalPrice(salePrice = false) {
+  let total = 0
+  if (salePrice) pricesArr.push(salePrice);
+  pricesArr.forEach((price) => {
+    total += price;
+  });
+  totalPriceTxt.innerText = `$${total}`;
+}
 
 function loadSavedShoppingCart(shoppingCartList) {
   const savedShoppingCartList = JSON.parse(shoppingCartList);
@@ -51,9 +60,9 @@ const loadingTxt = () => {
 };
 
 function removeLoadingTxt() {
-  const loadingTxt = document.querySelector('.loading');
-  loadingTxt.remove();
-};
+  const removeTxt = document.querySelector('.loading');
+  removeTxt.remove();
+}
 
 function removePrice(salePrice) {
   const test = pricesArr.find(price => price === salePrice);
@@ -83,12 +92,12 @@ function createProductItemElement({ sku, name, image, salePrice }) {
     const addCart = createCartItemElement({ sku, name, salePrice });
     shoppingCart.appendChild(addCart)
     .addEventListener('click', () => {
-      //shoppingCart.removeChild(addCart);
+      // shoppingCart.removeChild(addCart);
       // (bem mais facil dessa forma doke com o event.target na minha opiniao)
       removePrice(salePrice);
     });
     saveShoppingCart();
-    totalPrice(salePrice)
+    totalPrice(salePrice);
   });
 
   return section;
@@ -130,15 +139,6 @@ function ClearShoppingCart() {
     shoppingCart.innerHTML = '';
     saveShoppingCart();
   });
-}
-const pricesArr = []
-function totalPrice(salePrice = false) {
-  let total = 0
-  if (salePrice) pricesArr.push(salePrice);
-  pricesArr.forEach((price) => {
-    total += price;
-  });
-  totalPriceTxt.innerText = `$${total}`;
 }
 
 window.onload = function onload() {
