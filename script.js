@@ -1,3 +1,5 @@
+// merito pelo código por AfolsoFN
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -10,6 +12,18 @@ function createCustomElement(element, className, innerText) {
   e.className = className;
   e.innerText = innerText;
   return e;
+}
+
+function setLocalStorage() {
+  const arr = [];
+  const li = document.querySelectorAll('.cart__item');
+  li.forEach(item => arr.push(item.innerText));
+  localStorage.setItem('carrinho de compras', JSON.stringify(arr));
+}
+
+function cartItemClickListener(event) {
+  event.target.remove();
+  setLocalStorage();
 }
 
 const addLoading = () => {
@@ -26,12 +40,9 @@ const cleanCart = () => {
   const cart = document.querySelector('.cart__items');
   cleanButton.addEventListener('click', () => {
     cart.innerHTML = '';
+    localStorage.clear();
   });
 };
-
-function cartItemClickListener(event) {
-  event.target.remove();
-}
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
@@ -48,6 +59,7 @@ const addProductsOnCart = (id) => {
     .then(response => response.json())
     .then((item) => {
       document.querySelector('.cart__items').appendChild(createCartItemElement(item));
+      setLocalStorage();
     });
 };
 
@@ -87,17 +99,19 @@ const loadProducts = (search) => {
     });
 };
 
-const loadList = () => {
-  const values = Object.values(localStorage);
-  values.forEach((value) => {
-    console.log(JSON.parse(value));
-    const { id: sku, title: name, price: salePrice } = JSON.parse(value);
-    addToCart({ sku, name, salePrice });
-  });
-};
+function reloadStorage() {
+  const ol = document.querySelector('.cart__items');
+  const capturedEle = JSON.parse(localStorage.getItem('carrinho de compras'));
+  if (capturedEle) {
+    capturedEle.forEach((item) => {
+      const li = createCustomElement('li', 'cart__item', item);
+      ol.appendChild(li);
+    });
+  }
+}
 
 window.onload = function onload() {
   loadProducts('computador');
   cleanCart();
-  loadList();
+  reloadStorage();
 };
