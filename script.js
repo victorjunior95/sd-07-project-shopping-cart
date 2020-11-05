@@ -21,7 +21,7 @@ async function sumItems() {
   allCartItems.forEach((item) => {
     totalPrice += Number(item.innerText.split('$')[1]);
   });
-  totalPriceTxt.innerText = `R$${totalPrice}`;
+  totalPriceTxt.innerText = totalPrice;
 }
 
 
@@ -69,7 +69,7 @@ function removeLoadingTxt() {
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NOME: ${name} | PREÇO: R$${salePrice}`;
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: R$${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
