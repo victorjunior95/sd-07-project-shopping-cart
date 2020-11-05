@@ -2,7 +2,6 @@ const allItems = document.querySelector('.items');
 const shoppingCart = document.querySelector('.cart__items');
 const ClearShoppingCartBtn = document.querySelector('.empty-cart');
 const totalPriceTxt = document.querySelector('.total-price');
-const pricesArr = [];
 
 function saveShoppingCart() {
   localStorage.clear();
@@ -18,27 +17,17 @@ function saveShoppingCart() {
 
 function cartItemClickListener(event) {
   shoppingCart.removeChild(event.target);
+  sumItems();
   saveShoppingCart();
 }
 
-function sumItems() {
+async function sumItems() {
   let totalPrice = 0;
   const allCartItems = shoppingCart.querySelectorAll('li');
-  allCartItems.forEach((item) => {
-    pricesArr.push(Number(item.innerText.split('$')[1]));
+    allCartItems.forEach((item) => {
     totalPrice += Number(item.innerText.split('$')[1]);
   });
-  console.log(pricesArr);
   totalPriceTxt.innerText = `R$${totalPrice}`;
-}
-
-function totalPrice(salePrice = false) {
-  let total = 0;
-  if (salePrice) pricesArr.push(salePrice);
-  pricesArr.forEach((price) => {
-    total += price;
-  });
-  totalPriceTxt.innerText = `R$${total}`;
 }
 
 function loadSavedShoppingCart(shoppingCartList) {
@@ -76,21 +65,13 @@ function removeLoadingTxt() {
   removeTxt.remove();
 }
 
-function removePrice(salePrice) {
-  const test = pricesArr.find(price => price === salePrice);
-  const testIndex = pricesArr.findIndex(indexPrice => indexPrice === test);
-  pricesArr.splice(testIndex, 1);
-  totalPrice();
-}
-
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: R$${salePrice}`;
+  li.innerText = `SKU: ${sku} | NOME: ${name} | PREÇO: R$${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
-
 
 function createProductItemElement({ sku, name, image, salePrice }) {
   const section = document.createElement('section');
@@ -103,13 +84,12 @@ function createProductItemElement({ sku, name, image, salePrice }) {
   .addEventListener('click', () => {
     const addCart = createCartItemElement({ sku, name, salePrice });
     shoppingCart.appendChild(addCart)
-    .addEventListener('click', () => {
+    /* .addEventListener('click', () => {
       // shoppingCart.removeChild(addCart);
       // (bem mais facil dessa forma doke com o event.target na minha opiniao)
-      removePrice(salePrice);
-    });
+    }); */
+    sumItems();
     saveShoppingCart();
-    totalPrice(salePrice);
   });
 
   return section;
@@ -149,6 +129,7 @@ function ClearShoppingCart() {
       tarefaList.removeChild(tarefaList.firstChild);
     } */
     shoppingCart.innerHTML = '';
+    sumItems();
     saveShoppingCart();
   });
 }
