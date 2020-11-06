@@ -23,6 +23,7 @@ function createProductItemElement({ sku, name, image }) {
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
+  console.log(salePrice)
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
@@ -36,7 +37,7 @@ function addItemToCart(event) {
   fetch(endpoint).then(response => response.json()).then((data) => {
     // console.log('entrou no fetch')
     const { id: sku, title: name, base_price: salePrice } = data;
-    // console.log(data);
+    // console.log(salePrice);
     const finalItem = createCartItemElement({ sku, name, salePrice });
     const selected = document.querySelector('.cart__items');
     selected.appendChild(finalItem);
@@ -61,7 +62,6 @@ const loadProducts = () => {
 // }
 
 // function cartItemClickListener(event) {
-//   console.log('getSku...vai pro carrinho');
 // }
 
 window.onload = function () {
