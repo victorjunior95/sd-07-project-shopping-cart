@@ -27,7 +27,10 @@ function createProductItemElement({ sku, name, image }) {
 // }
 
 function cartItemClickListener(event) {
+  const actual = Number(document.querySelector('.total-price').innerText);
+  const discard = event.target.dataset.salePrice;
   event.target.remove();
+  document.querySelector('.total-price').innerText = actual - discard;
 }
 
 const emptyCart = document.querySelector('.empty-cart');
@@ -42,14 +45,15 @@ function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.dataset.salePrice = salePrice;
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
 
 function totalSum(value) {
-  let actual = Number(document.querySelector('.amount').innerText);
+  let actual = Number(document.querySelector('.total-price').innerText);
   actual += value;
-  document.querySelector('.amount').innerText = actual;
+  document.querySelector('.total-price').innerText = actual;
 }
 
 function addItemToCart(event) {
