@@ -22,6 +22,27 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
+function createCartItemElement({ sku, name, salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  // li.addEventListener('click', cartItemClickListener);
+  return li;
+}
+
+function addItemToCart(event) {
+  const id = (event.target.parentElement.firstChild.innerText);
+  const endpoint = `https://api.mercadolibre.com/items/${id}`;
+  fetch(endpoint).then(response => response.json()).then((data) => {
+    // console.log('entrou no fetch')
+    const { id: sku, title: name, base_price: salePrice } = data;
+    // console.log(data);
+    const finalItem = createCartItemElement({ sku, name, salePrice });
+    const selected = document.querySelector('.cart__items');
+    selected.appendChild(finalItem);
+  });
+}
+
 const loadProducts = () => {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   fetch(endpoint).then(resp => resp.json()).then((data) => {
@@ -30,26 +51,19 @@ const loadProducts = () => {
       const { id: sku, title: name, thumbnail: image } = element;
       const item = createProductItemElement({ sku, name, image });
       items.appendChild(item);
+      item.addEventListener('click', addItemToCart);
     });
   });
 };
 
+// function getSkuFromProductItem(item) {
+//   return item.querySelector('span.item__sku').innerText;
+// }
+
+// function cartItemClickListener(event) {
+//   console.log('getSku...vai pro carrinho');
+// }
+
 window.onload = function () {
   loadProducts();
 };
-
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
-
-// function cartItemClickListener(event) {
-//   coloque seu código aqui
-// }
-
-function createCartItemElement({ sku, name, salePrice }) {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
-  return li;
-}
