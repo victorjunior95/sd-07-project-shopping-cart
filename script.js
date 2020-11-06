@@ -23,7 +23,6 @@ function createProductItemElement({ sku, name, image }) {
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
-  console.log(salePrice)
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
