@@ -2,6 +2,14 @@ body {
   background-color: bisque;
 }
 
+.cart__item {
+  border: 2px solid blue;
+  border-radius: 5px;
+  box-sizing: border-box;
+  padding: 10px;
+  text-align: center;
+}
+
 .top-bar {
   align-items: center;
   display: flex;
@@ -59,6 +67,12 @@ body {
   width: 100%;
 }
 
+.item .item__price {
+  flex-grow: 1;
+  padding: 10px;
+  text-align: center;
+}
+
 .item .item__add {
   background-color: green;
   border: 0;
@@ -77,4 +91,18 @@ body {
   flex-basis: 1;
   font-size: 16pt;
   text-align: center;
+}
+
+.loading {
+  border: 8px solid gray;
+  border-left-color: blue;
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+
+  to { transform: rotate( 360deg ); }
 }
