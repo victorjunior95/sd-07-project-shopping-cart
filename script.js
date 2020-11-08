@@ -38,7 +38,7 @@ async function updateListPrice() {
   const totalPrice = document.querySelector('.total-price');
   const value = await updatePrice();
   const totalValor = Math.ceil(value);
-  totalPrice.innerHTML = `R$ ${totalValor}`;
+  totalPrice.innerHTML = totalValor;
 }
 
 function addLocalStorage(key, value) {
