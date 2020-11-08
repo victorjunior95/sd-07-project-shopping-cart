@@ -31,8 +31,8 @@ function sumPriceListItems(price) {
   totalPrice.innerHTML = `R$ ${totalValor}`;
 }
 
-function updateListPrice() {
-  const array = JSON.parse(localStorage.getItem('list'));
+async function updateListPrice() {
+  const array = await JSON.parse(localStorage.getItem('list'));
   let value = 0;
   array.forEach((li) => {
     value += parseFloat(li.split('$')[1]);

@@ -94,15 +94,5 @@ body {
 }
 
 .loading {
-  border: 8px solid gray;
-  border-left-color: blue;
-  height: 60px;
-  width: 60px;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-
-  to { transform: rotate( 360deg ); }
+ background-color: beige;
 }
