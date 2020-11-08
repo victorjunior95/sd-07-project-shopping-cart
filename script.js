@@ -6,11 +6,11 @@ function createProductImageElement(imageSource) {
 }
 
 function createLoading() {
-  const cartList = document.querySelector('.cart__items');
+  const section = document.querySelector('.items');
   const loadingItem = document.createElement('div');
   loadingItem.className = 'loading';
   loadingItem.innerText = 'Loading';
-  cartList.appendChild(loadingItem);
+  section.appendChild(loadingItem);
 }
 
 function removeLoading() {
@@ -140,10 +140,12 @@ function loadItems(itens) {
 }
 
 async function fetchProductsFromApi(currency = 'computador') {
+  createLoading();
   const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${currency}`;
   const response = await fetch(endpoint);
   const object = await response.json();
   const itens = await object.results;
+  removeLoading();
   return loadItems(itens);
 }
 
