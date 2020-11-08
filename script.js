@@ -12,9 +12,17 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+function saveOnStorage() {
+  localStorage.clear();
+
+  const cart = document.querySelector('.cart__items');
+  localStorage.setItem('cart', cart.innerHTML);
+}
+
 function cartItemClickListener(event) {
   const cart = document.querySelector('.cart__items');
   cart.removeChild(event.target);
+  saveOnStorage();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -33,6 +41,7 @@ function addProductToCart(product) {
     salePrice: price,
     sku: id,
   }));
+  saveOnStorage();
 }
 
 async function fetchById(productId) {
@@ -89,6 +98,12 @@ async function fetchItems(term) {
   }
 }
 
+function loadProductsFromStorage() {
+  const cart = document.querySelector('.cart__items');
+  cart.innerHTML = localStorage.getItem('cart');
+}
+
 window.onload = function onload() {
+  loadProductsFromStorage();
   fetchItems('computador');
 };
