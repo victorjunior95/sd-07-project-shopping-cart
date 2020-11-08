@@ -25,19 +25,20 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function sumPriceListItems(price) {
-  const totalPrice = document.querySelector('.total-price');
-  const totalValor = Math.ceil(price);
-  totalPrice.innerHTML = `R$ ${totalValor}`;
-}
-
-async function updateListPrice() {
+async function updatePrice() {
   const array = await JSON.parse(localStorage.getItem('list'));
   let value = 0;
   array.forEach((li) => {
     value += parseFloat(li.split('$')[1]);
   });
-  sumPriceListItems(value);
+  return value;
+}
+
+async function updateListPrice() {
+  const totalPrice = document.querySelector('.total-price');
+  const value = await updatePrice();
+  const totalValor = Math.ceil(value);
+  totalPrice.innerHTML = `R$ ${totalValor}`;
 }
 
 function addLocalStorage(key, value) {
