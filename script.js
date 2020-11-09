@@ -46,7 +46,10 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 function addProductToCart(product) {
   const cart = document.querySelector('.cart__items');
+  const loading = createCustomElement('p', 'loading', 'loading...');
+  cart.appendChild(loading);
   const { id, title, price } = product;
+  cart.removeChild(loading);
   cart.appendChild(createCartItemElement({
     name: title,
     salePrice: price,
@@ -103,8 +106,12 @@ function appendElementsToPage(elements) {
 
 async function fetchItems(term) {
   try {
+    const listOfProduct = document.querySelector('.cart');
+    const loading = createCustomElement('p', 'loading', 'loading...');
+    listOfProduct.appendChild(loading);
     const response = await fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${term}`);
     const items = await response.json().then(data => data.results);
+    listOfProduct.removeChild(loading);
     appendElementsToPage(items);
   } catch (error) {
     window.alert(error);
