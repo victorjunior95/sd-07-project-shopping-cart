@@ -28,7 +28,7 @@ function totalAmountInCart() {
   cartList.forEach((item) => {
     total += Number(item.dataset.salePrice);
   });
-  document.querySelector('.total-price').innerText = `Valor total: R$ ${total.toFixed(2)}`;
+  document.querySelector('.total-price').innerText = total;
 }
 
 function removeProductsFromLocalStorage(id) {
