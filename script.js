@@ -103,7 +103,15 @@ function loadProductsFromStorage() {
   cart.innerHTML = localStorage.getItem('cart');
 }
 
+function clearCart() {
+  localStorage.clear();
+  const cart = document.querySelector('.cart__items');
+  cart.innerHTML = '';
+}
+
 window.onload = function onload() {
   loadProductsFromStorage();
   fetchItems('computador');
+  const clearButton = document.querySelector('.empty-cart');
+  clearButton.addEventListener('click', clearCart);
 };
