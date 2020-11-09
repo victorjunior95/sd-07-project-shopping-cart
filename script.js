@@ -72,7 +72,7 @@ const productID = async (itemId) => {
     .catch(() => console.log('Erro inexperado.'));
 };
 
-const fetchItem= async (event) => {
+const fetchItem = async (event) => {
   const clickedElementParent = event.target.parentNode;
   const idItem = getSkuFromProductItem(clickedElementParent);
   const objectItemID = await productID(idItem);
