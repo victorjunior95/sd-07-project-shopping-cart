@@ -18,7 +18,7 @@ function saveShoppingCart() {
 async function sumItems() {
   let totalPrice = 0;
   const allCartItems = shoppingCart.querySelectorAll('li');
-  allCartItems.forEach((item) => {
+  await allCartItems.forEach((item) => {
     totalPrice += Number(item.innerText.split('$')[1]);
   });
   totalPriceTxt.innerText = totalPrice;
