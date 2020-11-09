@@ -14,15 +14,26 @@ function createCustomElement(element, className, innerText) {
 
 function saveOnStorage() {
   localStorage.clear();
-
   const cart = document.querySelector('.cart__items');
   localStorage.setItem('cart', cart.innerHTML);
+}
+
+async function sumOfProducts() {
+  const cart = document.querySelector('.cart__items').childNodes;
+  let sum = 0;
+  cart.forEach((product) => {
+    const value = product.innerText.split('$');
+    sum += parseFloat(value[1]);
+  });
+  const divPrice = document.querySelector('.total-price');
+  divPrice.innerText = sum;
 }
 
 function cartItemClickListener(event) {
   const cart = document.querySelector('.cart__items');
   cart.removeChild(event.target);
   saveOnStorage();
+  sumOfProducts();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -62,6 +73,7 @@ async function recoverProduct(e) {
   const productId = getSkuFromProductItem(e.target.parentNode);
   const product = await fetchById(productId);
   addProductToCart(product);
+  sumOfProducts();
 }
 
 function createProductItemElement({ sku, name, image }) {
@@ -86,6 +98,7 @@ function appendElementsToPage(elements) {
       name: title,
     }));
   });
+  sumOfProducts();
 }
 
 async function fetchItems(term) {
@@ -101,17 +114,24 @@ async function fetchItems(term) {
 function loadProductsFromStorage() {
   const cart = document.querySelector('.cart__items');
   cart.innerHTML = localStorage.getItem('cart');
+  sumOfProducts();
 }
 
 function clearCart() {
   localStorage.clear();
   const cart = document.querySelector('.cart__items');
   cart.innerHTML = '';
+  sumOfProducts();
+}
+
+function createEventeButtonClear() {
+  const clearButton = document.querySelector('.empty-cart');
+  clearButton.addEventListener('click', clearCart);
 }
 
 window.onload = function onload() {
   loadProductsFromStorage();
   fetchItems('computador');
-  const clearButton = document.querySelector('.empty-cart');
-  clearButton.addEventListener('click', clearCart);
+  createEventeButtonClear();
+  sumOfProducts();
 };
