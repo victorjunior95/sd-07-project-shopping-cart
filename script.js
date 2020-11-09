@@ -69,7 +69,7 @@ function createCartItemElement({ sku, name, salePrice }) {
 function addItemToCart(id) {
   const endpoint = `https://api.mercadolibre.com/items/${id}`;
   fetch(endpoint).then(response => response.json()).then((data) => {
-    const { id: sku, title: name, base_price: salePrice } = data;
+    const { id: sku, title: name, price: salePrice } = data;
     const finalItem = createCartItemElement({ sku, name, salePrice });
     const selected = document.querySelector('.cart__items');
     selected.appendChild(finalItem);
