@@ -1,4 +1,19 @@
 
+function PriceCalc(price, plus) {
+  const textItem = price.innerText;
+  const lastString = textItem.substring(textItem.lastIndexOf('$') + 1);
+  const priceItem = parseInt(lastString, 10);
+  const total = document.querySelector('.total-price');
+  let numberTotal = parseInt(total.innerText, 10);
+  if (plus === true) {
+    numberTotal += priceItem;
+  }
+  if (plus === false) {
+    numberTotal += -priceItem;
+  }
+  total.innerHTML = numberTotal;
+}
+
 const saveCartList = () => {
   localStorage.clear();
   const ol = document.querySelector('.cart__items');
@@ -15,6 +30,7 @@ function createProductImageElement(imageSource) {
 function cartItemClickListener(sku) {
   const selfRemove = sku;
   selfRemove.parentNode.removeChild(selfRemove);
+  PriceCalc(sku, false);
 }
 
 function createCartItemElement(sku, name, salePrice) {
@@ -53,6 +69,7 @@ function createProductItemElement(sku, name, image) {
           .then((data) => {
             document.querySelector('.cart__items')
               .appendChild(createCartItemElement(data.id, data.title, data.price));
+            PriceCalc(createCartItemElement(data.id, data.title, data.price), true);
             saveCartList();
           });
       });
@@ -92,13 +109,9 @@ function removeSitems() {
       ol.removeChild(ol.firstChild);
       localStorage.clear();
     }
+    document.querySelector('.total-price').innerText = '0';
   });
 }
-
-
-// function PriceCalc() {
-// }
-
 
 window.onload = function onload() {
   fetchSearch('computador');
