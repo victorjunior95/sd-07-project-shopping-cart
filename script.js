@@ -21,6 +21,8 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createCustomElement('button', 'item__add btn btn-success', 'Adicionar ao carrinho!'));
   return section;
 }
+// criando elementos HTML com JS:
+// https://developer.mozilla.org/pt-BR/docs/Web/API/Document/createElement
 
 function calculateValue(newList) {
   return new Promise((resolve) => {
@@ -105,11 +107,16 @@ function createCartAllElements(arrayOfData) {
     list.appendChild(li);
   });
 }
+// curiosidade sobre o uso de appendChild (teste realizando a comparação de appendChild vs innerHTML)
+// https://pt.stackoverflow.com/questions/120708/criar-elemento-no-html-com-javascript-appendchild-vs-innerhtml
 
 function reloadCart() {
   const arrayOfData = JSON.parse(localStorage.getItem('Carrinho de Compras'));
   if (localStorage.getItem('Carrinho de Compras')) {
     createCartAllElements(arrayOfData);
+// se existir o item Carrinho de Compras no localStorage, sera "recarregado" na pagina.
+// (eh criado a partir do JSON.parse o elemento e readicionado a pagina pela funçao
+// createCartAllElements)
   } else {
     const newArray = [];
     localStorage.setItem('Carrinho de Compras', JSON.stringify(newArray));
@@ -117,6 +124,7 @@ function reloadCart() {
   }
   sumTotalCart();
 }
+// se nao eh carregado o elemento Carrinho de compras, soh que vazio.
 
 function createLoadingElement() {
   const cart = document.querySelector('.cart');
