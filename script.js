@@ -15,8 +15,7 @@ function createCustomElement(element, className, innerText) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
-  console.log(event);
+  event.target.parentNode.removeChild(event.target);
 }
 
 // pega o ID do produto
@@ -90,12 +89,6 @@ const loadProductList = () => {
       });
     });
 };
-
-// const onLoadPage = () => {
-//   loadProductList();
-// };
-
-// window.onload = async onLoadPage();
 
 window.onload = async function onload() {
   await loadProductList();
