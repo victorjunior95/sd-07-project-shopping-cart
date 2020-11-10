@@ -91,8 +91,12 @@ const loadProductList = () => {
     });
 };
 
-const onLoadPage = () => {
-  loadProductList();
-};
+// const onLoadPage = () => {
+//   loadProductList();
+// };
 
-window.onload = onLoadPage();
+// window.onload = async onLoadPage();
+
+window.onload = async function onload() {
+  await loadProductList();
+};
