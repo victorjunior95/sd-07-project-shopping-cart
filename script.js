@@ -2,9 +2,9 @@
 function PriceCalc(price, plus) {
   const textItem = price.innerText;
   const lastString = textItem.substring(textItem.lastIndexOf('$') + 1);
-  const priceItem = parseInt(lastString, 10);
+  const priceItem = parseFloat(lastString, 10);
   const total = document.querySelector('.total-price');
-  let numberTotal = parseInt(total.innerText, 10);
+  let numberTotal = parseFloat(total.innerText, 10);
   if (plus === true) {
     numberTotal += priceItem;
   }
