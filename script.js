@@ -45,7 +45,7 @@ function calculateTotal(price = 0, op = 0) {
   } else {
     totalPrice += price;
   }
-  totalPriceSpan.innerText = `O valor total é de R$${totalPrice.toFixed(2)} reais.`;
+  totalPriceSpan.innerText = totalPrice;
 }
 
 function cartItemClickListener(event) {
@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.clear();
     const totalPriceSpan = document.querySelector('.total-price');
     totalPrice = 0;
-    totalPriceSpan.innerText = `O valor total é de R$${totalPrice.toFixed(2)} reais.`;
+    totalPriceSpan.innerText = totalPrice
   });
 });
 
