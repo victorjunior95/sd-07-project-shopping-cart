@@ -26,7 +26,7 @@ function calculateValue(newList) {
   return new Promise((resolve) => {
     const newArray = [];
     newList.forEach(item => newArray.push(item.salePrice));
-// cada valor de cada item de newList e adicionado a newArray 
+// cada valor de cada item de newList e adicionado a newArray
     const value = (newArray.reduce((acc, nextValue) => acc + nextValue, 0));
     resolve(value);
 // o valor dos itens sao somados e adicionados a variavel value
@@ -93,9 +93,9 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.dataset.sku = sku;
   return li;
 }
-// A propriedade HTMLElement.dataset permite o acesso, em modo de leitura e escrita, a todos os atributos
-// de dados personalizado (data-*) no elemento. Ele é um mapa de DOMString, com uma entrada para cada
-// atributo de dados personalizado.
+// A propriedade HTMLElement.dataset permite o acesso, em modo de leitura e escrita,
+// a todos os atributos de dados personalizado (data-*) no elemento. Ele é um mapa
+// de DOMString, com uma entrada para cada atributo de dados personalizado.
 // https://developer.mozilla.org/pt-BR/docs/Web/API/HTMLElement/dataset
 
 function createCartAllElements(arrayOfData) {
