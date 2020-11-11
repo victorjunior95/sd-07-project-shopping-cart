@@ -69,11 +69,11 @@ function removeItemFromLocalStorage(event) {
   }
 }
 
-async function cartItemClickListener(event) {
+function cartItemClickListener(event) {
   const ol = document.querySelector('.cart__items');
   ol.removeChild(event.target);
   removeItemFromLocalStorage(event);
-  await sumPrices();
+  sumPrices();
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
