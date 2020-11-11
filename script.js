@@ -26,7 +26,6 @@ async function sumPrices() {
     const currentItem = localStorage.getItem(element);
     const price = JSON.parse(currentItem).price;
     totalPrice += price;
-    // const roundingNumber = totalPrice
   });
 
   newElement.innerText = totalPrice;
@@ -145,6 +144,9 @@ const createListItems = (QUERY) => {
     .then(data => data.results.forEach((result) => {
       section.appendChild(createProductItemElement(result));
     }));
+    const tagContainer = document.querySelector('.container');
+    const tagLoading = document.querySelector('.loading');
+    tagContainer.removeChild(tagLoading);
 
   return section;
 };
