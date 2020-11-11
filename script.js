@@ -19,16 +19,17 @@ function getSkuFromProductItem(item) {
 async function sumPrices() {
   const itemsLocalStorage = Object.keys(localStorage);
   const tagCart = document.querySelector('.cart');
-  const newElement = document.querySelector('p');
+  const newElement = document.querySelector('.total-price');
   let totalPrice = 0;
 
   await itemsLocalStorage.forEach((element) => {
     const currentItem = localStorage.getItem(element);
     const price = JSON.parse(currentItem).price;
     totalPrice += price;
+    // const roundingNumber = totalPrice
   });
 
-  newElement.innerText = `Total: $${totalPrice}`;
+  newElement.innerText = totalPrice;
 
   tagCart.appendChild(newElement);
 }
