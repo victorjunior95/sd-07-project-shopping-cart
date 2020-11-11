@@ -16,21 +16,8 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-function handleItems() {
-  let valuesLocalStorage = Object.values(localStorage);
-  let acc;
-  const tagOl = document.querySelector('.cart__items');
-  
-  valuesLocalStorage.map(element => {
-    acc = JSON.parse(element);
-    for (let i = 0; i < acc.amount; i += 1){
-      tagOl.appendChild(createCartItemElement(acc));
-    }
-  });
-}
-
 function createItemInLocalStorage({ id: sku, title: name, price: salePrice }) {
-  let object = {
+  const object = {
     id: sku,
     title: name,
     price: parseFloat(salePrice),
@@ -50,19 +37,18 @@ function createItemInLocalStorage({ id: sku, title: name, price: salePrice }) {
 
 function removeItemFromLocalStorage(event) {
   const id = event.target.id;
-  let verifyItemlocalStorage = JSON.parse(localStorage.getItem(id));
+  const verifyItemlocalStorage = JSON.parse(localStorage.getItem(id));
   const amountLocalStorage = JSON.parse(verifyItemlocalStorage.amount);
   const unityPrice = verifyItemlocalStorage.price / amountLocalStorage;
 
   if (verifyItemlocalStorage.price !== 0) {
-    let newPrice = verifyItemlocalStorage.price - unityPrice;
+    const newPrice = verifyItemlocalStorage.price - unityPrice;
     verifyItemlocalStorage.price = newPrice;
     verifyItemlocalStorage.amount = amountLocalStorage - 1;
     localStorage.setItem(id, JSON.stringify(verifyItemlocalStorage));
     if (verifyItemlocalStorage.price === 0) {
-      console.log('zerou')
       localStorage.removeItem(id);
-    } 
+    }
   }
 }
 
@@ -73,7 +59,7 @@ function cartItemClickListener(event) {
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
-  let li = document.createElement('li');
+  const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.id = sku;
@@ -81,11 +67,23 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   return li;
 }
 
+function handleItems() {
+  const valuesLocalStorage = Object.values(localStorage);
+  let acc;
+  const tagOl = document.querySelector('.cart__items');
+  valuesLocalStorage.forEach((element) => {
+    acc = JSON.parse(element);
+    for (let i = 0; i < acc.amount; i += 1) {
+      tagOl.appendChild(createCartItemElement(acc));
+    }
+  });
+}
+
 const fetchProductAndAddCart = (itemID) => {
   const ol = document.querySelector('.cart__items');
   fetch(`https://api.mercadolibre.com/items/${itemID}`)
     .then(response => response.json())
-    .then(product => {
+    .then((product) => {
       createItemInLocalStorage(product);
       ol.appendChild(createCartItemElement(product));
     });
