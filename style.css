@@ -32,7 +32,7 @@
 
 .loading {
   align-items: center;
-  background-color: rgb(193, 248, 156);
+  background-color: rgb( 193, 248, 156 );
   border: solid blue 1px;
   border-radius: 5px;
   display: none;
