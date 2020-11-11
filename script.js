@@ -102,11 +102,18 @@ function getIdFromEvent(event) {
 }
 
 function loadingOn() {
-  document.querySelector('.loading').style.display = 'flex';
+  const div = document.createElement('div');
+  div.className = 'loading';
+  div.innerText = 'loading';
+  const selected = document.querySelector('.items');
+  selected.appendChild(div);
+  // document.querySelector('.loading').style.display = 'flex';
 }
 
 function loadingOff() {
-  document.querySelector('.loading').style.display = 'none';
+  const selected = document.querySelector('.items');
+  selected.firstChild.remove();
+  // document.querySelector('.loading').style.display = 'none';
 }
 
 const loadProducts = () => {
