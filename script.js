@@ -158,6 +158,7 @@ function clearCart() {
   clearButton.addEventListener('click', () => {
     for (let i = 1; i <= tagCartItems.clientHeight; i += 1) {
       tagCartItems.removeChild(tagCartItems.firstChild);
+      sumPrices();
     }
   });
 }
