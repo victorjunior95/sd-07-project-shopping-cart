@@ -50,6 +50,7 @@ function createItemInLocalStorage({ id: sku, title: name, price: salePrice }) {
     object.amount = 1;
     localStorage.setItem(sku, JSON.stringify(object));
   }
+  sumPrices();
 }
 
 function removeItemFromLocalStorage(event) {
@@ -102,9 +103,9 @@ const fetchProductAndAddCart = (itemID) => {
   fetch(`https://api.mercadolibre.com/items/${itemID}`)
     .then(response => response.json())
     .then((product) => {
+      ol.appendChild(createCartItemElement(product));
       createItemInLocalStorage(product);
       sumPrices();
-      ol.appendChild(createCartItemElement(product));
     });
 };
 
@@ -119,6 +120,7 @@ const createButtonAndAddEvent = () => {
   const button = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
   button.addEventListener('click', (event) => {
     fetchProductAndAddCart(productId(event));
+    sumPrices();
   });
 
   return button;
