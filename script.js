@@ -166,6 +166,7 @@ window.onload = function onload() {
   createListItems('computadores');
   handleItems();
   clearCart();
+  sumPrices();
 };
 
 // Os requisitos 1 e 2 foram feitos após as apresentações sobre cada um
