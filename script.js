@@ -1,10 +1,11 @@
-window.onload = function onload() { };
+
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
   img.src = imageSource;
   return img;
+  console.log(img);
 }
 
 function createCustomElement(element, className, innerText) {
@@ -17,7 +18,6 @@ function createCustomElement(element, className, innerText) {
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
-
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
@@ -41,3 +41,34 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
+
+const nameProduct = "computador"
+
+const fecthComputer = () =>{
+const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${nameProduct}`;
+  //fetch(endpoint)
+  //.then((response) => response.json())
+  //.then((response)=> console.log(response.results))
+
+  return new Promise((resolve, reject)=>{
+  fetch(endpoint)
+  .then((response)=>{
+  response.json().then((data)=>{
+  const element = data.results;
+  console.log(element);
+  return resolve(element);
+     })
+    })
+   }) 
+}
+
+const fecthMap = async () =>{
+  
+  const fecthComputer = await fecthComputer();
+  console.log(fecthComputer);
+}
+
+window.onload = function onload() {
+  fecthMap();
+  //fecthComputer ();
+};
