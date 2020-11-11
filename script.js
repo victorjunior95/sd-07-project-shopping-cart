@@ -127,9 +127,21 @@ const createListItems = (QUERY) => {
   return section;
 };
 
+function clearCart() {
+  const clearButton = document.querySelector('.empty-cart');
+  let tagCartItems = document.querySelector('.cart__items');
+  clearButton.addEventListener('click', () => localStorage.clear());
+  clearButton.addEventListener('click', () => {
+    for (let i = 1; i <= tagCartItems.clientHeight; i += 1) {
+      tagCartItems.removeChild(tagCartItems.firstChild);
+    }
+  });
+}
+
 window.onload = function onload() {
   createListItems('computadores');
   handleItems();
+  clearCart();
 };
 
 // Os requisitos 1 e 2 foram feitos após as apresentações sobre cada um
