@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.clear();
     const totalPriceSpan = document.querySelector('.total-price');
     totalPrice = 0;
-    totalPriceSpan.innerText = totalPrice.toFixed(0);
+    totalPriceSpan.innerText = totalPrice.toFixed(2);
   });
 
   deleteLoading = () => {
@@ -31,7 +31,7 @@ function calculateTotal(price = 0, op = 0) {
   } else {
     totalPrice += price;
   }
-  totalPriceSpan.innerText = totalPrice.toFixed(0);
+  totalPriceSpan.innerText = totalPrice.toFixed(2);
 }
 
 function cartItemClickListener(event) {
