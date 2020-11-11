@@ -129,7 +129,7 @@ const createListItems = (QUERY) => {
 
 function clearCart() {
   const clearButton = document.querySelector('.empty-cart');
-  let tagCartItems = document.querySelector('.cart__items');
+  const tagCartItems = document.querySelector('.cart__items');
   clearButton.addEventListener('click', () => localStorage.clear());
   clearButton.addEventListener('click', () => {
     for (let i = 1; i <= tagCartItems.clientHeight; i += 1) {
