@@ -16,13 +16,13 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-function sumPrices() {
+async function sumPrices() {
   const itemsLocalStorage = Object.keys(localStorage);
   const tagCart = document.querySelector('.cart');
   const newElement = document.querySelector('p');
   let totalPrice = 0;
 
-  itemsLocalStorage.forEach((element) => {
+  await itemsLocalStorage.forEach((element) => {
     const currentItem = localStorage.getItem(element);
     const price = JSON.parse(currentItem).price;
     totalPrice += price;
