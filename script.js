@@ -128,7 +128,7 @@ const loadProducts = () => {
       item.lastChild.addEventListener('click', getIdFromEvent);
     });
   });
-  loadingOff();
+  setTimeout((loadingOff), 2000);
 };
 
 window.onload = function onload() {
