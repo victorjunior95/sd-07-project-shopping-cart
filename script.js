@@ -16,15 +16,67 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+function handleItems() {
+  let valuesLocalStorage = Object.values(localStorage);
+  let acc;
+  const tagOl = document.querySelector('.cart__items');
+  
+  valuesLocalStorage.map(element => {
+    acc = JSON.parse(element);
+    for (let i = 0; i < acc.amount; i += 1){
+      tagOl.appendChild(createCartItemElement(acc));
+    }
+  });
+}
+
+function createItemInLocalStorage({ id: sku, title: name, price: salePrice }) {
+  let object = {
+    id: sku,
+    title: name,
+    price: parseFloat(salePrice),
+  };
+
+  const verifyItem = JSON.parse(localStorage.getItem(object.id));
+  if (verifyItem !== null) {
+    object.price += verifyItem.price;
+    const objectLocalStorage = JSON.parse(localStorage.getItem(sku));
+    object.amount = objectLocalStorage.amount + 1;
+    localStorage.setItem(sku, JSON.stringify(object));
+  } else if (verifyItem === null) {
+    object.amount = 1;
+    localStorage.setItem(sku, JSON.stringify(object));
+  }
+}
+
+function removeItemFromLocalStorage(event) {
+  const id = event.target.id;
+  let verifyItemlocalStorage = JSON.parse(localStorage.getItem(id));
+  const amountLocalStorage = JSON.parse(verifyItemlocalStorage.amount);
+  const unityPrice = verifyItemlocalStorage.price / amountLocalStorage;
+
+  if (verifyItemlocalStorage.price !== 0) {
+    let newPrice = verifyItemlocalStorage.price - unityPrice;
+    verifyItemlocalStorage.price = newPrice;
+    verifyItemlocalStorage.amount = amountLocalStorage - 1;
+    localStorage.setItem(id, JSON.stringify(verifyItemlocalStorage));
+    if (verifyItemlocalStorage.price === 0) {
+      console.log('zerou')
+      localStorage.removeItem(id);
+    } 
+  }
+}
+
 function cartItemClickListener(event) {
   const ol = document.querySelector('.cart__items');
   ol.removeChild(event.target);
+  removeItemFromLocalStorage(event);
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
-  const li = document.createElement('li');
+  let li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.id = sku;
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
@@ -33,11 +85,14 @@ const fetchProductAndAddCart = (itemID) => {
   const ol = document.querySelector('.cart__items');
   fetch(`https://api.mercadolibre.com/items/${itemID}`)
     .then(response => response.json())
-    .then(product => ol.appendChild(createCartItemElement(product)));
+    .then(product => {
+      createItemInLocalStorage(product);
+      ol.appendChild(createCartItemElement(product));
+    });
 };
 
-const productId = (click) => {
-  const parentElement = click.target.parentElement;
+const productId = (event) => {
+  const parentElement = event.target.parentElement;
   const id = parentElement.firstChild.innerText;
 
   return id;
@@ -76,6 +131,7 @@ const createListItems = (QUERY) => {
 
 window.onload = function onload() {
   createListItems('computadores');
+  handleItems();
 };
 
 // Os requisitos 1 e 2 foram feitos após as apresentações sobre cada um
