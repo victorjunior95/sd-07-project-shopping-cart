@@ -1,5 +1,5 @@
-
 let deleteLoading;
+let saveOnStorage;
 let itemPrice;
 let totalPrice = 0;
 
@@ -10,18 +10,23 @@ document.addEventListener('DOMContentLoaded', () => {
   const cartItems = document.querySelector('.cart__items');
   emptyButton.addEventListener('click', () => {
     cartItems.innerHTML = '';
-    localStorage.clear();
     const totalPriceSpan = document.querySelector('.total-price');
     totalPrice = 0;
     totalPriceSpan.innerText = Math.round((totalPrice + Number.EPSILON) * 100) / 100;
+    localStorage.clear();
   });
+
+  saveOnStorage = () => localStorage.setItem('shoppingList', cartItems.innerHTML);
 
   deleteLoading = () => {
     const container = document.querySelector('.container');
     const loadingMsg = container.children[0];
     container.removeChild(loadingMsg);
   };
-  return deleteLoading;
+  return {
+    deleteLoading,
+    saveOnStorage,
+  };
 });
 
 function calculateTotal(price = 0, op = 0) {
@@ -31,7 +36,7 @@ function calculateTotal(price = 0, op = 0) {
   } else {
     totalPrice += price;
   }
-  totalPriceSpan.innerText = Math.round((totalPrice + Number.EPSILON) * 100) / 100;
+  localStorage.setItem('Price', totalPriceSpan.innerText = Math.round((totalPrice + Number.EPSILON) * 100) / 100);
 }
 
 function cartItemClickListener(event) {
@@ -39,7 +44,7 @@ function cartItemClickListener(event) {
   const itemDeletedPrice = parseFloat(event.target.innerText.slice(valor + 1));
   calculateTotal(itemDeletedPrice, 1);
   event.target.remove();
-  // localStorage.removeItem(); --> REMOVER O ITEM CLICKADO
+  saveOnStorage();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -63,6 +68,7 @@ const printItemInCart = (object) => {
     }),
   );
   calculateTotal(itemPrice);
+  saveOnStorage();
 };
 
 function createCustomElement(element, className, innerText) {
@@ -129,4 +135,12 @@ const printItem = (object) => {
 window.onload = async function onload() {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   await setupApi(endpoint, printItem, deleteLoading);
+
+  const cartItems = document.querySelector('.cart__items');
+  cartItems.innerHTML = localStorage.getItem('shoppingList');
+  cartItems.childNodes.forEach(product => product.addEventListener('click', cartItemClickListener));
+
+  const totalPriceSpan = document.querySelector('.total-price');
+  totalPriceSpan.innerText = localStorage.getItem('Price');
+  totalPrice = localStorage.getItem('Price');
 };
