@@ -19,7 +19,7 @@ function getSkuFromProductItem(item) {
 function sumPrices() {
   const itemsLocalStorage = Object.keys(localStorage);
   const tagCart = document.querySelector('.cart');
-  const newElement = document.createElement('p');
+  const newElement = document.querySelector('p');
   let totalPrice = 0;
 
   itemsLocalStorage.forEach((element) => {
@@ -28,17 +28,12 @@ function sumPrices() {
     totalPrice += price;
   });
 
-  if (tagCart.childNodes[7] !== undefined) {
-    tagCart.removeChild(tagCart.childNodes[7]);
-  }
-
-  newElement.className = 'total-price';
   newElement.innerText = `Total: $${totalPrice}`;
 
   tagCart.appendChild(newElement);
 }
 
-async function createItemInLocalStorage({ id: sku, title: name, price: salePrice }) {
+function createItemInLocalStorage({ id: sku, title: name, price: salePrice }) {
   const object = {
     id: sku,
     title: name,
@@ -55,7 +50,6 @@ async function createItemInLocalStorage({ id: sku, title: name, price: salePrice
     object.amount = 1;
     localStorage.setItem(sku, JSON.stringify(object));
   }
-  await sumPrices();
 }
 
 function removeItemFromLocalStorage(event) {
@@ -109,6 +103,7 @@ const fetchProductAndAddCart = (itemID) => {
     .then(response => response.json())
     .then((product) => {
       createItemInLocalStorage(product);
+      sumPrices();
       ol.appendChild(createCartItemElement(product));
     });
 };
