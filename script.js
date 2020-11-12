@@ -156,11 +156,11 @@ const createListItems = (QUERY) => {
   addLoading();
   fetch(`https://api.mercadolibre.com/sites/MLB/search?q=$${QUERY}`)
     .then(response => response.json())
-    .then(data => { 
+    .then((data) => {
       data.results.forEach((result) => {
-      section.appendChild(createProductItemElement(result));
+        section.appendChild(createProductItemElement(result));
       });
-      removeLoading()
+      removeLoading();
     });
 
   return section;
