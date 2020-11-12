@@ -26,25 +26,44 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-// function getSkuFromProductItem(item) {
-//   return item.querySelector('span.item__sku').innerText;
-// }
+function getSkuFromProductItem(item) {
+  return item.querySelector('span.item__sku').innerText;
+}
 
-// function cartItemClickListener(event) {
-//   // coloque seu código
-// }
+function cartItemClickListener(event) {
+  event.target.remove();
+}
 
-// function createCartItemElement({ sku, name, salePrice }) {
-//   const li = document.createElement('li');
-//   li.className = 'cart__item';
-//   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-//   li.addEventListener('click', cartItemClickListener);
-//   return li;
-// }
+function createCartItemElement({ sku, name, salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
+}
 
-const loadProducts = () => {
-  const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=$computador';
+const adicionarAoCarrinho = (event) => {
+  console.log(event.currentTarget);
+  const idSku = getSkuFromProductItem(event.currentTarget);
+  const endpoint = `https://api.mercadolibre.com/items/${idSku}`;
   fetch(endpoint).then(Response => Response.json()).then((data) => {
+    const { id: sku, title: name, price: salePrice } = data;
+    const cartItem = createCartItemElement({ sku, name, salePrice });
+    const cartItems = document.querySelector('.cart__items');
+    cartItems.appendChild(cartItem);
+  });
+};
+
+const click = () => {
+  const buttons = document.querySelectorAll('.item');
+  buttons.forEach((button) => {
+    button.addEventListener('click', adicionarAoCarrinho);
+  });
+};
+
+const loadProducts = async () => {
+  const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=$computador';
+  await fetch(endpoint).then(Response => Response.json()).then((data) => {
     const items = document.querySelector('.items');
     data.results.forEach((product) => {
       const { id: sku, title: name, thumbnail: image } = product;
@@ -54,6 +73,7 @@ const loadProducts = () => {
   });
 };
 
-window.onload = function onload() {
-  loadProducts();
+window.onload = async function onload() {
+  await loadProducts();
+  click();
 };
