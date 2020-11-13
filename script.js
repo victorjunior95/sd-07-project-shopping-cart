@@ -1,3 +1,30 @@
+// salva os itens do carrinho no local storage
+const localStorageContent = (key, value) => {
+  localStorage.setItem(key, value);
+};
+
+function cartItemClickListener(event) {
+  localStorage.removeItem(event.target.innerText);
+  event.target.parentNode.removeChild(event.target);
+}
+
+/*
+  função que carrega o local storage.
+  Essa função vai recriar os items do carrinho que ficaram armazenados no local storage
+*/
+const loadLocalStorage = () => {
+  const size = localStorage.length;
+  const cart = document.querySelector('.cart__items');
+  // para cada key do local storage, cria uma li e adiciona ela no carrinho
+  for (let i = 0; i < size; i += 1) {
+    const item = document.createElement('li');
+    item.className = 'cart__item';
+    item.innerText = localStorage.key(i);
+    item.addEventListener('click', cartItemClickListener);
+    cart.appendChild(item);
+  }
+};
+
 // função que cria a imagem de um produto
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -12,10 +39,6 @@ function createCustomElement(element, className, innerText) {
   e.className = className;
   e.innerText = innerText;
   return e;
-}
-
-function cartItemClickListener(event) {
-  event.target.parentNode.removeChild(event.target);
 }
 
 // pega o ID do produto
@@ -35,8 +58,10 @@ function createCartItemElement({ sku, name, salePrice }) {
 /* função que faz a requisição para a API com informações de um produto pelo seu ID
 e adiciona-o ao carrinho */
 const fetchAddToCart = (id) => {
+  // requisição para a API com as informações de um produto pelo seu ID
   const endpoint = `https://api.mercadolibre.com/items/${id}`;
   fetch(endpoint)
+    // converte a resposta em javascript
     .then(response => response.json()
       .then((data) => {
         const cartItems = document.querySelector('.cart__items');
@@ -47,7 +72,9 @@ const fetchAddToCart = (id) => {
           salePrice: data.price,
         };
         // adiciona as informações do produto que foi adicionado ao carrinho
-        cartItems.appendChild(createCartItemElement(productCartInfo));
+        const item = createCartItemElement(productCartInfo);
+        cartItems.appendChild(item);
+        localStorageContent(item.innerText, productCartInfo.salePrice);
       }),
     );
 };
@@ -92,4 +119,5 @@ const loadProductList = () => {
 
 window.onload = async function onload() {
   await loadProductList();
+  loadLocalStorage();
 };
