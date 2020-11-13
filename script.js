@@ -1,11 +1,8 @@
-
-
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
   img.src = imageSource;
   return img;
-  console.log(img);
 }
 
 function createCustomElement(element, className, innerText) {
@@ -15,9 +12,11 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
+
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
@@ -30,9 +29,10 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-function cartItemClickListener(event) {
+function cartItemClickListener() {
   // coloque seu código aqui
 }
+
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
@@ -41,34 +41,28 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
+// criando um variavel com paramento para buscar o endereço do appi e transforma em json
+const searchAppi = async (element = '$QUERY') => {
+  await fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${element}`)
+  .then(objJson => objJson.json())
+  .then((data) => {
+    const elementSection = document.querySelector('.items');
 
-const nameProduct = "computador"
-
-const fecthComputer = () =>{
-const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${nameProduct}`;
-  //fetch(endpoint)
-  //.then((response) => response.json())
-  //.then((response)=> console.log(response.results))
-
-  return new Promise((resolve, reject)=>{
-  fetch(endpoint)
-  .then((response)=>{
-  response.json().then((data)=>{
-  const element = data.results;
-  console.log(element);
-  return resolve(element);
-     })
-    })
-   }) 
-}
-
-const fecthMap = async () =>{
-  
-  const fecthComputer = await fecthComputer();
-  console.log(fecthComputer);
-}
+    data.results.forEach((product) => {
+      // renomeando o paramento para do createProductItemElement
+      const { id: sku, title: name, thumbnail: image } = product;
+      const productAppende = createProductItemElement({ sku, name, image });
+      elementSection.appendChild(productAppende);
+    });
+  });
+  // const objJson = await endpoint.json();
+  // console.log(objJson.results);
+  // return objJson.results ;
+};
 
 window.onload = function onload() {
-  fecthMap();
-  //fecthComputer ();
+  searchAppi('computador');
+  getSkuFromProductItem();
+  cartItemClickListener();
+  createCartItemElement();
 };
