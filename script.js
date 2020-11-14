@@ -58,14 +58,13 @@ function getLocal() {
   const cardItems = document.querySelector('.cart__items');
   // pegando o item no localStorage
   const localGetItem = localStorage.getItem('items');
-  if (!localGetItem) {
-    // convertendo em interpretação de javascript
-    cardItems.innerHTML = localGetItem;
 
-    // pegando o item individual
-    const cardItem = document.querySelectorAll('.cart__item');
-    cardItem.forEach(li => li.addEventListener('click', cartItemClickListener));
-  }
+  // convertendo em interpretação de javascript
+  cardItems.innerHTML = localGetItem;
+
+  // pegando o item individual
+  const cardItem = document.querySelectorAll('.cart__item');
+  cardItem.forEach(li => li.addEventListener('click', cartItemClickListener));
 }
 
 function getSkuFromProductItem(item) {
@@ -91,7 +90,7 @@ function createProductItemElement({ sku, name, image }) {
 
 // criando um variavel com paramento para buscar o endereço do appi e transforma em json
 const searchAppi = async (element = '$QUERY') => {
-  await fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${element}`)
+  await fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${element}&limit=6`)
     .then(objJson => objJson.json())
     .then((data) => {
       const elementSection = document.querySelector('.items');
@@ -108,7 +107,17 @@ const searchAppi = async (element = '$QUERY') => {
   // return objJson.results ;
 };
 
+const cleanInput = () => {
+  const clearAllButton = document.querySelector('.empty-cart');
+  const ol = document.querySelector('.cart__items');
+  clearAllButton.addEventListener('click', () => {
+    ol.innerHTML = '';
+    setLocal();
+  });
+};
+
 window.onload = function onload() {
   searchAppi('computador');
   getLocal();
+  cleanInput();
 };
