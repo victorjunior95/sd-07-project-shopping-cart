@@ -162,6 +162,7 @@ const loadProductList = () => {
 function showLoading() {
   const container = document.querySelector('.container');
   const loading = document.createElement('p');
+  loading.className = 'loading';
   loading.innerText = 'loading ...';
   container.appendChild(loading);
 }
