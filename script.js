@@ -1,3 +1,4 @@
+// função que soma os preços dos itens armazenados no local storage
 function localStorageValues() {
   let sum = 0;
   for (let i = 0; i < localStorage.length; i += 1) {
@@ -9,6 +10,7 @@ function localStorageValues() {
   return sum;
 }
 
+// função que adiciona o preço total dos produtos do carrinho
 async function addTotalPrice() {
   const price = document.querySelector('.total-price');
   price.innerText = localStorageValues();
@@ -42,6 +44,16 @@ const loadLocalStorage = () => {
   }
 };
 
+function emptyCart() {
+  const button = document.querySelector('.empty-cart');
+  button.addEventListener('click', () => {
+    const cartItems = document.querySelector('.cart__items');
+    cartItems.innerHTML = '';
+    localStorage.clear();
+    addTotalPrice();
+  });
+}
+
 // função que cria a imagem de um produto
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -68,6 +80,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  // dá ao item a função de remover do carrinho ao clicar nele
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
@@ -135,8 +148,10 @@ const loadProductList = () => {
     });
 };
 
+// funções ao carregar a página
 window.onload = async function onload() {
   await loadProductList();
   loadLocalStorage();
   await addTotalPrice();
+  emptyCart();
 };
