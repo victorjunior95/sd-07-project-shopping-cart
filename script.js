@@ -44,12 +44,16 @@ const loadLocalStorage = () => {
   }
 };
 
+// função do botão esvaziar carrinho
 function emptyCart() {
   const button = document.querySelector('.empty-cart');
   button.addEventListener('click', () => {
     const cartItems = document.querySelector('.cart__items');
+    // remover todos os itens do carrinho
     cartItems.innerHTML = '';
+    // remove todos os itens do local storage
     localStorage.clear();
+    // atualiza o preço total dos produtos
     addTotalPrice();
   });
 }
@@ -106,6 +110,12 @@ const fetchAddToCart = (id) => {
         cartItems.appendChild(item);
         localStorageContent(item.innerText, productCartInfo.salePrice);
         addTotalPrice();
+      })
+      // remove a mensagem de carregamento
+      .then(() => {
+        const container = document.querySelector('.container');
+        const loading = document.querySelector('.loading');
+        container.removeChild(loading);
       }),
     );
 };
@@ -148,8 +158,17 @@ const loadProductList = () => {
     });
 };
 
+// função que exibe uma mensagem de carregamento enquanto não retorna a resposta da API
+function showLoading() {
+  const container = document.querySelector('.container');
+  const loading = document.createElement('p');
+  loading.innerText = 'loading ...';
+  container.appendChild(loading);
+}
+
 // funções ao carregar a página
 window.onload = async function onload() {
+  showLoading();
   await loadProductList();
   loadLocalStorage();
   await addTotalPrice();
