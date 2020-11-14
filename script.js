@@ -110,12 +110,6 @@ const fetchAddToCart = (id) => {
         cartItems.appendChild(item);
         localStorageContent(item.innerText, productCartInfo.salePrice);
         addTotalPrice();
-      })
-      // remove a mensagem de carregamento
-      .then(() => {
-        const container = document.querySelector('.container');
-        const loading = document.querySelector('.loading');
-        container.removeChild(loading);
       }),
     );
 };
@@ -138,6 +132,20 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
+// função que exibe uma mensagem de carregamento enquanto não retorna a resposta da API
+function showLoading() {
+  const container = document.querySelector('.container');
+  const loading = document.createElement('p');
+  loading.className = 'loading';
+  loading.innerText = 'loading ...';
+  container.appendChild(loading);
+}
+
+function removeLoading() {
+  const loading = document.querySelector('.loading');
+  loading.remove();
+}
+
 // função carrega lista de produtos
 const loadProductList = () => {
   // faz requisição para a API pelo termo 'computador'
@@ -156,16 +164,8 @@ const loadProductList = () => {
         items.appendChild(product);
       });
     });
+  removeLoading();
 };
-
-// função que exibe uma mensagem de carregamento enquanto não retorna a resposta da API
-function showLoading() {
-  const container = document.querySelector('.container');
-  const loading = document.createElement('p');
-  loading.className = 'loading';
-  loading.innerText = 'loading ...';
-  container.appendChild(loading);
-}
 
 // funções ao carregar a página
 window.onload = async function onload() {
