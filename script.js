@@ -38,13 +38,13 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 function createLoading() {
   const container = document.querySelector('.container');
-  const createLoad = createCustomElement('h1', 'load', 'loading...');
+  const createLoad = createCustomElement('h1', 'loading', 'loading...');
   return container.appendChild(createLoad);
 }
 // criando um load para aparecer na requisições
 function renderLoad() {
-  // criado um variavel para armazenar a class '.load'
-  const loadCaptured = document.querySelector('.load');
+  // criado um variavel para armazenar a class '.loading'
+  const loadCaptured = document.querySelector('.loading');
   // verificando e o load retorna alguma coisa.
   if (!loadCaptured) {
     return createLoading();
