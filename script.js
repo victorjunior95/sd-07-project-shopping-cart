@@ -36,8 +36,25 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
+function createLoading() {
+  const container = document.querySelector('.container');
+  const createLoad = createCustomElement('h1', 'load', 'loading...');
+  return container.appendChild(createLoad);
+}
+// criando um load para aparecer na requisições
+function renderLoad() {
+  // criado um variavel para armazenar a class '.load'
+  const loadCaptured = document.querySelector('.load');
+  // verificando e o load retorna alguma coisa.
+  if (!loadCaptured) {
+    return createLoading();
+  }
+  // caso se existe o load e retirado
+  return loadCaptured.remove();
+}
 // pega informaçao do produto do id do carrinho
 const addCart = (id) => {
+  renderLoad();
   fetch(`https://api.mercadolibre.com/items/${id}`)
     .then(objJson => objJson.json())
     .then((data) => {
@@ -49,9 +66,9 @@ const addCart = (id) => {
       };
       cart.appendChild(createCartItemElement(productCart));
       setLocal();
+      renderLoad();
     });
 };
-
 
 function getLocal() {
   // pega o  item do html
@@ -89,8 +106,9 @@ function createProductItemElement({ sku, name, image }) {
 }
 
 // criando um variavel com paramento para buscar o endereço do appi e transforma em json
-const searchAppi = async (element = '$QUERY') => {
-  await fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${element}&limit=6`)
+const searchAppi = (element = '$QUERY') => {
+  renderLoad();
+  fetch(`https://api.mercadolibre.com/sites/MLB/search?q=${element}&limit=6`)
     .then(objJson => objJson.json())
     .then((data) => {
       const elementSection = document.querySelector('.items');
@@ -101,6 +119,7 @@ const searchAppi = async (element = '$QUERY') => {
         const productAppende = createProductItemElement({ sku, name, image });
         elementSection.appendChild(productAppende);
       });
+      renderLoad();
     });
   // const objJson = await endpoint.json();
   // console.log(objJson.results);
