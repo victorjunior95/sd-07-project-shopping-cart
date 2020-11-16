@@ -132,15 +132,6 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-// função que exibe uma mensagem de carregamento enquanto não retorna a resposta da API
-function showLoading() {
-  const container = document.querySelector('.container');
-  const loading = document.createElement('p');
-  loading.className = 'loading';
-  loading.innerText = 'loading ...';
-  container.appendChild(loading);
-}
-
 function removeLoading() {
   const loading = document.querySelector('.loading');
   loading.remove();
@@ -167,10 +158,19 @@ const loadProductList = () => {
   removeLoading();
 };
 
+// função que exibe uma mensagem de carregamento enquanto não retorna a resposta da API
+function showLoading() {
+  const container = document.querySelector('.container');
+  const loading = document.createElement('p');
+  loading.className = 'loading';
+  loading.innerText = 'loading ...';
+  container.appendChild(loading);
+  loadProductList();
+}
+
 // funções ao carregar a página
 window.onload = async function onload() {
-  showLoading();
-  await loadProductList();
+  await showLoading();
   loadLocalStorage();
   await addTotalPrice();
   emptyCart();
