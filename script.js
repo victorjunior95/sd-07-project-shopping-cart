@@ -16,9 +16,51 @@ function setLocal() {
   const cardItems = document.querySelector('.cart__items');
   // innerHTML TRANSFORMA O OBJETO  EM UM TEXTO.
   localStorage.setItem('items', cardItems.innerHTML);
+  const price = document.querySelector('.total-price');
+  localStorage.setItem('price', price.innerText);
+}
+
+function createLoading() {
+  const container = document.querySelector('.container');
+  const createLoad = createCustomElement('h1', 'loading', 'loading...');
+  return container.appendChild(createLoad);
+}
+
+// criando um load para aparecer na requisições
+function renderLoad() {
+  // criado um variavel para armazenar a class '.loading'
+  const loadCaptured = document.querySelector('.loading');
+  // verificando e o load retorna alguma coisa.
+  if (!loadCaptured) {
+    return createLoading();
+  }
+  // caso se existe o load e retirado
+  return loadCaptured.remove();
+}
+
+function totalPrice(id, bool = true) {
+  renderLoad();
+  fetch(`https://api.mercadolibre.com/items/${id}`)
+    .then(objJson => objJson.json())
+    .then((data) => {
+      // chamando o valor do elemento
+      const capTotalPrice = document.querySelector('.total-price');
+      // conveter para numero
+      const valuePrice = Number(Number(capTotalPrice.innerText).toFixed(2));
+      // convertendo capTotalPrice em javascript
+      // e somando o valor do html com o valor do id 'requisicao'
+      if (bool) {
+        capTotalPrice.innerText = valuePrice + data.price;
+      } else {
+        capTotalPrice.innerText = valuePrice - data.price;
+      }
+      renderLoad();
+      setLocal();
+    });
 }
 
 function cartItemClickListener(event) {
+  totalPrice(event.target.id, false);
   // recuperando o filho
   const son = event.target;
   // recuperando o pai do filho
@@ -31,27 +73,12 @@ function cartItemClickListener(event) {
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
+  li.id = sku;
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
 
-function createLoading() {
-  const container = document.querySelector('.container');
-  const createLoad = createCustomElement('h1', 'loading', 'loading...');
-  return container.appendChild(createLoad);
-}
-// criando um load para aparecer na requisições
-function renderLoad() {
-  // criado um variavel para armazenar a class '.loading'
-  const loadCaptured = document.querySelector('.loading');
-  // verificando e o load retorna alguma coisa.
-  if (!loadCaptured) {
-    return createLoading();
-  }
-  // caso se existe o load e retirado
-  return loadCaptured.remove();
-}
 // pega informaçao do produto do id do carrinho
 const addCart = (id) => {
   renderLoad();
@@ -60,12 +87,12 @@ const addCart = (id) => {
     .then((data) => {
       const cart = document.querySelector('.cart__items');
       const productCart = {
-        sku: data.id,
+        sku: id,
         name: data.title,
         salePrice: data.price,
       };
       cart.appendChild(createCartItemElement(productCart));
-      setLocal();
+      totalPrice(id);
       renderLoad();
     });
 };
@@ -73,11 +100,14 @@ const addCart = (id) => {
 function getLocal() {
   // pega o  item do html
   const cardItems = document.querySelector('.cart__items');
+  const total = document.querySelector('.total-price');
   // pegando o item no localStorage
   const localGetItem = localStorage.getItem('items');
+  const localGetPrice = localStorage.getItem('price');
 
   // convertendo em interpretação de javascript
   cardItems.innerHTML = localGetItem;
+  total.innerHTML = localGetPrice;
 
   // pegando o item individual
   const cardItem = document.querySelectorAll('.cart__item');
@@ -128,9 +158,11 @@ const searchAppi = (element = '$QUERY') => {
 
 const cleanInput = () => {
   const clearAllButton = document.querySelector('.empty-cart');
+  const prices = document.querySelector('.total-price');
   const ol = document.querySelector('.cart__items');
   clearAllButton.addEventListener('click', () => {
     ol.innerHTML = '';
+    prices.innerHTML = '0';
     setLocal();
   });
 };
