@@ -16,16 +16,39 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+function calculatePrice() {
+  return new Promise((resolve) => {
+    const prices = [];
+    document.querySelectorAll('.cart__item').forEach(data => prices.push(Number(data.dataset.price)));
+    const value = (prices.reduce((acc, crr) => acc + crr, 0));
+    resolve(parseFloat(value.toFixed(2)));
+  });
+}
+async function sumTotalCart() {
+  const priceChild = document.querySelector('.total-price-child');
+  const value = await calculatePrice();
+  if (priceChild.innerText === '') {
+    priceChild.innerText = `Preço: R$${value}`;
+  } if (value === 0) {
+    priceChild.innerHTML = '';
+  } else {
+    priceChild.innerHTML = '';
+    priceChild.innerText = await `Preço: R$${value}`;
+  }
+}
+
 function cartItemClickListener(event) {
   event.target.remove();
   const id = event.target.innerText.split(' ')[1];
   localStorage.removeItem(id);
+  sumTotalCart();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.dataset.price = salePrice;
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
@@ -34,6 +57,7 @@ const addToCart = ({ sku, name, salePrice }) => {
   const ListItems = document.querySelector('ol.cart__items');
   const listItem = createCartItemElement({ sku, name, salePrice });
   ListItems.appendChild(listItem);
+  sumTotalCart();
 };
 
 const fetchAddCart = (id) => {
@@ -76,16 +100,16 @@ const loadProducts = () => {
       });
     });
 };
-const loadList = () => {
+const reloadList = () => {
   const values = Object.values(localStorage);
-  values.forEach((value) => {
+  values.forEach(async (value) => {
     console.log(JSON.parse(value));
     const { id: sku, title: name, price: salePrice } = JSON.parse(value);
-    addToCart({ sku, name, salePrice });
+    await addToCart({ sku, name, salePrice });
   });
 };
 
-window.onload = function onload() {
-  loadProducts();
-  loadList();
+window.onload = async function onload() {
+  await loadProducts();
+  reloadList();
 };
