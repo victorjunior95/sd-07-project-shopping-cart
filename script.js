@@ -132,6 +132,7 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
+// remove o loading
 function removeLoading() {
   const loading = document.querySelector('.loading');
   loading.remove();
@@ -147,6 +148,8 @@ const loadProductList = () => {
     // dados dos produtos requisitados (array de produtos)
     .then((data) => {
       const items = document.querySelector('.items');
+      // remove o loading quando retonar a resposta da API
+      removeLoading();
       /* para cada produto do array, cria um elemento com as informações
       daquele produto (código, nome e imagem)e lança-o como filho da section items */
       data.results.forEach((productInfo) => {
@@ -155,22 +158,11 @@ const loadProductList = () => {
         items.appendChild(product);
       });
     });
-  removeLoading();
 };
-
-// função que exibe uma mensagem de carregamento enquanto não retorna a resposta da API
-function showLoading() {
-  const container = document.querySelector('.container');
-  const loading = document.createElement('p');
-  loading.className = 'loading';
-  loading.innerText = 'loading ...';
-  container.appendChild(loading);
-  loadProductList();
-}
 
 // funções ao carregar a página
 window.onload = async function onload() {
-  await showLoading();
+  await loadProductList();
   loadLocalStorage();
   await addTotalPrice();
   emptyCart();
