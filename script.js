@@ -1,4 +1,10 @@
-window.onload = function onload() { };
+window.onload = function onload() { 
+
+  console.log("Hello World");
+
+};
+
+
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
