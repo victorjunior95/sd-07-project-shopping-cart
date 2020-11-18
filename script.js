@@ -28,12 +28,12 @@ async function sumTotalCart() {
   const priceChild = document.querySelector('.total-price-child');
   const value = await calculatePrice();
   if (priceChild.innerText === '') {
-    priceChild.innerText = `Preço: R$${value}`;
+    priceChild.innerText = value
   } if (value === 0) {
     priceChild.innerHTML = '';
   } else {
     priceChild.innerHTML = '';
-    priceChild.innerText = await `Preço: R$${value}`;
+    priceChild.innerText = value
   }
 }
 
@@ -100,6 +100,7 @@ const loadProducts = () => {
       });
     });
 };
+
 const reloadList = () => {
   const values = Object.values(localStorage);
   values.forEach(async (value) => {
@@ -109,7 +110,18 @@ const reloadList = () => {
   });
 };
 
+function clearButton() {
+  const clearButton = document.querySelector('.empty-cart');
+  clearButton.addEventListener('click', () => {
+  const cartList = document.querySelector('.cart__items');
+  cartList.innerHTML = '';
+  localStorage.clear();
+  sumTotalCart();
+  });
+}
+
 window.onload = async function onload() {
   await loadProducts();
   reloadList();
+  clearButton();
 };
