@@ -95,5 +95,6 @@ window.onload = function onload() {
   fetch(API_URL, myObject)
     .then(response => response.json())
     .then(data => createElementFromAPI(data.results));
+  document.getElementsByClassName('empty-cart')[0].addEventListener('click', () => localStorage.clear());
   getStorage(localStorage);
 };
