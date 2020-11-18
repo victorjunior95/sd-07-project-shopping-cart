@@ -12,15 +12,16 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function cartItemClickListener() {
-  // coloque seu código aqui
+function cartItemClickListener(itemID) {
+  document.getElementById(itemID).remove();
 }
 
 function createCartItemElement({ id, title, price }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
+  li.id = id;
   li.innerText = `SKU: ${id} | NAME: ${title} | PRICE: $${price}`;
-  li.addEventListener('click', cartItemClickListener);
+  li.addEventListener('click', () => cartItemClickListener(id));
   return li;
 }
 
