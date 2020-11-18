@@ -13,19 +13,34 @@ function createCustomElement(element, className, innerText) {
 }
 
 function cartItemClickListener(itemID) {
+  localStorage.removeItem(itemID);
   document.getElementById(itemID).remove();
 }
 
-function createCartItemElement({ id, title, price }) {
+// ID Generator from https://gist.github.com/gordonbrander/2230317
+
+const ID = function () {
+  // Math.random should be unique because of its seeding algorithm.
+  // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+  // after the decimal.
+  return `_${Math.random().toString(36).substr(2, 9)}`;
+};
+
+function createCartItemElement({ id, title, price, idEntry }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
-  li.id = id;
+  if (idEntry) li.id = idEntry;
+  else li.id = ID();
+  li.sku = id;
+  li.title = title;
+  li.price = price;
   li.innerText = `SKU: ${id} | NAME: ${title} | PRICE: $${price}`;
-  li.addEventListener('click', () => cartItemClickListener(id));
+  li.addEventListener('click', () => cartItemClickListener(li.id));
   return li;
 }
 
 function addInList(item) {
+  localStorage.setItem(item.id, JSON.stringify([item.sku, item.title, item.price]));
   document.getElementsByClassName('cart__items')[0].appendChild(item);
 }
 
@@ -60,10 +75,25 @@ function createElementFromAPI(itens) {
   });
 }
 
+function getStorage(storage) {
+  const keys = Object.keys(storage);
+  for (let index = 0; index < keys.length; index += 1) {
+    const values = JSON.parse(storage.getItem(keys[index]));
+    const obj = {
+      id: values[0],
+      title: values[1],
+      price: values[2],
+      idEntry: keys[index],
+    };
+    document.getElementsByClassName('cart__items')[0].appendChild(createCartItemElement(obj));
+  }
+}
+
 window.onload = function onload() {
   const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   const myObject = { method: 'GET' };
   fetch(API_URL, myObject)
     .then(response => response.json())
     .then(data => createElementFromAPI(data.results));
+  getStorage(localStorage);
 };
