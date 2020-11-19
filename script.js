@@ -14,21 +14,24 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+function saveShoppingcar() {
+  const shoppingCar = document.querySelector('.cart__items').innerHTML;
+  localStorage.setItem('shoppingCar', shoppingCar);
+}
+
 function clearCart() {
   document.getElementsByClassName('cart__items')[0].innerHTML = '';
+  saveShoppingcar();
 }
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-const updateCart = () => {
-  localStorage.setItem('ol', document.querySelector('.cart__items').innerHTML);
-};// Requisito 4
-
 function cartItemClickListener(event) {
   const item = event.target;
   item.remove();
+  saveShoppingcar();
 }
 
   // Resolução com ajuda na turma 6, requisito 2
@@ -45,6 +48,23 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   return li;
 }
 
+function addEventListenerForItemsLocalStorage(tagHtml, event) {
+  const btns = document.querySelectorAll(tagHtml);
+  btns.forEach((element) => {
+    element.addEventListener('click', event);
+  });
+}
+
+function calladdEventListener() {
+  addEventListenerForItemsLocalStorage('.cart__item', cartItemClickListener);
+}
+
+function loadShoppingCar() {
+  const shoppingCar = localStorage.getItem('shoppingCar');
+  document.querySelector('.cart__items').innerHTML = shoppingCar;
+  calladdEventListener();
+}
+
 function ItemclickListener(event) {
   const id = event.target.parentNode.firstChild.innerText;
   const endpoint = `https://api.mercadolibre.com/items/${id}`;
@@ -53,6 +73,7 @@ function ItemclickListener(event) {
     .then((object) => {
       const item = createCartItemElement(object);
       includeItemcart(item);
+      saveShoppingcar();
     });
 }
 
@@ -64,7 +85,6 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createProductImageElement(image));
   const button = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
   button.addEventListener('click', ItemclickListener);
-  updateCart();
   section.appendChild(button);
   return section;
 }
@@ -82,16 +102,8 @@ const loadProducts = () => {
   });
 };
 
-const loadLocalStorage = () => {
-  const ol = document.querySelector('.cart__items');
-  if (localStorage.ol) {
-    ol.innerHTML = localStorage.getItem('ol');
-    ol.querySelectorAll('li').forEach(li => li.addEventListener('click', cartItemClickListener));
-  }
-};// Requisito 4
-
 window.onload = function onload() {
   loadProducts();
   document.getElementsByClassName('empty-cart')[0].addEventListener('click', clearCart);
-  loadLocalStorage();
+  loadShoppingCar();
 };
