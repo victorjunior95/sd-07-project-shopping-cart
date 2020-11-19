@@ -29,13 +29,11 @@ async function totalSum() {
   let sum = 0;
   if (items.length !== 0) {
     items.forEach((priceTag) => {
-      const div = document.querySelector('.total-price');
       const price = parseFloat(priceTag.innerHTML.split('$')[1]);
       sum += price;
       renderPrice(sum);
     });
   } else {
-    const div = document.querySelector('.total-price');
     renderPrice('');
   }
 }
