@@ -1,6 +1,6 @@
 function cartItemClickListener(event) {
   const li = event.target;
-  li.innerHTML = '';
+  li.remove();
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
