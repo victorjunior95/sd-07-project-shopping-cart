@@ -21,7 +21,19 @@ function setLocalStorage() {
   localStorage.setItem('carrinho de compras', JSON.stringify(arr));
 }
 
-function cartItemClickListener(event) {
+function updadeTotalPrice(price) {
+  return new Promise((resolve) => {
+    const totalPrice = document.querySelector('.total-price');
+    const oldTotalPrice = parseFloat(totalPrice.innerText);
+    const newTotalPrice = oldTotalPrice + price;
+    const newTotalPriceTwoDigits = Math.round(newTotalPrice * 100) / 100;
+    totalPrice.innerText = newTotalPriceTwoDigits; // .toFixed(2);
+    resolve();
+  });
+}
+
+async function cartItemClickListener(event) {
+  await updadeTotalPrice((-1) * price);
   event.target.remove();
   setLocalStorage();
 }
