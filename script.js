@@ -110,13 +110,13 @@ function createClearButton() {
 window.onload = function onload() {
   const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   const myObject = { method: 'GET' };
+  getStorage(localStorage);
   createLoadingElement('items');
   fetch(API_URL, myObject)
     .then(response => response.json())
     .then(data => createElementFromAPI(data.results))
     .then(
       deleteLoadingElement(),
-      getStorage(localStorage),
       createClearButton(),
     )
     .catch(() => console.log('Algo deu errado!'));
