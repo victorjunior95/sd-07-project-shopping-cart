@@ -1,4 +1,4 @@
-// Meritos para 
+// Meritos para
 
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
@@ -53,6 +53,7 @@ async function sumTotalCart() {
     priceChild.innerText = value;
   }
 }
+
 function cartItemClickListener(event) {
   event.target.remove();
   const id = event.target.innerText.split(' ')[1];
