@@ -1,3 +1,5 @@
+let totalPrice = 0;
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -12,9 +14,23 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function cartItemClickListener(itemID) {
+async function sumCart(price) {
+  totalPrice += price;
+  return totalPrice;
+}
+
+async function deductCart(price) {
+  totalPrice -= price;
+  return totalPrice;
+}
+
+function cartItemClickListener(itemID, itemPrice) {
   localStorage.removeItem(itemID);
   document.getElementById(itemID).remove();
+  deductCart(itemPrice)
+    .then((resolve) => {
+      document.getElementsByClassName('total-price')[0].innerText = resolve;
+    });
 }
 
 function createLoadingElement(parenteClass) {
@@ -44,13 +60,19 @@ function createCartItemElement({ id, title, price, idEntry }) {
   li.title = title;
   li.price = price;
   li.innerText = `SKU: ${id} | NAME: ${title} | PRICE: $${price}`;
-  li.addEventListener('click', () => cartItemClickListener(li.id));
+  li.addEventListener('click', () => cartItemClickListener(li.id, li.price));
   return li;
+}
+
+function updateSumCart(resolve) {
+  document.getElementsByClassName('total-price')[0].innerText = resolve;
 }
 
 function addInList(item) {
   localStorage.setItem(item.id, JSON.stringify([item.sku, item.title, item.price]));
   document.getElementsByClassName('cart__items')[0].appendChild(item);
+  sumCart(item.price)
+    .then(resolve => updateSumCart(resolve));
 }
 
 function createProductItemElement({ sku, name, image }) {
@@ -95,6 +117,8 @@ function getStorage(storage) {
       idEntry: keys[index],
     };
     document.getElementsByClassName('cart__items')[0].appendChild(createCartItemElement(obj));
+    sumCart(obj.price)
+      .then(resolve => updateSumCart(resolve));
   }
 }
 
@@ -108,6 +132,8 @@ function createClearButton() {
 }
 
 window.onload = function onload() {
+  totalPrice = 0;
+  document.getElementsByClassName('total-price')[0].innerText = totalPrice;
   getStorage(localStorage);
   const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   const myObject = { method: 'GET' };
