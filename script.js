@@ -14,24 +14,21 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function saveShoppingcar() { // Requisito 4 com ajuda dos plantões e etc.
-  const shoppingCar = document.querySelector('.cart__items').innerHTML;
-  localStorage.setItem('shoppingCar', shoppingCar);
-}
-
 function clearCart() {
   document.getElementsByClassName('cart__items')[0].innerHTML = '';
-  saveShoppingcar();// Requisito 4
 }
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
+const updateCart = () => {
+  localStorage.setItem('ol', document.querySelector('.cart__items').innerHTML);
+};// Requisito 4
+
 function cartItemClickListener(event) {
   const item = event.target;
   item.remove();
-  saveShoppingcar();// Requisito 4
 }
 
   // Resolução com ajuda na turma 6, requisito 2
@@ -47,22 +44,6 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
-// Requisito 4
-function addEventListenerForItemsLocalStorage(tagHtml, event) {
-  const btns = document.querySelectorAll(tagHtml);
-  btns.forEach((element) => {
-    element.addEventListener('click', event);
-  });
-}
-function calladdEventListener() {
-  addEventListenerForItemsLocalStorage('.cart__item', cartItemClickListener);
-}
-
-function loadShoppingCar() {
-  const shoppingCar = localStorage.getItem('shoppingCar');
-  document.querySelector('.cart__items').innerHTML = shoppingCar;
-  calladdEventListener();
-}// Requisito 4
 
 function ItemclickListener(event) {
   const id = event.target.parentNode.firstChild.innerText;
@@ -83,6 +64,7 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createProductImageElement(image));
   const button = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
   button.addEventListener('click', ItemclickListener);
+  updateCart();
   section.appendChild(button);
   return section;
 }
@@ -96,13 +78,20 @@ const loadProducts = () => {
       const { id: sku, title: name, thumbnail: image } = produto;
       const item = createProductItemElement({ sku, name, image });
       items.appendChild(item);
-      saveShoppingcar();
     });
   });
 };
 
+const loadLocalStorage = () => {
+  const ol = document.querySelector('.cart__items');
+  if (localStorage.ol) {
+    ol.innerHTML = localStorage.getItem('ol');
+    ol.querySelectorAll('li').forEach(li => li.addEventListener('click', cartItemClickListener));
+  }
+};// Requisito 4
+
 window.onload = function onload() {
-  loadShoppingCar();
   loadProducts();
   document.getElementsByClassName('empty-cart')[0].addEventListener('click', clearCart);
+  loadLocalStorage();
 };
