@@ -21,21 +21,35 @@ function setLocalStorage() {
   localStorage.setItem('carrinho de compras', JSON.stringify(arr));
 }
 
-function updadeTotalPrice(price) {
+function calculatePrice() {
   return new Promise((resolve) => {
-    const totalPrice = document.querySelector('.total-price');
-    const oldTotalPrice = parseFloat(totalPrice.innerText);
-    const newTotalPrice = oldTotalPrice + price;
-    const newTotalPriceTwoDigits = Math.round(newTotalPrice * 100) / 100;
-    totalPrice.innerText = newTotalPriceTwoDigits; // .toFixed(2);
-    resolve();
+    const prices = [];
+    document
+      .querySelectorAll('.cart__item')
+      .forEach(data => prices.push(Number(data.dataset.price)));
+    const value = prices.reduce((acc, crr) => acc + crr, 0);
+    resolve(parseFloat(value.toFixed(2)));
   });
 }
 
-async function cartItemClickListener(event) {
-  await updadeTotalPrice((-1) * price);
+async function sumTotalCart() {
+  const priceChild = document.querySelector('.total-price-child');
+  const value = await calculatePrice();
+  if (priceChild.innerText === '') {
+    priceChild.innerText = value;
+  }
+  if (value === 0) {
+    priceChild.innerHTML = '';
+  } else {
+    priceChild.innerHTML = '';
+    priceChild.innerText = value;
+  }
+}
+
+function cartItemClickListener(event) {
   event.target.remove();
   setLocalStorage();
+  sumTotalCart();
 }
 
 const addLoading = () => {
@@ -53,6 +67,7 @@ const cleanCart = () => {
   cleanButton.addEventListener('click', () => {
     cart.innerHTML = '';
     localStorage.clear();
+    sumTotalCart();
   });
 };
 
@@ -72,6 +87,7 @@ const addProductsOnCart = (id) => {
     .then((item) => {
       document.querySelector('.cart__items').appendChild(createCartItemElement(item));
       setLocalStorage();
+      sumTotalCart();
     });
 };
 
