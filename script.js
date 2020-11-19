@@ -110,6 +110,7 @@ function createProductItemElement({ sku, name, image }) {
 
 // Aula 9.4 requisito 1
 const loadProducts = () => {
+  const requisito7 = document.querySelector('.loading');
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   fetch(endpoint).then(Response => Response.json()).then((data) => {
     const items = document.querySelector('.items');
@@ -117,6 +118,7 @@ const loadProducts = () => {
       const { id: sku, title: name, thumbnail: image } = produto;
       const item = createProductItemElement({ sku, name, image });
       items.appendChild(item);
+      requisito7.innerHTML = '';
     });
   });
 };
