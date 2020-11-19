@@ -14,7 +14,7 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function saveShoppingcar() {// Requisito 4 com ajuda dos plantões e etc.
+function saveShoppingcar() { // Requisito 4 com ajuda dos plantões e etc.
   const shoppingCar = document.querySelector('.cart__items').innerHTML;
   localStorage.setItem('shoppingCar', shoppingCar);
 }
