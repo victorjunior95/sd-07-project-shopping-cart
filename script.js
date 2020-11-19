@@ -14,6 +14,10 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+function clearCart() {
+  document.getElementsByClassName('cart__items')[0].innerHTML = '';
+}
+
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
@@ -75,4 +79,5 @@ const loadProducts = () => {
 
 window.onload = function onload() {
   loadProducts();
+  document.getElementsByClassName('empty-cart')[0].addEventListener('click', clearCart);
 };
