@@ -22,9 +22,10 @@ function createLoadingElement(parenteClass) {
   document.getElementsByClassName(parenteClass)[0].appendChild(element);
 }
 
+/*
 function deleteLoadingElement() {
   document.getElementsByClassName('loading')[0].remove();
-}
+}*/
 
 // ID Generator from https://gist.github.com/gordonbrander/2230317
 
@@ -60,7 +61,6 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   buttonItem = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
-  createLoadingElement('cart');
   buttonItem.addEventListener('click', () => fetch(`https://api.mercadolibre.com/items/${sku}`)
     .then(response => response.json())
     .then(data => addInList(createCartItemElement(data))));
