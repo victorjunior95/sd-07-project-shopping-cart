@@ -113,8 +113,11 @@ window.onload = function onload() {
   createLoadingElement('items');
   fetch(API_URL, myObject)
     .then(response => response.json())
-    .then(data => createElementFromAPI(data.results));
-  deleteLoadingElement();
-  getStorage(localStorage);
-  createClearButton();
+    .then(data => createElementFromAPI(data.results))
+    .then(
+      deleteLoadingElement(),
+      getStorage(localStorage),
+      createClearButton(),
+    )
+    .catch(() => console.log('Algo deu errado!'));
 };
