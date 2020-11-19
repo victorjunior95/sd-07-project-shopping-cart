@@ -22,10 +22,9 @@ function createLoadingElement(parenteClass) {
   document.getElementsByClassName(parenteClass)[0].appendChild(element);
 }
 
-/*
 function deleteLoadingElement() {
   document.getElementsByClassName('loading')[0].remove();
-}*/
+}
 
 // ID Generator from https://gist.github.com/gordonbrander/2230317
 
@@ -115,6 +114,7 @@ window.onload = function onload() {
   fetch(API_URL, myObject)
     .then(response => response.json())
     .then(data => createElementFromAPI(data.results));
+  deleteLoadingElement();
   getStorage(localStorage);
   createClearButton();
 };
