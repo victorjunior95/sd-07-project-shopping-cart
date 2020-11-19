@@ -64,7 +64,6 @@ function createProductItemElement({ sku, name, image }) {
   buttonItem.addEventListener('click', () => fetch(`https://api.mercadolibre.com/items/${sku}`)
     .then(response => response.json())
     .then(data => addInList(createCartItemElement(data))));
-  deleteLoadingElement();
   section.appendChild(buttonItem);
   return section;
 }
@@ -116,7 +115,6 @@ window.onload = function onload() {
   fetch(API_URL, myObject)
     .then(response => response.json())
     .then(data => createElementFromAPI(data.results));
-  deleteLoadingElement();
   getStorage(localStorage);
   createClearButton();
 };
