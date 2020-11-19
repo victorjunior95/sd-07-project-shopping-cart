@@ -17,6 +17,15 @@ function cartItemClickListener(itemID) {
   document.getElementById(itemID).remove();
 }
 
+function createLoadingElement(parenteClass) {
+  const element = createCustomElement('h1', 'loading', 'loading...');
+  document.getElementsByClassName(parenteClass)[0].appendChild(element);
+}
+
+function deleteLoadingElement() {
+  document.getElementsByClassName('loading')[0].remove();
+}
+
 // ID Generator from https://gist.github.com/gordonbrander/2230317
 
 const ID = function () {
@@ -51,9 +60,11 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   buttonItem = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
+  createLoadingElement('cart');
   buttonItem.addEventListener('click', () => fetch(`https://api.mercadolibre.com/items/${sku}`)
     .then(response => response.json())
     .then(data => addInList(createCartItemElement(data))));
+  deleteLoadingElement();
   section.appendChild(buttonItem);
   return section;
 }
@@ -101,9 +112,11 @@ function createClearButton() {
 window.onload = function onload() {
   const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   const myObject = { method: 'GET' };
+  createLoadingElement('items');
   fetch(API_URL, myObject)
     .then(response => response.json())
     .then(data => createElementFromAPI(data.results));
+  deleteLoadingElement();
   getStorage(localStorage);
   createClearButton();
 };
