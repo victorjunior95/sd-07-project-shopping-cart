@@ -132,9 +132,9 @@ function createClearButton() {
 }
 
 window.onload = function onload() {
+  getStorage(localStorage);
   totalPrice = 0;
   document.getElementsByClassName('total-price')[0].innerText = totalPrice;
-  getStorage(localStorage);
   const API_URL = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   const myObject = { method: 'GET' };
   createClearButton();
