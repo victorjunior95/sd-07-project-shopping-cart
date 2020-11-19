@@ -19,6 +19,11 @@ function saveShoppingcar() {
   localStorage.setItem('shoppingCar', shoppingCar);
 }
 
+function renderPrice(value) {
+  const div = document.querySelector('.total-price');
+  div.innerHTML = value;
+}
+
 async function totalSum() {
   const items = document.querySelectorAll('.cart__item');
   let sum = 0;
@@ -27,12 +32,11 @@ async function totalSum() {
       const div = document.querySelector('.total-price');
       const price = parseFloat(priceTag.innerHTML.split('$')[1]);
       sum += price;
-      div.innerHTML = `Valor total no carrinho: $ ${sum}`;
-      div.innerHTML = `${sum}`;
+      renderPrice(sum);
     });
   } else {
     const div = document.querySelector('.total-price');
-    div.innerHTML = '';
+    renderPrice('');
   }
 }
 
