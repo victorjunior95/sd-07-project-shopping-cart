@@ -19,22 +19,20 @@ function saveShoppingcar() {
   localStorage.setItem('shoppingCar', shoppingCar);
 }
 
-function renderPrice(value) {
-  const div = document.querySelector('.total-price');
-  div.innerHTML = value;
-}
-
 async function totalSum() {
   const items = document.querySelectorAll('.cart__item');
   let sum = 0;
   if (items.length !== 0) {
     items.forEach((priceTag) => {
+      const div = document.querySelector('.total-price');
       const price = parseFloat(priceTag.innerHTML.split('$')[1]);
       sum += price;
-      renderPrice(sum);
+      div.innerHTML = `Valor total no carrinho: $ ${sum}`;
+      div.innerHTML = `${sum}`;
     });
   } else {
-    renderPrice('');
+    const div = document.querySelector('.total-price');
+    div.innerHTML = '';
   }
 }
 
@@ -53,7 +51,6 @@ function cartItemClickListener(event) {
   item.remove();
   saveShoppingcar();
 }
-
   // Resolução com ajuda na turma 6, requisito 2
 function includeItemcart(item) {
   const list = document.querySelector('.cart__items');
@@ -109,10 +106,9 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(button);
   return section;
 }
-
 // Aula 9.4 requisito 1
 const loadProducts = () => {
-  const requisito7 = document.querySelector('.loading');
+  const loading = document.querySelector('.loading');
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   fetch(endpoint).then(Response => Response.json()).then((data) => {
     const items = document.querySelector('.items');
@@ -120,7 +116,7 @@ const loadProducts = () => {
       const { id: sku, title: name, thumbnail: image } = produto;
       const item = createProductItemElement({ sku, name, image });
       items.appendChild(item);
-      requisito7.innerHTML = '';
+      loading.innerHTML = '';
     });
   });
 };
