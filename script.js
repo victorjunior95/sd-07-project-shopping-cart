@@ -43,7 +43,7 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function pageLoading () {
+function pageLoading() {
   document.querySelector('.container').appendChild(
     createCustomElement('h1', 'loading', 'loading...'));
   setTimeout(() => {
@@ -69,7 +69,7 @@ function savedCart() {
   cartItems.innerHTML = localStorage.getItem('saved-cart');
   const li = document.querySelectorAll('li');
   li.forEach((element) => {
-    element.addEventListener('click', cartItemClickListener); 
+    element.addEventListener('click', cartItemClickListener);
   });
   cartItemsTotalPrice();
 }
