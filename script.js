@@ -4,20 +4,20 @@ function showError(message) {
 
 
 function autoSave() {
-  const cartItems = document.querySelector('.cart__items');  
+  const cartItems = document.querySelector('.cart__items');
   localStorage.setItem('saved-cart', cartItems.innerHTML);
 }
 
 async function cartItemsTotalPrice() {
   const cartItems = document.querySelectorAll('.cart__item');
   const cartItemsTotalPrices = document.querySelector('.total-price');
-  let sumOfCartItemsPrice = 0; 
+  let sumOfCartItemsPrice = 0;
   cartItems.forEach((item) => {
     const itemPrice = parseFloat(item.innerHTML.split('$')[1]);
     sumOfCartItemsPrice += itemPrice;
   });
   cartItemsTotalPrices.innerHTML = sumOfCartItemsPrice;
-} 
+}
 
 function emptyCart() {
   const emptyShopingCart = document.querySelector('.empty-cart');
