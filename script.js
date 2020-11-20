@@ -7,7 +7,7 @@ function autoSave() {
   const cartItems = document.querySelector('.cart__items');  
   localStorage.setItem('saved-cart', cartItems.innerHTML);
 }
-// Solução sugerida pelo colega Stefano Branz da turma 6
+
 async function cartItemsTotalPrice() {
   const cartItems = document.querySelectorAll('.cart__item');
   const cartItemsTotalPrices = document.querySelector('.total-price');
