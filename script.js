@@ -1,3 +1,5 @@
+const url = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
+
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
   e.className = className;
@@ -76,9 +78,7 @@ function hideLoadingMessage() {
 
 async function getListOfProducts() {
   showLoadingMessage();
-  const response = await fetch(
-    'https://api.mercadolibre.com/sites/MLB/search?q=computador',
-  );
+  const response = await fetch(url);
   const jsonFormattedResponse = await response.json();
   const productsLists = jsonFormattedResponse.results;
   hideLoadingMessage();
