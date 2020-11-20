@@ -94,7 +94,7 @@ function ItemclickListener(event) {
       const item = createCartItemElement(object);
       includeItemcart(item);
       saveShoppingcar();
-      // totalSum();
+      totalSum();
     });
 }
 
