@@ -19,29 +19,9 @@ function saveShoppingcar() {
   localStorage.setItem('shoppingCar', shoppingCar);
 }
 
-function renderPrice(value) {
-  const div = document.querySelector('.total-price');
-  div.innerHTML = value;
-}
-
-function totalSum() {
-  const items = document.querySelectorAll('.cart__item');
-  let sum = 0;
-  if (items.length !== 0) {
-    items.forEach((priceTag) => {
-      const price = parseFloat(priceTag.innerHTML.split('$')[1]);
-      sum += price;
-      renderPrice(sum);
-    });
-  } else {
-    renderPrice('');
-  }
-}
-
 function clearCart() {
   document.getElementsByClassName('cart__items')[0].innerHTML = '';
   saveShoppingcar();
-  totalSum();
 }
 
 function getSkuFromProductItem(item) {
@@ -52,7 +32,6 @@ function cartItemClickListener(event) {
   const item = event.target;
   item.remove();
   saveShoppingcar();
-  totalSum();
 }
   // Resolução com ajuda na turma 6, requisito 2
 function includeItemcart(item) {
@@ -94,7 +73,6 @@ function ItemclickListener(event) {
       const item = createCartItemElement(object);
       includeItemcart(item);
       saveShoppingcar();
-      totalSum();
     });
 }
 
