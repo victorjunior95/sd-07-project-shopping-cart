@@ -1,4 +1,4 @@
-const url = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
+const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
 
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
@@ -60,7 +60,6 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
-  
   return li;
 }
 
@@ -78,7 +77,7 @@ function hideLoadingMessage() {
 
 async function getListOfProducts() {
   showLoadingMessage();
-  const response = await fetch(url);
+  const response = await fetch(endpoint);
   const jsonFormattedResponse = await response.json();
   const productsLists = jsonFormattedResponse.results;
   hideLoadingMessage();
