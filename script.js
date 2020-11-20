@@ -19,27 +19,29 @@ function saveShoppingcar() {
   localStorage.setItem('shoppingCar', shoppingCar);
 }
 
-/* async function totalSum() {
+function renderPrice(value) {
+  const div = document.querySelector('.total-price');
+  div.innerHTML = value;
+}
+
+function totalSum() {
   const items = document.querySelectorAll('.cart__item');
   let sum = 0;
   if (items.length !== 0) {
     items.forEach((priceTag) => {
-      const div = document.querySelector('.total-price');
       const price = parseFloat(priceTag.innerHTML.split('$')[1]);
       sum += price;
-      div.innerHTML = `Valor total no carrinho: $ ${sum}`;
-      div.innerHTML = `${sum}`;
+      renderPrice(sum);
     });
   } else {
-    const div = document.querySelector('.total-price');
-    div.innerHTML = '';
+    renderPrice('');
   }
-} */
+}
 
 function clearCart() {
   document.getElementsByClassName('cart__items')[0].innerHTML = '';
   saveShoppingcar();
-  // totalSum();
+  totalSum();
 }
 
 function getSkuFromProductItem(item) {
@@ -50,6 +52,7 @@ function cartItemClickListener(event) {
   const item = event.target;
   item.remove();
   saveShoppingcar();
+  totalSum();
 }
   // Resolução com ajuda na turma 6, requisito 2
 function includeItemcart(item) {
