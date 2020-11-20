@@ -41,7 +41,6 @@ function saveShoppingcar() {
   localStorage.setItem('shoppingCar', shoppingCar);
   somarValor();
 }
-}
 
 function clearCart() {
   document.getElementsByClassName('cart__items')[0].innerHTML = '';
