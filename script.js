@@ -7,6 +7,28 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+const somarValor = () => {
+  const li = document.querySelectorAll('.cart__item');
+  console.log(li.innerHTML);
+  let totalValue = 0;
+  li.forEach((element) => {
+    const liPrice = element.innerHTML.split('$');
+    totalValue += parseFloat(liPrice[1]);
+  });
+  const totalPrice = document.querySelector('.total-price');
+  totalPrice.innerHTML = totalValue;
+};
+
+const emptyCart = () => {
+  const buttonEmptyCart = document.getElementsByClassName('empty-cart')[0];
+
+  buttonEmptyCart.addEventListener('click', (event) => {
+    const cartItensSection = document.querySelector('.cart__items');
+    cartItensSection.innerHTML = '';
+    localStorage.cartItems = '';
+  });
+};
+
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
   e.className = className;
@@ -17,6 +39,8 @@ function createCustomElement(element, className, innerText) {
 function saveShoppingcar() {
   const shoppingCar = document.querySelector('.cart__items').innerHTML;
   localStorage.setItem('shoppingCar', shoppingCar);
+  somarValor();
+}
 }
 
 function clearCart() {
@@ -32,6 +56,7 @@ function cartItemClickListener(event) {
   const item = event.target;
   item.remove();
   saveShoppingcar();
+  somarValor();
 }
   // Resolução com ajuda na turma 6, requisito 2
 function includeItemcart(item) {
@@ -44,6 +69,7 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  somarValor();
   return li;
 }
 
@@ -98,6 +124,7 @@ const loadProducts = () => {
       const item = createProductItemElement({ sku, name, image });
       items.appendChild(item);
       loading.remove();
+      somarValor();
     });
   });
 };
@@ -106,4 +133,5 @@ window.onload = function onload() {
   loadProducts();
   document.getElementsByClassName('empty-cart')[0].addEventListener('click', clearCart);
   loadShoppingCar();
+  emptyCart();
 };
