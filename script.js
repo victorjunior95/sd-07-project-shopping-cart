@@ -179,7 +179,7 @@ loadProducts = async () => {
 };
 
 function clearCart() {
-    document.querySelector('.empty-cart').addEventListener('click', () => {
+  document.querySelector('.empty-cart').addEventListener('click', () => {
     document.querySelector('.cart__items').innerText = '';
   });
 }
