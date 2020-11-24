@@ -105,8 +105,8 @@
 // };
 
 function createProductImageElement(imageSource) {
-  const img = document.createElement("img");
-  img.className = "item__image";
+  const img = document.createElement('img');
+  img.className = 'item__image';
   img.src = imageSource;
   return img;
 }
@@ -119,13 +119,13 @@ function createCustomElement(element, className, innerText) {
 }
 
 function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
-  const section = document.createElement("section");
-  section.className = "item";
-  section.appendChild(createCustomElement("span", "item__sku", sku));
-  section.appendChild(createCustomElement("span", "item__title", name));
+  const section = document.createElement('section');
+  section.className = 'item';
+  section.appendChild(createCustomElement('span', 'item__sku', sku));
+  section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   section.appendChild(
-    createCustomElement("button", "item__add", "Adicionar ao carrinho!")
+    createCustomElement('button', 'item__add', 'Adicionar ao carrinho!')
   );
   return section;
 }
@@ -152,28 +152,28 @@ async function showCart(id) {
   .then(response => response.json())
   .then((object) => {
     document.querySelector('ol').appendChild(createCartItemElement(object));
-  })
+  });
 }
 
 function clickBtn() {
   const selectButton = document.querySelectorAll('button.item__add');
   selectButton.forEach(element => element.addEventListener('click', () => {
     showCart(getSkuFromProductItem(element.parentElement));
-  }))
+  }));
 }
 
 function showList(array) {
   document.querySelector('.loading').remove();
   const items = Object.entries(array);
   console.log(items);
-  items.forEach(entry => document.querySelector('.items').appendChild(createProductItemElement(entry[1])))
+  items.forEach(entry => document.querySelector('.items').appendChild(createProductItemElement(entry[1])));
 }
 
 loadProducts = async () => {
   const endPoint =
     'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   await fetch(endPoint)
-    .then((response) => response.json())
+    .then(response => response.json())
     .then(object => showList(object.results))
     .then(arrayOfResults => clickBtn(arrayOfResults));
 };
@@ -181,9 +181,9 @@ loadProducts = async () => {
 function clearCart() {
 //  const li = document.querySelectorAll('li.cart__item');
 //  li.addEventListener('click', cartItemClickListener);
-document.querySelector('.empty-cart').addEventListener('click', () => {
+  document.querySelector('.empty-cart').addEventListener('click', () => {
   document.querySelector('.cart__items').innerText = '';
-})
+});
 }
 
 window.onload = function onload() {
