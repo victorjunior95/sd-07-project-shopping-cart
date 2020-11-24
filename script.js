@@ -179,8 +179,6 @@ loadProducts = async () => {
 };
 
 function clearCart() {
-//  const li = document.querySelectorAll('li.cart__item');
-//  li.addEventListener('click', cartItemClickListener);
   document.querySelector('.empty-cart').addEventListener('click', () => {
   document.querySelector('.cart__items').innerText = '';
 });
