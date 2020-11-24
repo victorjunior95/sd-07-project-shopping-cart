@@ -131,7 +131,7 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  event.target.remove();
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -163,7 +163,7 @@ function clickBtn() {
 }
 
 function showList(array) {
-  // document.querySelector('.loading').remove();
+  document.querySelector('.loading').remove();
   const items = Object.entries(array);
   console.log(items);
   items.forEach(entry => document.querySelector('.items').appendChild(createProductItemElement(entry[1])))
