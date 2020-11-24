@@ -171,7 +171,7 @@ function showList(array) {
 
 loadProducts = async () => {
   const endPoint =
-    "https://api.mercadolibre.com/sites/MLB/search?q=computador";
+    'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   await fetch(endPoint)
     .then((response) => response.json())
     .then(object => showList(object.results))
