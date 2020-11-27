@@ -51,7 +51,7 @@ function getSkuFromProductItem(item) {
 }
 
 function saveOnLocalStorage() {
-  const itemsOnCart = document.querySelector('ol');
+  const itemsOnCart = document.querySelector('.cart__items');
   localStorage.cartItems = itemsOnCart.innerHTML;
   sum();
 }
@@ -117,14 +117,15 @@ function fetchComputers() {
   .finally(() => section.removeChild(message));
 }
 
-function loadCartSaved() {
+/* function loadCartSaved() {
   const itemsOnCart = document.querySelector('.cart__items');
-  itemsOnCart.innerHTML = localStorage.cartItem;
+  itemsOnCart.innerHTML = localStorage.getItem('cartItems');
   const listOfCart = itemsOnCart.childNodes;
+  console.loh(listOfCart)
 
   listOfCart.forEach(element => element.addEventListener('click', cartItemClickListener));
   sum();
-}
+} */
 
 function cleanCart() {
   const cart = document.querySelector('.cart__items');
@@ -136,8 +137,11 @@ function cleanCart() {
 window.onload = function onload() {
   loadMessage();
   fetchComputers();
-  loadCartSaved();
+  //loadCartSaved;
   sum();
   const clearButton = document.querySelector('.empty-cart');
   clearButton.addEventListener('click', cleanCart);
+
+  const valueStorage = localStorage.getItem('cartItems');
+  document.querySelector('.cart__items').innerHTML = valueStorage;
 };
