@@ -130,8 +130,27 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   return section;
 }
 
+function saveLocalStorage() {
+  const ol = document.querySelector('.cart__items').outerHTML;
+  console.log(ol);
+  localStorage.setItem('cart', ol);
+}
+
+async function sumPrice() {
+  let sum = 0;
+  const itemsPrice = document.querySelectorAll('.cart__item');
+  const totalPrice = document.querySelector('.total-price');
+  itemsPrice.forEach((item) => {
+    sum += parseFloat(item.innerText.split('$')[1]);
+  });
+  totalPrice.innerText = sum;
+  return totalPrice;
+}
+
 function cartItemClickListener(event) {
   event.target.remove();
+  saveLocalStorage();
+  sumPrice();
 }
 
 function createCartItemElement({ id: sku, title: name, price: salePrice }) {
@@ -139,6 +158,7 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  sumPrice(salePrice);
   return li;
 }
 
@@ -152,6 +172,8 @@ async function showCart(id) {
   .then(response => response.json())
   .then((object) => {
     document.querySelector('ol').appendChild(createCartItemElement(object));
+    saveLocalStorage();
+    sumPrice();
   });
 }
 
@@ -165,7 +187,6 @@ function clickBtn() {
 function showList(array) {
   document.querySelector('.loading').remove();
   const items = Object.entries(array);
-  console.log(items);
   items.forEach(entry => document.querySelector('.items').appendChild(createProductItemElement(entry[1])));
 }
 
@@ -181,10 +202,23 @@ loadProducts = async () => {
 function clearCart() {
   document.querySelector('.empty-cart').addEventListener('click', () => {
     document.querySelector('.cart__items').innerText = '';
+    saveLocalStorage();
+    sumPrice();
   });
+}
+
+function loadLocalStorage() {
+  if (localStorage.getItem('cart') !== null) {
+    const searchOl = document.querySelector('.cart__items');
+    searchOl.outerHTML = localStorage.getItem('.cart');
+    const items = document.querySelectorAll('.cart_item');
+    items.forEach(item => item.addEventListener('click', cartItemClickListener));
+  }
 }
 
 window.onload = function onload() {
   loadProducts();
   clearCart();
+  // loadLocalStorage();
+  sumPrice();
 };
