@@ -104,7 +104,7 @@
 //   // console.log(arrayOfProducts);
 // };
 
-//Ajuda Karine Moreira - Turma 7, salvou!!!
+// Ajuda Karine Moreira - Turma 7, salvou!!!
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
