@@ -44,7 +44,6 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
 
   return section;
- 
 }
 
 function getSkuFromProductItem(item) {
@@ -81,7 +80,6 @@ function addToCart(productID) {
   .then(response => response.json())
   .then((response) => {
     const productToCart = createCartItemElement(response);
-    console.log(productToCart)
     cart.appendChild(productToCart);
     saveOnLocalStorage();
     sum();
@@ -142,4 +140,4 @@ window.onload = function onload() {
   sum();
   const clearButton = document.querySelector('.empty-cart');
   clearButton.addEventListener('click', cleanCart);
-}
+};
