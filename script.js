@@ -117,16 +117,6 @@ function fetchComputers() {
   .finally(() => section.removeChild(message));
 }
 
-/* function loadCartSaved() {
-  const itemsOnCart = document.querySelector('.cart__items');
-  itemsOnCart.innerHTML = localStorage.getItem('cartItems');
-  const listOfCart = itemsOnCart.childNodes;
-  console.loh(listOfCart)
-
-  listOfCart.forEach(element => element.addEventListener('click', cartItemClickListener));
-  sum();
-} */
-
 function cleanCart() {
   const cart = document.querySelector('.cart__items');
   localStorage.cartItems = '';
@@ -137,7 +127,6 @@ function cleanCart() {
 window.onload = function onload() {
   loadMessage();
   fetchComputers();
-  //loadCartSaved;
   sum();
   const clearButton = document.querySelector('.empty-cart');
   clearButton.addEventListener('click', cleanCart);
