@@ -1,4 +1,15 @@
-window.onload = function onload() { };
+window.onload = async () => {
+
+  const endpoint = "https://api.mercadolibre.com/sites/MLB/search?q=computador"
+  const data = await fetch(endpoint);
+  const { results } = await data.json();
+
+  const items = document.getElementsByClassName('items');
+  results.forEach(({id, title, thumbnail}) => {
+    const section = createProductItemElement({sku:id, name:title, image:thumbnail});
+    items[0].appendChild( section );
+  })
+};
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -23,8 +34,19 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createProductImageElement(image));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
 
+  const button = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
+
   return section;
 }
+
+/* Elemento que é criado pela função createProductItemElement
+  <section class='item'>
+    <span class='item__sku'>ASDE123456</span>
+    <span class='item__title'> Computador Dell </span>
+    <img src='...' class ='item__image' />
+    <button class='item__add'>Adicionar ao carrinho!</button>
+  </section>
+*/
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
