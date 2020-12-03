@@ -77,9 +77,11 @@ function getSkuFromProductItem(item) {
 
 const products = () => {
   const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
-  const loading = document.querySelector('.loading');
-  loading.classList.add('active');
-  loading.classList.remove('inactive');
+  const loading = document.createElement('div');
+  const container = document.querySelector('.container');
+  loading.className = 'loading';
+  loading.innerHTML = 'Processando...';
+  container.appendChild(loading);
   fetch(endpoint)
     .then(response => response.json()).then((data) => {
       const items = document.querySelector('.items');
@@ -88,8 +90,8 @@ const products = () => {
         const item = createProductItemElement({ sku, name, image });
         items.appendChild(item);
       });
-      loading.classList.remove('active');
-      loading.classList.add('inactive');
+      const loadingElement = document.querySelector('.loading');
+      loadingElement.remove();
     });
 };
 
