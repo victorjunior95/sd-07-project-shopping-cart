@@ -13,7 +13,7 @@ function createCustomElement(element, className, innerText) {
 }
 
 async function totalCart() {
-  const promise = new Promise (function(resolve, reject) {
+  const promise = new Promise(function (resolve) {
     const cart = document.querySelector('.cart__items').childNodes;
     let sum = 0;
     cart.forEach((item) => {
@@ -21,7 +21,7 @@ async function totalCart() {
       sum += priceValue;
     });
     resolve(sum);
-  } );
+  });
   const totalPrice = document.querySelector('.total-price');
   totalPrice.innerHTML = await promise;
 }
@@ -55,7 +55,7 @@ function createProductItemElement({ sku, name, image }) {
         const cartItems = document.querySelector('.cart__items');
         cartItems.appendChild(cartObj);
         localStorage.setItem('cart', cartItems.innerHTML);
-        totalCart()
+        totalCart();
       });
   });
   section.appendChild(createCustomElement('span', 'item__sku', sku));
