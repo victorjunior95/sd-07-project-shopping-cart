@@ -17,10 +17,28 @@ const sentItemstoLocalStorage = () => {
   localStorage.setItem('cart_products', sentList);
 };
 
+const sumOfPrices = () => {
+  const cartItems = document.querySelector('.cart__items');
+  const totalPrice = document.querySelector('.total-price');
+  const priceArr = [];
+  let total = 0;
+
+  const list = cartItems.children;
+  for (let i = 0; i < list.length; i += 1) {
+    const itemArr = list[i].innerText.split(' ');
+    const price = itemArr[itemArr.length - 1];
+    const number = Number(price.substring(1));
+    priceArr.push(number);
+  }
+  total = priceArr.reduce((acc, curr) => acc + curr, 0);
+  totalPrice.innerHTML = total;
+};
+
 function cartItemClickListener(event) {
   // coloque seu código aqui,
   event.target.remove();
   sentItemstoLocalStorage();
+  sumOfPrices();
 }
 
 const retrievingLocalStorage = () => {
@@ -28,6 +46,16 @@ const retrievingLocalStorage = () => {
   document.querySelector('.cart__items').innerHTML = retrieveList;
   const cartItems = document.querySelector('.cart__items');
   cartItems.addEventListener('click', cartItemClickListener);
+};
+
+const clearCart = () => {
+  const clearButton = document.querySelector('.empty-cart');
+  clearButton.addEventListener('click', () => {
+    const itemsList = document.querySelector('.cart__items');
+    itemsList.innerHTML = '';
+    sentItemstoLocalStorage();
+    sumOfPrices();
+  });
 };
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -47,7 +75,7 @@ const itemToCart = (itemObject) => {
     salePrice: price,
   };
   itensInCart.appendChild(createCartItemElement(good));
-  // totalPrice();
+  sumOfPrices();
 };
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
@@ -101,7 +129,9 @@ const firsLoading = async ($QUERY) => {
 
 window.onload = async () => {
   firsLoading('computador');
+  clearCart();
   retrievingLocalStorage();
+  sumOfPrices();
   // const endpoint = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
   // const data = await fetch(endpoint);
   // const { results } = await data.json();
