@@ -115,7 +115,6 @@ const loadProducts = () => {
 
   setTimeout((loadingOff), 2000);
 };
-
 window.onload = function onload() {
   loadProducts();
   totalAmountInCart();
