@@ -112,7 +112,7 @@ const load = () => {
       item.lastChild.addEventListener('click', getIdFromEvent);
     });
   });
-    setTimeout((loadingOut), 2000);
+  setTimeout((loadingOut), 2000);
 };
 
 window.onload = function onload() {
