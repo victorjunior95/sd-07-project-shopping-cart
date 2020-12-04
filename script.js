@@ -128,7 +128,11 @@ const firsLoading = async ($QUERY) => {
 };
 
 window.onload = async () => {
-  firsLoading('computador');
+  setTimeout(() => {
+    document.querySelector('.loading').remove();
+    firsLoading('computador');
+  }, 3000);
+  // firsLoading('computador');
   clearCart();
   retrievingLocalStorage();
   sumOfPrices();
