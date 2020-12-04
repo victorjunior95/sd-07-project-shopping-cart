@@ -109,9 +109,9 @@ createCustomElement();
   </section>
 */
 
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
-}
+// function getSkuFromProductItem(item) {
+//   return item.querySelector('span.item__sku').innerText;
+// }
 
 const firsLoading = async ($QUERY) => {
   const endpoint = `https://api.mercadolibre.com/sites/MLB/search?q=${$QUERY}`;
@@ -132,7 +132,6 @@ window.onload = async () => {
     document.querySelector('.loading').remove();
     firsLoading('computador');
   }, 3000);
-  // firsLoading('computador');
   clearCart();
   retrievingLocalStorage();
   sumOfPrices();
