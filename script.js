@@ -57,14 +57,14 @@ function cartItemClickListener(event) {
   const price = decreasesSum(event.target);
   sum -= price;
   const totalPrice = document.querySelector('.total-price');
-  totalPrice.innerHTML = `Preço total: ${sum} R$`;
+  totalPrice.innerHTML = sum;
   event.target.remove();
 }
 
 const sumPrices = (price) => {
   const totalPrice = document.querySelector('.total-price');
   sum += price;
-  totalPrice.innerHTML = `Preço total: ${sum} R$`;
+  totalPrice.innerHTML = sum;
 };
 
 function createCartItemElement({ sku, name, salePrice }) {
