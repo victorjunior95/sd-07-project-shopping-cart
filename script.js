@@ -1,4 +1,5 @@
 // vou entregar atrasado mas vai ser 100%
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -29,17 +30,41 @@ function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-function cartItemClickListener(event) {
-  event.target.remove();
-}
-
+let sum = 0;
 const emptyCart = () => {
   const list = document.querySelector('.cart__items');
   const buttonClear = document.querySelector('.empty-cart');
   buttonClear.addEventListener('click', () => {
     list.innerHTML = '';
     localStorage.clear();
+    const totalPrice = document.querySelector('.total-price');
+    totalPrice.innerHTML = 'Preço total: 0 R$';
+    sum = 0;
   });
+};
+
+const decreasesSum = (event) => {
+  const string = event.innerText;
+  const positionInitial = string.indexOf('PRICE') + 8;
+  const positionFinal = string.length;
+  const substring = string.substr(positionInitial, positionFinal);
+  const price = parseFloat(substring);
+
+  return price;
+};
+
+function cartItemClickListener(event) {
+  const price = decreasesSum(event.target);
+  sum -= price;
+  const totalPrice = document.querySelector('.total-price');
+  totalPrice.innerHTML = `Preço total: ${sum} R$`;
+  event.target.remove();
+}
+
+const sumPrices = (price) => {
+  const totalPrice = document.querySelector('.total-price');
+  sum += price;
+  totalPrice.innerHTML = `Preço total: ${sum} R$`;
 };
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -47,6 +72,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  sumPrices(salePrice, true);
   return li;
 }
 
@@ -121,3 +147,5 @@ window.onload = async function onload() {
   const listCart = document.querySelector('.cart__items');
   listCart.innerHTML = localStorage.getItem('lista');
 };
+
+// Agradecimentos a Arthur Massaini o buddy queijadinha, cujo parte do código aqui dou os creditos e referencio. 
