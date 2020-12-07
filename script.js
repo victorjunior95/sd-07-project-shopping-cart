@@ -115,7 +115,7 @@ const fetchProducts = () => {
   loading.innerHTML = 'LOADING ITEMS ...';
 };
 
-window.onload = function onload() {
+window.onload = async function onload() {
   emptyCart();
   fetchProducts();
   const listCart = document.querySelector('.cart__items');
