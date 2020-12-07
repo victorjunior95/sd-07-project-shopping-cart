@@ -41,54 +41,12 @@ function createCustomElement(element, className, innerText) {
 function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   const section = document.createElement('section');
   section.className = 'item';
-
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-  // const button = createCustomElement('button', 'item__add', 'Adicionar ao carrinho!');
-  // button.addEventListener('click', async function (event) {
-  //   const parentElement = await event.target.parentElement;
-  //   await fetchAddCart(getSkuFromProductItem(parentElement));
-  //   updateCart();
-  // });
-  // section.appendChild(button);
   return section;
 }
-
-function updadeTotalPrice(price) {
-  return new Promise((resolve) => {
-    const totalPrice = document.querySelector('.total-price');
-    const oldTotalPrice = parseFloat(totalPrice.innerText);
-    const newTotalPrice = oldTotalPrice + price;
-    const newTotalPriceTwoDigits = Math.round(newTotalPrice * 100) / 100;
-    totalPrice.innerText = newTotalPriceTwoDigits; // .toFixed(2);
-    resolve();
-  });
-}
-
-//  ITEM 2
-
-// const fetchAddCart = async (id) => {
-//   const endpoint = 'https://api.mercadolibre.com/items/${id}';
-//   try {
-//     const response = await fetch(endpoint);
-//     const object = await response.json();
-//     const ol = document.querySelector('.cart_items');
-//     if (object.error) {
-//       throw new Error(object.error);
-//     } else {
-//       ol.apppendChild(createCarItemElement(object));
-//       princes();
-//     }
-//   } catch (error) {
-//     showAlert(error);
-//   }
-// };
-
-// function getSkuFromProductItem(item) {
-//   return item.querySelector('span.item__sku').innerText;
-// }
 
 function updadeTotalPrice(price) {
   return new Promise((resolve) => {
@@ -119,75 +77,74 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   return li;
 }
 
-  async function loadCard(obj) {
-    const ol = document.querySelector('.cart__items');
-    ol.appendChild(createCartItemElement(obj));
-    await updadeTotalPrice(obj.price);
-  }
+async function loadCard(obj) {
+  const ol = document.querySelector('.cart__items');
+  ol.appendChild(createCartItemElement(obj));
+  await updadeTotalPrice(obj.price);
+}
 
-  async function insertCartItemElement(obj) {
-    loadCard(obj);
-    addItemLocalStorage(obj);
-  }
+async function insertCartItemElement(obj) {
+  loadCard(obj);
+  addItemLocalStorage(obj);
+}
 
 
-  async function restoreCartItemElement() {
-    const obj = loadItemStorage();
+async function restoreCartItemElement() {
+  const obj = loadItemStorage();
 
-    if (obj !== null) {
+  if (obj !== null) {
       // let totalPrice = 0;
-      obj.forEach((element) => {
-        // totalPrice += element.price;
-        loadCard(element);
-      });
-    }
-  }
-
-  function insertItems(obj) {
-    const itemsSection = document.querySelector('.items');
-    itemsSection.innerHTML = '';
-    obj.results.forEach((element) => {
-      itemsSection.appendChild(createProductItemElement(element));
+    obj.forEach((element) => {
+      // totalPrice += element.price;
+      loadCard(element);
     });
   }
+}
 
-  const fetchCurrencyAwaitAsync = async (callBack, endpoint) => {
-    try {
-      const response = await fetch(endpoint);
-      const objProducts = await response.json();
+function insertItems(obj) {
+  const itemsSection = document.querySelector('.items');
+  itemsSection.innerHTML = '';
+  obj.results.forEach((element) => {
+    itemsSection.appendChild(createProductItemElement(element));
+  });
+}
 
-      if (objProducts.error) {
-        throw new Error(objProducts.error);
-      } else {
-        callBack(objProducts);
-      }
-    } catch (error) {
-      alert('Serviço momentaneamente indisponível. Tente Novamente!');
+const fetchCurrencyAwaitAsync = async (callBack, endpoint) => {
+  try {
+    const response = await fetch(endpoint);
+    const objProducts = await response.json();
+
+    if (objProducts.error) {
+      throw new Error(objProducts.error);
+    } else {
+      callBack(objProducts);
     }
-  };
+  } catch (error) {
+    alert('Serviço momentaneamente indisponível. Tente Novamente!');
+  }
+};
 
-  window.onload = function onload() {
-    const query = 'computador';
-    fetchCurrencyAwaitAsync(insertItems, `https://api.mercadolibre.com/sites/MLB/search?q=$${query}`);
-    const sectionWithClassItems = document.querySelector('.items');
+window.onload = function onload() {
+  const query = 'computador';
+  fetchCurrencyAwaitAsync(insertItems, `https://api.mercadolibre.com/sites/MLB/search?q=$${query}`);
+  const sectionWithClassItems = document.querySelector('.items');
+  const btnEmptyCart = document.querySelector('.empty-cart');
+  btnEmptyCart.addEventListener('click', () => {
+    const ol = document.querySelector('.cart__items');
+    ol.innerHTML = '';
+    document.querySelector('.total-price').innerText = '0.00';
+    localStorage.removeItem('items');
+  });
 
-    const btnEmptyCart = document.querySelector('.empty-cart');
-    btnEmptyCart.addEventListener('click', () => {
-      const ol = document.querySelector('.cart__items');
-      ol.innerHTML = '';
-      document.querySelector('.total-price').innerText = '0.00';
-      localStorage.removeItem('items');
-    });
-
-    restoreCartItemElement();
+  restoreCartItemElement();
 
     // A escuta é feita na classe items, que já existe estaticamente no HTML
     // Só será possível clicar em 'item__add' quando os dados estiverem carregados
     // por isso não precisa fazer um async/await
-    sectionWithClassItems.addEventListener('click', (event) => {
-      if (event.target.className === 'item__add') {
-        const id = event.target.parentElement.firstChild.innerText;
-        fetchCurrencyAwaitAsync(insertCartItemElement, `https://api.mercadolibre.com/items/${id}`);
-      }
-    });
-  };
+  sectionWithClassItems.addEventListener('click', (event) => {
+    if (event.target.className === 'item__add') {
+      const id = event.target.parentElement.firstChild.innerText;
+      fetchCurrencyAwaitAsync(insertCartItemElement, `https://api.mercadolibre.com/items/${id}`);
+    }
+  });
+};
