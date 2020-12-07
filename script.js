@@ -110,8 +110,8 @@ const fetchProducts = () => {
 };
 
 window.onload = async function onload() {
+  emptyCart();
   fetchProducts();
   const listCart = document.querySelector('.cart_items');
   listCart.innerHTML = localStorage.getItem('lista');
-  emptyCart();
 };
