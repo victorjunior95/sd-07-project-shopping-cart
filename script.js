@@ -38,6 +38,7 @@ const emptyCart = () => {
   const buttonClear = document.querySelector('.empty-cart');
   buttonClear.addEventListener('click', () => {
     list.innerHTML = '';
+    localStorage.clear();
   });
 };
 
@@ -89,6 +90,8 @@ const buttonID = () => {
 
 const putResults = (data) => {
   const sectionItem = document.querySelector('.items');
+  const loading = document.querySelector('.loading');
+  loading.remove();
   const obj = {};
   data.forEach((element) => {
     obj.sku = element.id;
@@ -107,9 +110,12 @@ const fetchProducts = () => {
     .then(response => response.json())
     .then(data => putResults(data.results))
     .then(() => buttonID());
+
+  const loading = document.querySelector('.loading');
+  loading.innerHTML = 'LOADING ITEMS...';
 };
 
-window.onload = async function onload() {
+window.onload = function onload() {
   emptyCart();
   fetchProducts();
   const listCart = document.querySelector('.cart_items');
