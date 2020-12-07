@@ -148,4 +148,5 @@ window.onload = async function onload() {
   listCart.innerHTML = localStorage.getItem('lista');
 };
 
-// Agradecimentos a Arthur Massaini o buddy queijadinha, cujo parte do código aqui dou os creditos e referencio. 
+// Agradecimentos a Arthur Massaini o buddy queijadinha,
+// cujo a parte do código aqui dou os creditos e referencio.
