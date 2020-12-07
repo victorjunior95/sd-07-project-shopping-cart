@@ -187,4 +187,4 @@ window.onload = function onload() {
 
 // Os requisitos 1 e 2 foram feitos após as apresentações sobre cada um
 // feitas por @vitor-rc1 e @ThiagoEsdras, por isso as lógicas
-// podem estar bastante parecidas.
+// podem estar bastante parecidas. teste
