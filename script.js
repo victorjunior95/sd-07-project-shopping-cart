@@ -112,12 +112,12 @@ const fetchProducts = () => {
     .then(() => buttonID());
 
   const loading = document.querySelector('.loading');
-  loading.innerHTML = 'LOADING ITEMS...';
+  loading.innerHTML = 'LOADING ITEMS ...';
 };
 
 window.onload = function onload() {
   emptyCart();
   fetchProducts();
-  const listCart = document.querySelector('.cart_items');
+  const listCart = document.querySelector('.cart__items');
   listCart.innerHTML = localStorage.getItem('lista');
 };
