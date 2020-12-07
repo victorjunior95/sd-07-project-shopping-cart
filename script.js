@@ -63,5 +63,5 @@ function createCartItemElement({ sku, name, salePrice }) {
 }
 
 window.onload = function onload() {
-  fetchMercado();
+  fetchProducts();
 };
