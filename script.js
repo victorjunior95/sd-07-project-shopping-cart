@@ -13,16 +13,14 @@ const insertCartItem = async (sku) => {
   createCartItemElement(data);
 };
 
-function createProductImageElement(imageSource) {
-  // -> insere a imagem na div
+function createProductImageElement(imageSource) { // -> insere a imagem na div
   const img = document.createElement("img");
   img.className = "item__image";
   img.src = imageSource;
   return img;
 }
 
-function createCustomElement(element, className, innerText) {
-  // -> insere os dados da imagem
+function createCustomElement(element, className, innerText) { // -> insere os dados da imagem
   const e = document.createElement(element);
   e.className = className;
   cartItemClickListener;
@@ -30,8 +28,11 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
-  // -> cria o elemento e seus atributos
+function createProductItemElement({
+  id: sku,
+  title: name,
+  thumbnail: image
+}) { // -> cria o elemento e seus atributos
 
   const section = document.createElement("section");
   section.className = "item";
@@ -39,9 +40,7 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   section.appendChild(createCustomElement("span", "item__sku", sku));
   section.appendChild(createCustomElement("span", "item__title", name));
   section.appendChild(createProductImageElement(image));
-  section.appendChild(
-    createCustomElement("button", "item__add", "Adicionar ao carrinho!")
-  );
+  section.appendChild(createCustomElement("button", "item__add", "Adicionar ao carrinho!"));
   appendElement(section);
   return section;
 }
@@ -57,8 +56,7 @@ function getSkuFromProductItem(item) {
 
 function cartItemClickListener() {
   const buttonClass = "item__add";
-  document.addEventListener("click", (e) => {
-    // The event happens before the element exist, so it is not possible get the element
+  document.addEventListener("click", (e) => { // The event happens before the element exist, so it is not possible get the element
     const elementSelected = e.target.className;
     if (elementSelected === buttonClass) {
       const sku = e.target.parentNode.firstChild.innerText;
@@ -83,10 +81,18 @@ const removeOne = (event) => {
   removeFromStorage(targeElement);
 };
 
-function createCartItemElement({ id: sku, title: name, price: salePrice }) {
+function createCartItemElement({
+  id: sku,
+  title: name,
+  price: salePrice
+}) {
   const li = document.createElement("li");
   const ol = document.querySelector(".cart__items");
-  const objItems = { sku, name, salePrice };
+  const objItems = {
+    sku,
+    name,
+    salePrice
+  };
   li.className = "cart__item";
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   ol.appendChild(li);
@@ -97,9 +103,7 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
 
 const fetchAPI = async () => {
   try {
-    const getPromise = await fetch(
-      "https://api.mercadolibre.com/sites/MLB/search?q=computador"
-    );
+    const getPromise = await fetch("https://api.mercadolibre.com/sites/MLB/search?q=computador");
     const json = await getPromise.json();
     const data = json.results;
     data.forEach(createProductItemElement);
@@ -108,7 +112,11 @@ const fetchAPI = async () => {
   }
 };
 
-const createItemsFromStorage = ({ sku, name, salePrice }) => {
+const createItemsFromStorage = ({
+  sku,
+  name,
+  salePrice
+}) => {
   const li = document.createElement("li");
   const ol = document.querySelector(".cart__items");
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
