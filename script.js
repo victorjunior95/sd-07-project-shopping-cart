@@ -1,3 +1,5 @@
+// function from vanessaberdibi
+// https://github.com/tryber/sd-07-project-shopping-cart/blob/vanessa-bidinotto-shopping-cart/script.js
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -5,6 +7,7 @@ function createProductImageElement(imageSource) {
   return img;
 }
 
+// function from vanessaberdibi
 function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
   e.className = className;
@@ -12,6 +15,7 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+// function from vanessaberdibi
 function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   const section = document.createElement('section');
   section.className = 'item';
@@ -45,7 +49,7 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  // next line from vanessaberbidi PR
+  // next line from vanessaberbidi
   li.setAttribute('item-price', salePrice);
   li.addEventListener('click', cartItemClickListener);
   return li;
